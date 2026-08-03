@@ -1,0 +1,1136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IIC BO - Outbound List</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css" />
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+body,*{font-family:'Pretendard Variable',Pretendard,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif!important;}
+body{background:#f8f8f8;color:#222;font-size:13px;overflow-x:hidden;zoom:0.8;}
+
+.ico{width:22px;height:22px;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;}
+.ico svg{width:20px;height:20px;fill:#555;}
+.arrow-ico{width:20px;height:20px;transition:transform .25s;flex-shrink:0;margin-left:auto;}
+.arrow-ico svg{width:20px;height:20px;fill:#888;}
+.arrow-ico.open{transform:rotate(180deg);}
+
+/* ===== HEADER ===== */
+.header{position:fixed;top:0;left:0;right:0;z-index:1201;height:64px;background:#fff;display:flex;align-items:center;justify-content:space-between;padding:0 16px;border-bottom:1px solid #e0e0e0;}
+.header-l{display:flex;align-items:center;gap:8px;}
+.header-l .hamburger{width:40px;height:40px;display:flex;align-items:center;justify-content:center;border:none;background:none;cursor:pointer;border-radius:50%;}
+.header-l .hamburger:hover{background:rgba(0,0,0,0.04);}
+.header-l .logo{font-size:20px;font-weight:500;color:#222;font-family:'Inter','Roboto',sans-serif;}
+.header-r{display:flex;align-items:center;gap:4px;}
+.lang-btn{display:flex;align-items:center;gap:4px;padding:5px 9px;border:none;background:none;cursor:pointer;font-size:10px;color:#222;border-radius:4px;}
+.lang-btn:hover{background:rgba(0,0,0,0.04);}
+.lang-btn b{font-weight:700;margin-left:2px;}
+.user-btn{display:flex;align-items:center;gap:4px;height:34px;padding:0 9px 0 14px;background:#ff6b35;color:#fff;border:none;border-radius:6px;cursor:pointer;font-size:10px;font-weight:500;}
+.user-btn:hover{background:#e55e2b;}
+
+/* ===== SIDEBAR ===== */
+.sidebar{position:fixed;top:64px;left:0;bottom:0;width:300px;background:#fff;overflow-y:auto;overflow-x:hidden;z-index:1200;display:flex;flex-direction:column;padding-bottom:100px;border-right:1px solid rgba(0,0,0,0.08);transition:width .25s ease;}
+.sidebar.collapsed{width:0;overflow:hidden;border-right:none;}
+.sidebar::-webkit-scrollbar{width:6px;}
+.sidebar::-webkit-scrollbar-thumb{background:rgba(0,0,0,0.15);border-radius:3px;}
+.menu-item{display:flex;align-items:center;width:100%;min-height:48px;padding:8px 16px;cursor:pointer;border:none;background:none;text-decoration:none;color:#222;transition:background 150ms;}
+.menu-item:hover{background:rgba(0,0,0,0.04);}
+.menu-item.active{background:rgb(255 153 116/30%);}
+.menu-icon{width:40px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.menu-text{flex:1;font-size:13px;text-align:left;}
+.depth1 .menu-text{font-weight:600;}
+.depth2{padding-left:55px;min-height:40px;}
+.depth2 .menu-text{font-weight:500;}
+.submenu{overflow:hidden;transition:max-height .3s ease;}
+.submenu.closed{max-height:0;}
+.submenu.open{max-height:500px;}
+.pos-wrap{position:fixed;bottom:40px;left:16px;width:268px;z-index:1201;transition:opacity .25s ease;}
+.sidebar.collapsed .pos-wrap{opacity:0;pointer-events:none;}
+.pos-btn{display:flex;align-items:center;justify-content:center;gap:6px;width:auto;margin-left:auto;padding:8px 14px;background:#ff6b35;color:#fff;border:none;border-radius:6px;font-size:12px;font-weight:500;cursor:pointer;}
+.pos-btn:hover{background:#d35f00;}
+
+/* ===== MAIN ===== */
+.main{margin-left:300px;margin-top:64px;min-height:calc(100vh - 64px);padding:0 24px;transition:margin-left .25s ease;}
+.main.expanded{margin-left:0;}
+.bc{display:flex;align-items:center;padding:32px 0 0 12px;font-size:14px;}
+.bc span{color:rgba(115,115,115,1);}
+.bc .sep{margin:0 8px;color:rgba(0,0,0,0.87);}
+.bc .cur{color:rgba(217,119,6,1);}
+.title-wrap{display:flex;align-items:center;justify-content:space-between;padding:18px 0 24px 12px;}
+.title{font-size:25px;font-weight:700;color:#222;display:flex;align-items:center;gap:10px;}
+
+/* ===== TABS ===== */
+.tab-bar{display:flex;gap:0;border-bottom:1px solid #e8e8e8;margin-bottom:24px;}
+.tab-item{padding:12px 24px;font-size:13px;font-weight:600;color:#888;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px;transition:all .15s;white-space:nowrap;}
+.tab-item:hover{color:#555;}
+.tab-item.active{color:#ff6b35;border-bottom-color:#ff6b35;}
+
+/* ===== SEARCH BOX ===== */
+.search-box{border-radius:8px;border:1px solid #e0e0e0;background:#fff;margin-bottom:24px;overflow:hidden;}
+.search-table{width:100%;border-collapse:collapse;}
+.search-table tr{border-bottom:1px solid #f0f0f0;}
+.search-table tr:last-child{border-bottom:none;}
+.search-table th{background:#f7f8fa;padding:12px 20px;font-size:12px;font-weight:600;color:#555;text-align:left;white-space:nowrap;width:140px;vertical-align:middle;border-right:1px solid #eee;letter-spacing:0.3px;}
+.search-table td{padding:10px 16px;vertical-align:middle;}
+.search-table td .field-row{display:flex;gap:10px;align-items:center;flex-wrap:wrap;}
+
+.field-inline{display:flex;flex-direction:column;gap:0;min-width:0;}
+.field-inline select,.field-inline input[type="text"],.field-inline input[type="date"]{height:34px;border:1px solid #d5d5d5;border-radius:4px;padding:0 10px;font-size:12px;background:#fff;outline:none;color:#222;transition:border-color .2s;}
+.field-inline select{padding:0 28px 0 10px;appearance:none;-webkit-appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24'%3E%3Cpath d='M7 10l5 5 5-5z' fill='%23666'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 8px center;}
+.field-inline select:focus,.field-inline input:focus{border-color:#ff6b35;box-shadow:0 0 0 2px rgba(255,107,53,0.12);}
+
+/* Toggle button group */
+.toggle-group{display:inline-flex;border:1px solid #d5d5d5;border-radius:6px;overflow:hidden;}
+.toggle-btn{height:34px;padding:0 18px;border:none;border-right:1px solid #d5d5d5;background:#fff;color:#555;font-size:12px;font-weight:600;cursor:pointer;transition:all .15s;white-space:nowrap;}
+.toggle-btn:last-child{border-right:none;}
+.toggle-btn:hover{background:#f5f5f5;}
+.toggle-btn.active{background:#ff6b35;color:#fff;}
+
+/* Multi-select */
+.multi-select-wrap{position:relative;}
+.multi-select-trigger{height:34px;border:1px solid #d5d5d5;border-radius:4px;padding:0 28px 0 10px;font-size:12px;background:#fff;color:#222;display:flex;align-items:center;cursor:pointer;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24'%3E%3Cpath d='M7 10l5 5 5-5z' fill='%23666'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 8px center;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;transition:border-color .2s;}
+.multi-select-trigger:hover{border-color:#999;}
+.multi-select-dropdown{position:absolute;top:38px;left:0;min-width:100%;background:#fff;border:1px solid #d5d5d5;border-radius:4px;box-shadow:0 4px 12px rgba(0,0,0,0.1);z-index:100;max-height:200px;overflow-y:auto;}
+.multi-select-dropdown.hidden{display:none;}
+.multi-select-dropdown .dd-item{display:flex;align-items:center;gap:8px;padding:8px 12px;font-size:12px;color:#333;cursor:pointer;transition:background .1s;white-space:nowrap;}
+.multi-select-dropdown .dd-item:hover{background:#f5f5f5;}
+.multi-select-dropdown .dd-item.selected{background:#FFF3E0;color:#ff6b35;font-weight:600;}
+.multi-select-dropdown .dd-item .check-ico{width:14px;height:14px;display:inline-flex;align-items:center;justify-content:center;color:#ff6b35;font-size:14px;visibility:hidden;}
+.multi-select-dropdown .dd-item.selected .check-ico{visibility:visible;}
+
+/* Search action */
+.search-action{display:flex;justify-content:center;padding:14px 20px;background:#f7f8fa;border-top:1px solid #eee;gap:8px;}
+.btn-search{display:flex;align-items:center;justify-content:center;gap:5px;height:36px;padding:0 32px;background:#ff6b35;color:#fff;border:none;border-radius:4px;font-size:13px;font-weight:600;cursor:pointer;transition:background .2s;white-space:nowrap;}
+.btn-search:hover{background:#e55e2b;}
+.btn-reset{display:flex;align-items:center;justify-content:center;gap:5px;height:36px;padding:0 32px;background:#fff;color:#555;border:1px solid #d5d5d5;border-radius:4px;font-size:13px;font-weight:600;cursor:pointer;transition:all .15s;white-space:nowrap;}
+.btn-reset:hover{background:#f5f5f5;border-color:#bbb;}
+
+/* ===== TABLE AREA ===== */
+.table-box{border-radius:8px;border:1px solid #E5E5E5;background:#fff;padding:24px;}
+.table-toolbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;}
+.table-toolbar-left{font-size:13px;color:#555;font-weight:500;}
+.table-toolbar-right{display:flex;gap:8px;}
+.btn-action{display:flex;align-items:center;justify-content:center;gap:4px;height:30px;padding:0 14px;border:none;border-radius:4px;font-size:12px;font-weight:600;cursor:pointer;white-space:nowrap;transition:background .2s;}
+.btn-primary{background:#ff6b35;color:#fff;}
+.btn-primary:hover{background:#e55e2b;}
+.btn-outline{background:#fff;color:#555;border:1px solid #ddd;}
+.btn-outline:hover{background:#f5f5f5;border-color:#bbb;}
+
+/* ===== DATA GRID ===== */
+.grid-wrap{overflow-x:auto;border-radius:6px;border:1px solid #e0e0e0;}
+table.grid{border-collapse:collapse;width:100%;}
+table.grid th,table.grid td{text-align:center;white-space:nowrap;}
+tr.hdr th{background:#ff6b35;color:#fff;padding:10px 16px;font-weight:600;font-size:12px;border-bottom:none;border-right:1px solid rgba(255,255,255,0.15);}
+tr.hdr th:last-child{border-right:none;}
+table.grid tbody tr{transition:background .15s;cursor:pointer;}
+table.grid tbody tr:hover td{background:#f0f7ff!important;}
+table.grid td{padding:16px 16px;border-bottom:1px solid #f0f0f0;font-size:12px;border-right:none;background:#fff;color:#555;}
+table.grid td.tl{text-align:left;}
+table.grid tbody tr:last-child td{border-bottom:none;}
+
+/* Checkbox */
+table.grid th input[type="checkbox"],table.grid td input[type="checkbox"]{-webkit-appearance:none;appearance:none;width:16px;height:16px;cursor:pointer;border:1.5px solid #ddd;border-radius:3px;background:#fff;position:relative;transition:all .15s;}
+table.grid th input[type="checkbox"]:hover,table.grid td input[type="checkbox"]:hover{border-color:#ff6b35;}
+table.grid th input[type="checkbox"]:checked,table.grid td input[type="checkbox"]:checked{background:#ff6b35;border-color:#ff6b35;}
+table.grid th input[type="checkbox"]:checked::after,table.grid td input[type="checkbox"]:checked::after{content:'';position:absolute;top:1px;left:4px;width:5px;height:9px;border:solid #fff;border-width:0 2px 2px 0;transform:rotate(45deg);}
+table.grid td input[type="checkbox"]:disabled{opacity:0.35;cursor:not-allowed;}
+
+/* Pagination */
+.pagination{display:flex;align-items:center;justify-content:flex-end;gap:4px;padding:16px 0 0;}
+.pagination button{min-width:32px;height:32px;border:1px solid #ddd;background:#fff;border-radius:6px;font-size:12px;color:#555;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;}
+.pagination button:hover:not(:disabled){background:#f5f5f5;}
+.pagination button.active{background:#ff6b35;color:#fff;border-color:#ff6b35;font-weight:600;}
+.pagination button:disabled{opacity:0.4;cursor:not-allowed;}
+.pagination .page-info{font-size:12px;color:#888;margin:0 8px;}
+.pagination .rows-per-page{display:flex;align-items:center;gap:6px;margin-right:16px;font-size:12px;color:#888;}
+.pagination .rows-per-page select{height:30px;border:1px solid #d5d5d5;border-radius:4px;padding:0 24px 0 8px;font-size:12px;background:#fff;color:#222;appearance:none;-webkit-appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24'%3E%3Cpath d='M7 10l5 5 5-5z' fill='%23666'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 6px center;cursor:pointer;}
+
+/* Status badges */
+.badge{display:inline-flex;align-items:center;padding:4px 10px;border-radius:12px;font-size:11px;font-weight:600;}
+.badge-pending{background:#E3F2FD;color:#1565C0;}
+.badge-approved{background:#E8F5E9;color:#2E7D32;}
+.badge-rejected{background:#FFEBEE;color:#C62828;}
+.badge-confirmed{background:#E8F5E9;color:#2E7D32;}
+.badge-ready{background:#FFF3E0;color:#E65100;}
+.badge-shipped{background:#E8EAF6;color:#283593;}
+.badge-cancelled{background:#f5f5f5;color:#888;}
+.badge-planned{background:#E3F2FD;color:#1565C0;}
+.badge-pending-reg{background:#FFF3E0;color:#E65100;}
+.badge-registered{background:#FFF3E0;color:#E65100;}
+.badge-reg-failed{background:#FFEBEE;color:#C62828;}
+.badge-completed{background:#E8F5E9;color:#2E7D32;}
+.badge-ob-cancelled{background:#FFF3E0;color:#E65100;}
+.ob-tag{display:inline-flex;align-items:center;padding:2px 8px;border-radius:4px;font-size:10px;font-weight:700;margin-left:4px;}
+
+/* ===== FLOATING ACTION BAR ===== */
+.floating-bar{position:fixed;bottom:-80px;left:50%;transform:translateX(-50%);background:#FFF3ED;border:1px solid #ffcdb2;border-radius:10px;padding:10px 24px;display:flex;align-items:center;gap:16px;box-shadow:0 4px 20px rgba(0,0,0,0.12);z-index:1300;transition:bottom .3s ease;}
+.floating-bar.show{bottom:32px;}
+.floating-bar .fb-info{font-size:13px;font-weight:600;color:#333;}
+.floating-bar .fb-info b{color:#ff6b35;}
+.floating-bar .fb-btn{height:30px;padding:0 14px;border:none;border-radius:4px;font-size:12px;font-weight:600;cursor:pointer;transition:background .2s;}
+.floating-bar .fb-btn-reject{background:#fff;color:#C62828;border:1px solid #e0e0e0;}
+.floating-bar .fb-btn-reject:hover{background:#FFEBEE;}
+.floating-bar .fb-btn-confirm{background:#ff6b35;color:#fff;}
+.floating-bar .fb-btn-confirm:hover{background:#e55e2b;}
+
+/* ===== DETAIL VIEW ===== */
+.detail-view{display:none;}
+.detail-view.active{display:block;}
+.list-view.hidden{display:none;}
+
+/* Outbound detail info */
+.ob-info-section{background:#fff;border:1px solid #e8e8e8;border-radius:8px;margin-bottom:20px;overflow:hidden;}
+.ob-info-section .section-row{display:flex;border-bottom:1px solid #f0f0f0;}
+.ob-info-section .section-row:last-child{border-bottom:none;}
+.ob-info-section .section-row .s-label{width:180px;padding:12px 20px;background:#f7f8fa;font-size:12px;font-weight:600;color:#555;border-right:1px solid #eee;display:flex;align-items:center;flex-shrink:0;}
+.ob-info-section .section-row .s-value{flex:1;padding:12px 16px;font-size:13px;color:#222;display:flex;align-items:center;gap:8px;}
+.ob-info-section .section-row .s-value select,.ob-info-section .section-row .s-value input[type="text"]{height:34px;border:1px solid #d5d5d5;border-radius:4px;padding:0 10px;font-size:12px;background:#fff;outline:none;transition:border-color .2s;}
+.ob-info-section .section-row .s-value select{padding-right:28px;appearance:none;-webkit-appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24'%3E%3Cpath d='M7 10l5 5 5-5z' fill='%23666'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 8px center;}
+.ob-info-section .section-row .s-value select:focus,.ob-info-section .section-row .s-value input[type="text"]:focus{border-color:#ff6b35;box-shadow:0 0 0 2px rgba(255,107,53,0.12);}
+.ob-info-section .section-row .s-value .auto-field{height:34px;border:1px solid #e8e8e8;border-radius:4px;padding:0 10px;font-size:12px;background:#f5f5f5;color:#999;display:flex;align-items:center;}
+.ob-info-divider{padding:8px 20px;background:#f7f8fa;font-size:11px;font-weight:700;color:#888;letter-spacing:0.5px;border-bottom:1px solid #f0f0f0;border-top:1px solid #eee;display:flex;align-items:center;}
+.ob-info-divider .btn-action{font-weight:600;font-size:12px;letter-spacing:0;}
+.wms-tooltip-wrap{position:relative;display:inline-flex;align-items:center;margin-left:6px;cursor:help;}
+.wms-tooltip-wrap .wms-tooltip{display:none;position:absolute;left:20px;top:-8px;background:#333;color:#fff;font-size:11px;font-weight:400;letter-spacing:0;padding:8px 12px;border-radius:6px;white-space:nowrap;z-index:10;box-shadow:0 2px 8px rgba(0,0,0,0.15);}
+.wms-tooltip-wrap:hover .wms-tooltip{display:block;}
+
+/* Modal */
+.modal-overlay{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.3);z-index:1400;display:none;justify-content:center;align-items:center;}
+.modal-overlay.show{display:flex;}
+.modal-box{background:#fff;border-radius:10px;width:560px;max-height:80vh;overflow:hidden;box-shadow:0 8px 32px rgba(0,0,0,0.15);}
+.modal-header{display:flex;justify-content:space-between;align-items:center;padding:16px 20px;border-bottom:1px solid #eee;}
+.modal-title{font-size:15px;font-weight:700;color:#222;}
+.modal-close{width:28px;height:28px;border:none;background:none;font-size:20px;color:#888;cursor:pointer;border-radius:50%;display:flex;align-items:center;justify-content:center;}
+.modal-close:hover{background:#f5f5f5;}
+.modal-body{padding:16px 20px;max-height:60vh;overflow-y:auto;}
+.history-item{display:flex;gap:12px;padding:12px 0;border-bottom:1px solid #f5f5f5;}
+.history-item:last-child{border-bottom:none;}
+.history-dot{width:10px;height:10px;border-radius:50%;background:#ff6b35;margin-top:4px;flex-shrink:0;}
+.history-content{flex:1;}
+.history-status{font-size:13px;font-weight:600;color:#222;}
+.history-meta{font-size:11px;color:#999;margin-top:2px;}
+
+.detail-back{display:inline-flex;align-items:center;cursor:pointer;border-radius:50%;width:32px;height:32px;justify-content:center;transition:background .15s;}
+.detail-back:hover{background:rgba(0,0,0,0.06);}
+
+/* Detail info table */
+.detail-info-table{width:100%;border-collapse:collapse;margin-bottom:24px;border:1px solid #e0e0e0;border-radius:8px;overflow:hidden;}
+.detail-info-table th{background:#f7f8fa;padding:13px 20px;font-size:12px;font-weight:600;color:#666;text-align:left;white-space:nowrap;width:140px;border-bottom:1px solid #eee;border-right:1px solid #eee;}
+.detail-info-table td{padding:13px 20px;font-size:13px;color:#222;font-weight:500;border-bottom:1px solid #eee;border-right:1px solid #eee;}
+.detail-info-table td:last-child,.detail-info-table th:last-child{border-right:none;}
+.detail-info-table tr:last-child th,.detail-info-table tr:last-child td{border-bottom:none;}
+
+/* Editable qty input */
+.qty-input{width:70px;height:32px;border:1px solid #d5d5d5;border-radius:4px;text-align:center;font-size:12px;font-weight:600;color:#222;outline:none;transition:border-color .2s;}
+.qty-input:focus{border-color:#ff6b35;box-shadow:0 0 0 2px rgba(255,107,53,0.12);}
+.qty-input:disabled{background:#f5f5f5;color:#999;cursor:not-allowed;border-color:#eee;}
+.qty-display{font-weight:600;color:#222;}
+.qty-changed{background:#FFF8F5;border-color:#ff6b35;}
+
+/* Toast */
+.toast{position:fixed;top:24px;right:24px;transform:translateY(-120px);background:#E8F5E9;color:#333;padding:0;border-radius:8px;font-size:13px;box-shadow:0 4px 20px rgba(0,0,0,0.1);transition:transform .3s ease;z-index:9999;overflow:hidden;min-width:340px;}
+.toast .toast-body{display:flex;align-items:flex-start;gap:10px;padding:16px 20px;}
+.toast .toast-icon{width:24px;height:24px;flex-shrink:0;margin-top:1px;}
+.toast .toast-text{display:flex;flex-direction:column;gap:2px;}
+.toast .toast-title{font-size:14px;font-weight:600;color:#222;}
+.toast .toast-sub{font-size:12px;color:#555;font-weight:400;}
+.toast.show{transform:translateY(0);}
+</style>
+</head>
+<body>
+
+<!-- SVG SPRITE -->
+<svg xmlns="http://www.w3.org/2000/svg" style="display:none;">
+  <symbol id="i-chevron-down" viewBox="0 0 24 24"><path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6z"/></symbol>
+  <symbol id="i-chevron-right" viewBox="0 0 24 24"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></symbol>
+  <symbol id="i-storefront" viewBox="0 0 24 24"><path d="M20 4H4v2h16V4zm1 10v-2l-1-5H4l-1 5v2h1v6h10v-6h4v6h2v-6h1zm-9 4H6v-4h6v4z"/></symbol>
+  <symbol id="i-receipt" viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-2 .9-2 2v16l4-2 4 2 4-2 4 2V4c0-1.1-.9-2-2-2zm4 14.5l-2-1-4 2-4-2-2 1V4h12v12.5zM14 9H8V7h6v2zm-2 4H8v-2h4v2z"/></symbol>
+  <symbol id="i-bag" viewBox="0 0 24 24"><path d="M18 6h-2c0-2.21-1.79-4-4-4S8 3.79 8 6H6c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm-6-2c1.1 0 2 .9 2 2h-4c0-1.1.9-2 2-2zm6 16H6V8h2v2c0 .55.45 1 1 1s1-.45 1-1V8h4v2c0 .55.45 1 1 1s1-.45 1-1V8h2v12z"/></symbol>
+  <symbol id="i-inventory" viewBox="0 0 24 24"><path d="M20 2H4c-1 0-2 .9-2 2v3.01c0 .72.43 1.34 1 1.69V20c0 1.1 1.1 2 2 2h14c.9 0 2-.9 2-2V8.7c.57-.35 1-.97 1-1.69V4c0-1.1-1-2-2-2zm-5 12H9v-2h6v2zm5-7H4V4h16v3z"/></symbol>
+  <symbol id="i-chart" viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z"/></symbol>
+  <symbol id="i-settings" viewBox="0 0 24 24"><path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58a.49.49 0 00.12-.61l-1.92-3.32a.488.488 0 00-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.07.62-.07.94s.02.64.07.94l-2.03 1.58a.49.49 0 00-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/></symbol>
+  <symbol id="i-search" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></symbol>
+</svg>
+
+<!-- HEADER -->
+<header class="header">
+  <div class="header-l">
+    <button class="hamburger" onclick="toggleSidebar()"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="1.8" stroke-linecap="round"><line x1="4" y1="6" x2="20" y2="6"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="18" x2="20" y2="18"/></svg></button>
+    <span class="logo">IIC BO</span>
+  </div>
+  <div class="header-r">
+    <button class="lang-btn">Language <b>English</b><svg width="20" height="20" viewBox="0 0 24 24" fill="#222"><use href="#i-chevron-down"/></svg></button>
+    <button class="user-btn">monster1437 / BO_SUPER_ADMIN<svg width="20" height="20" viewBox="0 0 24 24" fill="#fff"><use href="#i-chevron-down"/></svg></button>
+  </div>
+</header>
+
+<!-- SIDEBAR -->
+<nav class="sidebar">
+  <div class="menu-item depth1" onclick="toggle('master')">
+    <div class="menu-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="#555"><use href="#i-storefront"/></svg></div>
+    <span class="menu-text">Master Information</span>
+    <div class="arrow-ico" id="arr-master"><svg viewBox="0 0 24 24" fill="#888"><use href="#i-chevron-down"/></svg></div>
+  </div>
+  <div class="submenu closed" id="sub-master"><a class="menu-item depth2" href="#"><span class="menu-text">Store</span></a><a class="menu-item depth2" href="#"><span class="menu-text">Product</span></a></div>
+
+  <div class="menu-item depth1" onclick="toggle('sales')">
+    <div class="menu-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="#555"><use href="#i-receipt"/></svg></div>
+    <span class="menu-text">Sales</span>
+    <div class="arrow-ico" id="arr-sales"><svg viewBox="0 0 24 24" fill="#888"><use href="#i-chevron-down"/></svg></div>
+  </div>
+  <div class="submenu closed" id="sub-sales"><a class="menu-item depth2" href="#"><span class="menu-text">Daily Record View</span></a></div>
+
+  <div class="menu-item depth1" onclick="toggle('order')">
+    <div class="menu-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="#555"><use href="#i-bag"/></svg></div>
+    <span class="menu-text">Order</span>
+    <div class="arrow-ico" id="arr-order"><svg viewBox="0 0 24 24" fill="#888"><use href="#i-chevron-down"/></svg></div>
+  </div>
+  <div class="submenu closed" id="sub-order"><a class="menu-item depth2" href="#"><span class="menu-text">Order List</span></a></div>
+
+  <div class="menu-item depth1" onclick="toggle('inv')" style="background:rgba(0,0,0,0.02);">
+    <div class="menu-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="#555"><use href="#i-inventory"/></svg></div>
+    <span class="menu-text">Inventory</span>
+    <div class="arrow-ico open" id="arr-inv"><svg viewBox="0 0 24 24" fill="#888"><use href="#i-chevron-down"/></svg></div>
+  </div>
+  <div class="submenu open" id="sub-inv">
+    <a class="menu-item depth2" href="#"><span class="menu-text">Inbound List</span></a>
+    <a class="menu-item depth2 active" href="#"><span class="menu-text">Outbound List</span></a>
+    <a class="menu-item depth2" href="#"><span class="menu-text">Inventory Snapshot</span></a>
+    <a class="menu-item depth2" href="https://bo-inv-adjustment.vercel.app/"><span class="menu-text">Inventory Adjustment</span></a>
+    <a class="menu-item depth2" href="https://bo-inventory-stocktaking-v2.vercel.app/"><span class="menu-text">Inventory Stocktaking</span></a>
+  </div>
+
+  <div class="menu-item depth1" onclick="toggle('rpt')">
+    <div class="menu-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="#555"><use href="#i-chart"/></svg></div>
+    <span class="menu-text">Global Report</span>
+    <div class="arrow-ico" id="arr-rpt"><svg viewBox="0 0 24 24" fill="#888"><use href="#i-chevron-down"/></svg></div>
+  </div>
+  <div class="submenu closed" id="sub-rpt"><a class="menu-item depth2" href="#"><span class="menu-text">Report Board</span></a></div>
+
+  <div class="menu-item depth1" onclick="toggle('sys')">
+    <div class="menu-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="#555"><use href="#i-settings"/></svg></div>
+    <span class="menu-text">System Setting</span>
+    <div class="arrow-ico" id="arr-sys"><svg viewBox="0 0 24 24" fill="#888"><use href="#i-chevron-down"/></svg></div>
+  </div>
+  <div class="submenu closed" id="sub-sys"><a class="menu-item depth2" href="#"><span class="menu-text">POS Display Setting</span></a></div>
+
+  <div class="pos-wrap"><button class="pos-btn"><span>Front POS</span><svg width="20" height="20" viewBox="0 0 24 24" fill="#fff"><use href="#i-chevron-right"/></svg></button></div>
+</nav>
+
+<!-- MAIN -->
+<main class="main">
+  <div class="bc">
+    <span>Inventory</span><span class="sep">&rsaquo;</span>
+    <span class="cur">Outbound List</span>
+  </div>
+  <div class="title-wrap">
+    <div class="title">
+      <span class="detail-back" id="detail-back-btn" onclick="backToList()" style="display:none;">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="#555"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>
+      </span>
+      <span id="page-title">Outbound List</span>
+      <span class="badge" id="detail-status-badge" style="display:none;"></span>
+    </div>
+    <div id="detail-actions" style="display:flex;gap:8px;"></div>
+  </div>
+
+  <!-- ===== LIST VIEW ===== -->
+  <div class="list-view" id="list-view">
+    <!-- TABS -->
+    <div class="tab-bar">
+      <div class="tab-item active" data-tab="outbound" onclick="switchTab(this)">Outbound List</div>
+      <div class="tab-item" data-tab="request" onclick="switchTab(this)">Outbound Request List</div>
+    </div>
+
+    <!-- SEARCH -->
+    <div class="search-box">
+      <table class="search-table">
+        <tr>
+          <th>BP</th>
+          <td>
+            <div class="field-row">
+              <div class="multi-select-wrap">
+                <div class="multi-select-trigger" id="bp-trigger" onclick="toggleMulti('bp')" style="min-width:360px;">BP (All)</div>
+                <div class="multi-select-dropdown hidden" id="bp-dropdown">
+                  <div class="dd-item" onclick="selectMulti('bp',this)" data-val="BP001"><span class="check-ico">✓</span>BP001 / IICOMBINED US</div>
+                  <div class="dd-item" onclick="selectMulti('bp',this)" data-val="BP003"><span class="check-ico">✓</span>BP003 / IICOMBINED KR</div>
+                </div>
+              </div>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <th>Store</th>
+          <td>
+            <div class="field-row">
+              <div class="multi-select-wrap">
+                <div class="multi-select-trigger" id="store-trigger" onclick="toggleMulti('store')" style="min-width:360px;">Store (All)</div>
+                <div class="multi-select-dropdown hidden" id="store-dropdown">
+                  <div class="dd-item" onclick="selectMulti('store',this)" data-val="US1001"><span class="check-ico">✓</span>US1001 / NY Soho</div>
+                  <div class="dd-item" onclick="selectMulti('store',this)" data-val="US1002"><span class="check-ico">✓</span>US1002 / LA Beverly</div>
+                  <div class="dd-item" onclick="selectMulti('store',this)" data-val="KR2001"><span class="check-ico">✓</span>KR2001 / Seoul Gangnam</div>
+                </div>
+              </div>
+            </div>
+          </td>
+        </tr>
+        <tr id="search-status-row">
+          <th id="search-status-label">Outbound Status</th>
+          <td id="search-status-td">
+            <div class="field-row">
+              <div class="field-inline">
+                <select id="sel-outbound-status" style="min-width:360px;">
+                  <option value="">All</option>
+                  <option value="OUTBOUND_PLANNED">Outbound Planned</option>
+                  <option value="PENDING_REGISTRATION">Pending Registration</option>
+                  <option value="OUTBOUND_REGISTERED">Outbound Registered</option>
+                  <option value="REGISTRATION_FAILED">Registration Failed</option>
+                  <option value="OUTBOUND_COMPLETED">Outbound Completed</option>
+                  <option value="OUTBOUND_CANCELLED">Outbound Cancelled</option>
+                </select>
+              </div>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <th>Registration Date</th>
+          <td>
+            <div class="field-row">
+              <div class="field-inline">
+                <input type="text" id="date-from" placeholder="yyyy-mm-dd" maxlength="10" style="min-width:170px;" onfocus="this.type='date'" onblur="if(!this.value)this.type='text'">
+              </div>
+              <span style="color:#999;font-size:13px;">~</span>
+              <div class="field-inline">
+                <input type="text" id="date-to" placeholder="yyyy-mm-dd" maxlength="10" style="min-width:170px;" onfocus="this.type='date'" onblur="if(!this.value)this.type='text'">
+              </div>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <th>Keyword<br><span style="font-weight:400;font-size:10px;color:#999;">BP Code, BP Name, Store Code,<br>Store Name, I/V No, TRK No, Request Account</span></th>
+          <td>
+            <div class="field-row">
+              <div class="field-inline" style="flex:1;max-width:360px;">
+                <input type="text" id="inp-keyword" placeholder="Please enter at least 2 characters" style="width:100%;">
+              </div>
+            </div>
+          </td>
+        </tr>
+      </table>
+      <div class="search-action">
+        <button class="btn-reset"><svg width="14" height="14" viewBox="0 0 24 24" fill="#555"><path d="M17.65 6.35C16.2 4.9 14.21 4 12 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08c-.82 2.33-3.04 4-5.65 4-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"/></svg>Reset</button>
+        <button class="btn-search"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><use href="#i-search"/></svg>Search</button>
+      </div>
+    </div>
+
+    <!-- TABLE -->
+    <div class="table-box">
+      <div class="table-toolbar">
+        <div class="table-toolbar-left" id="toolbar-info">Total <b>0</b> Count</div>
+        <div class="table-toolbar-right">
+          <button class="btn-action btn-primary">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
+            Outbound Registration / Request
+          </button>
+          <button class="btn-action btn-outline">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="#555"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
+            Excel Export
+          </button>
+        </div>
+      </div>
+      <div class="grid-wrap">
+        <table class="grid">
+          <thead id="grid-head"></thead>
+          <tbody id="grid-body"></tbody>
+        </table>
+      </div>
+      <div class="pagination" id="pagination"></div>
+    </div>
+  </div>
+
+  <!-- ===== REQUEST DETAIL VIEW ===== -->
+  <div class="detail-view" id="detail-view">
+    <div class="detail-info-table" id="detail-info"></div>
+    <div class="table-box">
+      <div class="table-toolbar">
+        <div class="table-toolbar-left" id="detail-toolbar-info"></div>
+        <div class="table-toolbar-right" id="detail-toolbar-actions"></div>
+      </div>
+      <div class="grid-wrap">
+        <table class="grid">
+          <thead>
+            <tr class="hdr">
+              <th style="min-width:40px;">#</th>
+              <th style="min-width:280px;">Product Info<br><span style="font-weight:400;font-size:11px;">(Code / Name / Barcode)</span></th>
+              <th style="min-width:140px;">Product Category</th>
+              <th style="min-width:140px;">Product Subcategory</th>
+              <th style="min-width:120px;">Request Qty</th>
+              <th style="min-width:170px;">Outbound Request Date</th>
+              <th style="min-width:130px;">Request Account</th>
+              <th style="min-width:170px;">Approval Date</th>
+              <th style="min-width:130px;">Approved By</th>
+            </tr>
+          </thead>
+          <tbody id="detail-body"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== OUTBOUND DETAIL VIEW ===== -->
+  <div class="detail-view" id="ob-detail-view">
+    <div id="ob-detail-info"></div>
+    <div class="table-box">
+      <div class="table-toolbar">
+        <div class="table-toolbar-left" id="ob-detail-toolbar-info"></div>
+        <div class="table-toolbar-right" id="ob-detail-toolbar-actions"></div>
+      </div>
+      <div class="grid-wrap">
+        <table class="grid">
+          <thead>
+            <tr class="hdr">
+              <th style="min-width:130px;">I/V No.</th>
+              <th style="min-width:280px;">Product Info<br><span style="font-weight:400;font-size:11px;">(Code / Name / Barcode)</span></th>
+              <th style="min-width:140px;">Product Category</th>
+              <th style="min-width:140px;">Product Subcategory</th>
+              <th style="min-width:130px;">Outbound Qty<br><span style="font-weight:400;font-size:11px;">(Registered)</span></th>
+              <th style="min-width:130px;">Outbound Qty<br><span style="font-weight:400;font-size:11px;">(Completed)</span></th>
+              <th style="min-width:90px;">Currency</th>
+              <th style="min-width:170px;">Outbound Request Date</th>
+              <th style="min-width:120px;">Created By</th>
+            </tr>
+          </thead>
+          <tbody id="ob-detail-body"></tbody>
+        </table>
+      </div>
+      <div class="pagination" id="ob-detail-pagination"></div>
+    </div>
+  </div>
+
+  <!-- STATUS HISTORY MODAL -->
+  <div class="modal-overlay" id="status-history-modal" onclick="if(event.target===this)this.classList.remove('show');">
+    <div class="modal-box">
+      <div class="modal-header">
+        <span class="modal-title">Status Change History</span>
+        <button class="modal-close" onclick="document.getElementById('status-history-modal').classList.remove('show');">&times;</button>
+      </div>
+      <div class="modal-body" id="status-history-body"></div>
+    </div>
+  </div>
+</main>
+
+<!-- FLOATING ACTION BAR -->
+<div class="floating-bar" id="floating-bar">
+  <span class="fb-info"><b id="fb-count">0</b> selected</span>
+  <button class="fb-btn fb-btn-reject" onclick="bulkReject()">Reject</button>
+  <button class="fb-btn fb-btn-confirm" onclick="bulkConfirm()">Confirm</button>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast">
+  <div class="toast-body">
+    <div class="toast-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="#2E7D32"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg></div>
+    <div class="toast-text">
+      <div class="toast-title" id="toast-title"></div>
+      <div class="toast-sub" id="toast-sub"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+// Sidebar
+function toggleSidebar(){document.querySelector('.sidebar').classList.toggle('collapsed');document.querySelector('.main').classList.toggle('expanded');}
+function toggle(id){const sub=document.getElementById('sub-'+id),arr=document.getElementById('arr-'+id);if(sub.classList.contains('open')){sub.classList.remove('open');sub.classList.add('closed');arr.classList.remove('open');}else{sub.classList.remove('closed');sub.classList.add('open');arr.classList.add('open');}}
+
+// Toggle / Multi-select
+function selectToggle(gid,btn){document.querySelectorAll('#'+gid+' .toggle-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');}
+function toggleMulti(id){document.getElementById(id+'-dropdown').classList.toggle('hidden');}
+function selectMulti(id,el){
+  el.classList.toggle('selected');
+  const sel=[...document.querySelectorAll('#'+id+'-dropdown .dd-item.selected')];
+  const t=document.getElementById(id+'-trigger');
+  const labels={bp:'BP',store:'Store'};
+  if(!sel.length) t.textContent=labels[id]+' (All)';
+  else if(sel.length===1) t.textContent=sel[0].textContent.replace('✓','').trim();
+  else t.textContent=sel[0].textContent.replace('✓','').trim()+' +'+(sel.length-1);
+}
+document.addEventListener('click',e=>{document.querySelectorAll('.multi-select-dropdown').forEach(dd=>{if(!dd.parentElement.contains(e.target))dd.classList.add('hidden');});});
+
+// Tab
+let currentTab='outbound';
+function switchTab(el){
+  document.querySelectorAll('.tab-item').forEach(t=>t.classList.remove('active'));
+  el.classList.add('active');
+  currentTab=el.dataset.tab;
+  renderList();
+  // Swap status filter
+  const statusTd=document.getElementById('search-status-td');
+  const statusLabel=document.getElementById('search-status-label');
+  if(currentTab==='request'){
+    statusLabel.textContent='Request Status';
+    statusTd.innerHTML=`<div class="field-row"><div class="field-inline">
+      <select id="sel-request-status" style="min-width:360px;">
+        <option value="">All</option>
+        <option value="PENDING">Request Pending</option>
+        <option value="APPROVED">Approved (Registered)</option>
+        <option value="REJECTED">Rejected</option>
+      </select>
+    </div></div>`;
+  } else {
+    statusLabel.textContent='Outbound Status';
+    statusTd.innerHTML=`<div class="field-row"><div class="field-inline">
+      <select id="sel-outbound-status" style="min-width:360px;">
+        <option value="">All</option>
+        <option value="OUTBOUND_PLANNED">Outbound Planned</option>
+        <option value="PENDING_REGISTRATION">Pending Registration</option>
+        <option value="OUTBOUND_REGISTERED">Outbound Registered</option>
+        <option value="REGISTRATION_FAILED">Registration Failed</option>
+        <option value="OUTBOUND_COMPLETED">Outbound Completed</option>
+        <option value="OUTBOUND_CANCELLED">Outbound Cancelled</option>
+      </select>
+    </div></div>`;
+  }
+}
+
+// Data
+// Demo product pool
+const PRODUCTS=[
+  {code:'GM-SUN-001',name:'Jennie 01',barcode:'8809803513012',category:'Sunglasses',subCategory:'Acetate'},
+  {code:'GM-SUN-055',name:'Palette 01',barcode:'8809803513036',category:'Sunglasses',subCategory:'Metal'},
+  {code:'GM-OPT-032',name:'Dreamer 17',barcode:'8809803513029',category:'Optical',subCategory:'Acetate'},
+  {code:'GM-SUN-088',name:'Rococo 01',barcode:'8809803513067',category:'Sunglasses',subCategory:'Acetate'},
+  {code:'TB-PFM-011',name:'Pumkini Eau de Parfum',barcode:'8809803514019',category:'Perfume',subCategory:'Eau de Parfum'},
+  {code:'GM-OPT-041',name:'South Side 02',barcode:'8809803513050',category:'Optical',subCategory:'Metal'},
+  {code:'ND-FD-008',name:'Nude Cake Set',barcode:'8809803515010',category:'Food',subCategory:'Cake'},
+  {code:'TB-HC-005',name:'Egg Hand Cream',barcode:'8809803514026',category:'Hand Care',subCategory:'Cream'},
+  {code:'GM-SUN-112',name:'My Ma 01',barcode:'8809803513073',category:'Sunglasses',subCategory:'Acetate'},
+  {code:'GM-OPT-078',name:'Flatba 01',barcode:'8809803513080',category:'Optical',subCategory:'Metal'},
+  {code:'GM-SUN-145',name:'Her 01',barcode:'8809803513097',category:'Sunglasses',subCategory:'Titanium'},
+  {code:'TB-PFM-023',name:'Cosmos Eau de Toilette',barcode:'8809803514033',category:'Perfume',subCategory:'Eau de Toilette'},
+  {code:'GM-OPT-099',name:'Alio 02',barcode:'8809803513103',category:'Optical',subCategory:'Acetate'},
+  {code:'GM-SUN-167',name:'Tam 01',barcode:'8809803513110',category:'Sunglasses',subCategory:'Metal'},
+  {code:'TB-HC-012',name:'Cherry Blossom Hand Cream',barcode:'8809803514040',category:'Hand Care',subCategory:'Cream'},
+  {code:'ND-FD-015',name:'Tiramisu Cake Set',barcode:'8809803515027',category:'Food',subCategory:'Cake'},
+];
+function genObItems(ivNo,count,isCompleted){
+  const shuffled=[...PRODUCTS].sort(()=>Math.random()-0.5).slice(0,count);
+  return shuffled.map(p=>({...p,ivNo,regQty:Math.floor(Math.random()*10)+2,compQty:isCompleted?Math.floor(Math.random()*10)+2:0,currency:'USD'}));
+}
+function genHistory(status,regDate,requestDate,createdBy){
+  const h=[{status:'Outbound Planned',date:requestDate,by:createdBy}];
+  if(['PENDING_REGISTRATION','OUTBOUND_REGISTERED','REGISTRATION_FAILED','OUTBOUND_COMPLETED','OUTBOUND_CANCELLED'].includes(status))
+    h.push({status:'Pending Registration',date:regDate,by:createdBy});
+  if(['OUTBOUND_REGISTERED','OUTBOUND_COMPLETED'].includes(status))
+    h.push({status:'Outbound Registered',date:regDate,by:'System (WMS)'});
+  if(status==='REGISTRATION_FAILED') h.push({status:'Registration Failed',date:regDate,by:'System (WMS)'});
+  if(status==='OUTBOUND_COMPLETED') h.push({status:'Outbound Completed',date:regDate,by:'System (WMS)'});
+  if(status==='OUTBOUND_CANCELLED') h.push({status:'Outbound Cancelled',date:regDate,by:createdBy});
+  return h;
+}
+const OUTBOUND_DATA=[
+  {regDate:'2026-08-02 09:15 (EST)',status:'OUTBOUND_PLANNED',type:'S2S',tag:'RX',ivNo:'TO000001',bp:'BP001 / IICOMBINED US',fromStore:'US1001 / NY Soho',fromLoc:'1000 / SALES',toStore:'US1002 / LA Beverly',toLoc:'1000 / SALES',requestDate:'2026-08-01 14:00 (EST)',createdBy:'john.doe',outboundMethod:'DIRECT_DELIVERY',carrier:'',trackNo:'',wmsCarrier:'\u2014',wmsTrackNo:'\u2014',items:genObItems('TO000001',10,false)},
+  {regDate:'2026-08-01 17:40 (KST)',status:'OUTBOUND_PLANNED',type:'S2S',tag:'NORMAL',ivNo:'TO000002',bp:'BP003 / IICOMBINED KR',fromStore:'KR2001 / Seoul Gangnam',fromLoc:'1200 / DP',toStore:'KR2002 / Seoul Hongdae',toLoc:'1000 / SALES',requestDate:'2026-08-01 10:00 (KST)',createdBy:'kim.mj',outboundMethod:'PACKAGE',carrier:'',trackNo:'',wmsCarrier:'\u2014',wmsTrackNo:'\u2014',items:genObItems('TO000002',10,false)},
+  {regDate:'2026-08-01 11:30 (EST)',status:'PENDING_REGISTRATION',type:'S2L',tag:'PREORDER',ivNo:'TO000003',bp:'BP001 / IICOMBINED US',fromStore:'US1002 / LA Beverly',fromLoc:'1200 / DP',toStore:'US1010 / LA Warehouse',toLoc:'2000 / STORAGE',requestDate:'2026-07-31 10:00 (EST)',createdBy:'sara.lee',outboundMethod:'',carrier:'',trackNo:'',wmsCarrier:'\u2014',wmsTrackNo:'\u2014',items:genObItems('TO000003',10,false)},
+  {regDate:'2026-07-31 15:30 (EST)',status:'PENDING_REGISTRATION',type:'S2S',tag:'GIFT',ivNo:'TO000004',bp:'BP001 / IICOMBINED US',fromStore:'US1002 / LA Beverly',fromLoc:'1000 / SALES',toStore:'US1001 / NY Soho',toLoc:'1200 / DP',requestDate:'2026-07-30 11:00 (EST)',createdBy:'sara.lee',outboundMethod:'',carrier:'',trackNo:'',wmsCarrier:'\u2014',wmsTrackNo:'\u2014',items:genObItems('TO000004',10,false)},
+  {regDate:'2026-07-31 10:20 (KST)',status:'OUTBOUND_REGISTERED',type:'S2S',tag:'RX',ivNo:'TO000005',bp:'BP003 / IICOMBINED KR',fromStore:'KR2001 / Seoul Gangnam',fromLoc:'1000 / SALES',toStore:'KR2002 / Seoul Hongdae',toLoc:'1200 / DP',requestDate:'2026-07-30 09:00 (KST)',createdBy:'park.js',outboundMethod:'PACKAGE',carrier:'CJ Logistics',trackNo:'CJ20260731001',wmsCarrier:'\u2014',wmsTrackNo:'\u2014',items:genObItems('TO000005',10,false)},
+  {regDate:'2026-07-30 16:20 (KST)',status:'OUTBOUND_REGISTERED',type:'S2L',tag:'TIKTOK',ivNo:'TO000006',bp:'BP003 / IICOMBINED KR',fromStore:'KR2002 / Seoul Hongdae',fromLoc:'1000 / SALES',toStore:'KR2010 / Incheon WH',toLoc:'2000 / STORAGE',requestDate:'2026-07-29 15:00 (KST)',createdBy:'kim.mj',outboundMethod:'PACKAGE',carrier:'Hanjin',trackNo:'HJ20260730002',wmsCarrier:'\u2014',wmsTrackNo:'\u2014',items:genObItems('TO000006',10,false)},
+  {regDate:'2026-07-30 09:50 (EST)',status:'REGISTRATION_FAILED',type:'S2S',tag:'RX',ivNo:'TO000007',bp:'BP001 / IICOMBINED US',fromStore:'US1001 / NY Soho',fromLoc:'1300 / HOLDING',toStore:'US1002 / LA Beverly',toLoc:'1200 / DP',requestDate:'2026-07-29 15:30 (EST)',createdBy:'mike.w',outboundMethod:'PACKAGE',carrier:'FedEx',trackNo:'FX20260730003',wmsCarrier:'\u2014',wmsTrackNo:'\u2014',items:genObItems('TO000007',10,false)},
+  {regDate:'2026-07-29 14:10 (KST)',status:'REGISTRATION_FAILED',type:'S2S',tag:'NORMAL',ivNo:'TO000008',bp:'BP003 / IICOMBINED KR',fromStore:'KR2001 / Seoul Gangnam',fromLoc:'1200 / DP',toStore:'KR2002 / Seoul Hongdae',toLoc:'1000 / SALES',requestDate:'2026-07-28 11:00 (KST)',createdBy:'park.js',outboundMethod:'DIRECT_DELIVERY',carrier:'',trackNo:'',wmsCarrier:'\u2014',wmsTrackNo:'\u2014',items:genObItems('TO000008',10,false)},
+  {regDate:'2026-07-29 11:00 (EST)',status:'OUTBOUND_COMPLETED',type:'S2S',tag:'NORMAL',ivNo:'TO000009',bp:'BP001 / IICOMBINED US',fromStore:'US1002 / LA Beverly',fromLoc:'1000 / SALES',toStore:'US1001 / NY Soho',toLoc:'1000 / SALES',requestDate:'2026-07-28 09:00 (EST)',createdBy:'john.doe',outboundMethod:'PACKAGE',carrier:'UPS',trackNo:'1Z999AA10123456784',wmsCarrier:'UPS',wmsTrackNo:'1Z999AA10123456784',items:genObItems('TO000009',10,true)},
+  {regDate:'2026-07-28 16:30 (KST)',status:'OUTBOUND_COMPLETED',type:'S2S',tag:'PS',ivNo:'TO000010',bp:'BP003 / IICOMBINED KR',fromStore:'KR2001 / Seoul Gangnam',fromLoc:'1000 / SALES',toStore:'KR2002 / Seoul Hongdae',toLoc:'1200 / DP',requestDate:'2026-07-27 14:00 (KST)',createdBy:'kim.mj',outboundMethod:'DIRECT_DELIVERY',carrier:'',trackNo:'',wmsCarrier:'Lotte GLS',wmsTrackNo:'LT20260728005',items:genObItems('TO000010',10,true)},
+  {regDate:'2026-07-28 10:00 (EST)',status:'OUTBOUND_COMPLETED',type:'S2L',tag:'PREORDER',ivNo:'TO000011',bp:'BP001 / IICOMBINED US',fromStore:'US1001 / NY Soho',fromLoc:'1200 / DP',toStore:'US1010 / LA Warehouse',toLoc:'2000 / STORAGE',requestDate:'2026-07-27 08:30 (EST)',createdBy:'mike.w',outboundMethod:'PACKAGE',carrier:'FedEx',trackNo:'FX20260728006',wmsCarrier:'FedEx',wmsTrackNo:'FX20260728006',items:genObItems('TO000011',10,true)},
+  {regDate:'2026-07-27 15:20 (KST)',status:'OUTBOUND_CANCELLED',type:'S2S',tag:'TIKTOK',ivNo:'TO000012',bp:'BP003 / IICOMBINED KR',fromStore:'KR2002 / Seoul Hongdae',fromLoc:'1000 / SALES',toStore:'KR2001 / Seoul Gangnam',toLoc:'1300 / HOLDING',requestDate:'2026-07-26 16:00 (KST)',createdBy:'park.js',outboundMethod:'',carrier:'',trackNo:'',wmsCarrier:'\u2014',wmsTrackNo:'\u2014',items:genObItems('TO000012',10,false)},
+  {regDate:'2026-07-27 09:45 (EST)',status:'OUTBOUND_CANCELLED',type:'S2S',tag:'GIFT',ivNo:'TO000013',bp:'BP001 / IICOMBINED US',fromStore:'US1001 / NY Soho',fromLoc:'1000 / SALES',toStore:'US1002 / LA Beverly',toLoc:'1000 / SALES',requestDate:'2026-07-26 10:00 (EST)',createdBy:'john.doe',outboundMethod:'',carrier:'',trackNo:'',wmsCarrier:'\u2014',wmsTrackNo:'\u2014',items:genObItems('TO000013',10,false)},
+  {regDate:'2026-07-26 14:00 (KST)',status:'OUTBOUND_PLANNED',type:'S2S',tag:'PS',ivNo:'TO000014',bp:'BP003 / IICOMBINED KR',fromStore:'KR2001 / Seoul Gangnam',fromLoc:'1300 / HOLDING',toStore:'KR2002 / Seoul Hongdae',toLoc:'1000 / SALES',requestDate:'2026-07-25 11:00 (KST)',createdBy:'kim.mj',outboundMethod:'',carrier:'',trackNo:'',wmsCarrier:'\u2014',wmsTrackNo:'\u2014',items:genObItems('TO000014',10,false)},
+  {regDate:'2026-07-26 08:30 (EST)',status:'OUTBOUND_REGISTERED',type:'S2S',tag:'NORMAL',ivNo:'TO000015',bp:'BP001 / IICOMBINED US',fromStore:'US1002 / LA Beverly',fromLoc:'1200 / DP',toStore:'US1001 / NY Soho',toLoc:'1300 / HOLDING',requestDate:'2026-07-25 15:00 (EST)',createdBy:'sara.lee',outboundMethod:'PACKAGE',carrier:'USPS',trackNo:'9400111899223456789012',wmsCarrier:'\u2014',wmsTrackNo:'\u2014',items:genObItems('TO000015',10,false)},
+  {regDate:'2026-07-25 16:50 (KST)',status:'PENDING_REGISTRATION',type:'S2L',tag:'RX',ivNo:'TO000016',bp:'BP003 / IICOMBINED KR',fromStore:'KR2001 / Seoul Gangnam',fromLoc:'1000 / SALES',toStore:'KR2010 / Incheon WH',toLoc:'2000 / STORAGE',requestDate:'2026-07-24 14:00 (KST)',createdBy:'park.js',outboundMethod:'',carrier:'',trackNo:'',wmsCarrier:'\u2014',wmsTrackNo:'\u2014',items:genObItems('TO000016',10,false)},
+];
+// Initialize statusHistory for each outbound entry
+OUTBOUND_DATA.forEach(r=>{r.statusHistory=genHistory(r.status,r.regDate,r.requestDate,r.createdBy);});
+
+const REQUEST_DATA=[
+  {regDate:'2026-07-30 10:20 (EST)',status:'PENDING',type:'S2S',bp:'BP001 / IICOMBINED US',fromStore:'US1001 / NY Soho',fromLoc:'1000 / SALES',toStore:'US1002 / LA Beverly',toLoc:'1000 / SALES',requestDate:'2026-07-30 10:20 (EST)',requestAccount:'john.doe',approvalDate:'-',approvedBy:'-',
+    items:[
+      {code:'GM-SUN-001',name:'Jennie 01',barcode:'8809803513012',category:'Sunglasses',subCategory:'Acetate',reqQty:5,requestDate:'2026-07-30 10:20 (EST)',requestAccount:'john.doe',approvalDate:'-',approvedBy:'-'},
+      {code:'GM-SUN-055',name:'Palette 01',barcode:'8809803513036',category:'Sunglasses',subCategory:'Metal',reqQty:3,requestDate:'2026-07-30 10:20 (EST)',requestAccount:'john.doe',approvalDate:'-',approvedBy:'-'},
+      {code:'GM-OPT-032',name:'Dreamer 17',barcode:'8809803513029',category:'Optical',subCategory:'Acetate',reqQty:2,requestDate:'2026-07-30 10:20 (EST)',requestAccount:'john.doe',approvalDate:'-',approvedBy:'-'},
+    ]},
+  {regDate:'2026-07-29 14:50 (KST)',status:'APPROVED',type:'S2S',bp:'BP003 / IICOMBINED KR',fromStore:'KR2001 / Seoul Gangnam',fromLoc:'1000 / SALES',toStore:'KR2002 / Seoul Hongdae',toLoc:'1200 / DP',requestDate:'2026-07-29 14:50 (KST)',requestAccount:'kim.mj',approvalDate:'2026-07-30 09:10 (KST)',approvedBy:'admin01',
+    items:[
+      {code:'GM-SUN-088',name:'Rococo 01',barcode:'8809803513067',category:'Sunglasses',subCategory:'Acetate',reqQty:4,requestDate:'2026-07-29 14:50 (KST)',requestAccount:'kim.mj',approvalDate:'2026-07-30 09:10 (KST)',approvedBy:'admin01'},
+      {code:'TB-PFM-011',name:'Pumkini Eau de Parfum',barcode:'8809803514019',category:'Perfume',subCategory:'Eau de Parfum',reqQty:10,requestDate:'2026-07-29 14:50 (KST)',requestAccount:'kim.mj',approvalDate:'2026-07-30 09:10 (KST)',approvedBy:'admin01'},
+    ]},
+  {regDate:'2026-07-28 11:30 (EST)',status:'REJECTED',type:'S2L',bp:'BP001 / IICOMBINED US',fromStore:'US1002 / LA Beverly',fromLoc:'1200 / DP',toStore:'US1010 / LA Warehouse',toLoc:'2000 / STORAGE',requestDate:'2026-07-28 11:30 (EST)',requestAccount:'sara.lee',approvalDate:'2026-07-29 08:00 (EST)',approvedBy:'admin02',
+    items:[
+      {code:'GM-OPT-041',name:'South Side 02',barcode:'8809803513050',category:'Optical',subCategory:'Metal',reqQty:8,requestDate:'2026-07-28 11:30 (EST)',requestAccount:'sara.lee',approvalDate:'2026-07-29 08:00 (EST)',approvedBy:'admin02'},
+    ]},
+  {regDate:'2026-07-27 16:00 (KST)',status:'PENDING',type:'S2S',bp:'BP003 / IICOMBINED KR',fromStore:'KR2001 / Seoul Gangnam',fromLoc:'1300 / HOLDING',toStore:'KR2002 / Seoul Hongdae',toLoc:'1000 / SALES',requestDate:'2026-07-27 16:00 (KST)',requestAccount:'park.js',approvalDate:'-',approvedBy:'-',
+    items:[
+      {code:'ND-FD-008',name:'Nude Cake Set',barcode:'8809803515010',category:'Food',subCategory:'Cake',reqQty:15,requestDate:'2026-07-27 16:00 (KST)',requestAccount:'park.js',approvalDate:'-',approvedBy:'-'},
+      {code:'TB-HC-005',name:'Egg Hand Cream',barcode:'8809803514026',category:'Hand Care',subCategory:'Cream',reqQty:20,requestDate:'2026-07-27 16:00 (KST)',requestAccount:'park.js',approvalDate:'-',approvedBy:'-'},
+    ]},
+];
+REQUEST_DATA.forEach(r=>{
+  r.statusHistory=[{status:'Request Created',date:r.requestDate,by:r.requestAccount}];
+  if(r.status==='APPROVED') r.statusHistory.push({status:'Approved (Registered)',date:r.approvalDate,by:r.approvedBy});
+  if(r.status==='REJECTED') r.statusHistory.push({status:'Rejected',date:r.approvalDate,by:r.approvedBy});
+});
+
+function statusBadge(s){
+  const m={
+    OUTBOUND_PLANNED:'badge-planned',PENDING_REGISTRATION:'badge-pending-reg',
+    OUTBOUND_REGISTERED:'badge-registered',REGISTRATION_FAILED:'badge-reg-failed',
+    OUTBOUND_COMPLETED:'badge-completed',OUTBOUND_CANCELLED:'badge-ob-cancelled',
+    PENDING:'badge-pending',APPROVED:'badge-approved',REJECTED:'badge-rejected'
+  };
+  const labels={
+    OUTBOUND_PLANNED:'Outbound Planned',PENDING_REGISTRATION:'Pending Registration',
+    OUTBOUND_REGISTERED:'Outbound Registered',REGISTRATION_FAILED:'Registration Failed',
+    OUTBOUND_COMPLETED:'Outbound Completed',OUTBOUND_CANCELLED:'Outbound Cancelled',
+    PENDING:'Request Pending',APPROVED:'Approved (Registered)',REJECTED:'Rejected'
+  };
+  return '<span class="badge '+(m[s]||'')+'">'+(labels[s]||s)+'</span>';
+}
+function tagBadge(tag){
+  if(!tag) return '';
+  const c={RX:['#E3F2FD','#1565C0'],NORMAL:['#F5F5F5','#555'],PREORDER:['#F3E5F5','#6A1B9A'],TIKTOK:['#F5F5F5','#000'],GIFT:['#FFEBEE','#C62828'],PS:['#E0F2F1','#00695C']};
+  const p=c[tag]||['#F5F5F5','#555'];
+  return '<span class="ob-tag" style="background:'+p[0]+';color:'+p[1]+'">'+tag+'</span>';
+}
+
+function renderList(){
+  const head=document.getElementById('grid-head');
+  const body=document.getElementById('grid-body');
+  if(currentTab==='outbound'){
+    head.innerHTML=`<tr class="hdr">
+      <th style="min-width:170px;">Registration Date</th>
+      <th style="min-width:150px;">Outbound Status</th>
+      <th style="min-width:80px;">Type</th>
+      <th style="min-width:140px;">Outbound Tag</th>
+      <th style="min-width:160px;">I/V No.</th>
+      <th style="min-width:200px;">BP Information<br><span style="font-weight:400;font-size:11px;">(Code / Name)</span></th>
+      <th style="min-width:200px;">From Store Location<br><span style="font-weight:400;font-size:11px;">(Code / Name)</span></th>
+      <th style="min-width:180px;">From Location Info<br><span style="font-weight:400;font-size:11px;">(Code / Name)</span></th>
+      <th style="min-width:200px;">To Store Location<br><span style="font-weight:400;font-size:11px;">(Code / Name)</span></th>
+      <th style="min-width:180px;">To Location Info<br><span style="font-weight:400;font-size:11px;">(Code / Name)</span></th>
+      <th style="min-width:180px;">Outbound Request Date</th>
+      <th style="min-width:120px;">Created By</th>
+    </tr>`;
+    body.innerHTML=OUTBOUND_DATA.map((r,i)=>`<tr onclick="openObDetail(${i})" style="cursor:pointer;">
+      <td>${r.regDate}</td><td>${statusBadge(r.status)}</td><td>${r.type}</td>
+      <td>${tagBadge(r.tag)}</td><td>${r.ivNo}</td>
+      <td class="tl">${r.bp}</td><td class="tl">${r.fromStore}</td><td class="tl">${r.fromLoc}</td>
+      <td class="tl">${r.toStore}</td><td class="tl">${r.toLoc}</td>
+      <td>${r.requestDate}</td><td>${r.createdBy}</td>
+    </tr>`).join('');
+    document.getElementById('toolbar-info').innerHTML='Total <b>'+OUTBOUND_DATA.length+'</b> Count';
+  } else {
+    head.innerHTML=`<tr class="hdr">
+      <th style="min-width:40px;"><input type="checkbox" id="req-check-all" onchange="toggleAllReqChecks(this)"></th>
+      <th style="min-width:170px;">Registration Date</th>
+      <th style="min-width:120px;">Request Status</th>
+      <th style="min-width:80px;">Type</th>
+      <th style="min-width:200px;">BP Information<br><span style="font-weight:400;font-size:11px;">(Code / Name)</span></th>
+      <th style="min-width:200px;">From Store Location<br><span style="font-weight:400;font-size:11px;">(Code / Name)</span></th>
+      <th style="min-width:180px;">From Location Info<br><span style="font-weight:400;font-size:11px;">(Code / Name)</span></th>
+      <th style="min-width:200px;">To Store Location<br><span style="font-weight:400;font-size:11px;">(Code / Name)</span></th>
+      <th style="min-width:180px;">To Location Info<br><span style="font-weight:400;font-size:11px;">(Code / Name)</span></th>
+      <th style="min-width:180px;">Outbound Request Date</th>
+      <th style="min-width:130px;">Request Account</th>
+      <th style="min-width:170px;">Approval Date</th>
+      <th style="min-width:130px;">Approved By</th>
+    </tr>`;
+    body.innerHTML=REQUEST_DATA.map((r,i)=>`<tr onclick="openDetail(${i})" style="cursor:pointer;">
+      <td onclick="event.stopPropagation()"><input type="checkbox" class="req-chk" data-idx="${i}" ${r.status!=='PENDING'?'disabled':''} onchange="updateFloatingBar()"></td>
+      <td>${r.regDate}</td><td>${statusBadge(r.status)}</td><td>${r.type}</td>
+      <td class="tl">${r.bp}</td><td class="tl">${r.fromStore}</td><td class="tl">${r.fromLoc}</td>
+      <td class="tl">${r.toStore}</td><td class="tl">${r.toLoc}</td>
+      <td>${r.requestDate}</td><td>${r.requestAccount}</td><td>${r.approvalDate}</td><td>${r.approvedBy}</td>
+    </tr>`).join('');
+    document.getElementById('toolbar-info').innerHTML='Total <b>'+REQUEST_DATA.length+'</b> Count';
+  }
+  // Pagination
+  document.getElementById('pagination').innerHTML=`
+    <div class="rows-per-page"><span>Rows per page</span><select><option value="30" selected>30</option><option value="50">50</option><option value="100">100</option><option value="300">300</option></select></div>
+    <button disabled>&laquo;</button><button disabled>&lsaquo;</button>
+    <button class="active">1</button>
+    <span class="page-info">1 / 1</span>
+    <button disabled>&rsaquo;</button><button disabled>&raquo;</button>`;
+}
+
+// Detail view
+let currentDetailIdx=null;
+function openDetail(idx){
+  const r=REQUEST_DATA[idx];
+  currentDetailIdx=idx;
+  document.getElementById('list-view').classList.add('hidden');
+  document.getElementById('detail-view').classList.add('active');
+  document.getElementById('detail-back-btn').style.display='';
+  document.getElementById('page-title').textContent='Outbound Request Detail';
+  document.getElementById('detail-status-badge').style.display='';
+  document.getElementById('detail-status-badge').className='badge '+(r.status==='PENDING'?'badge-pending':r.status==='APPROVED'?'badge-approved':'badge-rejected');
+  const statusLabelsDetail={PENDING:'Request Pending',APPROVED:'Approved (Registered)',REJECTED:'Rejected'};
+  document.getElementById('detail-status-badge').textContent=statusLabelsDetail[r.status]||r.status;
+
+  // Status History button in title-wrap right
+  document.getElementById('detail-actions').innerHTML=`<button class="btn-action btn-outline" onclick="openStatusHistory('request',${idx})">Status History Inquiry</button>`;
+
+  // Info table
+  document.getElementById('detail-info').innerHTML=`<table class="detail-info-table">
+    <tr><th>BP</th><td>${r.bp}</td><th>Type</th><td>${r.type}</td></tr>
+    <tr><th>From Store</th><td>${r.fromStore}</td><th>From Location</th><td>${r.fromLoc}</td></tr>
+    <tr><th>To Store</th><td>${r.toStore}</td><th>To Location</th><td>${r.toLoc}</td></tr>
+    <tr><th>Request Date</th><td>${r.requestDate}</td><th>Request Account</th><td>${r.requestAccount}</td></tr>
+    <tr><th>Approval Date</th><td>${r.approvalDate}</td><th>Approved By</th><td>${r.approvedBy}</td></tr>
+  </table>`;
+
+  const isPending=r.status==='PENDING';
+  document.getElementById('detail-toolbar-info').innerHTML='Total <b>'+r.items.length+'</b> Count';
+
+  // Actions - PENDING: Save first, then Confirm/Reject appear
+  renderDetailActions(isPending, false);
+  detailQtySaved=false;
+
+  // Detail Count
+  const tbody=document.getElementById('detail-body');
+  tbody.innerHTML=r.items.map((item,i)=>`<tr>
+    <td>${i+1}</td>
+    <td class="tl">${item.code} / ${item.name} / ${item.barcode}</td>
+    <td>${item.category}</td>
+    <td>${item.subCategory}</td>
+    <td>${isPending
+      ?'<input type="number" class="qty-input" value="'+item.reqQty+'" data-orig="'+item.reqQty+'" data-idx="'+i+'" min="0" onchange="onQtyChange(this)">'
+      :'<span class="qty-display">'+item.reqQty+'</span>'}</td>
+    <td>${item.requestDate}</td>
+    <td>${item.requestAccount}</td>
+    <td>${item.approvalDate}</td>
+    <td>${item.approvedBy}</td>
+  </tr>`).join('');
+}
+
+let detailQtySaved=false;
+
+function renderDetailActions(isPending, isSaved){
+  const excelBtn=`<button class="btn-action btn-outline">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="#555"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
+    Excel Export
+  </button>`;
+  let html='';
+  if(isPending && !isSaved){
+    html=`<button class="btn-action btn-primary" onclick="saveQtyChanges()">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M17 3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V7l-4-4zm-5 16c-1.66 0-3-1.34-3-3s1.34-3 3-3 3 1.34 3 3-1.34 3-3 3zm3-10H5V5h10v4z"/></svg>
+      Save
+    </button>`+excelBtn;
+  } else if(isPending && isSaved){
+    html=`<button class="btn-action" style="background:#fff;color:#C62828;border:1px solid #e0e0e0;" onclick="detailReject()">Reject</button>
+    <button class="btn-action btn-primary" onclick="detailConfirm()">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+      Request Confirm
+    </button>`+excelBtn;
+  } else {
+    html=excelBtn;
+  }
+  document.getElementById('detail-toolbar-actions').innerHTML=html;
+}
+
+function onQtyChange(el){
+  const orig=parseInt(el.dataset.orig);
+  const cur=parseInt(el.value);
+  if(cur!==orig) el.classList.add('qty-changed');
+  else el.classList.remove('qty-changed');
+}
+
+function saveQtyChanges(){
+  const r=REQUEST_DATA[currentDetailIdx];
+  document.querySelectorAll('#detail-body .qty-input').forEach(inp=>{
+    const idx=parseInt(inp.dataset.idx);
+    r.items[idx].reqQty=parseInt(inp.value);
+  });
+  detailQtySaved=true;
+  // Disable inputs after save
+  document.querySelectorAll('#detail-body .qty-input').forEach(inp=>{
+    inp.disabled=true;
+    inp.style.background='#f5f5f5';
+  });
+  showToast('Saved','Request quantities have been saved. You can now Confirm or Reject.');
+  renderDetailActions(true, true);
+}
+
+function detailConfirm(){
+  const r=REQUEST_DATA[currentDetailIdx];
+  const now=nowStr();
+  r.status='APPROVED';
+  r.approvalDate=now;
+  r.approvedBy='monster1437';
+  r.items.forEach(item=>{item.approvalDate=now;item.approvedBy='monster1437';});
+  r.statusHistory.push({status:'Approved (Registered)',date:now,by:'monster1437'});
+  const newOb={
+    regDate:now,status:'OUTBOUND_REGISTERED',type:r.type,tag:'NORMAL',ivNo:genIvNo(),
+    bp:r.bp,fromStore:r.fromStore,fromLoc:r.fromLoc,toStore:r.toStore,toLoc:r.toLoc,
+    requestDate:r.requestDate,createdBy:r.requestAccount,
+    outboundMethod:'',carrier:'',trackNo:'',wmsCarrier:'\u2014',wmsTrackNo:'\u2014',
+    items:genObItems(genIvNo(),10,false),
+    statusHistory:[{status:'Outbound Planned',date:r.requestDate,by:r.requestAccount},{status:'Outbound Registered',date:now,by:'monster1437'}]
+  };
+  OUTBOUND_DATA.unshift(newOb);
+  showToast('Request Confirmed','Outbound registered as '+newOb.ivNo);
+  setTimeout(()=>backToList(),1200);
+}
+
+function detailReject(){
+  const r=REQUEST_DATA[currentDetailIdx];
+  const now=nowStr();
+  r.status='REJECTED';
+  r.approvalDate=now;
+  r.approvedBy='monster1437';
+  r.items.forEach(item=>{item.approvalDate=now;item.approvedBy='monster1437';});
+  r.statusHistory.push({status:'Rejected',date:now,by:'monster1437'});
+  showToast('Rejected','Request has been rejected.');
+  setTimeout(()=>backToList(),1200);
+}
+
+function backToList(){
+  document.getElementById('list-view').classList.remove('hidden');
+  document.getElementById('detail-view').classList.remove('active');
+  document.getElementById('ob-detail-view').classList.remove('active');
+  document.getElementById('detail-back-btn').style.display='none';
+  document.getElementById('page-title').textContent='Outbound List';
+  document.getElementById('detail-status-badge').style.display='none';
+  document.getElementById('detail-actions').innerHTML='';
+  currentDetailIdx=null;
+  currentObDetailIdx=null;
+  renderList();
+}
+
+// ===== OUTBOUND DETAIL =====
+let currentObDetailIdx=null;
+function openObDetail(idx){
+  const r=OUTBOUND_DATA[idx];
+  currentObDetailIdx=idx;
+  document.getElementById('list-view').classList.add('hidden');
+  document.getElementById('ob-detail-view').classList.add('active');
+  document.getElementById('detail-back-btn').style.display='';
+  document.getElementById('page-title').textContent='Outbound Detail';
+  document.getElementById('detail-status-badge').style.display='';
+  document.getElementById('detail-status-badge').className='badge '+(
+    {OUTBOUND_PLANNED:'badge-planned',PENDING_REGISTRATION:'badge-pending-reg',OUTBOUND_REGISTERED:'badge-registered',REGISTRATION_FAILED:'badge-reg-failed',OUTBOUND_COMPLETED:'badge-completed',OUTBOUND_CANCELLED:'badge-ob-cancelled'}[r.status]||'');
+  const obStatusLabels={OUTBOUND_PLANNED:'Outbound Planned',PENDING_REGISTRATION:'Pending Registration',OUTBOUND_REGISTERED:'Outbound Registered',REGISTRATION_FAILED:'Registration Failed',OUTBOUND_COMPLETED:'Outbound Completed',OUTBOUND_CANCELLED:'Outbound Cancelled'};
+  document.getElementById('detail-status-badge').textContent=obStatusLabels[r.status]||r.status;
+
+  // Status History button in title-wrap right area
+  document.getElementById('detail-actions').innerHTML=`<button class="btn-action btn-outline" onclick="openStatusHistory('outbound',${idx})">Status History Inquiry</button>`;
+
+  const isEditable=true;
+  const methodLabel=r.outboundMethod==='HAND_CARRY'?'Hand Carry':r.outboundMethod==='DELIVERY'?'Delivery':'\u2014';
+
+  // Basic info table (read-only)
+  let html=`<table class="detail-info-table">
+    <tr><th>I/V No.</th><td>${r.ivNo}</td><th>Type</th><td>${r.type}</td></tr>
+    <tr><th>BP</th><td>${r.bp}</td><th>Outbound Tag</th><td>${tagBadge(r.tag)}</td></tr>
+    <tr><th>From Store</th><td>${r.fromStore}</td><th>From Location</th><td>${r.fromLoc}</td></tr>
+    <tr><th>To Store</th><td>${r.toStore}</td><th>To Location</th><td>${r.toLoc}</td></tr>
+    <tr><th>Registration Date</th><td>${r.regDate}</td><th>Request Date</th><td>${r.requestDate}</td></tr>
+    <tr><th>Created By</th><td colspan="3">${r.createdBy}</td></tr>
+  </table>`;
+
+  // Outbound delivery info (ob-info-section)
+  const methodOpts={'PACKAGE':'Package','DIRECT_DELIVERY':'Direct Delivery','QUICK_DELIVERY':'Quick Delivery','ETC':'ETC'};
+  const saveBtnHtml=isEditable?`<button class="btn-action btn-primary" onclick="saveObDetail()" style="margin-left:auto;font-weight:600;">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M17 3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V7l-4-4zm-5 16c-1.66 0-3-1.34-3-3s1.34-3 3-3 3 1.34 3 3-1.34 3-3 3zm3-10H5V5h10v4z"/></svg>
+    Save
+  </button>`:'';
+  html+=`<div class="ob-info-section" style="margin-top:32px;">
+    <div class="ob-info-divider" style="border-top:none;">
+      <span class="wms-tooltip-wrap">
+        <span style="border-bottom:1px dashed #aaa;cursor:help;">OUTBOUND INFORMATION</span>
+        <span class="wms-tooltip">You can manually enter outbound method, carrier, and tracking number.</span>
+      </span>
+      ${saveBtnHtml}
+    </div>
+    <div class="section-row"><div class="s-label">Outbound Method</div><div class="s-value">${isEditable
+      ?`<select id="ob-method" style="min-width:240px;" onchange="OUTBOUND_DATA[${idx}].outboundMethod=this.value">
+          <option value="" ${!r.outboundMethod?'selected':''}>Please make a selection.</option>
+          <option value="PACKAGE" ${r.outboundMethod==='PACKAGE'?'selected':''}>Package</option>
+          <option value="DIRECT_DELIVERY" ${r.outboundMethod==='DIRECT_DELIVERY'?'selected':''}>Direct Delivery</option>
+          <option value="QUICK_DELIVERY" ${r.outboundMethod==='QUICK_DELIVERY'?'selected':''}>Quick Delivery</option>
+          <option value="ETC" ${r.outboundMethod==='ETC'?'selected':''}>ETC</option>
+        </select>`
+      :(methodOpts[r.outboundMethod]||'\u2014')}</div></div>
+    <div class="section-row">
+      <div class="s-label">Carrier / Tracking No.</div>
+      <div class="s-value" style="gap:10px;">${isEditable
+        ?`<input type="text" id="ob-carrier" value="${r.carrier||''}" placeholder="Carrier" style="min-width:160px;flex:1;" onchange="OUTBOUND_DATA[${idx}].carrier=this.value">
+           <input type="text" id="ob-trackno" value="${r.trackNo||''}" placeholder="Tracking No." style="min-width:320px;flex:2;" onchange="OUTBOUND_DATA[${idx}].trackNo=this.value">`
+        :`${r.carrier||'\u2014'} / ${r.trackNo||'\u2014'}`}
+      </div>
+    </div>
+    <div class="ob-info-divider" style="margin-top:20px;">
+      <span class="wms-tooltip-wrap">
+        <span style="border-bottom:1px dashed #aaa;cursor:help;">WMS DELIVERY — Auto-filled</span>
+        <span class="wms-tooltip">Carrier and tracking number are automatically synced when outbound is completed via WMS.</span>
+      </span>
+    </div>
+    <div class="section-row">
+      <div class="s-label">Carrier / Tracking No. (WMS)</div>
+      <div class="s-value" style="gap:10px;">
+        <div class="auto-field" style="min-width:160px;flex:1;">${r.wmsCarrier==='\u2014'?'Waiting for WMS':r.wmsCarrier}</div>
+        <div class="auto-field" style="min-width:320px;flex:2;">${r.wmsTrackNo==='\u2014'?'Waiting for WMS':r.wmsTrackNo}</div>
+      </div>
+    </div>
+  </div>`;
+
+  document.getElementById('ob-detail-info').innerHTML=html;
+
+  // Toolbar (product table - excel only)
+  document.getElementById('ob-detail-toolbar-info').innerHTML='Total <b>'+r.items.length+'</b> Count';
+  document.getElementById('ob-detail-toolbar-actions').innerHTML=`<button class="btn-action btn-outline">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="#555"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
+    Excel Export
+  </button>`;
+
+  // Product table with pagination
+  obDetailPage=1;
+  obDetailPerPage=30;
+  renderObDetailProducts();
+}
+
+let obDetailPage=1;
+let obDetailPerPage=30;
+function renderObDetailProducts(){
+  const r=OUTBOUND_DATA[currentObDetailIdx];
+  const items=r.items;
+  const total=items.length;
+  const totalPages=Math.max(1,Math.ceil(total/obDetailPerPage));
+  if(obDetailPage>totalPages) obDetailPage=totalPages;
+  const start=(obDetailPage-1)*obDetailPerPage;
+  const pageItems=items.slice(start,start+obDetailPerPage);
+
+  document.getElementById('ob-detail-body').innerHTML=pageItems.map((item,i)=>`<tr>
+    <td>${item.ivNo||r.ivNo}</td>
+    <td class="tl">${item.code} / ${item.name} / ${item.barcode}</td>
+    <td>${item.category}</td>
+    <td>${item.subCategory}</td>
+    <td>${item.regQty}</td>
+    <td>${item.compQty}</td>
+    <td>${item.currency||'USD'}</td>
+    <td>${r.requestDate}</td>
+    <td>${r.createdBy}</td>
+  </tr>`).join('');
+
+  // Pagination
+  let pgHtml=`<div class="rows-per-page"><span>Rows per page</span>
+    <select onchange="obDetailPerPage=+this.value;obDetailPage=1;renderObDetailProducts();">
+      <option value="30" ${obDetailPerPage===30?'selected':''}>30</option>
+      <option value="50" ${obDetailPerPage===50?'selected':''}>50</option>
+      <option value="100" ${obDetailPerPage===100?'selected':''}>100</option>
+    </select></div>`;
+  pgHtml+=`<button ${obDetailPage<=1?'disabled':''} onclick="obDetailPage=1;renderObDetailProducts();">&laquo;</button>`;
+  pgHtml+=`<button ${obDetailPage<=1?'disabled':''} onclick="obDetailPage--;renderObDetailProducts();">&lsaquo;</button>`;
+  pgHtml+=`<span class="page-info">${obDetailPage} / ${totalPages}</span>`;
+  pgHtml+=`<button ${obDetailPage>=totalPages?'disabled':''} onclick="obDetailPage++;renderObDetailProducts();">&rsaquo;</button>`;
+  pgHtml+=`<button ${obDetailPage>=totalPages?'disabled':''} onclick="obDetailPage=${totalPages};renderObDetailProducts();">&raquo;</button>`;
+  document.getElementById('ob-detail-pagination').innerHTML=pgHtml;
+}
+
+function saveObDetail(){
+  showToast('Saved','Outbound information has been saved.');
+}
+
+function openStatusHistory(type,idx){
+  const r=type==='outbound'?OUTBOUND_DATA[idx]:REQUEST_DATA[idx];
+  const history=r.statusHistory||[];
+  document.getElementById('status-history-body').innerHTML=history.map(h=>`
+    <div class="history-item">
+      <div class="history-dot"></div>
+      <div class="history-content">
+        <div class="history-status">${h.status}</div>
+        <div class="history-meta">${h.date} &middot; ${h.by}</div>
+      </div>
+    </div>`).join('');
+  document.getElementById('status-history-modal').classList.add('show');
+}
+
+function showToast(title,sub){
+  document.getElementById('toast-title').textContent=title;
+  document.getElementById('toast-sub').textContent=sub;
+  const t=document.getElementById('toast');
+  t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),3000);
+}
+
+// Floating bar for request tab
+function getCheckedReqIndices(){
+  return [...document.querySelectorAll('.req-chk:checked')].map(c=>parseInt(c.dataset.idx));
+}
+function updateFloatingBar(){
+  const checked=getCheckedReqIndices();
+  const bar=document.getElementById('floating-bar');
+  if(checked.length>0){
+    document.getElementById('fb-count').textContent=checked.length;
+    bar.classList.add('show');
+  } else {
+    bar.classList.remove('show');
+  }
+}
+function toggleAllReqChecks(master){
+  document.querySelectorAll('.req-chk:not(:disabled)').forEach(c=>{c.checked=master.checked;});
+  updateFloatingBar();
+}
+
+let nextIvNo=OUTBOUND_DATA.length+1;
+function genIvNo(){
+  return 'TO'+String(nextIvNo++).padStart(6,'0');
+}
+function nowStr(){
+  return new Date().toISOString().slice(0,16).replace('T',' ')+' (LOCAL)';
+}
+
+function bulkConfirm(){
+  const indices=getCheckedReqIndices();
+  if(!indices.length) return;
+  const now=nowStr();
+  indices.forEach(i=>{
+    const r=REQUEST_DATA[i];
+    r.status='APPROVED';
+    r.approvalDate=now;
+    r.approvedBy='monster1437';
+    r.items.forEach(item=>{item.approvalDate=now;item.approvedBy='monster1437';});
+    r.statusHistory.push({status:'Approved (Registered)',date:now,by:'monster1437'});
+    const ivNo=genIvNo();
+    OUTBOUND_DATA.unshift({
+      regDate:now,status:'OUTBOUND_REGISTERED',type:r.type,tag:'NORMAL',ivNo,
+      bp:r.bp,fromStore:r.fromStore,fromLoc:r.fromLoc,toStore:r.toStore,toLoc:r.toLoc,
+      requestDate:r.requestDate,createdBy:r.requestAccount,
+      outboundMethod:'',carrier:'',trackNo:'',wmsCarrier:'\u2014',wmsTrackNo:'\u2014',
+      items:genObItems(ivNo,10,false),
+      statusHistory:[{status:'Outbound Planned',date:r.requestDate,by:r.requestAccount},{status:'Outbound Registered',date:now,by:'monster1437'}]
+    });
+  });
+  showToast('Confirmed',indices.length+' request(s) confirmed and outbound registered.');
+  document.getElementById('floating-bar').classList.remove('show');
+  renderList();
+}
+
+function bulkReject(){
+  const indices=getCheckedReqIndices();
+  if(!indices.length) return;
+  const now=nowStr();
+  indices.forEach(i=>{
+    const r=REQUEST_DATA[i];
+    r.status='REJECTED';
+    r.approvalDate=now;
+    r.approvedBy='monster1437';
+    r.items.forEach(item=>{item.approvalDate=now;item.approvedBy='monster1437';});
+    r.statusHistory.push({status:'Rejected',date:now,by:'monster1437'});
+  });
+  showToast('Rejected',indices.length+' request(s) have been rejected.');
+  document.getElementById('floating-bar').classList.remove('show');
+  renderList();
+}
+
+// Init
+renderList();
+</script>
+</body>
+</html>
