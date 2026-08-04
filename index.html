@@ -227,14 +227,16 @@ table.grid td input[type="checkbox"]:disabled{opacity:0.35;cursor:not-allowed;}
 .qty-input:disabled{background:#f5f5f5;color:#999;cursor:not-allowed;border-color:#eee;}
 .qty-display{font-weight:600;color:#222;}
 .qty-changed{background:#FFF8F5;border-color:#ff6b35;}
+.qty-error{border-color:#C62828!important;background:#FFF0F0!important;box-shadow:0 0 0 2px rgba(198,40,40,0.15)!important;}
+.qty-error-msg{font-size:11px;color:#C62828;margin-top:2px;display:none;}
 
 /* Toast */
-.toast{position:fixed;top:24px;right:24px;transform:translateY(-120px);background:#E8F5E9;color:#333;padding:0;border-radius:8px;font-size:13px;box-shadow:0 4px 20px rgba(0,0,0,0.1);transition:transform .3s ease;z-index:9999;overflow:hidden;min-width:340px;}
+.toast{position:fixed;top:24px;right:24px;transform:translateY(-120px);background:#E8F5E9;color:#333;padding:0;border-radius:8px;font-size:13px;box-shadow:0 4px 20px rgba(0,0,0,0.1);transition:transform .3s ease;z-index:9999;overflow:hidden;min-width:460px;}
 .toast .toast-body{display:flex;align-items:flex-start;gap:10px;padding:16px 20px;}
-.toast .toast-icon{width:24px;height:24px;flex-shrink:0;margin-top:1px;}
+.toast .toast-iconn{width:24px;height:24px;flex-shrink:0;margin-top:1px;}
 .toast .toast-text{display:flex;flex-direction:column;gap:2px;}
 .toast .toast-title{font-size:14px;font-weight:600;color:#222;}
-.toast .toast-sub{font-size:12px;color:#555;font-weight:400;}
+.toast .toast-sub{font-size:12px;color:#555;font-weight:400;margin-top:4px;line-height:1.6;}
 .toast.show{transform:translateY(0);}
 </style>
 </head>
@@ -465,6 +467,7 @@ table.grid td input[type="checkbox"]:disabled{opacity:0.35;cursor:not-allowed;}
               <th style="min-width:280px;">Product Info<br><span style="font-weight:400;font-size:11px;">(Code / Name / Barcode)</span></th>
               <th style="min-width:140px;">Product Category</th>
               <th style="min-width:140px;">Product Subcategory</th>
+              <th style="min-width:120px;">Available Qty</th>
               <th style="min-width:120px;">Request Qty</th>
               <th style="min-width:170px;">Outbound Request Date</th>
               <th style="min-width:130px;">Request Account</th>
@@ -596,22 +599,22 @@ function switchTab(el){
 // Data
 // Demo product pool
 const PRODUCTS=[
-  {code:'GM-SUN-001',name:'Jennie 01',barcode:'8809803513012',category:'Sunglasses',subCategory:'Acetate'},
-  {code:'GM-SUN-055',name:'Palette 01',barcode:'8809803513036',category:'Sunglasses',subCategory:'Metal'},
-  {code:'GM-OPT-032',name:'Dreamer 17',barcode:'8809803513029',category:'Optical',subCategory:'Acetate'},
-  {code:'GM-SUN-088',name:'Rococo 01',barcode:'8809803513067',category:'Sunglasses',subCategory:'Acetate'},
-  {code:'TB-PFM-011',name:'Pumkini Eau de Parfum',barcode:'8809803514019',category:'Perfume',subCategory:'Eau de Parfum'},
-  {code:'GM-OPT-041',name:'South Side 02',barcode:'8809803513050',category:'Optical',subCategory:'Metal'},
-  {code:'ND-FD-008',name:'Nude Cake Set',barcode:'8809803515010',category:'Food',subCategory:'Cake'},
-  {code:'TB-HC-005',name:'Egg Hand Cream',barcode:'8809803514026',category:'Hand Care',subCategory:'Cream'},
-  {code:'GM-SUN-112',name:'My Ma 01',barcode:'8809803513073',category:'Sunglasses',subCategory:'Acetate'},
-  {code:'GM-OPT-078',name:'Flatba 01',barcode:'8809803513080',category:'Optical',subCategory:'Metal'},
-  {code:'GM-SUN-145',name:'Her 01',barcode:'8809803513097',category:'Sunglasses',subCategory:'Titanium'},
-  {code:'TB-PFM-023',name:'Cosmos Eau de Toilette',barcode:'8809803514033',category:'Perfume',subCategory:'Eau de Toilette'},
-  {code:'GM-OPT-099',name:'Alio 02',barcode:'8809803513103',category:'Optical',subCategory:'Acetate'},
-  {code:'GM-SUN-167',name:'Tam 01',barcode:'8809803513110',category:'Sunglasses',subCategory:'Metal'},
-  {code:'TB-HC-012',name:'Cherry Blossom Hand Cream',barcode:'8809803514040',category:'Hand Care',subCategory:'Cream'},
-  {code:'ND-FD-015',name:'Tiramisu Cake Set',barcode:'8809803515027',category:'Food',subCategory:'Cake'},
+  {code:'1100001',name:'Jennie 01',barcode:'8809803513012',category:'Sunglasses',subCategory:'Acetate'},
+  {code:'1100002',name:'Palette 01',barcode:'8809803513036',category:'Sunglasses',subCategory:'Metal'},
+  {code:'1100003',name:'Dreamer 17',barcode:'8809803513029',category:'Optical',subCategory:'Acetate'},
+  {code:'1100004',name:'Rococo 01',barcode:'8809803513067',category:'Sunglasses',subCategory:'Acetate'},
+  {code:'1100005',name:'Pumkini Eau de Parfum',barcode:'8809803514019',category:'Perfume',subCategory:'Eau de Parfum'},
+  {code:'1100006',name:'South Side 02',barcode:'8809803513050',category:'Optical',subCategory:'Metal'},
+  {code:'1100007',name:'Nude Cake Set',barcode:'8809803515010',category:'Food',subCategory:'Cake'},
+  {code:'1100008',name:'Egg Hand Cream',barcode:'8809803514026',category:'Hand Care',subCategory:'Cream'},
+  {code:'1100009',name:'My Ma 01',barcode:'8809803513073',category:'Sunglasses',subCategory:'Acetate'},
+  {code:'1100010',name:'Flatba 01',barcode:'8809803513080',category:'Optical',subCategory:'Metal'},
+  {code:'1100011',name:'Her 01',barcode:'8809803513097',category:'Sunglasses',subCategory:'Titanium'},
+  {code:'1100012',name:'Cosmos Eau de Toilette',barcode:'8809803514033',category:'Perfume',subCategory:'Eau de Toilette'},
+  {code:'1100013',name:'Alio 02',barcode:'8809803513103',category:'Optical',subCategory:'Acetate'},
+  {code:'1100014',name:'Tam 01',barcode:'8809803513110',category:'Sunglasses',subCategory:'Metal'},
+  {code:'1100015',name:'Cherry Blossom Hand Cream',barcode:'8809803514040',category:'Hand Care',subCategory:'Cream'},
+  {code:'1100016',name:'Tiramisu Cake Set',barcode:'8809803515027',category:'Food',subCategory:'Cake'},
 ];
 function genObItems(ivNo,count,isCompleted){
   const shuffled=[...PRODUCTS].sort(()=>Math.random()-0.5).slice(0,count);
@@ -652,23 +655,23 @@ OUTBOUND_DATA.forEach(r=>{r.statusHistory=genHistory(r.status,r.regDate,r.reques
 const REQUEST_DATA=[
   {regDate:'2026-07-30 10:20 (EST)',status:'PENDING',type:'S2S',bp:'BP001 / IICOMBINED US',fromStore:'US1001 / NY Soho',fromLoc:'1000 / SALES',toStore:'US1002 / LA Beverly',toLoc:'1000 / SALES',requestDate:'2026-07-30 10:20 (EST)',requestAccount:'john.doe',approvalDate:'-',approvedBy:'-',
     items:[
-      {code:'GM-SUN-001',name:'Jennie 01',barcode:'8809803513012',category:'Sunglasses',subCategory:'Acetate',reqQty:5,requestDate:'2026-07-30 10:20 (EST)',requestAccount:'john.doe',approvalDate:'-',approvedBy:'-'},
-      {code:'GM-SUN-055',name:'Palette 01',barcode:'8809803513036',category:'Sunglasses',subCategory:'Metal',reqQty:3,requestDate:'2026-07-30 10:20 (EST)',requestAccount:'john.doe',approvalDate:'-',approvedBy:'-'},
-      {code:'GM-OPT-032',name:'Dreamer 17',barcode:'8809803513029',category:'Optical',subCategory:'Acetate',reqQty:2,requestDate:'2026-07-30 10:20 (EST)',requestAccount:'john.doe',approvalDate:'-',approvedBy:'-'},
+      {code:'1100001',name:'Jennie 01',barcode:'8809803513012',category:'Sunglasses',subCategory:'Acetate',reqQty:5,availableQty:12,requestDate:'2026-07-30 10:20 (EST)',requestAccount:'john.doe',approvalDate:'-',approvedBy:'-'},
+      {code:'1100002',name:'Palette 01',barcode:'8809803513036',category:'Sunglasses',subCategory:'Metal',reqQty:3,availableQty:2,requestDate:'2026-07-30 10:20 (EST)',requestAccount:'john.doe',approvalDate:'-',approvedBy:'-'},
+      {code:'1100003',name:'Dreamer 17',barcode:'8809803513029',category:'Optical',subCategory:'Acetate',reqQty:2,availableQty:10,requestDate:'2026-07-30 10:20 (EST)',requestAccount:'john.doe',approvalDate:'-',approvedBy:'-'},
     ]},
   {regDate:'2026-07-29 14:50 (KST)',status:'APPROVED',type:'S2S',bp:'BP003 / IICOMBINED KR',fromStore:'KR2001 / Seoul Gangnam',fromLoc:'1000 / SALES',toStore:'KR2002 / Seoul Hongdae',toLoc:'1200 / DP',requestDate:'2026-07-29 14:50 (KST)',requestAccount:'kim.mj',approvalDate:'2026-07-30 09:10 (KST)',approvedBy:'admin01',
     items:[
-      {code:'GM-SUN-088',name:'Rococo 01',barcode:'8809803513067',category:'Sunglasses',subCategory:'Acetate',reqQty:4,requestDate:'2026-07-29 14:50 (KST)',requestAccount:'kim.mj',approvalDate:'2026-07-30 09:10 (KST)',approvedBy:'admin01'},
-      {code:'TB-PFM-011',name:'Pumkini Eau de Parfum',barcode:'8809803514019',category:'Perfume',subCategory:'Eau de Parfum',reqQty:10,requestDate:'2026-07-29 14:50 (KST)',requestAccount:'kim.mj',approvalDate:'2026-07-30 09:10 (KST)',approvedBy:'admin01'},
+      {code:'1100004',name:'Rococo 01',barcode:'8809803513067',category:'Sunglasses',subCategory:'Acetate',reqQty:4,availableQty:6,requestDate:'2026-07-29 14:50 (KST)',requestAccount:'kim.mj',approvalDate:'2026-07-30 09:10 (KST)',approvedBy:'admin01'},
+      {code:'1100005',name:'Pumkini Eau de Parfum',barcode:'8809803514019',category:'Perfume',subCategory:'Eau de Parfum',reqQty:10,availableQty:15,requestDate:'2026-07-29 14:50 (KST)',requestAccount:'kim.mj',approvalDate:'2026-07-30 09:10 (KST)',approvedBy:'admin01'},
     ]},
   {regDate:'2026-07-28 11:30 (EST)',status:'REJECTED',type:'S2L',bp:'BP001 / IICOMBINED US',fromStore:'US1002 / LA Beverly',fromLoc:'1200 / DP',toStore:'US1010 / LA Warehouse',toLoc:'2000 / STORAGE',requestDate:'2026-07-28 11:30 (EST)',requestAccount:'sara.lee',approvalDate:'2026-07-29 08:00 (EST)',approvedBy:'admin02',
     items:[
-      {code:'GM-OPT-041',name:'South Side 02',barcode:'8809803513050',category:'Optical',subCategory:'Metal',reqQty:8,requestDate:'2026-07-28 11:30 (EST)',requestAccount:'sara.lee',approvalDate:'2026-07-29 08:00 (EST)',approvedBy:'admin02'},
+      {code:'1100006',name:'South Side 02',barcode:'8809803513050',category:'Optical',subCategory:'Metal',reqQty:8,availableQty:8,requestDate:'2026-07-28 11:30 (EST)',requestAccount:'sara.lee',approvalDate:'2026-07-29 08:00 (EST)',approvedBy:'admin02'},
     ]},
   {regDate:'2026-07-27 16:00 (KST)',status:'PENDING',type:'S2S',bp:'BP003 / IICOMBINED KR',fromStore:'KR2001 / Seoul Gangnam',fromLoc:'1300 / HOLDING',toStore:'KR2002 / Seoul Hongdae',toLoc:'1000 / SALES',requestDate:'2026-07-27 16:00 (KST)',requestAccount:'park.js',approvalDate:'-',approvedBy:'-',
     items:[
-      {code:'ND-FD-008',name:'Nude Cake Set',barcode:'8809803515010',category:'Food',subCategory:'Cake',reqQty:15,requestDate:'2026-07-27 16:00 (KST)',requestAccount:'park.js',approvalDate:'-',approvedBy:'-'},
-      {code:'TB-HC-005',name:'Egg Hand Cream',barcode:'8809803514026',category:'Hand Care',subCategory:'Cream',reqQty:20,requestDate:'2026-07-27 16:00 (KST)',requestAccount:'park.js',approvalDate:'-',approvedBy:'-'},
+      {code:'1100007',name:'Nude Cake Set',barcode:'8809803515010',category:'Food',subCategory:'Cake',reqQty:15,availableQty:10,requestDate:'2026-07-27 16:00 (KST)',requestAccount:'park.js',approvalDate:'-',approvedBy:'-'},
+      {code:'1100008',name:'Egg Hand Cream',barcode:'8809803514026',category:'Hand Care',subCategory:'Cream',reqQty:20,availableQty:25,requestDate:'2026-07-27 16:00 (KST)',requestAccount:'park.js',approvalDate:'-',approvedBy:'-'},
     ]},
 ];
 REQUEST_DATA.forEach(r=>{
@@ -799,8 +802,9 @@ function openDetail(idx){
     <td class="tl">${item.code} / ${item.name} / ${item.barcode}</td>
     <td>${item.category}</td>
     <td>${item.subCategory}</td>
+    <td>${item.availableQty!=null?item.availableQty:'-'}</td>
     <td>${isPending
-      ?'<input type="number" class="qty-input" value="'+item.reqQty+'" data-orig="'+item.reqQty+'" data-idx="'+i+'" min="0" onchange="onQtyChange(this)">'
+      ?'<input type="number" class="qty-input" value="'+item.reqQty+'" data-orig="'+item.reqQty+'" data-idx="'+i+'" data-avail="'+(item.availableQty||0)+'" min="0" onchange="onQtyChange(this)">'
       :'<span class="qty-display">'+item.reqQty+'</span>'}</td>
     <td>${item.requestDate}</td>
     <td>${item.requestAccount}</td>
@@ -823,7 +827,11 @@ function renderDetailActions(isPending, isSaved){
       Save
     </button>`+excelBtn;
   } else if(isPending && isSaved){
-    html=`<button class="btn-action" style="background:#fff;color:#C62828;border:1px solid #e0e0e0;" onclick="detailReject()">Reject</button>
+    html=`<button class="btn-action" style="background:#fff;color:#666;border:1px solid #d5d5d5;" onclick="editQtyAgain()">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/></svg>
+      Edit Qty
+    </button>
+    <button class="btn-action" style="background:#fff;color:#C62828;border:1px solid #e0e0e0;" onclick="detailReject()">Reject</button>
     <button class="btn-action btn-primary" onclick="detailConfirm()">
       <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
       Request Confirm
@@ -836,25 +844,60 @@ function renderDetailActions(isPending, isSaved){
 
 function onQtyChange(el){
   const orig=parseInt(el.dataset.orig);
-  const cur=parseInt(el.value);
-  if(cur!==orig) el.classList.add('qty-changed');
-  else el.classList.remove('qty-changed');
+  const cur=parseInt(el.value)||0;
+  const avail=parseInt(el.dataset.avail)||0;
+  if(cur>avail){
+    el.classList.add('qty-error');
+    el.classList.remove('qty-changed');
+  } else {
+    el.classList.remove('qty-error');
+    if(cur!==orig) el.classList.add('qty-changed');
+    else el.classList.remove('qty-changed');
+  }
 }
 
 function saveQtyChanges(){
   const r=REQUEST_DATA[currentDetailIdx];
+  // Validate available qty
+  let hasError=false;
+  const errorItems=[];
+  document.querySelectorAll('#detail-body .qty-input').forEach(inp=>{
+    inp.classList.remove('qty-error');
+    const idx=parseInt(inp.dataset.idx);
+    const reqQty=parseInt(inp.value)||0;
+    const availQty=parseInt(inp.dataset.avail)||0;
+    if(reqQty>availQty){
+      hasError=true;
+      inp.classList.add('qty-error');
+      errorItems.push(r.items[idx].code+' (Requested: '+reqQty+', Available: '+availQty+')');
+    }
+  });
+  if(hasError){
+    showToast('Save Failed','Request quantity exceeds available stock:<br>'+errorItems.join('<br>'),'error');
+    return;
+  }
   document.querySelectorAll('#detail-body .qty-input').forEach(inp=>{
     const idx=parseInt(inp.dataset.idx);
     r.items[idx].reqQty=parseInt(inp.value);
   });
   detailQtySaved=true;
-  // Disable inputs after save
   document.querySelectorAll('#detail-body .qty-input').forEach(inp=>{
     inp.disabled=true;
     inp.style.background='#f5f5f5';
+    inp.classList.remove('qty-error');
   });
   showToast('Saved','Request quantities have been saved. You can now Confirm or Reject.');
   renderDetailActions(true, true);
+}
+
+function editQtyAgain(){
+  detailQtySaved=false;
+  document.querySelectorAll('#detail-body .qty-input').forEach(inp=>{
+    inp.disabled=false;
+    inp.style.background='#fff';
+  });
+  renderDetailActions(true, false);
+  showToast('Edit Mode','You can modify request quantities again.');
 }
 
 function detailConfirm(){
@@ -1051,12 +1094,19 @@ function openStatusHistory(type,idx){
   document.getElementById('status-history-modal').classList.add('show');
 }
 
-function showToast(title,sub){
+function showToast(title,sub,type){
   document.getElementById('toast-title').textContent=title;
-  document.getElementById('toast-sub').textContent=sub;
+  document.getElementById('toast-sub').innerHTML=sub;
   const t=document.getElementById('toast');
+  if(type==='error'){
+    t.style.background='#FFEBEE';
+    t.querySelector('.toast-icon').innerHTML='<svg width="22" height="22" viewBox="0 0 24 24" fill="#C62828"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg>';
+  } else {
+    t.style.background='#E8F5E9';
+    t.querySelector('.toast-icon').innerHTML='<svg width="22" height="22" viewBox="0 0 24 24" fill="#2E7D32"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>';
+  }
   t.classList.add('show');
-  setTimeout(()=>t.classList.remove('show'),3000);
+  setTimeout(()=>t.classList.remove('show'),type==='error'?5000:3000);
 }
 
 // Floating bar for request tab
