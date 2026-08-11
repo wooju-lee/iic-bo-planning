@@ -91,6 +91,7 @@ body{background:#f8f8f8;color:#222;font-size:13px;overflow-x:hidden;zoom:0.8;}
 .multi-select-wrap{position:relative;}
 .multi-select-trigger{height:34px;border:1px solid #d5d5d5;border-radius:4px;padding:0 28px 0 10px;font-size:12px;background:#fff;color:#222;display:flex;align-items:center;cursor:pointer;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24'%3E%3Cpath d='M7 10l5 5 5-5z' fill='%23666'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 8px center;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;transition:border-color .2s;}
 .multi-select-trigger:hover{border-color:#999;}
+.multi-select-trigger.disabled{background:#f5f5f5;color:#aaa;cursor:not-allowed;pointer-events:none;}
 .multi-select-dropdown{position:absolute;top:38px;left:0;min-width:100%;background:#fff;border:1px solid #d5d5d5;border-radius:4px;box-shadow:0 4px 12px rgba(0,0,0,0.1);z-index:100;max-height:200px;overflow-y:auto;}
 .multi-select-dropdown.hidden{display:none;}
 .multi-select-dropdown .dd-item{display:flex;align-items:center;gap:8px;padding:8px 12px;font-size:12px;color:#333;cursor:pointer;transition:background .1s;white-space:nowrap;}
@@ -363,16 +364,23 @@ table.grid td input[type="checkbox"]:disabled{opacity:0.35;cursor:not-allowed;}
           </td>
         </tr>
         <tr>
-          <th>Store</th>
+          <th>From Store</th>
           <td>
             <div class="field-row">
               <div class="multi-select-wrap">
-                <div class="multi-select-trigger" id="store-trigger" onclick="toggleMulti('store')" style="min-width:360px;">Store (All)</div>
-                <div class="multi-select-dropdown hidden" id="store-dropdown">
-                  <div class="dd-item" onclick="selectMulti('store',this)" data-val="US1001"><span class="check-ico">✓</span>US1001 / NY Soho</div>
-                  <div class="dd-item" onclick="selectMulti('store',this)" data-val="US1002"><span class="check-ico">✓</span>US1002 / LA Beverly</div>
-                  <div class="dd-item" onclick="selectMulti('store',this)" data-val="KR2001"><span class="check-ico">✓</span>KR2001 / Seoul Gangnam</div>
-                </div>
+                <div class="multi-select-trigger disabled" id="fromStore-trigger" style="min-width:360px;">Select BP first</div>
+                <div class="multi-select-dropdown hidden" id="fromStore-dropdown"></div>
+              </div>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <th>To Store</th>
+          <td>
+            <div class="field-row">
+              <div class="multi-select-wrap">
+                <div class="multi-select-trigger disabled" id="toStore-trigger" style="min-width:360px;">Select BP first</div>
+                <div class="multi-select-dropdown hidden" id="toStore-dropdown"></div>
               </div>
             </div>
           </td>
@@ -469,6 +477,7 @@ table.grid td input[type="checkbox"]:disabled{opacity:0.35;cursor:not-allowed;}
               <th style="min-width:140px;">Product Subcategory</th>
               <th style="min-width:120px;">Available Qty</th>
               <th style="min-width:120px;">Request Qty</th>
+              <th style="min-width:130px;">Confirmed Qty</th>
               <th style="min-width:170px;">Outbound Request Date</th>
               <th style="min-width:130px;">Request Account</th>
               <th style="min-width:170px;">Approval Date</th>
@@ -549,14 +558,52 @@ function toggle(id){const sub=document.getElementById('sub-'+id),arr=document.ge
 // Toggle / Multi-select
 function selectToggle(gid,btn){document.querySelectorAll('#'+gid+' .toggle-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');}
 function toggleMulti(id){document.getElementById(id+'-dropdown').classList.toggle('hidden');}
+const BP_STORE_MAP={
+  'BP001':[
+    {code:'US1001',name:'US1001 / NY Soho'},
+    {code:'US1002',name:'US1002 / LA Beverly'},
+    {code:'US1010',name:'US1010 / LA Warehouse'}
+  ],
+  'BP003':[
+    {code:'KR2001',name:'KR2001 / Seoul Gangnam'},
+    {code:'KR2002',name:'KR2002 / Seoul Hongdae'},
+    {code:'KR2010',name:'KR2010 / Incheon WH'}
+  ]
+};
+function refreshStoreDropdowns(){
+  const selBPs=[...document.querySelectorAll('#bp-dropdown .dd-item.selected')].map(el=>el.dataset.val);
+  ['fromStore','toStore'].forEach(key=>{
+    const trigger=document.getElementById(key+'-trigger');
+    const dropdown=document.getElementById(key+'-dropdown');
+    const label=key==='fromStore'?'From Store':'To Store';
+    if(!selBPs.length){
+      trigger.textContent='Select BP first';
+      trigger.classList.add('disabled');
+      trigger.removeAttribute('onclick');
+      dropdown.innerHTML='';
+      dropdown.classList.add('hidden');
+    } else {
+      let stores=[];
+      selBPs.forEach(bp=>{if(BP_STORE_MAP[bp]) stores=stores.concat(BP_STORE_MAP[bp]);});
+      // deduplicate
+      const seen=new Set();
+      stores=stores.filter(s=>{if(seen.has(s.code)) return false; seen.add(s.code); return true;});
+      dropdown.innerHTML=stores.map(s=>`<div class="dd-item" onclick="selectMulti('${key}',this)" data-val="${s.code}"><span class="check-ico">✓</span>${s.name}</div>`).join('');
+      trigger.textContent=label+' (All)';
+      trigger.classList.remove('disabled');
+      trigger.setAttribute('onclick',"toggleMulti('"+key+"')");
+    }
+  });
+}
 function selectMulti(id,el){
   el.classList.toggle('selected');
   const sel=[...document.querySelectorAll('#'+id+'-dropdown .dd-item.selected')];
   const t=document.getElementById(id+'-trigger');
-  const labels={bp:'BP',store:'Store'};
+  const labels={bp:'BP',fromStore:'From Store',toStore:'To Store'};
   if(!sel.length) t.textContent=labels[id]+' (All)';
   else if(sel.length===1) t.textContent=sel[0].textContent.replace('✓','').trim();
   else t.textContent=sel[0].textContent.replace('✓','').trim()+' +'+(sel.length-1);
+  if(id==='bp') refreshStoreDropdowns();
 }
 document.addEventListener('click',e=>{document.querySelectorAll('.multi-select-dropdown').forEach(dd=>{if(!dd.parentElement.contains(e.target))dd.classList.add('hidden');});});
 
@@ -803,9 +850,10 @@ function openDetail(idx){
     <td>${item.category}</td>
     <td>${item.subCategory}</td>
     <td>${item.availableQty!=null?item.availableQty:'-'}</td>
+    <td>${item.reqQty}</td>
     <td>${isPending
-      ?'<input type="number" class="qty-input" value="'+item.reqQty+'" data-orig="'+item.reqQty+'" data-idx="'+i+'" data-avail="'+(item.availableQty||0)+'" min="0" onchange="onQtyChange(this)">'
-      :'<span class="qty-display">'+item.reqQty+'</span>'}</td>
+      ?'<input type="number" class="qty-input" value="'+(item.confirmedQty!=null?item.confirmedQty:item.reqQty)+'" data-orig="'+item.reqQty+'" data-idx="'+i+'" data-avail="'+(item.availableQty||0)+'" min="0" onchange="onQtyChange(this)">'
+      :'<span class="qty-display">'+(item.confirmedQty!=null?item.confirmedQty:item.reqQty)+'</span>'}</td>
     <td>${item.requestDate}</td>
     <td>${item.requestAccount}</td>
     <td>${item.approvalDate}</td>
@@ -869,16 +917,16 @@ function saveQtyChanges(){
     if(reqQty>availQty){
       hasError=true;
       inp.classList.add('qty-error');
-      errorItems.push(r.items[idx].code+' (Requested: '+reqQty+', Available: '+availQty+')');
+      errorItems.push(r.items[idx].code+' (Confirmed: '+reqQty+', Available: '+availQty+')');
     }
   });
   if(hasError){
-    showToast('Save Failed','Request quantity exceeds available stock:<br>'+errorItems.join('<br>'),'error');
+    showToast('Save Failed','Confirmed quantity exceeds available stock:<br>'+errorItems.join('<br>'),'error');
     return;
   }
   document.querySelectorAll('#detail-body .qty-input').forEach(inp=>{
     const idx=parseInt(inp.dataset.idx);
-    r.items[idx].reqQty=parseInt(inp.value);
+    r.items[idx].confirmedQty=parseInt(inp.value);
   });
   detailQtySaved=true;
   document.querySelectorAll('#detail-body .qty-input').forEach(inp=>{
@@ -886,7 +934,7 @@ function saveQtyChanges(){
     inp.style.background='#f5f5f5';
     inp.classList.remove('qty-error');
   });
-  showToast('Saved','Request quantities have been saved. You can now Confirm or Reject.');
+  showToast('Saved','Confirmed quantities have been saved. You can now Confirm or Reject.');
   renderDetailActions(true, true);
 }
 
@@ -897,7 +945,7 @@ function editQtyAgain(){
     inp.style.background='#fff';
   });
   renderDetailActions(true, false);
-  showToast('Edit Mode','You can modify request quantities again.');
+  showToast('Edit Mode','You can modify confirmed quantities again.');
 }
 
 function detailConfirm(){
