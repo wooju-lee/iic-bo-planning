@@ -1050,10 +1050,9 @@ function openObDetail(idx){
       :(methodOpts[r.outboundMethod]||'\u2014')}</div></div>
     <div class="section-row">
       <div class="s-label">Carrier / Tracking No.</div>
-      <div class="s-value" style="gap:10px;">${isEditable
-        ?`<input type="text" id="ob-carrier" value="${r.carrier||''}" placeholder="Carrier" style="min-width:160px;flex:1;" onchange="OUTBOUND_DATA[${idx}].carrier=this.value">
-           <input type="text" id="ob-trackno" value="${r.trackNo||''}" placeholder="Tracking No." style="min-width:320px;flex:2;" onchange="OUTBOUND_DATA[${idx}].trackNo=this.value">`
-        :`${r.carrier||'\u2014'} / ${r.trackNo||'\u2014'}`}
+      <div class="s-value">${isEditable
+        ?`<input type="text" id="ob-carrier-track" value="${r.carrier&&r.trackNo?r.carrier+' / '+r.trackNo:(r.carrier||r.trackNo||'')}" placeholder="e.g. FedEx / 1234567890" style="min-width:480px;flex:1;" onchange="var p=this.value.split('/');OUTBOUND_DATA[${idx}].carrier=(p[0]||'').trim();OUTBOUND_DATA[${idx}].trackNo=(p[1]||'').trim();">`
+        :`${r.carrier&&r.trackNo?r.carrier+' / '+r.trackNo:(r.carrier||r.trackNo||'\u2014')}`}
       </div>
     </div>
     <div class="ob-info-divider" style="margin-top:20px;">
