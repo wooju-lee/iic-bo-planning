@@ -231,6 +231,25 @@ table.grid td input[type="checkbox"]:disabled{opacity:0.35;cursor:not-allowed;}
 .qty-error{border-color:#C62828!important;background:#FFF0F0!important;box-shadow:0 0 0 2px rgba(198,40,40,0.15)!important;}
 .qty-error-msg{font-size:11px;color:#C62828;margin-top:2px;display:none;}
 
+/* Outbound Registration Modal */
+.ob-reg-tab{padding:14px 24px;font-size:13px;font-weight:600;color:#888;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px;transition:all .15s;}
+.ob-reg-tab:hover{color:#555;}
+.ob-reg-tab.active{color:#ff6b35;border-bottom-color:#ff6b35;}
+.ob-step{display:flex;align-items:center;gap:6px;}
+.ob-step-num{width:24px;height:24px;border-radius:50%;background:#e0e0e0;color:#888;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;transition:all .2s;}
+.ob-step-label{font-size:11px;font-weight:500;color:#888;transition:color .2s;}
+.ob-step.active .ob-step-num{background:#20c997;color:#fff;}
+.ob-step.active .ob-step-label{color:#222;font-weight:600;}
+.ob-step.done .ob-step-num{background:#20c997;color:#fff;}
+.ob-step.done .ob-step-label{color:#555;}
+.ob-step-line{flex:1;height:2px;background:#e0e0e0;margin:0 8px;}
+.ob-reg-fields{display:flex;flex-direction:column;gap:12px;}
+.ob-reg-field{display:flex;align-items:center;gap:12px;}
+.ob-reg-field label{width:80px;font-size:12px;font-weight:600;color:#555;flex-shrink:0;}
+.ob-reg-field select{flex:1;height:36px;border:1px solid #d5d5d5;border-radius:4px;padding:0 28px 0 10px;font-size:12px;background:#fff;appearance:none;-webkit-appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24'%3E%3Cpath d='M7 10l5 5 5-5z' fill='%23666'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 8px center;outline:none;transition:border-color .2s;}
+.ob-reg-field select:focus{border-color:#ff6b35;box-shadow:0 0 0 2px rgba(255,107,53,0.12);}
+.ob-reg-field select:disabled{background:#f5f5f5;color:#aaa;cursor:not-allowed;}
+
 /* Toast */
 .toast{position:fixed;top:24px;right:24px;transform:translateY(-120px);background:#E8F5E9;color:#333;padding:0;border-radius:8px;font-size:13px;box-shadow:0 4px 20px rgba(0,0,0,0.1);transition:transform .3s ease;z-index:9999;overflow:hidden;min-width:460px;}
 .toast .toast-body{display:flex;align-items:flex-start;gap:10px;padding:16px 20px;}
@@ -439,7 +458,7 @@ table.grid td input[type="checkbox"]:disabled{opacity:0.35;cursor:not-allowed;}
       <div class="table-toolbar">
         <div class="table-toolbar-left" id="toolbar-info">Total <b>0</b> Count</div>
         <div class="table-toolbar-right">
-          <button class="btn-action btn-primary">
+          <button class="btn-action btn-primary" onclick="openObRegModal()">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
             Outbound Registration / Request
           </button>
@@ -531,6 +550,91 @@ table.grid td input[type="checkbox"]:disabled{opacity:0.35;cursor:not-allowed;}
     </div>
   </div>
 </main>
+
+<!-- OUTBOUND REGISTRATION MODAL -->
+<div class="modal-overlay" id="ob-reg-modal" onclick="if(event.target===this)closeObRegModal();">
+  <div class="modal-box" style="width:1560px;max-height:92vh;">
+    <div class="modal-header">
+      <span class="modal-title" style="font-size:16px;">Outbound Registration / Request</span>
+      <button class="modal-close" onclick="closeObRegModal()">&times;</button>
+    </div>
+    <!-- Tabs -->
+    <div style="display:flex;gap:0;border-bottom:none;padding:0 24px;margin-top:12px;">
+      <div class="ob-reg-tab active" onclick="switchRegTab('general',this)">GENERAL OUTBOUND</div>
+      <div class="ob-reg-tab" onclick="switchRegTab('corporate',this)">CORPORATE OUTBOUND</div>
+      <div class="ob-reg-tab" onclick="switchRegTab('bulk',this)">BULK UPLOAD (BULK)</div>
+    </div>
+    <!-- Steps -->
+    <div style="display:flex;align-items:flex-start;padding:32px 0 28px;justify-content:center;max-width:700px;margin:0 auto;" id="ob-reg-steps">
+      <div class="ob-step active" style="flex-direction:column;align-items:center;min-width:120px;">
+        <span class="ob-step-num">1</span>
+        <span class="ob-step-label" style="margin-top:6px;">Select Outbound Store</span>
+      </div>
+      <div class="ob-step-line" style="margin-top:12px;"></div>
+      <div class="ob-step" style="flex-direction:column;align-items:center;min-width:120px;">
+        <span class="ob-step-num">2</span>
+        <span class="ob-step-label" style="margin-top:6px;">Select Inbound Store</span>
+      </div>
+      <div class="ob-step-line" style="margin-top:12px;"></div>
+      <div class="ob-step" style="flex-direction:column;align-items:center;min-width:120px;">
+        <span class="ob-step-num">3</span>
+        <span class="ob-step-label" style="margin-top:6px;">Select Outbound Product</span>
+      </div>
+      <div class="ob-step-line" style="margin-top:12px;"></div>
+      <div class="ob-step" style="flex-direction:column;align-items:center;min-width:140px;">
+        <span class="ob-step-num">4</span>
+        <span class="ob-step-label" style="margin-top:6px;">Enter Outbound Information</span>
+      </div>
+    </div>
+    <!-- Body -->
+    <div class="modal-body" style="padding:0 24px 16px;min-height:260px;" id="ob-reg-body">
+      <div style="font-size:13px;font-weight:600;color:#222;margin-bottom:14px;margin-top:8px;">Search Outbound Store</div>
+      <!-- Dropdowns in a row -->
+      <div style="display:flex;gap:12px;align-items:flex-start;">
+        <div style="flex:1;display:flex;flex-direction:column;gap:4px;">
+          <label style="font-size:11px;font-weight:600;color:#888;">Brand</label>
+          <select id="reg-brand" onchange="onRegBrandChange()" style="height:36px;border:1px solid #d5d5d5;border-radius:4px;padding:0 28px 0 10px;font-size:12px;background:#fff;appearance:none;-webkit-appearance:none;background-image:url('data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 width=%2712%27 height=%2712%27 viewBox=%270 0 24 24%27%3E%3Cpath d=%27M7 10l5 5 5-5z%27 fill=%27%23666%27/%3E%3C/svg%3E');background-repeat:no-repeat;background-position:right 8px center;outline:none;">
+            <option value="">All</option>
+            <option value="GENTLE_MONSTER">GENTLE MONSTER</option>
+            <option value="TAMBURINS">TAMBURINS</option>
+            <option value="NUDAKE">NUDAKE</option>
+          </select>
+        </div>
+        <div style="flex:1;display:flex;flex-direction:column;gap:4px;">
+          <label style="font-size:11px;font-weight:600;color:#888;">BP</label>
+          <select id="reg-company" disabled onchange="onRegCompanyChange()" style="height:36px;border:1px solid #d5d5d5;border-radius:4px;padding:0 28px 0 10px;font-size:12px;background:#fff;appearance:none;-webkit-appearance:none;background-image:url('data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 width=%2712%27 height=%2712%27 viewBox=%270 0 24 24%27%3E%3Cpath d=%27M7 10l5 5 5-5z%27 fill=%27%23666%27/%3E%3C/svg%3E');background-repeat:no-repeat;background-position:right 8px center;outline:none;">
+            <option value="">All</option>
+          </select>
+        </div>
+        <div style="flex:1;display:flex;flex-direction:column;gap:4px;">
+          <label style="font-size:11px;font-weight:600;color:#888;">Store</label>
+          <select id="reg-store" disabled onchange="onRegStoreChange()" style="height:36px;border:1px solid #d5d5d5;border-radius:4px;padding:0 28px 0 10px;font-size:12px;background:#fff;appearance:none;-webkit-appearance:none;background-image:url('data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 width=%2712%27 height=%2712%27 viewBox=%270 0 24 24%27%3E%3Cpath d=%27M7 10l5 5 5-5z%27 fill=%27%23666%27/%3E%3C/svg%3E');background-repeat:no-repeat;background-position:right 8px center;outline:none;">
+            <option value="">All</option>
+          </select>
+        </div>
+        <div style="flex:1;display:flex;flex-direction:column;gap:4px;">
+          <label style="font-size:11px;font-weight:600;color:#888;">Location</label>
+          <select id="reg-location" disabled onchange="onRegLocationChange()" style="height:36px;border:1px solid #d5d5d5;border-radius:4px;padding:0 28px 0 10px;font-size:12px;background:#fff;appearance:none;-webkit-appearance:none;background-image:url('data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 width=%2712%27 height=%2712%27 viewBox=%270 0 24 24%27%3E%3Cpath d=%27M7 10l5 5 5-5z%27 fill=%27%23666%27/%3E%3C/svg%3E');background-repeat:no-repeat;background-position:right 8px center;outline:none;">
+            <option value="">All</option>
+          </select>
+        </div>
+      </div>
+      <!-- Selected info -->
+      <div id="reg-selected-info" style="display:none;margin-top:20px;border:1px solid #eee;border-radius:6px;overflow:hidden;">
+        <div style="padding:10px 16px;font-size:12px;font-weight:600;color:#ff6b35;">Outbound Store</div>
+        <div style="display:flex;border-top:1px solid #eee;font-size:12px;color:#333;">
+          <div style="flex:1;padding:10px 16px;border-right:1px solid #eee;"><span style="color:#888;font-weight:500;">BP</span><div id="reg-info-bp" style="margin-top:2px;">-</div></div>
+          <div style="flex:1;padding:10px 16px;border-right:1px solid #eee;"><span style="color:#888;font-weight:500;">Store</span><div id="reg-info-store" style="margin-top:2px;">-</div></div>
+          <div style="flex:1;padding:10px 16px;"><span style="color:#888;font-weight:500;">Location</span><div id="reg-info-loc" style="margin-top:2px;">-</div></div>
+        </div>
+      </div>
+    </div>
+    <!-- Footer -->
+    <div style="display:flex;justify-content:flex-end;padding:12px 24px;border-top:1px solid #eee;">
+      <button id="reg-next-btn" disabled onclick="regNextStep()" style="height:36px;padding:0 32px;background:#e0e0e0;color:#999;border:none;border-radius:4px;font-size:13px;font-weight:600;cursor:not-allowed;">NEXT</button>
+    </div>
+  </div>
+</div>
 
 <!-- FLOATING ACTION BAR -->
 <div class="floating-bar" id="floating-bar">
@@ -1224,6 +1328,123 @@ function bulkReject(){
   showToast('Rejected',indices.length+' request(s) have been rejected.');
   document.getElementById('floating-bar').classList.remove('show');
   renderList();
+}
+
+// ===== OUTBOUND REGISTRATION MODAL =====
+const REG_DATA={
+  GENTLE_MONSTER:{
+    companies:{
+      'BP001':{name:'IICOMBINED US',stores:{
+        'US1001':{name:'NY Soho',locations:{'1000':'SALES','1200':'DP','1300':'HOLDING'}},
+        'US1002':{name:'LA Beverly',locations:{'1000':'SALES','1200':'DP'}},
+        'US1010':{name:'LA Warehouse',locations:{'2000':'STORAGE','2100':'QC'}}
+      }},
+      'BP002':{name:'IICOMBINED CA',stores:{
+        'CA3001':{name:'Toronto Yorkdale',locations:{'1000':'SALES','1200':'DP'}}
+      }}
+    }
+  },
+  TAMBURINS:{
+    companies:{
+      'BP001':{name:'IICOMBINED US',stores:{
+        'US2001':{name:'NY Chelsea',locations:{'1000':'SALES','1200':'DP'}}
+      }}
+    }
+  },
+  NUDAKE:{
+    companies:{
+      'BP001':{name:'IICOMBINED US',stores:{
+        'US3001':{name:'NY SoHo Cafe',locations:{'1000':'SALES'}}
+      }}
+    }
+  }
+};
+let regCurrentTab='general';
+
+function openObRegModal(){
+  document.getElementById('ob-reg-modal').classList.add('show');
+  resetRegForm();
+}
+function closeObRegModal(){
+  document.getElementById('ob-reg-modal').classList.remove('show');
+}
+function switchRegTab(tab,el){
+  document.querySelectorAll('.ob-reg-tab').forEach(t=>t.classList.remove('active'));
+  el.classList.add('active');
+  regCurrentTab=tab;
+}
+function resetRegForm(){
+  document.getElementById('reg-brand').value='';
+  const co=document.getElementById('reg-company');co.innerHTML='<option value="">Select</option>';co.disabled=true;
+  const st=document.getElementById('reg-store');st.innerHTML='<option value="">Select</option>';st.disabled=true;
+  const lo=document.getElementById('reg-location');lo.innerHTML='<option value="">Select</option>';lo.disabled=true;
+  document.getElementById('reg-selected-info').style.display='none';
+  const btn=document.getElementById('reg-next-btn');btn.disabled=true;btn.style.opacity='0.4';btn.style.cursor='not-allowed';
+}
+function onRegBrandChange(){
+  const brand=document.getElementById('reg-brand').value;
+  const co=document.getElementById('reg-company');
+  const st=document.getElementById('reg-store');
+  const lo=document.getElementById('reg-location');
+  co.innerHTML='<option value="">Select</option>';st.innerHTML='<option value="">Select</option>';lo.innerHTML='<option value="">Select</option>';
+  st.disabled=true;lo.disabled=true;
+  document.getElementById('reg-selected-info').style.display='none';
+  disableNextBtn();
+  if(!brand){co.disabled=true;return;}
+  const companies=REG_DATA[brand]?.companies||{};
+  Object.entries(companies).forEach(([code,c])=>{
+    co.innerHTML+=`<option value="${code}">${code} / ${c.name}</option>`;
+  });
+  co.disabled=false;
+}
+function onRegCompanyChange(){
+  const brand=document.getElementById('reg-brand').value;
+  const companyCode=document.getElementById('reg-company').value;
+  const st=document.getElementById('reg-store');
+  const lo=document.getElementById('reg-location');
+  st.innerHTML='<option value="">Select</option>';lo.innerHTML='<option value="">Select</option>';
+  lo.disabled=true;
+  document.getElementById('reg-selected-info').style.display='none';
+  disableNextBtn();
+  if(!companyCode){st.disabled=true;return;}
+  const stores=REG_DATA[brand]?.companies[companyCode]?.stores||{};
+  Object.entries(stores).forEach(([code,s])=>{
+    st.innerHTML+=`<option value="${code}">${code} / ${s.name}</option>`;
+  });
+  st.disabled=false;
+}
+function onRegStoreChange(){
+  const brand=document.getElementById('reg-brand').value;
+  const companyCode=document.getElementById('reg-company').value;
+  const storeCode=document.getElementById('reg-store').value;
+  const lo=document.getElementById('reg-location');
+  lo.innerHTML='<option value="">Select</option>';
+  document.getElementById('reg-selected-info').style.display='none';
+  disableNextBtn();
+  if(!storeCode){lo.disabled=true;return;}
+  const locations=REG_DATA[brand]?.companies[companyCode]?.stores[storeCode]?.locations||{};
+  Object.entries(locations).forEach(([code,name])=>{
+    lo.innerHTML+=`<option value="${code}">${code} / ${name}</option>`;
+  });
+  lo.disabled=false;
+}
+function onRegLocationChange(){
+  const loc=document.getElementById('reg-location').value;
+  if(!loc){document.getElementById('reg-selected-info').style.display='none';disableNextBtn();return;}
+  const companyText=document.getElementById('reg-company').selectedOptions[0].text;
+  const storeText=document.getElementById('reg-store').selectedOptions[0].text;
+  const locText=document.getElementById('reg-location').selectedOptions[0].text;
+  document.getElementById('reg-info-bp').textContent=companyText;
+  document.getElementById('reg-info-store').textContent=storeText;
+  document.getElementById('reg-info-loc').textContent=locText;
+  document.getElementById('reg-selected-info').style.display='block';
+  const btn=document.getElementById('reg-next-btn');btn.disabled=false;btn.style.background='#ff6b35';btn.style.color='#fff';btn.style.cursor='pointer';
+}
+function disableNextBtn(){
+  const btn=document.getElementById('reg-next-btn');btn.disabled=true;btn.style.background='#e0e0e0';btn.style.color='#999';btn.style.cursor='not-allowed';
+}
+function regNextStep(){
+  showToast('Step 1 Complete','From Store selected. Step 2 (To Store) is under development.');
 }
 
 // Init
