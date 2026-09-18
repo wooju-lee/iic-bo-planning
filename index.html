@@ -553,7 +553,7 @@ table.grid td input[type="checkbox"]:disabled{opacity:0.35;cursor:not-allowed;}
 
 <!-- OUTBOUND REGISTRATION MODAL -->
 <div class="modal-overlay" id="ob-reg-modal" onclick="if(event.target===this)closeObRegModal();">
-  <div class="modal-box" style="width:1560px;max-height:92vh;">
+  <div class="modal-box" style="width:1560px;max-height:92vh;display:flex;flex-direction:column;">
     <div class="modal-header">
       <span class="modal-title" style="font-size:16px;">Outbound Registration / Request</span>
       <button class="modal-close" onclick="closeObRegModal()">&times;</button>
@@ -620,7 +620,7 @@ table.grid td input[type="checkbox"]:disabled{opacity:0.35;cursor:not-allowed;}
         </div>
       </div>
       <!-- Selected info -->
-      <div id="reg-selected-info" style="display:none;margin-top:20px;border:1px solid #eee;border-radius:6px;overflow:hidden;">
+      <div id="reg-selected-info" style="margin-top:20px;border:1px solid #eee;border-radius:6px;overflow:hidden;">
         <div style="padding:10px 16px;font-size:12px;font-weight:600;color:#ff6b35;">Outbound Store</div>
         <div style="display:flex;border-top:1px solid #eee;font-size:12px;color:#333;">
           <div style="flex:1;padding:10px 16px;border-right:1px solid #eee;"><span style="color:#888;font-weight:500;">BP</span><div id="reg-info-bp" style="margin-top:2px;">-</div></div>
@@ -630,7 +630,7 @@ table.grid td input[type="checkbox"]:disabled{opacity:0.35;cursor:not-allowed;}
       </div>
     </div>
     <!-- Footer -->
-    <div style="display:flex;justify-content:flex-end;padding:12px 24px;border-top:1px solid #eee;">
+    <div style="display:flex;justify-content:flex-end;padding:16px 24px;border-top:1px solid #eee;background:#fff;border-radius:0 0 10px 10px;margin-top:auto;">
       <button id="reg-next-btn" disabled onclick="regNextStep()" style="height:36px;padding:0 32px;background:#e0e0e0;color:#999;border:none;border-radius:4px;font-size:13px;font-weight:600;cursor:not-allowed;">NEXT</button>
     </div>
   </div>
@@ -1378,7 +1378,7 @@ function resetRegForm(){
   const co=document.getElementById('reg-company');co.innerHTML='<option value="">Select</option>';co.disabled=true;
   const st=document.getElementById('reg-store');st.innerHTML='<option value="">Select</option>';st.disabled=true;
   const lo=document.getElementById('reg-location');lo.innerHTML='<option value="">Select</option>';lo.disabled=true;
-  document.getElementById('reg-selected-info').style.display='none';
+  /* info always visible */
   const btn=document.getElementById('reg-next-btn');btn.disabled=true;btn.style.opacity='0.4';btn.style.cursor='not-allowed';
 }
 function onRegBrandChange(){
@@ -1388,7 +1388,7 @@ function onRegBrandChange(){
   const lo=document.getElementById('reg-location');
   co.innerHTML='<option value="">Select</option>';st.innerHTML='<option value="">Select</option>';lo.innerHTML='<option value="">Select</option>';
   st.disabled=true;lo.disabled=true;
-  document.getElementById('reg-selected-info').style.display='none';
+  /* info always visible */
   disableNextBtn();
   if(!brand){co.disabled=true;return;}
   const companies=REG_DATA[brand]?.companies||{};
@@ -1404,7 +1404,7 @@ function onRegCompanyChange(){
   const lo=document.getElementById('reg-location');
   st.innerHTML='<option value="">Select</option>';lo.innerHTML='<option value="">Select</option>';
   lo.disabled=true;
-  document.getElementById('reg-selected-info').style.display='none';
+  /* info always visible */
   disableNextBtn();
   if(!companyCode){st.disabled=true;return;}
   const stores=REG_DATA[brand]?.companies[companyCode]?.stores||{};
@@ -1419,7 +1419,7 @@ function onRegStoreChange(){
   const storeCode=document.getElementById('reg-store').value;
   const lo=document.getElementById('reg-location');
   lo.innerHTML='<option value="">Select</option>';
-  document.getElementById('reg-selected-info').style.display='none';
+  /* info always visible */
   disableNextBtn();
   if(!storeCode){lo.disabled=true;return;}
   const locations=REG_DATA[brand]?.companies[companyCode]?.stores[storeCode]?.locations||{};
@@ -1430,14 +1430,14 @@ function onRegStoreChange(){
 }
 function onRegLocationChange(){
   const loc=document.getElementById('reg-location').value;
-  if(!loc){document.getElementById('reg-selected-info').style.display='none';disableNextBtn();return;}
+  if(!loc){/* info always visible */disableNextBtn();return;}
   const companyText=document.getElementById('reg-company').selectedOptions[0].text;
   const storeText=document.getElementById('reg-store').selectedOptions[0].text;
   const locText=document.getElementById('reg-location').selectedOptions[0].text;
   document.getElementById('reg-info-bp').textContent=companyText;
   document.getElementById('reg-info-store').textContent=storeText;
   document.getElementById('reg-info-loc').textContent=locText;
-  document.getElementById('reg-selected-info').style.display='block';
+  /* info always visible */
   const btn=document.getElementById('reg-next-btn');btn.disabled=false;btn.style.background='#ff6b35';btn.style.color='#fff';btn.style.cursor='pointer';
 }
 function disableNextBtn(){
