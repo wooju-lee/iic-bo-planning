@@ -240,15 +240,27 @@ table.grid td input[type="checkbox"]:disabled{opacity:0.35;cursor:not-allowed;}
 .ob-step-label{font-size:11px;font-weight:500;color:#888;transition:color .2s;}
 .ob-step.active .ob-step-num{background:#20c997;color:#fff;}
 .ob-step.active .ob-step-label{color:#222;font-weight:600;}
-.ob-step.done .ob-step-num{background:#20c997;color:#fff;}
+.ob-step.done .ob-step-num{background:#20c997;color:#fff;font-size:13px;}
 .ob-step.done .ob-step-label{color:#555;}
-.ob-step-line{flex:1;height:2px;background:#e0e0e0;margin:0 8px;}
+.ob-step-line{flex:1;height:2px;background:#e0e0e0;min-width:40px;margin:11px -4px 0;}
 .ob-reg-fields{display:flex;flex-direction:column;gap:12px;}
 .ob-reg-field{display:flex;align-items:center;gap:12px;}
 .ob-reg-field label{width:80px;font-size:12px;font-weight:600;color:#555;flex-shrink:0;}
 .ob-reg-field select{flex:1;height:36px;border:1px solid #d5d5d5;border-radius:4px;padding:0 28px 0 10px;font-size:12px;background:#fff;appearance:none;-webkit-appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24'%3E%3Cpath d='M7 10l5 5 5-5z' fill='%23666'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 8px center;outline:none;transition:border-color .2s;}
 .ob-reg-field select:focus{border-color:#ff6b35;box-shadow:0 0 0 2px rgba(255,107,53,0.12);}
 .ob-reg-field select:disabled{background:#f5f5f5;color:#aaa;cursor:not-allowed;}
+
+/* Card Radio */
+.card-radio{flex:1;display:flex;align-items:center;gap:12px;padding:14px 16px;border:1.5px solid #e0e0e0;border-radius:8px;cursor:pointer;transition:all .15s;background:#fff;}
+.card-radio:hover{border-color:#ffb088;}
+.card-radio.selected{border-color:#ff6b35;background:#FFF8F5;}
+.card-radio-circle{width:18px;height:18px;border-radius:50%;border:2px solid #ccc;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:border-color .15s;}
+.card-radio.selected .card-radio-circle{border-color:#ff6b35;}
+.card-radio-dot{width:8px;height:8px;border-radius:50%;background:transparent;transition:background .15s;}
+.card-radio.selected .card-radio-dot{background:#ff6b35;}
+.card-radio-content{display:flex;flex-direction:column;gap:2px;}
+.card-radio-title{font-size:13px;font-weight:600;color:#222;}
+.card-radio-desc{font-size:11px;color:#888;}
 
 /* Toast */
 .toast{position:fixed;top:24px;right:24px;transform:translateY(-120px);background:#E8F5E9;color:#333;padding:0;border-radius:8px;font-size:13px;box-shadow:0 4px 20px rgba(0,0,0,0.1);transition:transform .3s ease;z-index:9999;overflow:hidden;min-width:460px;}
@@ -553,34 +565,36 @@ table.grid td input[type="checkbox"]:disabled{opacity:0.35;cursor:not-allowed;}
 
 <!-- OUTBOUND REGISTRATION MODAL -->
 <div class="modal-overlay" id="ob-reg-modal" onclick="if(event.target===this)closeObRegModal();">
-  <div class="modal-box" style="width:1560px;max-height:92vh;display:flex;flex-direction:column;">
+  <div class="modal-box" style="width:1200px;max-height:92vh;display:flex;flex-direction:column;">
     <div class="modal-header">
       <span class="modal-title" style="font-size:16px;">Outbound Registration / Request</span>
       <button class="modal-close" onclick="closeObRegModal()">&times;</button>
     </div>
     <!-- Tabs -->
-    <div style="display:flex;gap:0;border-bottom:none;padding:0 24px;margin-top:12px;">
-      <div class="ob-reg-tab active" onclick="switchRegTab('general',this)">GENERAL OUTBOUND</div>
-      <div class="ob-reg-tab" onclick="switchRegTab('corporate',this)">CORPORATE OUTBOUND</div>
-      <div class="ob-reg-tab" onclick="switchRegTab('bulk',this)">BULK UPLOAD (BULK)</div>
+    <div style="margin:12px 24px 0;border:1px solid #eee;border-radius:8px;padding:0 16px;">
+      <div style="display:flex;gap:0;border-bottom:none;">
+        <div class="ob-reg-tab active" onclick="switchRegTab('general',this)">GENERAL OUTBOUND</div>
+        <div class="ob-reg-tab" onclick="switchRegTab('corporate',this)">CORPORATE OUTBOUND</div>
+        <div class="ob-reg-tab" onclick="switchRegTab('bulk',this)">BULK UPLOAD (BULK)</div>
+      </div>
     </div>
     <!-- Steps -->
-    <div style="display:flex;align-items:flex-start;padding:32px 0 28px;justify-content:center;max-width:700px;margin:0 auto;" id="ob-reg-steps">
+    <div style="display:flex;align-items:flex-start;padding:32px 0 28px;justify-content:center;max-width:900px;margin:0 auto;" id="ob-reg-steps">
       <div class="ob-step active" style="flex-direction:column;align-items:center;min-width:120px;">
         <span class="ob-step-num">1</span>
         <span class="ob-step-label" style="margin-top:6px;">Select Outbound Store</span>
       </div>
-      <div class="ob-step-line" style="margin-top:12px;"></div>
+      <div class="ob-step-line"></div>
       <div class="ob-step" style="flex-direction:column;align-items:center;min-width:120px;">
         <span class="ob-step-num">2</span>
         <span class="ob-step-label" style="margin-top:6px;">Select Inbound Store</span>
       </div>
-      <div class="ob-step-line" style="margin-top:12px;"></div>
+      <div class="ob-step-line"></div>
       <div class="ob-step" style="flex-direction:column;align-items:center;min-width:120px;">
         <span class="ob-step-num">3</span>
         <span class="ob-step-label" style="margin-top:6px;">Select Outbound Product</span>
       </div>
-      <div class="ob-step-line" style="margin-top:12px;"></div>
+      <div class="ob-step-line"></div>
       <div class="ob-step" style="flex-direction:column;align-items:center;min-width:140px;">
         <span class="ob-step-num">4</span>
         <span class="ob-step-label" style="margin-top:6px;">Enter Outbound Information</span>
@@ -588,50 +602,80 @@ table.grid td input[type="checkbox"]:disabled{opacity:0.35;cursor:not-allowed;}
     </div>
     <!-- Body -->
     <div class="modal-body" style="padding:0 24px 16px;min-height:260px;" id="ob-reg-body">
-      <div style="font-size:13px;font-weight:600;color:#222;margin-bottom:14px;margin-top:8px;">Search Outbound Store</div>
-      <!-- Dropdowns in a row -->
-      <div style="display:flex;gap:12px;align-items:flex-start;">
-        <div style="flex:1;display:flex;flex-direction:column;gap:4px;">
-          <label style="font-size:11px;font-weight:600;color:#888;">Brand</label>
-          <select id="reg-brand" onchange="onRegBrandChange()" style="height:36px;border:1px solid #d5d5d5;border-radius:4px;padding:0 28px 0 10px;font-size:12px;background:#fff;appearance:none;-webkit-appearance:none;background-image:url('data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 width=%2712%27 height=%2712%27 viewBox=%270 0 24 24%27%3E%3Cpath d=%27M7 10l5 5 5-5z%27 fill=%27%23666%27/%3E%3C/svg%3E');background-repeat:no-repeat;background-position:right 8px center;outline:none;">
-            <option value="">All</option>
-            <option value="GENTLE_MONSTER">GENTLE MONSTER</option>
-            <option value="TAMBURINS">TAMBURINS</option>
-            <option value="NUDAKE">NUDAKE</option>
-          </select>
-        </div>
-        <div style="flex:1;display:flex;flex-direction:column;gap:4px;">
-          <label style="font-size:11px;font-weight:600;color:#888;">BP</label>
-          <select id="reg-company" disabled onchange="onRegCompanyChange()" style="height:36px;border:1px solid #d5d5d5;border-radius:4px;padding:0 28px 0 10px;font-size:12px;background:#fff;appearance:none;-webkit-appearance:none;background-image:url('data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 width=%2712%27 height=%2712%27 viewBox=%270 0 24 24%27%3E%3Cpath d=%27M7 10l5 5 5-5z%27 fill=%27%23666%27/%3E%3C/svg%3E');background-repeat:no-repeat;background-position:right 8px center;outline:none;">
-            <option value="">All</option>
-          </select>
-        </div>
-        <div style="flex:1;display:flex;flex-direction:column;gap:4px;">
-          <label style="font-size:11px;font-weight:600;color:#888;">Store</label>
-          <select id="reg-store" disabled onchange="onRegStoreChange()" style="height:36px;border:1px solid #d5d5d5;border-radius:4px;padding:0 28px 0 10px;font-size:12px;background:#fff;appearance:none;-webkit-appearance:none;background-image:url('data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 width=%2712%27 height=%2712%27 viewBox=%270 0 24 24%27%3E%3Cpath d=%27M7 10l5 5 5-5z%27 fill=%27%23666%27/%3E%3C/svg%3E');background-repeat:no-repeat;background-position:right 8px center;outline:none;">
-            <option value="">All</option>
-          </select>
-        </div>
-        <div style="flex:1;display:flex;flex-direction:column;gap:4px;">
-          <label style="font-size:11px;font-weight:600;color:#888;">Location</label>
-          <select id="reg-location" disabled onchange="onRegLocationChange()" style="height:36px;border:1px solid #d5d5d5;border-radius:4px;padding:0 28px 0 10px;font-size:12px;background:#fff;appearance:none;-webkit-appearance:none;background-image:url('data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 width=%2712%27 height=%2712%27 viewBox=%270 0 24 24%27%3E%3Cpath d=%27M7 10l5 5 5-5z%27 fill=%27%23666%27/%3E%3C/svg%3E');background-repeat:no-repeat;background-position:right 8px center;outline:none;">
-            <option value="">All</option>
-          </select>
+      <!-- Card Radio: Registration or Request -->
+      <div style="display:flex;gap:12px;margin-bottom:16px;margin-top:8px;">
+        <label class="card-radio" id="card-register" onclick="selectRegType('register')">
+          <span class="card-radio-circle"><span class="card-radio-dot"></span></span>
+          <div class="card-radio-content">
+            <div class="card-radio-title">Outbound Registration</div>
+            <div class="card-radio-desc">Outbound is processed immediately after registration.</div>
+          </div>
+        </label>
+        <label class="card-radio" id="card-request" onclick="selectRegType('request')">
+          <span class="card-radio-circle"><span class="card-radio-dot"></span></span>
+          <div class="card-radio-content">
+            <div class="card-radio-title">Outbound Request</div>
+            <div class="card-radio-desc">Outbound proceeds after approver confirmation.</div>
+          </div>
+        </label>
+      </div>
+      <!-- Search box -->
+      <div style="border:1px solid #eee;border-radius:8px;padding:20px 20px 24px;margin-bottom:12px;">
+        <div style="font-size:13px;font-weight:600;color:#222;margin-bottom:14px;">Search Outbound Store</div>
+        <div style="display:flex;gap:12px;align-items:flex-start;">
+          <div style="flex:1;display:flex;flex-direction:column;gap:4px;">
+            <label style="font-size:11px;font-weight:600;color:#888;">Brand</label>
+            <select id="reg-brand" onchange="onRegBrandChange()" style="height:36px;border:1px solid #d5d5d5;border-radius:4px;padding:0 28px 0 10px;font-size:12px;background:#fff;appearance:none;-webkit-appearance:none;background-image:url('data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 width=%2712%27 height=%2712%27 viewBox=%270 0 24 24%27%3E%3Cpath d=%27M7 10l5 5 5-5z%27 fill=%27%23666%27/%3E%3C/svg%3E');background-repeat:no-repeat;background-position:right 8px center;outline:none;">
+              <option value="">All</option>
+              <option value="GENTLE_MONSTER">GENTLE MONSTER</option>
+              <option value="TAMBURINS">TAMBURINS</option>
+              <option value="NUDAKE">NUDAKE</option>
+            </select>
+          </div>
+          <div style="flex:1;display:flex;flex-direction:column;gap:4px;">
+            <label style="font-size:11px;font-weight:600;color:#888;">BP</label>
+            <select id="reg-company" disabled onchange="onRegCompanyChange()" style="height:36px;border:1px solid #d5d5d5;border-radius:4px;padding:0 28px 0 10px;font-size:12px;background:#fff;appearance:none;-webkit-appearance:none;background-image:url('data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 width=%2712%27 height=%2712%27 viewBox=%270 0 24 24%27%3E%3Cpath d=%27M7 10l5 5 5-5z%27 fill=%27%23666%27/%3E%3C/svg%3E');background-repeat:no-repeat;background-position:right 8px center;outline:none;">
+              <option value="">All</option>
+            </select>
+          </div>
+          <div style="flex:1;display:flex;flex-direction:column;gap:4px;">
+            <label style="font-size:11px;font-weight:600;color:#888;">Store</label>
+            <select id="reg-store" disabled onchange="onRegStoreChange()" style="height:36px;border:1px solid #d5d5d5;border-radius:4px;padding:0 28px 0 10px;font-size:12px;background:#fff;appearance:none;-webkit-appearance:none;background-image:url('data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 width=%2712%27 height=%2712%27 viewBox=%270 0 24 24%27%3E%3Cpath d=%27M7 10l5 5 5-5z%27 fill=%27%23666%27/%3E%3C/svg%3E');background-repeat:no-repeat;background-position:right 8px center;outline:none;">
+              <option value="">All</option>
+            </select>
+          </div>
+          <div style="flex:1;display:flex;flex-direction:column;gap:4px;">
+            <label style="font-size:11px;font-weight:600;color:#888;">Location</label>
+            <select id="reg-location" disabled onchange="onRegLocationChange()" style="height:36px;border:1px solid #d5d5d5;border-radius:4px;padding:0 28px 0 10px;font-size:12px;background:#fff;appearance:none;-webkit-appearance:none;background-image:url('data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 width=%2712%27 height=%2712%27 viewBox=%270 0 24 24%27%3E%3Cpath d=%27M7 10l5 5 5-5z%27 fill=%27%23666%27/%3E%3C/svg%3E');background-repeat:no-repeat;background-position:right 8px center;outline:none;">
+              <option value="">All</option>
+            </select>
+          </div>
         </div>
       </div>
-      <!-- Selected info -->
-      <div id="reg-selected-info" style="margin-top:20px;border:1px solid #eee;border-radius:6px;overflow:hidden;">
-        <div style="padding:10px 16px;font-size:12px;font-weight:600;color:#ff6b35;">Outbound Store</div>
+      <!-- Outbound Store info -->
+      <div id="reg-selected-info" style="border:1px solid #eee;border-radius:8px;overflow:hidden;margin-bottom:12px;">
+        <div style="padding:12px 20px;font-size:12px;font-weight:600;color:#ff6b35;">Outbound Store</div>
         <div style="display:flex;border-top:1px solid #eee;font-size:12px;color:#333;">
-          <div style="flex:1;padding:10px 16px;border-right:1px solid #eee;"><span style="color:#888;font-weight:500;">BP</span><div id="reg-info-bp" style="margin-top:2px;">-</div></div>
-          <div style="flex:1;padding:10px 16px;border-right:1px solid #eee;"><span style="color:#888;font-weight:500;">Store</span><div id="reg-info-store" style="margin-top:2px;">-</div></div>
-          <div style="flex:1;padding:10px 16px;"><span style="color:#888;font-weight:500;">Location</span><div id="reg-info-loc" style="margin-top:2px;">-</div></div>
+          <div style="flex:1;padding:12px 20px;"><span style="color:#888;font-weight:600;margin-right:12px;">BP</span><span id="reg-info-bp">-</span></div>
+          <div style="flex:1;padding:12px 20px;"><span style="color:#888;font-weight:600;margin-right:12px;">Store</span><span id="reg-info-store">-</span></div>
+          <div style="flex:1;padding:12px 20px;"><span style="color:#888;font-weight:600;margin-right:12px;">Location</span><span id="reg-info-loc">-</span></div>
+        </div>
+      </div>
+      <!-- Inbound Store info (placeholder) -->
+      <div id="reg-inbound-info" style="border:1px solid #eee;border-radius:8px;overflow:hidden;background:#FFF8F2;">
+        <div style="padding:12px 20px;font-size:12px;font-weight:600;color:#ff6b35;">Inbound Store</div>
+        <div style="display:flex;border-top:1px solid #eee;font-size:12px;color:#333;">
+          <div style="flex:1;padding:12px 20px;"><span style="color:#888;font-weight:600;margin-right:12px;">BP</span><span id="reg-in-info-bp">-</span></div>
+          <div style="flex:1;padding:12px 20px;"><span style="color:#888;font-weight:600;margin-right:12px;">Store</span><span id="reg-in-info-store">-</span></div>
+          <div style="flex:1;padding:12px 20px;"><span style="color:#888;font-weight:600;margin-right:12px;">Location</span><span id="reg-in-info-loc">-</span></div>
         </div>
       </div>
     </div>
     <!-- Footer -->
-    <div style="display:flex;justify-content:flex-end;padding:16px 24px;border-top:1px solid #eee;background:#fff;border-radius:0 0 10px 10px;margin-top:auto;">
-      <button id="reg-next-btn" disabled onclick="regNextStep()" style="height:36px;padding:0 32px;background:#e0e0e0;color:#999;border:none;border-radius:4px;font-size:13px;font-weight:600;cursor:not-allowed;">NEXT</button>
+    <div style="display:flex;justify-content:space-between;padding:20px 24px;border-top:1px solid #eee;background:#fff;border-radius:0 0 10px 10px;margin-top:auto;">
+      <button id="reg-prev-btn" onclick="regPrevStep()" style="height:32px;padding:0 20px;background:#fff;color:#555;border:1px solid #d5d5d5;border-radius:4px;font-size:12px;font-weight:600;cursor:pointer;display:none;">PREVIOUS</button>
+      <div style="flex:1;"></div>
+      <button id="reg-next-btn" disabled onclick="regNextStep()" style="height:32px;padding:0 20px;background:#ff6b35;color:#fff;border:none;border-radius:4px;font-size:12px;font-weight:600;cursor:not-allowed;opacity:0.4;">NEXT</button>
     </div>
   </div>
 </div>
@@ -1360,6 +1404,19 @@ const REG_DATA={
   }
 };
 let regCurrentTab='general';
+let regType='register';
+function selectRegType(type){
+  regType=type;
+  document.getElementById('card-register').classList.toggle('selected',type==='register');
+  document.getElementById('card-request').classList.toggle('selected',type==='request');
+  checkStep1Ready();
+}
+function checkStep1Ready(){
+  const loc=document.getElementById('reg-location').value;
+  if(regType && loc){
+    enableNextBtn();
+  }else{disableNextBtn();}
+}
 
 function openObRegModal(){
   document.getElementById('ob-reg-modal').classList.add('show');
@@ -1374,12 +1431,15 @@ function switchRegTab(tab,el){
   regCurrentTab=tab;
 }
 function resetRegForm(){
+  regType=null;
+  document.getElementById('card-register').classList.remove('selected');
+  document.getElementById('card-request').classList.remove('selected');
   document.getElementById('reg-brand').value='';
   const co=document.getElementById('reg-company');co.innerHTML='<option value="">Select</option>';co.disabled=true;
   const st=document.getElementById('reg-store');st.innerHTML='<option value="">Select</option>';st.disabled=true;
   const lo=document.getElementById('reg-location');lo.innerHTML='<option value="">Select</option>';lo.disabled=true;
   /* info always visible */
-  const btn=document.getElementById('reg-next-btn');btn.disabled=true;btn.style.opacity='0.4';btn.style.cursor='not-allowed';
+  disableNextBtn();
 }
 function onRegBrandChange(){
   const brand=document.getElementById('reg-brand').value;
@@ -1438,13 +1498,422 @@ function onRegLocationChange(){
   document.getElementById('reg-info-store').textContent=storeText;
   document.getElementById('reg-info-loc').textContent=locText;
   /* info always visible */
-  const btn=document.getElementById('reg-next-btn');btn.disabled=false;btn.style.background='#ff6b35';btn.style.color='#fff';btn.style.cursor='pointer';
+  checkStep1Ready();
 }
 function disableNextBtn(){
-  const btn=document.getElementById('reg-next-btn');btn.disabled=true;btn.style.background='#e0e0e0';btn.style.color='#999';btn.style.cursor='not-allowed';
+  const btn=document.getElementById('reg-next-btn');btn.disabled=true;btn.style.background='#ff6b35';btn.style.color='#fff';btn.style.cursor='not-allowed';btn.style.opacity='0.4';
 }
+function enableNextBtn(){
+  const btn=document.getElementById('reg-next-btn');btn.disabled=false;btn.style.background='#ff6b35';btn.style.color='#fff';btn.style.cursor='pointer';btn.style.opacity='1';
+}
+var regStep=1;
+var savedOutbound={};
+var selectStyle="height:36px;border:1px solid #d5d5d5;border-radius:4px;padding:0 28px 0 10px;font-size:12px;background:#fff;appearance:none;-webkit-appearance:none;background-image:url('data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 width=%2712%27 height=%2712%27 viewBox=%270 0 24 24%27%3E%3Cpath d=%27M7 10l5 5 5-5z%27 fill=%27%23666%27/%3E%3C/svg%3E');background-repeat:no-repeat;background-position:right 8px center;outline:none;width:100%;";
+
+var savedInbound={};
 function regNextStep(){
-  showToast('Step 1 Complete','From Store selected. Step 2 (To Store) is under development.');
+  if(regStep===1){
+    savedOutbound={
+      brand:document.getElementById('reg-brand').value,
+      company:document.getElementById('reg-company').value,
+      companyText:document.getElementById('reg-company').selectedOptions[0]?.text||'-',
+      store:document.getElementById('reg-store').value,
+      storeText:document.getElementById('reg-store').selectedOptions[0]?.text||'-',
+      location:document.getElementById('reg-location').value,
+      locationText:document.getElementById('reg-location').selectedOptions[0]?.text||'-'
+    };
+    goToStep(2);
+  }else if(regStep===2){
+    savedInbound={
+      company:document.getElementById('reg-in-company').value,
+      companyText:document.getElementById('reg-in-company').selectedOptions[0]?.text||'-',
+      store:document.getElementById('reg-in-store').value,
+      storeText:document.getElementById('reg-in-store').selectedOptions[0]?.text||'-',
+      location:document.getElementById('reg-in-location').value,
+      locationText:document.getElementById('reg-in-location').selectedOptions[0]?.text||'-'
+    };
+    goToStep(3);
+  }else if(regStep===3){
+    // Save selected product codes
+    savedSelectedProducts=PRODUCT_DATA.filter(p=>selectedProducts[p.code]);
+    goToStep(4);
+  }
+}
+var savedSelectedProducts=[];
+function regPrevStep(){
+  if(regStep>=2){ goToStep(regStep-1); }
+}
+function goToStep(step){
+  regStep=step;
+  const steps=document.querySelectorAll('#ob-reg-steps .ob-step');
+  const lines=document.querySelectorAll('#ob-reg-steps .ob-step-line');
+  // Update step indicators
+  steps.forEach((s,i)=>{
+    s.classList.remove('active','done');
+    if(i<step-1){s.classList.add('done');s.querySelector('.ob-step-num').innerHTML='✓';}
+    else if(i===step-1){s.classList.add('active');s.querySelector('.ob-step-num').textContent=i+1;}
+    else{s.querySelector('.ob-step-num').textContent=i+1;}
+  });
+  lines.forEach((l,i)=>{l.style.background=i<step-1?'#20c997':'#e0e0e0';});
+  // Show/hide PREVIOUS
+  document.getElementById('reg-prev-btn').style.display=step>1?'block':'none';
+  disableNextBtn();
+
+  // Reset button text/handler when not step 4
+  if(step<4){
+    var btn=document.getElementById('reg-next-btn');
+    btn.textContent='NEXT';btn.onclick=regNextStep;
+  }
+  if(step===1) renderStep1();
+  else if(step===2) renderStep2();
+  else if(step===3) renderStep3();
+  else if(step===4) renderStep4();
+}
+function renderStep2(){
+  const body=document.getElementById('ob-reg-body');
+  body.innerHTML=`
+    <div style="border:1px solid #eee;border-radius:8px;padding:20px 20px 24px;margin-bottom:12px;">
+      <div style="font-size:13px;font-weight:600;color:#222;margin-bottom:14px;">Search Inbound Store</div>
+      <div style="display:flex;gap:12px;align-items:flex-start;">
+        <div style="flex:1;display:flex;flex-direction:column;gap:4px;">
+          <label style="font-size:11px;font-weight:600;color:#888;">Brand</label>
+          <select id="reg-in-brand" disabled style="${selectStyle}"><option>${savedOutbound.brand}</option></select>
+        </div>
+        <div style="flex:1;display:flex;flex-direction:column;gap:4px;">
+          <label style="font-size:11px;font-weight:600;color:#888;">BP</label>
+          <select id="reg-in-company" onchange="onRegInCompanyChange()" style="${selectStyle}"><option value="">Select</option></select>
+        </div>
+        <div style="flex:1;display:flex;flex-direction:column;gap:4px;">
+          <label style="font-size:11px;font-weight:600;color:#888;">Store</label>
+          <select id="reg-in-store" disabled onchange="onRegInStoreChange()" style="${selectStyle}"><option value="">Select</option></select>
+        </div>
+        <div style="flex:1;display:flex;flex-direction:column;gap:4px;">
+          <label style="font-size:11px;font-weight:600;color:#888;">Location</label>
+          <select id="reg-in-location" disabled onchange="onRegInLocationChange()" style="${selectStyle}"><option value="">Select</option></select>
+        </div>
+      </div>
+    </div>
+    <div style="border:1px solid #eee;border-radius:8px;overflow:hidden;margin-bottom:12px;">
+      <div style="padding:12px 20px;font-size:12px;font-weight:600;color:#ff6b35;">Outbound Store</div>
+      <div style="display:flex;border-top:1px solid #eee;font-size:12px;color:#333;">
+        <div style="flex:1;padding:12px 20px;"><span style="color:#888;font-weight:600;margin-right:12px;">BP</span>${savedOutbound.companyText}</div>
+        <div style="flex:1;padding:12px 20px;"><span style="color:#888;font-weight:600;margin-right:12px;">Store</span>${savedOutbound.storeText}</div>
+        <div style="flex:1;padding:12px 20px;"><span style="color:#888;font-weight:600;margin-right:12px;">Location</span>${savedOutbound.locationText}</div>
+      </div>
+    </div>
+    <div style="border:1px solid #eee;border-radius:8px;overflow:hidden;background:#FFF8F2;">
+      <div style="padding:12px 20px;font-size:12px;font-weight:600;color:#ff6b35;">Inbound Store</div>
+      <div style="display:flex;border-top:1px solid #eee;font-size:12px;color:#333;">
+        <div style="flex:1;padding:12px 20px;"><span style="color:#888;font-weight:600;margin-right:12px;">BP</span><span id="reg-in-info-bp2">-</span></div>
+        <div style="flex:1;padding:12px 20px;"><span style="color:#888;font-weight:600;margin-right:12px;">Store</span><span id="reg-in-info-store2">-</span></div>
+        <div style="flex:1;padding:12px 20px;"><span style="color:#888;font-weight:600;margin-right:12px;">Location</span><span id="reg-in-info-loc2">-</span></div>
+      </div>
+    </div>`;
+  // Populate inbound BP dropdown (same brand)
+  const co=document.getElementById('reg-in-company');
+  const companies=REG_DATA[savedOutbound.brand]?.companies||{};
+  Object.entries(companies).forEach(([code,c])=>{co.innerHTML+=`<option value="${code}">${code} / ${c.name}</option>`;});
+}
+function renderStep1(){
+  // Rebuild step 1 - simplest: close and reopen
+  closeObRegModal();
+  setTimeout(()=>openObRegModal(),100);
+}
+function onRegInCompanyChange(){
+  const companyCode=document.getElementById('reg-in-company').value;
+  const st=document.getElementById('reg-in-store');const lo=document.getElementById('reg-in-location');
+  st.innerHTML='<option value="">Select</option>';lo.innerHTML='<option value="">Select</option>';lo.disabled=true;disableNextBtn();
+  if(!companyCode){st.disabled=true;return;}
+  const stores=REG_DATA[savedOutbound.brand]?.companies[companyCode]?.stores||{};
+  Object.entries(stores).forEach(([code,s])=>{st.innerHTML+=`<option value="${code}">${code} / ${s.name}</option>`;});
+  st.disabled=false;
+}
+function onRegInStoreChange(){
+  const companyCode=document.getElementById('reg-in-company').value;
+  const storeCode=document.getElementById('reg-in-store').value;
+  const lo=document.getElementById('reg-in-location');lo.innerHTML='<option value="">Select</option>';disableNextBtn();
+  if(!storeCode){lo.disabled=true;return;}
+  const locations=REG_DATA[savedOutbound.brand]?.companies[companyCode]?.stores[storeCode]?.locations||{};
+  Object.entries(locations).forEach(([code,name])=>{lo.innerHTML+=`<option value="${code}">${code} / ${name}</option>`;});
+  lo.disabled=false;
+}
+function onRegInLocationChange(){
+  const loc=document.getElementById('reg-in-location').value;
+  if(!loc){disableNextBtn();return;}
+  document.getElementById('reg-in-info-bp2').textContent=document.getElementById('reg-in-company').selectedOptions[0].text;
+  document.getElementById('reg-in-info-store2').textContent=document.getElementById('reg-in-store').selectedOptions[0].text;
+  document.getElementById('reg-in-info-loc2').textContent=document.getElementById('reg-in-location').selectedOptions[0].text;
+  enableNextBtn();
+}
+
+// --- Step 3: Product selection ---
+var PRODUCT_DATA=[
+  {brand:'GENTLE MONSTER',code:'GM-SUN-001',name:'Dreamer 01',barcode:'8809123456001',cat1:'Sunglasses',cat2:'Acetate',stock:24},
+  {brand:'GENTLE MONSTER',code:'GM-SUN-002',name:'My Ma 01',barcode:'8809123456002',cat1:'Sunglasses',cat2:'Metal',stock:18},
+  {brand:'GENTLE MONSTER',code:'GM-OPT-003',name:'South Side 01',barcode:'8809123456003',cat1:'Optical',cat2:'Acetate',stock:12},
+  {brand:'GENTLE MONSTER',code:'GM-SUN-004',name:'Paso 01',barcode:'8809123456004',cat1:'Sunglasses',cat2:'Titanium',stock:30},
+  {brand:'GENTLE MONSTER',code:'GM-OPT-005',name:'Catta 01',barcode:'8809123456005',cat1:'Optical',cat2:'Metal',stock:8},
+  {brand:'GENTLE MONSTER',code:'GM-SUN-006',name:'Lang 01',barcode:'8809123456006',cat1:'Sunglasses',cat2:'Acetate',stock:15},
+  {brand:'GENTLE MONSTER',code:'GM-ACC-007',name:'Case Leather BK',barcode:'8809123456007',cat1:'Accessories',cat2:'Case',stock:40},
+  {brand:'GENTLE MONSTER',code:'GM-SUN-008',name:'Rick 01',barcode:'8809123456008',cat1:'Sunglasses',cat2:'Acetate',stock:6},
+  {brand:'GENTLE MONSTER',code:'GM-OPT-009',name:'Loti 01',barcode:'8809123456009',cat1:'Optical',cat2:'Titanium',stock:22},
+  {brand:'GENTLE MONSTER',code:'GM-SUN-010',name:'Tomy 01',barcode:'8809123456010',cat1:'Sunglasses',cat2:'Metal',stock:11},
+];
+var selectedProducts={};
+function renderStep3(){
+  // Determine outbound type
+  var obType='S2S';
+  var storeInfoHtml=`
+    <div style="border:1px solid #eee;border-radius:8px;overflow:hidden;margin-bottom:12px;">
+      <div style="padding:10px 20px;font-size:12px;font-weight:600;color:#ff6b35;display:flex;align-items:center;gap:8px;">Outbound Store <span style="font-size:10px;background:#f0f0f0;color:#666;padding:2px 8px;border-radius:4px;font-weight:500;">${obType}</span></div>
+      <div style="display:flex;border-top:1px solid #eee;font-size:12px;color:#333;">
+        <div style="flex:1;padding:10px 20px;"><span style="color:#888;font-weight:600;margin-right:8px;">BP</span>${savedOutbound.companyText}</div>
+        <div style="flex:1;padding:10px 20px;"><span style="color:#888;font-weight:600;margin-right:8px;">Store</span>${savedOutbound.storeText}</div>
+        <div style="flex:1;padding:10px 20px;"><span style="color:#888;font-weight:600;margin-right:8px;">Location</span>${savedOutbound.locationText}</div>
+      </div>
+    </div>
+    <div style="border:1px solid #eee;border-radius:8px;overflow:hidden;margin-bottom:12px;">
+      <div style="padding:10px 20px;font-size:12px;font-weight:600;color:#ff6b35;display:flex;align-items:center;gap:8px;">Inbound Store <span style="font-size:10px;background:#f0f0f0;color:#666;padding:2px 8px;border-radius:4px;font-weight:500;">${obType}</span></div>
+      <div style="display:flex;border-top:1px solid #eee;font-size:12px;color:#333;">
+        <div style="flex:1;padding:10px 20px;"><span style="color:#888;font-weight:600;margin-right:8px;">BP</span>${savedInbound.companyText}</div>
+        <div style="flex:1;padding:10px 20px;"><span style="color:#888;font-weight:600;margin-right:8px;">Store</span>${savedInbound.storeText}</div>
+        <div style="flex:1;padding:10px 20px;"><span style="color:#888;font-weight:600;margin-right:8px;">Location</span>${savedInbound.locationText}</div>
+      </div>
+    </div>`;
+
+  var searchBoxHtml=`
+    <div style="border:1px solid #eee;border-radius:8px;padding:16px 20px;margin-bottom:12px;">
+      <div style="display:flex;gap:12px;align-items:flex-end;">
+        <div style="flex:1;display:flex;flex-direction:column;gap:4px;">
+          <label style="font-size:11px;font-weight:600;color:#888;">Product Category 1</label>
+          <select id="prod-cat1" style="${selectStyle}">
+            <option value="">All</option><option>Sunglasses</option><option>Optical</option><option>Accessories</option>
+          </select>
+        </div>
+        <div style="flex:1;display:flex;flex-direction:column;gap:4px;">
+          <label style="font-size:11px;font-weight:600;color:#888;">Product Category 2</label>
+          <select id="prod-cat2" style="${selectStyle}">
+            <option value="">All</option><option>Acetate</option><option>Metal</option><option>Titanium</option><option>Case</option>
+          </select>
+        </div>
+        <div style="flex:1.5;display:flex;flex-direction:column;gap:4px;">
+          <label style="font-size:11px;font-weight:600;color:#888;">Product Code / Name</label>
+          <input id="prod-search" type="text" placeholder="Search product code or name" style="height:36px;border:1px solid #d5d5d5;border-radius:4px;padding:0 10px;font-size:12px;outline:none;">
+        </div>
+        <button onclick="filterProducts()" style="height:36px;padding:0 24px;background:#ff6b35;color:#fff;border:none;border-radius:4px;font-size:12px;font-weight:600;cursor:pointer;white-space:nowrap;">SEARCH</button>
+      </div>
+    </div>`;
+
+  var body=document.getElementById('ob-reg-body');
+  body.innerHTML= storeInfoHtml + searchBoxHtml +
+    `<div style="border:1px solid #eee;border-radius:8px;overflow:hidden;">
+      <div style="display:flex;justify-content:space-between;align-items:center;padding:12px 20px;border-bottom:1px solid #eee;">
+        <div style="font-size:12px;color:#888;">Total <b style="color:#222;" id="prod-total">10</b> &nbsp;|&nbsp; Selected <b style="color:#ff6b35;" id="prod-selected">0</b></div>
+      </div>
+      <table style="width:100%;border-collapse:collapse;font-size:12px;">
+        <thead>
+          <tr style="background:#fafafa;">
+            <th style="width:40px;padding:10px 8px;text-align:center;font-weight:600;color:#888;border-bottom:1px solid #eee;"><input type="checkbox" id="prod-check-all" onchange="toggleAllProducts(this)"></th>
+            <th style="padding:10px 12px;text-align:left;font-weight:600;color:#888;border-bottom:1px solid #eee;">Brand</th>
+            <th style="padding:10px 12px;text-align:left;font-weight:600;color:#888;border-bottom:1px solid #eee;">Product Info</th>
+            <th style="padding:10px 12px;text-align:left;font-weight:600;color:#888;border-bottom:1px solid #eee;">Product Category 1</th>
+            <th style="padding:10px 12px;text-align:left;font-weight:600;color:#888;border-bottom:1px solid #eee;">Product Category 2</th>
+            <th style="width:120px;padding:10px 12px;text-align:center;font-weight:600;color:#888;border-bottom:1px solid #eee;">Available Qty</th>
+          </tr>
+        </thead>
+        <tbody id="prod-tbody"></tbody>
+      </table>
+      <div style="display:flex;justify-content:center;padding:12px;border-top:1px solid #eee;gap:4px;" id="prod-pagination"></div>
+    </div>`;
+  selectedProducts={};
+  filterProducts();
+  disableNextBtn();
+}
+function filterProducts(){
+  var cat1=document.getElementById('prod-cat1')?.value||'';
+  var cat2=document.getElementById('prod-cat2')?.value||'';
+  var search=(document.getElementById('prod-search')?.value||'').toLowerCase();
+  var filtered=PRODUCT_DATA.filter(p=>{
+    if(cat1&&p.cat1!==cat1)return false;
+    if(cat2&&p.cat2!==cat2)return false;
+    if(search&&!p.code.toLowerCase().includes(search)&&!p.name.toLowerCase().includes(search))return false;
+    return true;
+  });
+  renderProductTable(filtered);
+}
+function renderProductTable(products){
+  var tbody=document.getElementById('prod-tbody');
+  document.getElementById('prod-total').textContent=products.length;
+  if(!products.length){
+    tbody.innerHTML='<tr><td colspan="7" style="text-align:center;padding:40px;color:#aaa;">No products found</td></tr>';
+    return;
+  }
+  tbody.innerHTML=products.map((p,i)=>`
+    <tr style="border-bottom:1px solid #f5f5f5;">
+      <td style="text-align:center;padding:10px 8px;"><input type="checkbox" class="prod-check" data-idx="${i}" data-code="${p.code}" onchange="toggleProduct(this,'${p.code}')" ${selectedProducts[p.code]?'checked':''}></td>
+      <td style="padding:10px 12px;">${p.brand}</td>
+      <td style="padding:10px 12px;">
+        <div style="font-weight:600;">${p.code}</div>
+        <div style="color:#888;font-size:11px;">${p.name}</div>
+        <div style="color:#aaa;font-size:10px;">${p.barcode}</div>
+      </td>
+      <td style="padding:10px 12px;">${p.cat1}</td>
+      <td style="padding:10px 12px;">${p.cat2}</td>
+      <td style="padding:10px 12px;text-align:center;">${p.stock}</td>
+    </tr>`).join('');
+  updateSelectedCount();
+}
+function toggleProduct(cb,code){
+  if(cb.checked){ selectedProducts[code]=true; }
+  else{ delete selectedProducts[code]; }
+  updateSelectedCount();
+}
+function toggleAllProducts(cb){
+  document.querySelectorAll('.prod-check').forEach(c=>{
+    c.checked=cb.checked;
+    var code=c.dataset.code;
+    if(cb.checked){ selectedProducts[code]=true; }
+    else{ delete selectedProducts[code]; }
+  });
+  updateSelectedCount();
+}
+function updateSelectedCount(){
+  var count=Object.keys(selectedProducts).length;
+  var el=document.getElementById('prod-selected');
+  if(el)el.textContent=count;
+  if(count>0){enableNextBtn();}else{disableNextBtn();}
+}
+
+// --- Step 4: Enter Outbound Information (qty + confirm) ---
+var step4Qtys={};
+function renderStep4(){
+  var obType='S2S';
+  var body=document.getElementById('ob-reg-body');
+  body.innerHTML=`
+    <div style="border:1px solid #eee;border-radius:8px;overflow:hidden;margin-bottom:12px;">
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 20px;font-size:12px;font-weight:600;color:#ff6b35;">Outbound Store <span style="font-size:10px;background:#333;color:#fff;padding:3px 10px;border-radius:12px;font-weight:500;">${obType}</span></div>
+      <div style="display:flex;border-top:1px solid #eee;font-size:12px;color:#333;">
+        <div style="flex:1;padding:10px 20px;"><span style="color:#888;font-weight:600;margin-right:8px;">BP</span>${savedOutbound.companyText}</div>
+        <div style="flex:1;padding:10px 20px;"><span style="color:#888;font-weight:600;margin-right:8px;">Store</span>${savedOutbound.storeText}</div>
+        <div style="flex:1;padding:10px 20px;"><span style="color:#888;font-weight:600;margin-right:8px;">Location</span>${savedOutbound.locationText}</div>
+      </div>
+    </div>
+    <div style="border:1px solid #eee;border-radius:8px;overflow:hidden;margin-bottom:12px;">
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 20px;font-size:12px;font-weight:600;color:#ff6b35;">Inbound Store <span style="font-size:10px;background:#333;color:#fff;padding:3px 10px;border-radius:12px;font-weight:500;">${obType}</span></div>
+      <div style="display:flex;border-top:1px solid #eee;font-size:12px;color:#333;">
+        <div style="flex:1;padding:10px 20px;"><span style="color:#888;font-weight:600;margin-right:8px;">BP</span>${savedInbound.companyText}</div>
+        <div style="flex:1;padding:10px 20px;"><span style="color:#888;font-weight:600;margin-right:8px;">Store</span>${savedInbound.storeText}</div>
+        <div style="flex:1;padding:10px 20px;"><span style="color:#888;font-weight:600;margin-right:8px;">Location</span>${savedInbound.locationText}</div>
+      </div>
+    </div>
+    <div style="border:1px solid #eee;border-radius:8px;padding:14px 20px;margin-bottom:12px;display:flex;align-items:center;gap:12px;">
+      <span style="font-size:12px;font-weight:600;color:#222;">Outbound Request Date</span>
+      <input type="date" id="reg-ob-date" onchange="checkStep4Ready()" style="height:34px;border:1px solid #d5d5d5;border-radius:4px;padding:0 10px;font-size:12px;outline:none;color:#555;">
+    </div>
+    <div style="border:1px solid #eee;border-radius:8px;overflow:hidden;">
+      <table style="width:100%;border-collapse:collapse;font-size:12px;">
+        <thead>
+          <tr style="background:#ff6b35;color:#fff;">
+            <th style="padding:10px 12px;text-align:left;font-weight:600;">Brand</th>
+            <th style="padding:10px 12px;text-align:left;font-weight:600;">Product Info<div style="font-size:10px;font-weight:400;opacity:0.85;">(Code / Name / Barcode)</div></th>
+            <th style="width:120px;padding:10px 12px;text-align:center;font-weight:600;">Available Qty</th>
+            <th style="width:160px;padding:10px 12px;text-align:center;font-weight:600;">Outbound Request Qty</th>
+            <th style="width:40px;padding:10px 8px;text-align:center;font-weight:600;"></th>
+          </tr>
+        </thead>
+        <tbody>${savedSelectedProducts.map(p=>`
+          <tr style="border-bottom:1px solid #f5f5f5;" id="step4-row-${p.code}">
+            <td style="padding:10px 12px;">${p.brand}</td>
+            <td style="padding:10px 12px;">${p.code} / ${p.name} / ${p.barcode}</td>
+            <td style="padding:10px 12px;text-align:center;">${p.stock}</td>
+            <td style="padding:10px 12px;text-align:center;">
+              <input type="number" min="0" max="${p.stock}" value="${step4Qtys[p.code]||''}" placeholder="Please enter a Qty."
+                style="width:130px;height:30px;border:1px solid #d5d5d5;border-radius:4px;text-align:center;font-size:12px;outline:none;"
+                oninput="onStep4QtyChange('${p.code}',this,${p.stock})">
+            </td>
+            <td style="padding:10px 8px;text-align:center;">
+              <button onclick="removeStep4Product('${p.code}')" style="background:none;border:none;cursor:pointer;font-size:14px;color:#999;">&times;</button>
+            </td>
+          </tr>`).join('')}
+        </tbody>
+      </table>
+    </div>`;
+  // Change NEXT to REGISTER
+  var btn=document.getElementById('reg-next-btn');
+  btn.textContent='REGISTER';
+  btn.onclick=submitOutbound;
+  checkStep4Ready();
+}
+function onStep4QtyChange(code,input,max){
+  var v=parseInt(input.value);
+  if(isNaN(v)||v<0){input.value='';delete step4Qtys[code];checkStep4Ready();return;}
+  if(v>max){v=max;input.value=v;}
+  if(v>0) step4Qtys[code]=v; else delete step4Qtys[code];
+  checkStep4Ready();
+}
+function removeStep4Product(code){
+  savedSelectedProducts=savedSelectedProducts.filter(p=>p.code!==code);
+  delete step4Qtys[code];
+  var row=document.getElementById('step4-row-'+code);
+  if(row)row.remove();
+  if(!savedSelectedProducts.length){regPrevStep();return;}
+  checkStep4Ready();
+}
+function checkStep4Ready(){
+  // All selected products must have qty > 0
+  var allFilled=savedSelectedProducts.every(p=>step4Qtys[p.code]>0);
+  if(allFilled&&savedSelectedProducts.length>0){enableNextBtn();}else{disableNextBtn();}
+}
+function submitOutbound(){
+  var now=new Date();
+  var pad=n=>String(n).padStart(2,'0');
+  var dateStr=now.getFullYear()+'-'+pad(now.getMonth()+1)+'-'+pad(now.getDate())+' '+pad(now.getHours())+':'+pad(now.getMinutes())+' (KST)';
+  var ivNo='TO'+String(OUTBOUND_DATA.length+1).padStart(6,'0');
+  var obDate=document.getElementById('reg-ob-date')?.value||dateStr;
+  var newItems=savedSelectedProducts.map(p=>({
+    code:p.code,name:p.name,barcode:p.barcode,category:p.cat1,subCategory:p.cat2,
+    ivNo:ivNo,regQty:step4Qtys[p.code]||0,compQty:0,currency:'USD'
+  }));
+  var isRequest=regType==='request';
+  var newRow={
+    regDate:dateStr,
+    status:isRequest?'OUTBOUND_PLANNED':'PENDING_REGISTRATION',
+    type:'S2S',
+    tag:'NORMAL',
+    ivNo:ivNo,
+    bp:savedOutbound.companyText,
+    fromStore:savedOutbound.storeText,
+    fromLoc:savedOutbound.locationText,
+    toStore:savedInbound.storeText,
+    toLoc:savedInbound.locationText,
+    requestDate:dateStr,
+    createdBy:'current.user',
+    outboundMethod:'PACKAGE',
+    carrier:'',trackNo:'',wmsCarrier:'\u2014',wmsTrackNo:'\u2014',
+    items:newItems
+  };
+  newRow.statusHistory=genHistory(newRow.status,dateStr,dateStr,'current.user');
+  OUTBOUND_DATA.unshift(newRow);
+  if(isRequest){
+    var reqItems=savedSelectedProducts.map(p=>({
+      code:p.code,name:p.name,barcode:p.barcode,category:p.cat1,subCategory:p.cat2,
+      reqQty:step4Qtys[p.code]||0,availableQty:p.stock,
+      requestDate:dateStr,requestAccount:'current.user',approvalDate:'-',approvedBy:'-'
+    }));
+    REQUEST_DATA.unshift({
+      regDate:dateStr,status:'PENDING',type:'S2S',
+      bp:savedOutbound.companyText,fromStore:savedOutbound.storeText,fromLoc:savedOutbound.locationText,
+      toStore:savedInbound.storeText,toLoc:savedInbound.locationText,
+      requestDate:dateStr,requestAccount:'current.user',approvalDate:'-',approvedBy:'-',
+      items:reqItems,
+      statusHistory:[{status:'Request Created',date:dateStr,by:'current.user'}]
+    });
+  }
+  closeObRegModal();
+  renderList();
+  showToast(isRequest?'Outbound Requested':'Outbound Registered', ivNo+' — '+savedSelectedProducts.length+' products');
+  // Reset
+  step4Qtys={};savedSelectedProducts=[];selectedProducts={};regStep=1;
 }
 
 // Init
