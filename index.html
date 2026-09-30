@@ -108,8 +108,8 @@ body{background:#f8f8f8;color:#222;font-size:13px;overflow-x:hidden;zoom:0.8;}
 .cs-wrap>select{display:none!important;}
 .cs-wrap .multi-select-dropdown{top:calc(100% + 4px);}
 /* Discount Price (Master > Price) */
-#dp-view table.grid tbody tr{cursor:default;}
-#dp-view table.grid tbody tr:hover td{background:#fff!important;}
+#dp-view table.grid tbody tr,#sp-view table.grid tbody tr{cursor:default;}
+#dp-view table.grid tbody tr:hover td,#sp-view table.grid tbody tr:hover td{background:#fff!important;}
 .dp-empty{padding:48px 0!important;color:#999!important;}
 /* Daily Record View: Total Sum */
 .drv-sum-title{display:flex;align-items:center;gap:16px;font-size:15px;font-weight:700;color:#222;margin-bottom:16px;}
@@ -373,8 +373,8 @@ table.grid td input[type="checkbox"]:disabled{opacity:0.35;cursor:not-allowed;}
     </div>
     <div class="submenu closed" id="sub-mst-price">
       <a class="menu-item depth3" href="#/master/price/customer-price"><span class="menu-text">Customer Price</span></a>
+      <a class="menu-item depth3" href="#/master/price/store-customer-price"><span class="menu-text">Store Customer Price</span></a>
       <a class="menu-item depth3" href="#/master/price/supply-price"><span class="menu-text">Supply Price</span></a>
-      <a class="menu-item depth3" href="#/master/price/discount-price"><span class="menu-text">Discount Price</span></a>
     </div>
   </div>
 
@@ -642,7 +642,7 @@ table.grid td input[type="checkbox"]:disabled{opacity:0.35;cursor:not-allowed;}
     </div>
   </div>
 
-  <!-- ===== DISCOUNT PRICE VIEW (Master > Price > Discount Price) ===== -->
+  <!-- ===== STORE CUSTOMER PRICE VIEW (Master > Price > Store Customer Price) ===== -->
   <div class="detail-view" id="dp-view">
     <!-- SEARCH (same UI as Outbound List search) -->
     <div class="search-box">
@@ -722,6 +722,74 @@ table.grid td input[type="checkbox"]:disabled{opacity:0.35;cursor:not-allowed;}
         <div class="pg-nav">
           <button class="pg-btn" id="dp-prev" onclick="dpGo(-1)"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg></button>
           <button class="pg-btn" id="dp-next" onclick="dpGo(1)"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg></button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== SUPPLY PRICE VIEW (Master > Price > Supply Price) ===== -->
+  <div class="detail-view" id="sp-view">
+    <!-- SEARCH (same UI as Outbound List search) -->
+    <div class="search-box">
+      <table class="search-table">
+        <tr>
+          <th>Brand</th>
+          <td><div class="field-row"><div class="field-inline"><select id="sp-brand" style="min-width:360px;"><option value="">All</option></select></div></div></td>
+        </tr>
+        <tr>
+          <th>BP</th>
+          <td><div class="field-row"><div class="field-inline"><select id="sp-bp" style="min-width:360px;"><option value="">All</option></select></div></div></td>
+        </tr>
+        <tr>
+          <th>Currency</th>
+          <td><div class="field-row"><div class="field-inline"><select id="sp-currency" style="min-width:360px;"><option value="">All</option></select></div></div></td>
+        </tr>
+        <tr>
+          <th>Keyword<br><span style="font-weight:400;font-size:10px;color:#999;">Product Code, Product Name,<br>Barcode</span></th>
+          <td><div class="field-row"><div class="field-inline" style="flex:1;max-width:360px;">
+            <input type="text" id="sp-keyword" placeholder="Please enter at least 2 characters" style="width:100%;" onkeydown="if(event.key==='Enter')searchSupplyPrice()">
+          </div></div></td>
+        </tr>
+      </table>
+      <div class="search-action">
+        <button class="btn-reset" onclick="resetSupplyPrice()"><svg width="14" height="14" viewBox="0 0 24 24" fill="#555"><path d="M17.65 6.35C16.2 4.9 14.21 4 12 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08c-.82 2.33-3.04 4-5.65 4-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"/></svg>Reset</button>
+        <button class="btn-search" onclick="searchSupplyPrice()"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><use href="#i-search"/></svg>Search</button>
+      </div>
+    </div>
+    <div class="table-box">
+      <div class="table-toolbar">
+        <div class="table-toolbar-left">Total <b id="sp-total">0</b> Count</div>
+        <div class="table-toolbar-right">
+          <button class="btn-action btn-outline" onclick="exportSupplyPrice()">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="#555"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
+            Excel Export
+          </button>
+        </div>
+      </div>
+      <div class="grid-wrap">
+        <table class="grid">
+          <thead>
+            <tr class="hdr">
+              <th>Brand</th>
+              <th>BP Information<br><span style="font-size:10px;font-weight:400;opacity:.85;">(Code / Name)</span></th>
+              <th>Product Info<br><span style="font-size:10px;font-weight:400;opacity:.85;">(Code / Name / Barcode)</span></th>
+              <th>Currency<br><span style="font-size:10px;font-weight:400;opacity:.85;">(Transaction Currency)</span></th>
+              <th>Supply Price</th>
+            </tr>
+          </thead>
+          <tbody id="sp-body"></tbody>
+        </table>
+      </div>
+      <div class="pg-bar">
+        <div class="rpp"><span>Rows per page:</span>
+          <select id="sp-rpp" style="width:72px;" onchange="pgState('sp').page=1;renderSpPage();">
+            <option value="30" selected>30</option><option value="50">50</option><option value="100">100</option><option value="300">300</option>
+          </select>
+        </div>
+        <span id="sp-range">0–0 of 0</span>
+        <div class="pg-nav">
+          <button class="pg-btn" id="sp-prev" onclick="pgGo('sp',-1)"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg></button>
+          <button class="pg-btn" id="sp-next" onclick="pgGo('sp',1)"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg></button>
         </div>
       </div>
     </div>
@@ -1232,7 +1300,7 @@ function tagBadge(tag){
 }
 
 // ===== Shared pagination (Rows per page 30/50/100/300 + range + prev/next) =====
-const PAGERS={ob:{render:()=>renderList()},drv:{render:()=>renderDrvPage()}};
+const PAGERS={ob:{render:()=>renderList()},drv:{render:()=>renderDrvPage()},sp:{render:()=>renderSpPage()}};
 function pgState(key){return PAGERS[key];}
 // Returns [start,end) of current page and updates range text / button state
 function pgRange(key,total){
@@ -1482,6 +1550,7 @@ function showListView(){
   document.getElementById('placeholder-view').classList.remove('active');
   document.getElementById('dp-view').classList.remove('active');
   document.getElementById('drv-view').classList.remove('active');
+  document.getElementById('sp-view').classList.remove('active');
   document.getElementById('list-view').classList.remove('hidden');
   document.getElementById('detail-view').classList.remove('active');
   document.getElementById('ob-detail-view').classList.remove('active');
@@ -1835,7 +1904,7 @@ function csRefresh(sel){
   trg.classList.toggle('disabled',sel.disabled);
 }
 function csSyncModal(){
-  document.querySelectorAll('#ob-reg-modal select, #dp-view select, #drv-view select, .pg-bar select').forEach(s=>{csBuild(s);csRefresh(s);});
+  document.querySelectorAll('#ob-reg-modal select, #dp-view select, #sp-view select, #drv-view select, .pg-bar select').forEach(s=>{csBuild(s);csRefresh(s);});
 }
 // Re-sync whenever step content / options / disabled state change (ignore the custom UI's own mutations)
 new MutationObserver(muts=>{
@@ -2371,7 +2440,7 @@ function submitOutbound(){
   step4Qtys={};step4Tag='NORMAL';savedSelectedProducts=[];selectedProducts={};regStep=1;
 }
 
-// ===== Discount Price (Master > Price) =====
+// ===== Store Customer Price (Master > Price) =====
 // Discount prices: PRODUCT_DATA x AU store (testing target: Australia)
 // Prices are dummy values
 const DP_STORES=[{code:'AU1001',name:'GM_Sydney_DFS_AirportT1',currency:'AUD'}];
@@ -2448,14 +2517,14 @@ function buildDiscountPriceWorkbook(rows){
   for(let i=1;i<aoa.length;i++){const c=ws[XLSX.utils.encode_cell({r:i,c:6})];if(c) c.z='#,##0';}
   ws['!cols']=[{wch:24},{wch:36},{wch:18},{wch:20},{wch:34},{wch:10},{wch:14},{wch:18}];
   const wb=XLSX.utils.book_new();
-  XLSX.utils.book_append_sheet(wb,ws,'Discount Price');
+  XLSX.utils.book_append_sheet(wb,ws,'Store Customer Price');
   return wb;
 }
 function exportDiscountPrice(){
   if(typeof XLSX==='undefined'){showToast('Excel Export','Excel library failed to load. Check network and reload.','error');return;}
   if(!dpLastRows.length){showToast('Excel Export','No data to export.','error');return;}
   const d=new Date(),pad=n=>String(n).padStart(2,'0');
-  const fileName='Discount_Price_'+d.getFullYear()+pad(d.getMonth()+1)+pad(d.getDate())+'_'+pad(d.getHours())+pad(d.getMinutes())+'.xlsx';
+  const fileName='Store_Customer_Price_'+d.getFullYear()+pad(d.getMonth()+1)+pad(d.getDate())+'_'+pad(d.getHours())+pad(d.getMinutes())+'.xlsx';
   XLSX.writeFile(buildDiscountPriceWorkbook(dpLastRows),fileName);
   showToast('Excel Export',fileName+' — '+dpLastRows.length+' rows');
 }
@@ -2470,6 +2539,62 @@ function resetDiscountPrice(){
 }
 initDiscountPriceFilters();
 csSyncModal();
+
+// ===== Supply Price (Master > Price) =====
+// Supply prices by BP (values from production Supply Price list, C1002)
+// NOTE: 11000000 has no supply price in the source capture -> not included
+const SUPPLY_PRICE_BY_CODE={'11000001':86.74,'11000002':86.74,'11000003':66.93,'11000004':66.93,'11000005':78,'11000006':68.64,'11000007':68.64,
+  '11000008':66.93,'11000009':66.93,'11000010':66.56,'11000011':66.56,'11000012':66.56,'11000013':66.56,'11000014':68.64,'11000015':68.64,
+  '11000016':54.08,'11000017':52,'11000018':52,'11000019':52,'11000020':86.74,'11000021':93.81,'11000022':93.81,'11000023':93.81,'11000024':86.74};
+const SUPPLY_PRICE_DATA=PRODUCT_MASTER.filter(p=>SUPPLY_PRICE_BY_CODE[p.code]!=null).map(p=>({
+  brand:'GENTLE_MONSTER',bp:'C1002',code:p.code,name:p.name,barcode:p.barcode,currency:'USD',price:SUPPLY_PRICE_BY_CODE[p.code]}));
+let spRendered=false,spLastRows=[];
+function initSupplyPriceFilters(){
+  // Brand / BP: single select (one brand, one BP at a time)
+  const fill=(id,items)=>{document.getElementById(id).innerHTML='<option value="">All</option>'+items.map(([v,t])=>'<option value="'+v+'">'+t+'</option>').join('');};
+  fill('sp-brand',[...document.querySelectorAll('#reg-brand option')].filter(o=>o.value).map(o=>[o.value,o.text]));
+  fill('sp-bp',Object.entries(getMasterBPs()));
+  document.getElementById('sp-currency').innerHTML='<option value="">All</option>'+[...new Set(SUPPLY_PRICE_DATA.map(r=>r.currency))].sort().map(v=>'<option value="'+v+'">'+v+'</option>').join('');
+}
+function searchSupplyPrice(){
+  const kw=document.getElementById('sp-keyword').value.trim().toLowerCase();
+  if(kw&&kw.length<2){showToast('Search','Please enter at least 2 characters.','error');return;}
+  const v=id=>document.getElementById(id).value;
+  const brand=v('sp-brand'),bp=v('sp-bp'),cur=v('sp-currency');
+  spLastRows=SUPPLY_PRICE_DATA.filter(r=>
+    (!brand||r.brand===brand)&&(!bp||r.bp===bp)&&(!cur||r.currency===cur)&&
+    (!kw||[r.code,r.name,r.barcode].some(x=>x.toLowerCase().includes(kw))));
+  PAGERS.sp.page=1;
+  document.getElementById('sp-total').textContent=spLastRows.length;
+  renderSpPage();
+  spRendered=true;
+}
+function spRowCells(r){return [dpBrandText(r.brand),r.bp+' / '+getMasterBPs()[r.bp].split(' / ')[1],r.code+' / '+r.name+' / '+r.barcode,r.currency,r.price];}
+function renderSpPage(){
+  const rows=spLastRows,[s,e]=pgRange('sp',rows.length);
+  document.getElementById('sp-body').innerHTML=rows.length?rows.slice(s,e).map(r=>{const c=spRowCells(r);return `<tr>
+    <td>${c[0]}</td><td class="tl">${c[1]}</td><td class="tl">${c[2]}</td><td>${c[3]}</td><td>${fmtAmt(c[4])}</td></tr>`;}).join('')
+    :'<tr><td colspan="5" class="dp-empty">No data found.</td></tr>';
+}
+function resetSupplyPrice(){
+  ['sp-brand','sp-bp','sp-currency'].forEach(id=>{const s=document.getElementById(id);s.selectedIndex=0;csRefresh(s);});
+  document.getElementById('sp-keyword').value='';
+  searchSupplyPrice();
+}
+// Excel export: all rows of the last search (not limited by pagination), same columns as the list
+function exportSupplyPrice(){
+  if(typeof XLSX==='undefined'){showToast('Excel Export','Excel library failed to load. Check network and reload.','error');return;}
+  if(!spLastRows.length){showToast('Excel Export','No data to export.','error');return;}
+  const aoa=[['Brand','BP Information (Code / Name)','Product Info (Code / Name / Barcode)','Currency (Transaction Currency)','Supply Price']].concat(spLastRows.map(spRowCells));
+  const ws=XLSX.utils.aoa_to_sheet(aoa);
+  for(let i=1;i<aoa.length;i++){const cell=ws[XLSX.utils.encode_cell({r:i,c:4})];if(cell)cell.z='#,##0.##';}
+  ws['!cols']=[{wch:24},{wch:28},{wch:44},{wch:28},{wch:14}];
+  const wb=XLSX.utils.book_new();XLSX.utils.book_append_sheet(wb,ws,'Supply Price');
+  const d=new Date(),pad=n=>String(n).padStart(2,'0');
+  const fileName='Supply_Price_'+d.getFullYear()+pad(d.getMonth()+1)+pad(d.getDate())+'_'+pad(d.getHours())+pad(d.getMinutes())+'.xlsx';
+  XLSX.writeFile(wb,fileName);
+  showToast('Excel Export',fileName+' — '+spLastRows.length+' rows');
+}
 
 // ===== Daily Record View (Sales) =====
 // Dummy receipts for the last 7 days (store master: REG_DATA C1002, product master: PRODUCT_MASTER)
@@ -2584,6 +2709,7 @@ function exportDailyRecord(){
   showToast('Excel Export',fileName+' — '+drvLastRows.length+' rows');
 }
 initDailyRecordFilters();
+initSupplyPriceFilters();
 csSyncModal();
 
 // ===== Hash Router =====
@@ -2600,8 +2726,8 @@ const MENU_PAGES={
   '/master/product/rx-product-list':{bc:['Master Information','Product'],title:'RX Product List',open:['master','mst-product']},
   '/master/package/bp-package':{bc:['Master Information','Package'],title:'BP Package',open:['master','mst-package']},
   '/master/price/customer-price':{bc:['Master Information','Price'],title:'Customer Price',open:['master','mst-price']},
-  '/master/price/supply-price':{bc:['Master Information','Price'],title:'Supply Price',open:['master','mst-price']},
-  '/master/price/discount-price':{bc:['Master Information','Price'],title:'Discount Price',open:['master','mst-price'],view:'dp-view',onEnter:()=>{if(!dpRendered)searchDiscountPrice();}},
+  '/master/price/supply-price':{bc:['Master Information','Price'],title:'Supply Price',open:['master','mst-price'],view:'sp-view',onEnter:()=>{if(!spRendered)searchSupplyPrice();}},
+  '/master/price/store-customer-price':{bc:['Master Information','Price'],title:'Store Customer Price',open:['master','mst-price'],view:'dp-view',onEnter:()=>{if(!dpRendered)searchDiscountPrice();}},
   '/sales/daily-record-view':{bc:['Sales'],title:'Daily Record View',heading:'Daily Record View List',open:['sales'],view:'drv-view',onEnter:()=>{if(!drvRendered)searchDailyRecord();}},
   '/sales/period-sales-view':{bc:['Sales'],title:'Period Sales View',open:['sales']},
   '/sales/product-sales-view':{bc:['Sales'],title:'Product Sales View',open:['sales']},
@@ -2612,6 +2738,8 @@ const MENU_PAGES={
   '/report/report-board':{bc:['Global Report'],title:'Report Board',open:['rpt']},
   '/system/pos-display-setting':{bc:['System Setting'],title:'POS Display Setting',open:['sys']}
 };
+// Renamed menus: old path -> new path (keeps shared links working)
+const ROUTE_ALIASES={'/master/price/discount-price':'/master/price/store-customer-price'};
 let isRouting=false;
 function listRoute(){return '#/inventory/outbound'+(currentTab==='request'?'?tab=request':'');}
 // Update URL on user navigation (skipped while the router itself is rendering)
@@ -2654,6 +2782,8 @@ function route(){
       const idx=REQUEST_DATA.findIndex(r=>r.reqNo===m[1]);
       if(idx<0) return redirect('#/inventory/outbound?tab=request');
       setPageHeader(OUTBOUND_PAGE);activateTab('request');showListView();openDetail(idx);
+    }else if(ROUTE_ALIASES[path]){
+      return redirect('#'+ROUTE_ALIASES[path]);
     }else if(MENU_PAGES[path]){
       setPageHeader({...MENU_PAGES[path],menu:path});
       showPlaceholder(MENU_PAGES[path]);
