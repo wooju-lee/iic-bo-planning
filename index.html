@@ -674,7 +674,7 @@ table.grid td input[type="checkbox"]:disabled{opacity:0.35;cursor:not-allowed;}
           <td><div class="field-row"><div class="field-inline"><select id="dp-currency" style="min-width:360px;"><option value="">All</option></select></div></div></td>
         </tr>
         <tr>
-          <th>Keyword<br><span style="font-weight:400;font-size:10px;color:#999;">Product Code, Product Name,<br>Discount Price</span></th>
+          <th>Keyword<br><span style="font-weight:400;font-size:10px;color:#999;">Product Code, Product Name,<br>Price</span></th>
           <td><div class="field-row"><div class="field-inline" style="flex:1;max-width:360px;">
             <input type="text" id="dp-keyword" placeholder="Please enter at least 2 characters" style="width:100%;" onkeydown="if(event.key==='Enter')searchDiscountPrice()">
           </div></div></td>
@@ -705,7 +705,7 @@ table.grid td input[type="checkbox"]:disabled{opacity:0.35;cursor:not-allowed;}
               <th style="width:110px;">Product<br>Category 2</th>
               <th>Product Info<br><span style="font-size:10px;font-weight:400;opacity:.85;">(Code / Name)</span></th>
               <th>Currency</th>
-              <th>Discount Price</th>
+              <th>Price</th>
               <th>Update Date</th>
             </tr>
           </thead>
@@ -2509,11 +2509,11 @@ function dpGo(delta){
   renderDpPage();
 }
 // Excel export: all rows of the last search result (not limited by pagination), same columns as the list
-const DP_EXPORT_HEADERS=['Brand','Store (Code / Name)','Product Category 1','Product Category 2','Product Info (Code / Name)','Currency','Discount Price','Update Date'];
+const DP_EXPORT_HEADERS=['Brand','Store (Code / Name)','Product Category 1','Product Category 2','Product Info (Code / Name)','Currency','Price','Update Date'];
 function buildDiscountPriceWorkbook(rows){
   const aoa=[DP_EXPORT_HEADERS].concat(rows.map(r=>[dpBrandText(r.brand),r.store,r.cat1,r.cat2,r.code+' / '+r.name,r.currency,r.price,r.updatedAt]));
   const ws=XLSX.utils.aoa_to_sheet(aoa);
-  // Discount Price: numeric cell with thousand separator (same as list display)
+  // Price: numeric cell with thousand separator (same as list display)
   for(let i=1;i<aoa.length;i++){const c=ws[XLSX.utils.encode_cell({r:i,c:6})];if(c) c.z='#,##0';}
   ws['!cols']=[{wch:24},{wch:36},{wch:18},{wch:20},{wch:34},{wch:10},{wch:14},{wch:18}];
   const wb=XLSX.utils.book_new();
@@ -2542,12 +2542,15 @@ csSyncModal();
 
 // ===== Supply Price (Master > Price) =====
 // Supply prices by BP (values from production Supply Price list, C1002)
-// NOTE: 11000000 has no supply price in the source capture -> not included
-const SUPPLY_PRICE_BY_CODE={'11000001':86.74,'11000002':86.74,'11000003':66.93,'11000004':66.93,'11000005':78,'11000006':68.64,'11000007':68.64,
+// NOTE: 11000000 price is dummy (not in the source capture)
+const SUPPLY_PRICE_BY_CODE={'11000000':86.74,'11000001':86.74,'11000002':86.74,'11000003':66.93,'11000004':66.93,'11000005':78,'11000006':68.64,'11000007':68.64,
   '11000008':66.93,'11000009':66.93,'11000010':66.56,'11000011':66.56,'11000012':66.56,'11000013':66.56,'11000014':68.64,'11000015':68.64,
   '11000016':54.08,'11000017':52,'11000018':52,'11000019':52,'11000020':86.74,'11000021':93.81,'11000022':93.81,'11000023':93.81,'11000024':86.74};
 const SUPPLY_PRICE_DATA=PRODUCT_MASTER.filter(p=>SUPPLY_PRICE_BY_CODE[p.code]!=null).map(p=>({
-  brand:'GENTLE_MONSTER',bp:'C1002',code:p.code,name:p.name,barcode:p.barcode,currency:'USD',price:SUPPLY_PRICE_BY_CODE[p.code]}));
+  brand:'GENTLE_MONSTER',bp:'C1002',code:p.code,name:p.name,barcode:p.barcode,currency:'USD',price:SUPPLY_PRICE_BY_CODE[p.code]}))
+  // Products in production Supply Price list but not in PRODUCT_MASTER yet (category unknown)
+  .concat([{code:'11000025',name:'SMART LUTTO-01',barcode:'8809639024324',price:86.74},{code:'11000026',name:'SMART HAVANA-01',barcode:'8809639024331',price:93.81}]
+    .map(p=>({brand:'GENTLE_MONSTER',bp:'C1002',currency:'USD',...p})));
 let spRendered=false,spLastRows=[];
 function initSupplyPriceFilters(){
   // Brand / BP: single select (one brand, one BP at a time)
