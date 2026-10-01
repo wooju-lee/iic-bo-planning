@@ -193,6 +193,32 @@ body{background:#f8f8f8;color:#222;font-size:13px;overflow-x:hidden;zoom:0.8;}
 .rc-items .tl{text-align:left;}
 .rc-items tr.rc-total td{background:#FCEBD2;font-weight:700;color:#222;border-bottom:none;font-size:14px;}
 .rc-neg{color:#C62828!important;}
+/* S2S label */
+.lb-state{display:inline-flex;align-items:center;height:30px;padding:0 12px;border-radius:4px;font-size:12px;font-weight:600;background:#f5f5f5;color:#666;}
+.lb-state.req{background:#FFF8E1;color:#B45309;}
+.lb-state.ok{background:#E8F5E9;color:#2E7D32;}
+.btn-action:disabled{opacity:0.4;cursor:not-allowed;}
+/* Outbound Information header: label actions | Save */
+.ob-head-actions{margin-left:auto;display:flex;align-items:center;gap:8px;}
+.ob-head-actions .btn-action{margin-left:0!important;}
+.ob-head-sep{width:1px;height:20px;background:#d5d5d5;margin:0 6px;}
+/* Label buttons: mint (#20c997, used in this prototype) to separate from Save (primary) */
+.btn-label{background:#E6FCF5;color:#0CA678;border:1px solid #96F2D7;}
+.btn-label:hover:not(:disabled){background:#C3FAE8;}
+.btn-label-outline{background:#fff;color:#0CA678;border:1px solid #96F2D7;}
+.btn-label-outline:hover:not(:disabled){background:#F3FFFB;}
+.lb-carriers{display:flex;flex-direction:column;gap:8px;margin:4px 0 18px;}
+.lb-carrier{display:flex;align-items:center;gap:10px;border:1px solid #e0e0e0;border-radius:6px;padding:12px 14px;cursor:pointer;font-size:13px;}
+.lb-carrier.sel{border-color:#ff6b35;background:#FFF7F0;}
+.lb-carrier input{accent-color:#ff6b35;}
+.lb-foot{display:flex;justify-content:flex-end;gap:8px;}
+#label-print-area{border:2px solid #222;border-radius:4px;padding:16px 18px;font-size:12px;color:#222;margin-bottom:18px;}
+#label-print-area .lp-carrier{font-size:22px;font-weight:800;letter-spacing:1px;}
+#label-print-area .lp-row{display:flex;gap:8px;margin-top:8px;}
+#label-print-area .lp-k{width:70px;color:#666;font-weight:600;}
+#label-print-area .lp-bars{height:56px;margin:14px 0 4px;background:repeating-linear-gradient(90deg,#222 0 2px,#fff 2px 4px,#222 4px 5px,#fff 5px 8px,#222 8px 11px,#fff 11px 12px);}
+#label-print-area .lp-track{text-align:center;font-size:14px;font-weight:700;letter-spacing:2px;}
+@media print{body *{visibility:hidden!important;}#label-print-area,#label-print-area *{visibility:visible!important;}#label-print-area{position:fixed;left:20px;top:20px;width:380px;}}
 /* Pagination bar (Rows per page / range / prev-next) — shared by lists */
 .pg-bar{display:flex;align-items:center;justify-content:flex-end;gap:28px;padding:12px 4px 0;font-size:13px;color:rgba(0,0,0,0.87);}
 .pg-bar .rpp{display:flex;align-items:center;gap:6px;}
@@ -1149,6 +1175,14 @@ table.grid td input[type="checkbox"]:disabled{opacity:0.35;cursor:not-allowed;}
     </div>
   </div>
 
+  <!-- LABEL MODAL (S2S: carrier select / label print preview) -->
+  <div class="modal-overlay" id="label-modal" onclick="if(event.target===this)closeLabelModal();">
+    <div class="modal-box" style="width:520px;">
+      <div class="modal-header"><span class="modal-title" id="label-title">Label</span><button class="modal-close" onclick="closeLabelModal()">&times;</button></div>
+      <div class="modal-body" id="label-body"></div>
+    </div>
+  </div>
+
   <!-- STATUS HISTORY MODAL -->
   <div class="modal-overlay" id="status-history-modal" onclick="if(event.target===this)this.classList.remove('show');">
     <div class="modal-box">
@@ -1829,7 +1863,7 @@ function openObDetail(idx){
         <span style="border-bottom:1px dashed #aaa;cursor:help;">OUTBOUND INFORMATION</span>
         <span class="wms-tooltip">You can manually enter outbound method, carrier, and tracking number.</span>
       </span>
-      ${saveBtnHtml}
+      <div class="ob-head-actions">${obLabelActions(r,idx)}${r.type==='S2S'&&saveBtnHtml?'<span class="ob-head-sep"></span>':''}${saveBtnHtml}</div>
     </div>
     <div class="section-row"><div class="s-label">Outbound Method</div><div class="s-value">${isEditable
       ?`<select id="ob-method" style="min-width:240px;" onchange="OUTBOUND_DATA[${idx}].outboundMethod=this.value">
@@ -2126,7 +2160,7 @@ function csRefresh(sel){
   trg.classList.toggle('disabled',sel.disabled);
 }
 function csSyncModal(){
-  document.querySelectorAll('#ob-reg-modal select, #dp-view select, #sp-view select, #drv-view select, #psv-view select, #prsv-view select, .pg-bar select').forEach(s=>{csBuild(s);csRefresh(s);});
+  document.querySelectorAll('#ob-reg-modal select, #dp-view select, #sp-view select, #drv-view select, #psv-view select, #prsv-view select, #label-modal select, .pg-bar select').forEach(s=>{csBuild(s);csRefresh(s);});
 }
 // Re-sync whenever step content / options / disabled state change (ignore the custom UI's own mutations)
 new MutationObserver(muts=>{
@@ -3208,6 +3242,73 @@ function exportProductSales(){
   const d=new Date(),pad=n=>String(n).padStart(2,'0');
   const fileName='Product_Sales_View_'+d.getFullYear()+pad(d.getMonth()+1)+pad(d.getDate())+'_'+pad(d.getHours())+pad(d.getMinutes())+'.xlsx';
   XLSX.writeFile(wb,fileName);showToast('Excel Export',fileName+' — '+prsvLastRows.length+' rows');
+}
+
+// ===== S2S Outbound Label (TMS) =====
+// Label Register -> carrier select -> request to TMS -> label received (simulated) -> Label Print enabled
+const LABEL_CARRIERS=['UPS','FedEx','USPS','DHL'];
+const LABEL_BLOCKED=['OUTBOUND_COMPLETED','OUTBOUND_CANCELLED'];
+function obLabelActions(r,idx){
+  if(r.type!=='S2S') return '';
+  const lb=r.label,blocked=LABEL_BLOCKED.includes(r.status);
+  const state=!lb?'<span class="lb-state">Label: Not Registered</span>'
+    :lb.status==='REQUESTED'?'<span class="lb-state req">Label: Waiting for TMS ('+lb.carrier+')</span>'
+    :'<span class="lb-state ok">Label: Received ('+lb.carrier+' / '+lb.trackNo+')</span>';
+  return state+`<button class="btn-action btn-label" ${lb||blocked?'disabled':''} onclick="openLabelRegister(${idx})">Label Register</button>`
+    +`<button class="btn-action btn-label-outline" ${lb&&lb.status==='RECEIVED'?'':'disabled'} onclick="openLabelPrint(${idx})">Label Print</button>`;
+}
+function closeLabelModal(){document.getElementById('label-modal').classList.remove('show');}
+// Carrier code shown under the dropdown (dummy codes; same layout as production modal)
+const LABEL_CARRIER_CODES={UPS:'1817',FedEx:'1818',USPS:'1819',DHL:'1820'};
+function openLabelRegister(idx){
+  document.getElementById('label-title').innerHTML='<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" style="vertical-align:-4px;margin-right:8px;"><path d="M20 8h-3V4H3c-1.1 0-2 .9-2 2v11h2c0 1.66 1.34 3 3 3s3-1.34 3-3h6c0 1.66 1.34 3 3 3s3-1.34 3-3h2v-5l-3-4zM6 18.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zm13.5-9l1.96 2.5H17V9.5h2.5zm-1.5 9c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/></svg>Label Registration';
+  document.getElementById('label-body').innerHTML=`
+    <div style="padding:8px 4px 4px;">
+      <div style="font-size:13px;font-weight:700;color:#222;margin-bottom:8px;">Carrier <span style="color:#d32f2f;">*</span></div>
+      <div class="field-inline"><select id="lb-carrier" style="width:100%;height:38px;" onchange="onLabelCarrierChange()"><option value="">Please Select.</option>${LABEL_CARRIERS.map(c=>'<option value="'+c+'">'+c+'</option>').join('')}</select></div>
+      <div id="lb-code" style="margin-top:12px;height:38px;border-radius:4px;background:#f3f4f6;color:#555;font-size:13px;display:flex;align-items:center;padding:0 14px;">-</div>
+      <div style="font-size:13px;color:#333;line-height:1.6;margin:18px 0 20px;">This order will be sent to TMS for label registration. Do you want to proceed?</div>
+      <div class="lb-foot"><button class="btn-action btn-primary" id="lb-submit" disabled onclick="submitLabelRegister(${idx})" style="height:36px;padding:0 28px;"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="vertical-align:-4px;margin-right:6px;"><path d="M20 8h-3V4H3c-1.1 0-2 .9-2 2v11h2c0 1.66 1.34 3 3 3s3-1.34 3-3h6c0 1.66 1.34 3 3 3s3-1.34 3-3h2v-5l-3-4zM6 18.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zm13.5-9l1.96 2.5H17V9.5h2.5zm-1.5 9c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/></svg>CONFIRM</button></div>
+    </div>`;
+  document.getElementById('label-modal').classList.add('show');
+  csSyncModal();
+}
+function onLabelCarrierChange(){
+  const c=document.getElementById('lb-carrier').value;
+  document.getElementById('lb-code').textContent=c?LABEL_CARRIER_CODES[c]:'-';
+  document.getElementById('lb-submit').disabled=!c;
+}
+function submitLabelRegister(idx){
+  const r=OUTBOUND_DATA[idx],carrier=document.getElementById('lb-carrier').value;if(!carrier)return;
+  r.label={status:'REQUESTED',carrier};
+  r.statusHistory=(r.statusHistory||[]).concat([{status:'Label Registered ('+carrier+')',date:nowStr(),by:'monster1437'}]);
+  closeLabelModal();openObDetail(idx);showToast('Label Register','Label requested to TMS ('+carrier+').');
+  // Simulated TMS response
+  setTimeout(()=>{
+    const trackNo={UPS:'1Z',FedEx:'FX',USPS:'94',DHL:'JD'}[carrier]+String(Date.now()).slice(-10);
+    r.label={status:'RECEIVED',carrier,trackNo};r.carrier=carrier;r.trackNo=trackNo;
+    r.statusHistory.push({status:'Label Received (TMS)',date:nowStr(),by:'TMS'});
+    if(currentObDetailIdx===idx) openObDetail(idx);
+    showToast('Label Received','TMS label received: '+carrier+' / '+trackNo);
+  },3000);
+}
+function openLabelPrint(idx){
+  const r=OUTBOUND_DATA[idx],lb=r.label;if(!lb||lb.status!=='RECEIVED')return;
+  document.getElementById('label-title').innerHTML='Label Print · '+r.ivNo;
+  document.getElementById('label-body').innerHTML=`<div id="label-print-area">
+      <div class="lp-carrier">${lb.carrier}</div>
+      <div class="lp-row"><span class="lp-k">From</span><span>${r.fromStore} · ${r.fromLoc}</span></div>
+      <div class="lp-row"><span class="lp-k">To</span><span>${r.toStore} · ${r.toLoc}</span></div>
+      <div class="lp-row"><span class="lp-k">I/V No.</span><span>${r.ivNo}</span></div>
+      <div class="lp-bars"></div><div class="lp-track">${lb.trackNo}</div>
+    </div>
+    <div class="lb-foot"><button class="btn-action btn-outline" onclick="closeLabelModal()">Close</button><button class="btn-action btn-primary" onclick="printLabel(${idx})">Print</button></div>`;
+  document.getElementById('label-modal').classList.add('show');
+}
+function printLabel(idx){
+  const r=OUTBOUND_DATA[idx];
+  r.statusHistory.push({status:'Label Printed',date:nowStr(),by:'monster1437'});
+  window.print();
 }
 
 // ===== Hash Router =====
