@@ -41,11 +41,13 @@ body{background:#f8f8f8;color:#222;font-size:13px;overflow-x:hidden;zoom:0.8;}
 .menu-item.active{background:rgb(255 153 116/30%);}
 .menu-icon{width:40px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
 .menu-text{flex:1;font-size:13px;text-align:left;}
-.depth1 .menu-text{font-weight:600;}
+/* Menu hierarchy: size / weight / color step down by depth */
+.depth1 .menu-text{font-size:14px;font-weight:600;color:#222;}
 .depth2{padding-left:55px;min-height:40px;}
-.depth2 .menu-text{font-weight:500;}
-.depth3{padding-left:75px;min-height:40px;}
-.depth3 .menu-text{font-weight:400;}
+.depth2 .menu-text{font-size:13px;font-weight:500;color:#555;}
+.depth3{padding-left:75px;min-height:38px;}
+.depth3 .menu-text{font-size:12.5px;font-weight:400;color:#777;}
+.menu-item.active .menu-text{color:#222;font-weight:600;}
 .submenu{overflow:hidden;transition:max-height .3s ease;}
 .submenu.closed{max-height:0;}
 .submenu.open{max-height:500px;}
@@ -146,6 +148,9 @@ body{background:#f8f8f8;color:#222;font-size:13px;overflow-x:hidden;zoom:0.8;}
 .drv-receipt{font-size:12px;font-weight:700;color:#20c997;letter-spacing:0.3px;font-variant-numeric:tabular-nums;}
 .drv-orig{display:block;font-size:12px;font-weight:400;color:#999;margin-top:3px;letter-spacing:0.3px;font-variant-numeric:tabular-nums;}
 #drv-view table.grid tbody tr.empty-row{cursor:default;}
+#drv-view .drv-cust-group{border-bottom:1px solid rgba(255,255,255,0.35)!important;}
+#drv-view .drv-cust-group,#drv-view .drv-cust-first{border-left:2px solid rgba(255,255,255,0.5)!important;}
+#drv-view td.drv-cust-first{border-left:2px solid #f0f0f0!important;}
 #drv-view table.grid tbody tr.empty-row:hover td{background:#fff!important;}
 /* Receipt detail modal (same layout as production BO sales modal), roomy size */
 .modal-box.rc-modal{width:1080px;max-width:92vw;max-height:88vh;display:flex;flex-direction:column;}
@@ -164,7 +169,6 @@ body{background:#f8f8f8;color:#222;font-size:13px;overflow-x:hidden;zoom:0.8;}
 .rc-dl{display:grid;grid-template-columns:repeat(3,1fr);gap:18px 40px;}
 .rc-dl .k{color:#888;font-size:12px;font-weight:600;margin-bottom:6px;}
 .rc-dl .v{color:#222;font-size:14px;}
-.rc-link{margin-left:8px;font-size:12px;color:#ff6b35;cursor:pointer;text-decoration:underline;}
 .rc-empty{color:#aaa;font-size:13px;}
 .rc-items{width:100%;border-collapse:collapse;font-size:13px;font-variant-numeric:tabular-nums;}
 .rc-items th{background:#EDEDED;color:#333;font-weight:600;padding:13px 16px;text-align:right;}
@@ -364,7 +368,7 @@ table.grid td input[type="checkbox"]:disabled{opacity:0.35;cursor:not-allowed;}
 <svg xmlns="http://www.w3.org/2000/svg" style="display:none;">
   <symbol id="i-chevron-down" viewBox="0 0 24 24"><path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6z"/></symbol>
   <symbol id="i-chevron-right" viewBox="0 0 24 24"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></symbol>
-  <symbol id="i-storefront" viewBox="0 0 24 24"><path d="M20 4H4v2h16V4zm1 10v-2l-1-5H4l-1 5v2h1v6h10v-6h4v6h2v-6h1zm-9 4H6v-4h6v4z"/></symbol>
+  <symbol id="i-storefront" viewBox="0 0 24 24"><path d="M20 4H4v2h16V4zm1 10v-2l-1-5H4l-1 5v2h1v6h10v-6h4v6h2v-6h1zm-9 4H6v-4h6v4z"/></symbol><symbol id="i-assignment" viewBox="0 0 24 24"><path d="M19 3h-4.18C14.4 1.84 13.3 1 12 1s-2.4.84-2.82 2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 0c.55 0 1 .45 1 1s-.45 1-1 1-1-.45-1-1 .45-1 1-1zm2 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></symbol>
   <symbol id="i-receipt" viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-2 .9-2 2v16l4-2 4 2 4-2 4 2V4c0-1.1-.9-2-2-2zm4 14.5l-2-1-4 2-4-2-2 1V4h12v12.5zM14 9H8V7h6v2zm-2 4H8v-2h4v2z"/></symbol>
   <symbol id="i-bag" viewBox="0 0 24 24"><path d="M18 6h-2c0-2.21-1.79-4-4-4S8 3.79 8 6H6c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm-6-2c1.1 0 2 .9 2 2h-4c0-1.1.9-2 2-2zm6 16H6V8h2v2c0 .55.45 1 1 1s1-.45 1-1V8h4v2c0 .55.45 1 1 1s1-.45 1-1V8h2v12z"/></symbol>
   <symbol id="i-inventory" viewBox="0 0 24 24"><path d="M20 2H4c-1 0-2 .9-2 2v3.01c0 .72.43 1.34 1 1.69V20c0 1.1 1.1 2 2 2h14c.9 0 2-.9 2-2V8.7c.57-.35 1-.97 1-1.69V4c0-1.1-1-2-2-2zm-5 12H9v-2h6v2zm5-7H4V4h16v3z"/></symbol>
@@ -439,6 +443,16 @@ table.grid td input[type="checkbox"]:disabled{opacity:0.35;cursor:not-allowed;}
   </div>
   <div class="submenu closed" id="sub-order"><a class="menu-item depth2" href="#/order/order-list"><span class="menu-text">Order List</span></a></div>
 
+  <div class="menu-item depth1" onclick="toggle('rx')">
+    <div class="menu-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="#555"><use href="#i-assignment"/></svg></div>
+    <span class="menu-text">RX (Lens)</span>
+    <div class="arrow-ico" id="arr-rx"><svg viewBox="0 0 24 24" fill="#888"><use href="#i-chevron-down"/></svg></div>
+  </div>
+  <div class="submenu closed" id="sub-rx">
+    <a class="menu-item depth2" href="#/rx/prescription-review"><span class="menu-text">Rx Prescription Review</span></a>
+    <a class="menu-item depth2" href="#/rx/work-management"><span class="menu-text">Rx Work Management</span></a>
+  </div>
+
   <div class="menu-item depth1" onclick="toggle('inv')">
     <div class="menu-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="#555"><use href="#i-inventory"/></svg></div>
     <span class="menu-text">Inventory</span>
@@ -459,12 +473,44 @@ table.grid td input[type="checkbox"]:disabled{opacity:0.35;cursor:not-allowed;}
   </div>
   <div class="submenu closed" id="sub-rpt"><a class="menu-item depth2" href="#/report/report-board"><span class="menu-text">Report Board</span></a></div>
 
+  <div class="menu-item depth1" onclick="toggle('store')">
+    <div class="menu-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="#555"><use href="#i-storefront"/></svg></div>
+    <span class="menu-text">Store Management</span>
+    <div class="arrow-ico" id="arr-store"><svg viewBox="0 0 24 24" fill="#888"><use href="#i-chevron-down"/></svg></div>
+  </div>
+  <div class="submenu closed" id="sub-store"><a class="menu-item depth2" href="#/store/offline-name-tag"><span class="menu-text">Offline Name Tag</span></a></div>
+
   <div class="menu-item depth1" onclick="toggle('sys')">
     <div class="menu-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="#555"><use href="#i-settings"/></svg></div>
     <span class="menu-text">System Setting</span>
     <div class="arrow-ico" id="arr-sys"><svg viewBox="0 0 24 24" fill="#888"><use href="#i-chevron-down"/></svg></div>
   </div>
-  <div class="submenu closed" id="sub-sys"><a class="menu-item depth2" href="#/system/pos-display-setting"><span class="menu-text">POS Display Setting</span></a></div>
+  <div class="submenu closed" id="sub-sys">
+    <div class="menu-item depth2" onclick="toggle('sys-account')">
+      <span class="menu-text">Account</span>
+      <div class="arrow-ico" id="arr-sys-account"><svg viewBox="0 0 24 24" fill="#888"><use href="#i-chevron-down"/></svg></div>
+    </div>
+    <div class="submenu closed" id="sub-sys-account">
+      <a class="menu-item depth3" href="#/system/account/employee-account"><span class="menu-text">Employee Account</span></a>
+      <a class="menu-item depth3" href="#/system/account/auth-group"><span class="menu-text">Auth Group</span></a>
+    </div>
+    <div class="menu-item depth2" onclick="toggle('sys-package')">
+      <span class="menu-text">Package Master</span>
+      <div class="arrow-ico" id="arr-sys-package"><svg viewBox="0 0 24 24" fill="#888"><use href="#i-chevron-down"/></svg></div>
+    </div>
+    <div class="submenu closed" id="sub-sys-package">
+      <a class="menu-item depth3" href="#/system/package-master/hq-package-master"><span class="menu-text">HQ Package Master</span></a>
+    </div>
+    <div class="menu-item depth2" onclick="toggle('sys-inventory')">
+      <span class="menu-text">Inventory</span>
+      <div class="arrow-ico" id="arr-sys-inventory"><svg viewBox="0 0 24 24" fill="#888"><use href="#i-chevron-down"/></svg></div>
+    </div>
+    <div class="submenu closed" id="sub-sys-inventory">
+      <a class="menu-item depth3" href="#/system/inventory/inventory-reason-code"><span class="menu-text">Inventory Reason Code</span></a>
+      <a class="menu-item depth3" href="#/system/inventory/account-code"><span class="menu-text">Account Code</span></a>
+      <a class="menu-item depth3" href="#/system/inventory/location-code"><span class="menu-text">Location Code</span></a>
+    </div>
+  </div>
 
   <div class="pos-wrap"><button class="pos-btn"><span>Front POS</span><svg width="20" height="20" viewBox="0 0 24 24" fill="#fff"><use href="#i-chevron-right"/></svg></button></div>
 </nav>
@@ -929,17 +975,21 @@ table.grid td input[type="checkbox"]:disabled{opacity:0.35;cursor:not-allowed;}
         <table class="grid">
           <thead>
             <tr class="hdr">
-              <th class="tl" style="min-width:190px;">Sales Date</th>
-              <th class="tl" style="min-width:240px;">Store Information<br><span style="font-size:10px;font-weight:400;opacity:.85;">(Code / Name)</span></th>
-              <th style="min-width:220px;">Receipt No.<br><span style="font-size:10px;font-weight:400;opacity:.85;">Original Receipt No. (for Return)</span></th>
-              <th>Sales Type</th>
-              <th>Currency</th>
-              <th class="tr">Total Qty</th>
-              <th class="tr">Total</th>
-              <th class="tr">Net</th>
-              <th class="tr">VAT</th>
-              <th>Tax-Free Type</th>
-              <th>Gift Card</th>
+              <th rowspan="2" class="tl" style="min-width:190px;">Sales Date</th>
+              <th rowspan="2" class="tl" style="min-width:240px;">Store Information<br><span style="font-size:10px;font-weight:400;opacity:.85;">(Code / Name)</span></th>
+              <th rowspan="2" style="min-width:220px;">Receipt No.<br><span style="font-size:10px;font-weight:400;opacity:.85;">Original Receipt No. (for Return)</span></th>
+              <th rowspan="2">Sales Type</th>
+              <th rowspan="2">Currency</th>
+              <th rowspan="2" class="tr">Total Qty</th>
+              <th rowspan="2" class="tr">Total</th>
+              <th rowspan="2" class="tr">Net</th>
+              <th rowspan="2" class="tr">VAT</th>
+              <th rowspan="2">Tax-Free Type</th>
+              <th rowspan="2">Gift Card</th>
+              <th colspan="5" class="drv-cust-group">Customer Information</th>
+            </tr>
+            <tr class="hdr">
+              <th class="drv-cust-first">Country</th><th>Continent</th><th>Customer Type</th><th>Gender</th><th>Usage Type</th>
             </tr>
           </thead>
           <tbody id="drv-body"></tbody>
@@ -2649,11 +2699,14 @@ const DRV_DATA=(()=>{
   const ymd=d=>d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate());
   const code=()=>{const c='ABCDEFGHJKLMNPQRSTUVWXYZ0123456789';let s='';for(let i=0;i<12;i++)s+=c[Math.floor(rnd()*c.length)];return s;};
   const rows=[],c=REG_DATA.GENTLE_MONSTER.companies.C1002;
+  // Offline stores weighted (POS customer info visible); online = US1004 / US1005
+  const STORE_POOL=[0,1,2,0,1,2,3,4].map(i=>DRV_STORES[i]);
+  const TODAY_SALES=25,TODAY_RETURNS=5;  // today (default search) = 30 receipts
   for(let back=6;back>=0;back--){
     const day=new Date();day.setDate(day.getDate()-back);
-    const cnt=4+Math.floor(rnd()*4);
+    const cnt=back===0?TODAY_SALES:4+Math.floor(rnd()*4);
     for(let n=0;n<cnt;n++){
-      const s=DRV_STORES[Math.floor(rnd()*DRV_STORES.length)];
+      const s=STORE_POOL[Math.floor(rnd()*STORE_POOL.length)];
       const items=[...PRODUCT_MASTER].sort(()=>rnd()-0.5).slice(0,1+Math.floor(rnd()*3)).map(p=>({code:p.code,name:p.name,qty:1+Math.floor(rnd()*2),price:300+Math.floor(rnd()*20)*10}));
       const taxFree=rnd()<0.1?'Y':'N';
       const net=items.reduce((a,i)=>a+i.qty*i.price,0),vat=taxFree==='Y'?0:r2(net*s.vat);
@@ -2664,8 +2717,11 @@ const DRV_DATA=(()=>{
         qty:items.reduce((a,i)=>a+i.qty,0),net,vat,total:r2(net+vat),taxFree,giftCard:rnd()<0.15?'Y':'N',items});
     }
   }
-  // Returns: reverse of some earlier NORMAL receipts (negative values, original receipt no.)
-  rows.filter((r,i)=>i%6===3).forEach(o=>{
+  // Returns: reverse of some NORMAL receipts on the same day (negative values, original receipt no.)
+  const today=ymd(new Date());
+  const past=rows.filter(r=>r.date!==today).filter((r,i)=>i%6===3);
+  const todays=rows.filter(r=>r.date===today).filter((r,i)=>i%5===2).slice(0,TODAY_RETURNS);
+  past.concat(todays).forEach(o=>{
     rows.push({...o,dateTime:o.date+' 21:'+o.dateTime.slice(14,19)+' ('+o.dateTime.split('(')[1],receiptNo:o.receiptNo.slice(0,7)+code(),origReceiptNo:o.receiptNo,type:'RETURN',
       qty:0-o.qty,net:0-o.net,vat:0-o.vat,total:0-o.total,items:o.items});  // 0-x avoids -0
   });
@@ -2685,8 +2741,8 @@ const DRV_DATA=(()=>{
     // Customer Type: LOCAL / FOREIGN (dummy rule: same country as the store (US) -> LOCAL)
     r.customer={country,continent,customerType:country==='United States'?'LOCAL':'FOREIGN',gender:pick(['N/A','MALE','FEMALE']),usageType:pick(['N/A','Normal','Gift'])};
   });
-  // Returns keep the original receipt's customer info
-  rows.forEach(r=>{if(r.type==='RETURN'){const o=rows.find(x=>x.receiptNo===r.origReceiptNo);r.customer={...(o&&o.customer||{country:'',continent:'',customerType:'',gender:'',usageType:''})};}});
+  // Customer info is recorded on sales only -> returns have no customer info
+  rows.forEach(r=>{if(r.type==='RETURN') r.customer={country:'',continent:'',customerType:'',gender:'',usageType:''};});
   return rows.sort((a,b)=>b.dateTime.localeCompare(a.dateTime));
 })();
 let drvRendered=false,drvLastRows=[];
@@ -2755,18 +2811,20 @@ function salesTypeTag(t){
   const c={NORMAL:['#E3F2FD','#1565C0'],RETURN:['#FFEBEE','#C62828']}[t]||['#F5F5F5','#555'];
   return '<span class="ob-tag" style="margin-left:0;background:'+c[0]+';color:'+c[1]+'">'+t+'</span>';
 }
+// Customer info columns (POS input; empty -> '-')
+const DRV_CUST_KEYS=['country','continent','customerType','gender','usageType'];
+function drvCustCells(r){const c=r.customer||{};return DRV_CUST_KEYS.map((k,i)=>'<td'+(i===0?' class="drv-cust-first"':'')+'>'+(c[k]||'-')+'</td>').join('');}
 function renderDrvPage(){
   const rows=drvLastRows,[s,e]=pgRange('drv',rows.length);
   document.getElementById('drv-body').innerHTML=rows.length?rows.slice(s,e).map((r,j)=>`<tr onclick="openReceipt(${s+j})">
     <td class="tl">${r.dateTime}</td><td class="tl">${r.store}</td>
     <td><span class="drv-receipt">${r.receiptNo}</span>${r.origReceiptNo?'<span class="drv-orig">'+r.origReceiptNo+'</span>':''}</td>
     <td>${salesTypeTag(r.type)}</td><td>${r.currency}</td><td class="tr num">${r.qty}</td><td class="tr num">${fmtAmt2(r.total)}</td><td class="tr num">${fmtAmt2(r.net)}</td><td class="tr num">${fmtAmt2(r.vat)}</td>
-    <td>${r.taxFree}</td><td>${r.giftCard}</td></tr>`).join('')
-    :'<tr class="empty-row"><td colspan="11" class="dp-empty">No data found.</td></tr>';
+    <td>${r.taxFree}</td><td>${r.giftCard}</td>${drvCustCells(r)}</tr>`).join('')
+    :'<tr class="empty-row"><td colspan="16" class="dp-empty">No data found.</td></tr>';
 }
 // Receipt detail modal: same layout as production BO (title = Receipt No., info, items with Net / VAT / Total, Total Sum row)
 function openReceipt(idx){const r=drvLastRows[idx];if(r)renderReceipt(r);}
-function openReceiptByNo(no){const r=DRV_DATA.find(x=>x.receiptNo===no);if(r)renderReceipt(r);}
 function renderReceipt(r){
   const sign=r.type==='RETURN'?-1:1,r2=n=>Math.round(n*100)/100,fmt=fmtAmt2;
   const neg=n=>n<0?' class="rc-neg"':'';
@@ -2776,7 +2834,7 @@ function renderReceipt(r){
     const bc=(PRODUCT_MASTER.find(p=>p.code===it.code)||{}).barcode||'-';return {...it,bc,qty:it.qty*sign,net,vat,total:r2(net+vat)};});
   const v=x=>x||'-';  // empty (not collected in this country / online) -> '-'
   const dl=list=>'<div class="rc-dl">'+list.map(([k,val])=>'<div><div class="k">'+k+'</div><div class="v">'+val+'</div></div>').join('')+'</div>';
-  const orig=r.origReceiptNo?r.origReceiptNo+(DRV_DATA.some(x=>x.receiptNo===r.origReceiptNo)?'<span class="rc-link" onclick="openReceiptByNo(\''+r.origReceiptNo+'\')">View</span>':''):'-';
+  const orig=r.origReceiptNo||'-';
   const salesInfo=[['Receipt No.',r.receiptNo],['Original Receipt No.',orig],['Sales Type',salesTypeTag(r.type)],
     ['Sales Date',r.dateTime],['Store Information',r.store],['Currency',r.currency],['Gift Card',r.giftCard==='Y'?'Y':'-']];
   const c=r.customer||{};
@@ -2786,7 +2844,7 @@ function renderReceipt(r){
   document.getElementById('receipt-body').innerHTML=`
     <div class="rc-cols">
       <div class="rc-card"><div class="rc-card-title">Sales Information</div>${dl(salesInfo)}</div>
-      <div class="rc-card"><div class="rc-card-title">Customer Information</div>${noCustomer?'<div class="rc-empty">No customer information (not entered at POS)</div>':dl(customerInfo)}</div>
+      <div class="rc-card"><div class="rc-card-title">Customer Information</div>${noCustomer?'<div class="rc-empty">'+(r.type==='RETURN'?'Customer information is recorded on sales receipts only.':'No customer information (not entered at POS)')+'</div>':dl(customerInfo)}</div>
     </div>
     <div class="rc-card-title" style="margin-bottom:10px;">Products</div>
     <table class="rc-items">
@@ -2812,11 +2870,11 @@ function resetDailyRecord(){
 function exportDailyRecord(){
   if(typeof XLSX==='undefined'){showToast('Excel Export','Excel library failed to load. Check network and reload.','error');return;}
   if(!drvLastRows.length){showToast('Excel Export','No data to export.','error');return;}
-  const head=['Sales Date','Store Information (Code / Name)','Receipt No.','Original Receipt No. (for Return)','Sales Type','Currency','Total Qty','Total','Net','VAT','Tax-Free Type','Gift Card'];
-  const aoa=[head].concat(drvLastRows.map(r=>[r.dateTime,r.store,r.receiptNo,r.origReceiptNo,r.type,r.currency,r.qty,r.total,r.net,r.vat,r.taxFree,r.giftCard]));
+  const head=['Sales Date','Store Information (Code / Name)','Receipt No.','Original Receipt No. (for Return)','Sales Type','Currency','Total Qty','Total','Net','VAT','Tax-Free Type','Gift Card','Country','Continent','Customer Type','Gender','Usage Type'];
+  const aoa=[head].concat(drvLastRows.map(r=>[r.dateTime,r.store,r.receiptNo,r.origReceiptNo,r.type,r.currency,r.qty,r.total,r.net,r.vat,r.taxFree,r.giftCard].concat(DRV_CUST_KEYS.map(k=>(r.customer||{})[k]||''))));
   const ws=XLSX.utils.aoa_to_sheet(aoa);
   for(let i=1;i<aoa.length;i++)[7,8,9].forEach(c=>{const cell=ws[XLSX.utils.encode_cell({r:i,c})];if(cell)cell.z=Number.isInteger(cell.v)?'#,##0':'#,##0.00';});
-  ws['!cols']=[{wch:28},{wch:36},{wch:22},{wch:26},{wch:12},{wch:10},{wch:10},{wch:12},{wch:12},{wch:10},{wch:13},{wch:10}];
+  ws['!cols']=[{wch:28},{wch:36},{wch:22},{wch:26},{wch:12},{wch:10},{wch:10},{wch:12},{wch:12},{wch:10},{wch:13},{wch:10},{wch:16},{wch:14},{wch:14},{wch:10},{wch:12}];
   const wb=XLSX.utils.book_new();XLSX.utils.book_append_sheet(wb,ws,'Daily Record View');
   const d=new Date(),pad=n=>String(n).padStart(2,'0');
   const fileName='Daily_Record_View_'+d.getFullYear()+pad(d.getMonth()+1)+pad(d.getDate())+'_'+pad(d.getHours())+pad(d.getMinutes())+'.xlsx';
@@ -2860,10 +2918,18 @@ const MENU_PAGES={
   '/sales/product-sales-view':{bc:['Sales'],title:'Product Sales View',open:['sales']},
   '/sales/rx-sales-view':{bc:['Sales'],title:'RX Sales View',open:['sales']},
   '/order/order-list':{bc:['Order'],title:'Order List',open:['order']},
+  '/rx/prescription-review':{bc:['RX (Lens)'],title:'Rx Prescription Review',open:['rx']},
+  '/rx/work-management':{bc:['RX (Lens)'],title:'Rx Work Management',open:['rx']},
   '/inventory/inbound':{bc:['Inventory'],title:'Inbound List',open:['inv']},
   '/inventory/snapshot':{bc:['Inventory'],title:'Inventory Snapshot',open:['inv']},
   '/report/report-board':{bc:['Global Report'],title:'Report Board',open:['rpt']},
-  '/system/pos-display-setting':{bc:['System Setting'],title:'POS Display Setting',open:['sys']}
+  '/store/offline-name-tag':{bc:['Store Management'],title:'Offline Name Tag',open:['store']},
+  '/system/account/employee-account':{bc:['System Setting','Account'],title:'Employee Account',open:['sys','sys-account']},
+  '/system/account/auth-group':{bc:['System Setting','Account'],title:'Auth Group',open:['sys','sys-account']},
+  '/system/package-master/hq-package-master':{bc:['System Setting','Package Master'],title:'HQ Package Master',open:['sys','sys-package']},
+  '/system/inventory/inventory-reason-code':{bc:['System Setting','Inventory'],title:'Inventory Reason Code',open:['sys','sys-inventory']},
+  '/system/inventory/account-code':{bc:['System Setting','Inventory'],title:'Account Code',open:['sys','sys-inventory']},
+  '/system/inventory/location-code':{bc:['System Setting','Inventory'],title:'Location Code',open:['sys','sys-inventory']}
 };
 // Renamed menus: old path -> new path (keeps shared links working)
 const ROUTE_ALIASES={'/master/price/discount-price':'/master/price/store-customer-price'};
