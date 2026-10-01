@@ -148,6 +148,14 @@ body{background:#f8f8f8;color:#222;font-size:13px;overflow-x:hidden;zoom:0.8;}
 .drv-receipt{font-size:12px;font-weight:700;color:#20c997;letter-spacing:0.3px;font-variant-numeric:tabular-nums;}
 .drv-orig{display:block;font-size:12px;font-weight:400;color:#999;margin-top:3px;letter-spacing:0.3px;font-variant-numeric:tabular-nums;}
 #drv-view table.grid tbody tr.empty-row{cursor:default;}
+/* Period Sales View */
+.psv-tabs{display:flex;background:#fff;border:1px solid #e5e5e5;border-radius:8px;padding:0 16px;margin-bottom:16px;}
+.psv-tab{padding:14px 28px;font-size:13px;font-weight:600;color:#666;cursor:pointer;border-bottom:2px solid transparent;}
+.psv-tab.active{color:#ff6b35;border-bottom-color:#ff6b35;}
+#psv-view table.grid tbody tr{cursor:default;}
+#psv-view table.grid tbody tr:hover td{background:#fff!important;}
+.psv-lines div{line-height:22px;}
+.psv-net{font-weight:700;color:#222!important;}
 #drv-view .drv-cust-group{border-bottom:1px solid rgba(255,255,255,0.35)!important;}
 #drv-view .drv-cust-group,#drv-view .drv-cust-first{border-left:2px solid rgba(255,255,255,0.5)!important;}
 #drv-view td.drv-cust-first{border-left:2px solid #f0f0f0!important;}
@@ -895,6 +903,65 @@ table.grid td input[type="checkbox"]:disabled{opacity:0.35;cursor:not-allowed;}
     </div>
   </div>
 
+  <!-- ===== PERIOD SALES VIEW (Sales > Period Sales View) ===== -->
+  <div class="detail-view" id="psv-view">
+    <div class="psv-tabs">
+      <div class="psv-tab" data-tab="hourly" onclick="psvSwitchTab('hourly')">HOURLY TOTAL</div>
+      <div class="psv-tab" data-tab="daily" onclick="psvSwitchTab('daily')">DAILY TOTAL</div>
+      <div class="psv-tab" data-tab="monthly" onclick="psvSwitchTab('monthly')">MONTHLY TOTAL</div>
+    </div>
+    <div class="search-box">
+      <table class="search-table">
+        <tr><th>BP</th><td><div class="field-row"><div class="multi-select-wrap">
+          <div class="multi-select-trigger" id="psvBp-trigger" onclick="toggleMulti('psvBp')" style="min-width:360px;">BP (All)</div>
+          <div class="multi-select-dropdown hidden" id="psvBp-dropdown"></div></div></div></td></tr>
+        <tr><th>Store</th><td><div class="field-row"><div class="multi-select-wrap">
+          <div class="multi-select-trigger disabled" id="psvStore-trigger" style="min-width:360px;">Select BP first</div>
+          <div class="multi-select-dropdown hidden" id="psvStore-dropdown"></div></div></div></td></tr>
+        <tr><th>Sales Type</th><td><div class="field-row"><div class="field-inline"><select id="psv-type" style="min-width:360px;"><option value="">All</option><option value="NORMAL">NORMAL</option><option value="RETURN">RETURN</option></select></div></div></td></tr>
+        <tr><th>Currency</th><td><div class="field-row"><div class="field-inline"><select id="psv-currency" style="min-width:360px;"><option value="">All</option></select></div></div></td></tr>
+        <tr><th>Sales Date</th><td><div class="field-row">
+          <div class="field-inline"><input type="date" id="psv-from" style="min-width:170px;"></div>
+          <span style="color:#999;font-size:13px;">~</span>
+          <div class="field-inline"><input type="date" id="psv-to" style="min-width:170px;"></div>
+        </div></td></tr>
+      </table>
+      <div class="search-action">
+        <button class="btn-reset" onclick="resetPeriodSales()"><svg width="14" height="14" viewBox="0 0 24 24" fill="#555"><path d="M17.65 6.35C16.2 4.9 14.21 4 12 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08c-.82 2.33-3.04 4-5.65 4-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"/></svg>Reset</button>
+        <button class="btn-search" onclick="searchPeriodSales()"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><use href="#i-search"/></svg>Search</button>
+      </div>
+    </div>
+    <div class="table-box" style="margin-bottom:24px;">
+      <div class="drv-sum-head"><div class="drv-sum-title">Total Sum</div><span class="drv-cur-label" id="psv-sum-cur" hidden></span><div class="drv-sum-caption" id="psv-sum-caption"></div></div>
+      <div class="grid-wrap"><table class="drv-sum-table">
+        <thead><tr><th class="tl">Type</th><th>Transaction Count</th><th>Qty</th><th>Average Unit</th><th>Amount</th></tr></thead>
+        <tbody id="psv-sum-body"></tbody>
+      </table></div>
+    </div>
+    <div class="table-box">
+      <div class="table-toolbar">
+        <div class="table-toolbar-left">Total <b id="psv-total">0</b> Count</div>
+        <div class="table-toolbar-right"><button class="btn-action btn-outline" onclick="exportPeriodSales()"><svg width="14" height="14" viewBox="0 0 24 24" fill="#555"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>Excel Export</button></div>
+      </div>
+      <div class="grid-wrap"><table class="grid">
+        <thead id="psv-head"></thead>
+        <tbody id="psv-body"></tbody>
+      </table></div>
+      <div class="pg-bar">
+        <div class="rpp"><span>Rows per page:</span>
+          <select id="psv-rpp" style="width:72px;" onchange="pgState('psv').page=1;renderPsvPage();">
+            <option value="30" selected>30</option><option value="50">50</option><option value="100">100</option><option value="300">300</option>
+          </select>
+        </div>
+        <span id="psv-range">0–0 of 0</span>
+        <div class="pg-nav">
+          <button class="pg-btn" id="psv-prev" onclick="pgGo('psv',-1)"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg></button>
+          <button class="pg-btn" id="psv-next" onclick="pgGo('psv',1)"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg></button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- ===== DAILY RECORD VIEW (Sales > Daily Record View) ===== -->
   <div class="detail-view" id="drv-view">
     <!-- SEARCH (same UI as Outbound List search) -->
@@ -1221,12 +1288,13 @@ function selectMulti(id,el){
   el.classList.toggle('selected');
   const sel=[...document.querySelectorAll('#'+id+'-dropdown .dd-item.selected')];
   const t=document.getElementById(id+'-trigger');
-  const labels={bp:'BP',fromStore:'From Store',toStore:'To Store',dpBrand:'Brand',dpStore:'Store',drvBp:'BP',drvStore:'Store'};
+  const labels={bp:'BP',fromStore:'From Store',toStore:'To Store',dpBrand:'Brand',dpStore:'Store',drvBp:'BP',drvStore:'Store',psvBp:'BP',psvStore:'Store'};
   if(!sel.length) t.textContent=labels[id]+' (All)';
   else if(sel.length===1) t.textContent=sel[0].textContent.replace('✓','').trim();
   else t.textContent=sel[0].textContent.replace('✓','').trim()+' +'+(sel.length-1);
   if(id==='bp') refreshStoreDropdowns();
   if(id==='drvBp') refreshDrvStores();
+  if(id==='psvBp') refreshPsvStores();
 }
 document.addEventListener('click',e=>{document.querySelectorAll('.multi-select-dropdown').forEach(dd=>{if(!dd.parentElement.contains(e.target))dd.classList.add('hidden');});});
 
@@ -1389,7 +1457,7 @@ function tagBadge(tag){
 }
 
 // ===== Shared pagination (Rows per page 30/50/100/300 + range + prev/next) =====
-const PAGERS={ob:{render:()=>renderList()},drv:{render:()=>renderDrvPage()},sp:{render:()=>renderSpPage()}};
+const PAGERS={ob:{render:()=>renderList()},drv:{render:()=>renderDrvPage()},sp:{render:()=>renderSpPage()},psv:{render:()=>renderPsvPage()}};
 function pgState(key){return PAGERS[key];}
 // Returns [start,end) of current page and updates range text / button state
 function pgRange(key,total){
@@ -1639,6 +1707,7 @@ function showListView(){
   document.getElementById('placeholder-view').classList.remove('active');
   document.getElementById('dp-view').classList.remove('active');
   document.getElementById('drv-view').classList.remove('active');
+  document.getElementById('psv-view').classList.remove('active');
   document.getElementById('sp-view').classList.remove('active');
   document.getElementById('home-view').classList.remove('active');
   document.getElementById('list-view').classList.remove('hidden');
@@ -1994,7 +2063,7 @@ function csRefresh(sel){
   trg.classList.toggle('disabled',sel.disabled);
 }
 function csSyncModal(){
-  document.querySelectorAll('#ob-reg-modal select, #dp-view select, #sp-view select, #drv-view select, .pg-bar select').forEach(s=>{csBuild(s);csRefresh(s);});
+  document.querySelectorAll('#ob-reg-modal select, #dp-view select, #sp-view select, #drv-view select, #psv-view select, .pg-bar select').forEach(s=>{csBuild(s);csRefresh(s);});
 }
 // Re-sync whenever step content / options / disabled state change (ignore the custom UI's own mutations)
 new MutationObserver(muts=>{
@@ -2885,6 +2954,109 @@ initDailyRecordFilters();
 initSupplyPriceFilters();
 csSyncModal();
 
+// ===== Period Sales View (Sales) =====
+// Aggregated from DRV_DATA (same receipts as Daily Record View) by period x store x currency
+let psvTab='daily',psvLastRows=[],psvInited=false;
+function psvDefaultRange(tab){
+  const d=new Date(),from=new Date();from.setDate(from.getDate()-6);
+  const pad=n=>String(n).padStart(2,'0'),ymd=x=>x.getFullYear()+'-'+pad(x.getMonth()+1)+'-'+pad(x.getDate());
+  return tab==='monthly'?[ymd(from).slice(0,7),ymd(d).slice(0,7)]:[ymd(from),ymd(d)];
+}
+function psvEnter(){
+  const t=new URLSearchParams(location.hash.split('?')[1]||'').get('tab');
+  const tab=['hourly','daily','monthly'].includes(t)?t:'daily';
+  if(!psvInited){
+    document.getElementById('psvBp-dropdown').innerHTML=Object.entries(getMasterBPs()).map(([c,n])=>`<div class="dd-item" onclick="selectMulti('psvBp',this)" data-val="${c}"><span class="check-ico">✓</span>${n}</div>`).join('');
+    document.getElementById('psv-currency').innerHTML='<option value="">All</option>'+[...new Set(DRV_DATA.map(r=>r.currency))].sort().map(v=>'<option value="'+v+'">'+v+'</option>').join('');
+    csSyncModal();psvInited=true;psvTab=null;
+  }
+  if(psvTab!==tab) psvApplyTab(tab);
+}
+function psvSwitchTab(tab){setRoute('#/sales/period-sales-view?tab='+tab);psvApplyTab(tab);}
+function psvApplyTab(tab){
+  psvTab=tab;
+  document.querySelectorAll('.psv-tab').forEach(t=>t.classList.toggle('active',t.dataset.tab===tab));
+  const [f,t]=psvDefaultRange(tab),type=tab==='monthly'?'month':'date';
+  ['psv-from','psv-to'].forEach((id,i)=>{const el=document.getElementById(id);el.type=type;el.value=i?t:f;});
+  const hr=tab==='hourly'?'<th class="tl">Time Slot</th>':'';
+  document.getElementById('psv-head').innerHTML=`<tr class="hdr"><th>Brand</th><th class="tl">Sales Date</th>${hr}<th class="tl">Store Information<br><span style="font-size:10px;font-weight:400;opacity:.85;">(Code / Name)</span></th><th>Currency</th><th>Sales Type</th><th class="tr">Transaction Count</th><th class="tr">Total Qty</th><th class="tr">Average Unit</th><th class="tr">Total Sales Amount</th><th class="tr">Total Return Amount</th><th class="tr">Net Qty</th><th class="tr">Net Amount</th></tr>`;
+  searchPeriodSales();
+}
+function refreshPsvStores(){
+  const bps=[...document.querySelectorAll('#psvBp-dropdown .dd-item.selected')].map(el=>el.dataset.val);
+  const trg=document.getElementById('psvStore-trigger'),dd=document.getElementById('psvStore-dropdown');
+  if(!bps.length){trg.textContent='Select BP first';trg.classList.add('disabled');trg.removeAttribute('onclick');dd.innerHTML='';dd.classList.add('hidden');return;}
+  let stores=[];bps.forEach(bp=>{stores=stores.concat(getBpStores(bp));});
+  dd.innerHTML=stores.map(s=>`<div class="dd-item" onclick="selectMulti('psvStore',this)" data-val="${s.code}"><span class="check-ico">✓</span>${s.name}</div>`).join('');
+  trg.textContent='Store (All)';trg.classList.remove('disabled');trg.setAttribute('onclick',"toggleMulti('psvStore')");
+}
+function searchPeriodSales(){
+  const v=id=>document.getElementById(id).value,multi=id=>[...document.querySelectorAll('#'+id+'-dropdown .dd-item.selected')].map(el=>el.dataset.val);
+  const from=v('psv-from'),to=v('psv-to');
+  if(from&&to&&from>to){showToast('Search','Sales Date: start date must be before end date.','error');return;}
+  const bps=multi('psvBp'),stores=multi('psvStore'),type=v('psv-type'),cur=v('psv-currency');
+  const pk=r=>psvTab==='monthly'?r.date.slice(0,7):r.date;
+  const recs=DRV_DATA.filter(r=>(!bps.length||bps.includes(r.bp))&&(!stores.length||stores.includes(r.storeCode))&&(!type||r.type===type)&&(!cur||r.currency===cur)&&(!from||pk(r)>=from)&&(!to||pk(r)<=to));
+  const groups={};
+  recs.forEach(r=>{
+    const hour=r.dateTime.slice(11,13),slot=hour+':00 ~ '+hour+':59';
+    const key=[pk(r),psvTab==='hourly'?slot:'',r.storeCode,r.currency].join('|');
+    const g=groups[key]||(groups[key]={period:pk(r),slot:psvTab==='hourly'?slot:'',store:r.store,currency:r.currency,NORMAL:{cnt:0,qty:0,amt:0},RETURN:{cnt:0,qty:0,amt:0}});
+    const t=g[r.type];t.cnt++;t.qty+=r.qty;t.amt=Math.round((t.amt+r.total)*100)/100;
+  });
+  psvLastRows=Object.values(groups).sort((a,b)=>(b.period+b.slot).localeCompare(a.period+a.slot)||a.store.localeCompare(b.store));
+  PAGERS.psv.page=1;
+  document.getElementById('psv-total').textContent=psvLastRows.length;
+  renderPsvSum(recs,cur);renderPsvPage();
+}
+// Average Unit = amount / |qty| (returns: negative, same as production)
+const psvAvg=t=>t.qty?Math.round(t.amt/Math.abs(t.qty)*100)/100:0;
+function psvLines(g){return ['NORMAL','RETURN'].filter(k=>g[k].cnt).map(k=>({type:k,...g[k],sales:k==='NORMAL'?g[k].amt:0,ret:k==='RETURN'?g[k].amt:0}));}
+function renderPsvPage(){
+  const rows=psvLastRows,[s,e]=pgRange('psv',rows.length),hr=psvTab==='hourly';
+  const neg=n=>n<0?' style="color:#C62828"':'';
+  const col=(ls,f)=>'<div class="psv-lines">'+ls.map(l=>'<div'+neg(f(l))+'>'+fmtAmt2(f(l))+'</div>').join('')+'</div>';
+  document.getElementById('psv-body').innerHTML=rows.length?rows.slice(s,e).map(g=>{const ls=psvLines(g),nq=g.NORMAL.qty+g.RETURN.qty,na=Math.round((g.NORMAL.amt+g.RETURN.amt)*100)/100;
+    return `<tr><td>${dpBrandText('GENTLE_MONSTER')}</td><td class="tl">${g.period}</td>${hr?'<td class="tl">'+g.slot+'</td>':''}<td class="tl">${g.store}</td><td>${g.currency}</td>
+      <td><div class="psv-lines">${ls.map(l=>'<div>'+salesTypeTag(l.type)+'</div>').join('')}</div></td>
+      <td class="tr num">${col(ls,l=>l.cnt)}</td><td class="tr num">${col(ls,l=>l.qty)}</td><td class="tr num">${col(ls,l=>psvAvg(l))}</td>
+      <td class="tr num">${col(ls,l=>l.sales)}</td><td class="tr num">${col(ls,l=>l.ret)}</td>
+      <td class="tr num psv-net"${neg(nq)}>${nq}</td><td class="tr num psv-net"${neg(na)}>${fmtAmt2(na)}</td></tr>`;}).join('')
+    :'<tr><td colspan="'+(hr?13:12)+'" class="dp-empty">No data found.</td></tr>';
+}
+// Total Sum: only when a single currency is selected
+function renderPsvSum(recs,currency){
+  const lbl=document.getElementById('psv-sum-cur'),cap=document.getElementById('psv-sum-caption');
+  lbl.textContent=currency||'';lbl.hidden=!currency;
+  const agg=list=>({cnt:list.length,qty:list.reduce((a,r)=>a+r.qty,0),amt:Math.round(list.reduce((a,r)=>a+r.total,0)*100)/100});
+  const groups=[['Sales',agg(recs.filter(r=>r.type==='NORMAL')),''],['Return',agg(recs.filter(r=>r.type==='RETURN')),''],['Total',agg(recs),'total']];
+  const cell=(n,txt)=>'<td'+(n<0?' class="neg"':'')+'>'+txt+'</td>';
+  if(!currency){cap.className='drv-sum-caption need';cap.textContent='Select a Currency in the search filter to see totals.';
+    document.getElementById('psv-sum-body').innerHTML=groups.map(([t,,c])=>`<tr class="${c?'total ':''}empty"><td class="tl">${t}</td><td>-</td><td>-</td><td>-</td><td>-</td></tr>`).join('');return;}
+  cap.className='drv-sum-caption';cap.textContent='';
+  document.getElementById('psv-sum-body').innerHTML=groups.map(([t,g,c])=>{const avg=psvAvg(g);return `<tr class="${c}"><td class="tl">${t}</td>${cell(0,g.cnt)}${cell(g.qty,g.qty)}${cell(avg,fmtAmt2(avg))}${cell(g.amt,fmtAmt2(g.amt))}</tr>`;}).join('');
+}
+function resetPeriodSales(){
+  document.querySelectorAll('#psvBp-dropdown .dd-item.selected').forEach(el=>el.classList.remove('selected'));
+  document.getElementById('psvBp-trigger').textContent='BP (All)';refreshPsvStores();
+  ['psv-type','psv-currency'].forEach(id=>{const s=document.getElementById(id);s.selectedIndex=0;csRefresh(s);});
+  psvApplyTab(psvTab);
+}
+// Excel export: one row per Sales Type line (all pages)
+function exportPeriodSales(){
+  if(typeof XLSX==='undefined'){showToast('Excel Export','Excel library failed to load. Check network and reload.','error');return;}
+  if(!psvLastRows.length){showToast('Excel Export','No data to export.','error');return;}
+  const hr=psvTab==='hourly';
+  const head=['Brand','Sales Date'].concat(hr?['Time Slot']:[],['Store Information (Code / Name)','Currency','Sales Type','Transaction Count','Total Qty','Average Unit','Total Sales Amount','Total Return Amount','Net Qty','Net Amount']);
+  const aoa=[head];
+  psvLastRows.forEach(g=>{const nq=g.NORMAL.qty+g.RETURN.qty,na=Math.round((g.NORMAL.amt+g.RETURN.amt)*100)/100;
+    psvLines(g).forEach(l=>aoa.push(['1100 / GENTLE MONSTER',g.period].concat(hr?[g.slot]:[],[g.store,g.currency,l.type,l.cnt,l.qty,psvAvg(l),l.sales,l.ret,nq,na])));});
+  const ws=XLSX.utils.aoa_to_sheet(aoa);const wb=XLSX.utils.book_new();XLSX.utils.book_append_sheet(wb,ws,'Period Sales View');
+  const d=new Date(),pad=n=>String(n).padStart(2,'0');
+  const fileName='Period_Sales_View_'+psvTab+'_'+d.getFullYear()+pad(d.getMonth()+1)+pad(d.getDate())+'_'+pad(d.getHours())+pad(d.getMinutes())+'.xlsx';
+  XLSX.writeFile(wb,fileName);showToast('Excel Export',fileName+' — '+(aoa.length-1)+' rows');
+}
+
 // ===== Hash Router =====
 // Request No. (prototype-only id used in URL)
 let nextReqNo=REQUEST_DATA.length+1;
@@ -2896,7 +3068,8 @@ const HOME_LINKS=[
   {menu:'Inventory',title:'Outbound List',desc:'Outbound / Outbound Request list, detail, registration (Outbound Order Tag)',path:'/inventory/outbound'},
   {menu:'Master Information › Price',title:'Store Customer Price',desc:'Store price by Brand > Store (SAP), used before sales price at POS',path:'/master/price/store-customer-price'},
   {menu:'Master Information › Price',title:'Supply Price',desc:'Supply price by Brand > BP',path:'/master/price/supply-price'},
-  {menu:'Sales',title:'Daily Record View',desc:'Daily receipts with Total Sum (sales / return)',path:'/sales/daily-record-view'}
+  {menu:'Sales',title:'Daily Record View',desc:'Daily receipts with Total Sum (sales / return)',path:'/sales/daily-record-view'},
+  {menu:'Sales',title:'Period Sales View',desc:'Sales totals by hour / day / month',path:'/sales/period-sales-view?tab=daily'}
 ];
 function renderHomeCards(){
   document.getElementById('home-cards').innerHTML=HOME_LINKS.map(l=>`<a class="home-card" href="#${l.path}">
@@ -2914,7 +3087,7 @@ const MENU_PAGES={
   '/master/price/supply-price':{bc:['Master Information','Price'],title:'Supply Price',open:['master','mst-price'],view:'sp-view',onEnter:()=>{if(!spRendered)searchSupplyPrice();}},
   '/master/price/store-customer-price':{bc:['Master Information','Price'],title:'Store Customer Price',open:['master','mst-price'],view:'dp-view',onEnter:()=>{if(!dpRendered)searchDiscountPrice();}},
   '/sales/daily-record-view':{bc:['Sales'],title:'Daily Record View',open:['sales'],view:'drv-view',onEnter:()=>{if(!drvRendered)searchDailyRecord();}},
-  '/sales/period-sales-view':{bc:['Sales'],title:'Period Sales View',open:['sales']},
+  '/sales/period-sales-view':{bc:['Sales'],title:'Period Sales View',open:['sales'],view:'psv-view',onEnter:()=>psvEnter()},
   '/sales/product-sales-view':{bc:['Sales'],title:'Product Sales View',open:['sales']},
   '/sales/rx-sales-view':{bc:['Sales'],title:'RX Sales View',open:['sales']},
   '/order/order-list':{bc:['Order'],title:'Order List',open:['order']},
