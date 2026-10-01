@@ -443,6 +443,199 @@ table.grid td input[type="checkbox"]:disabled{opacity:0.35;cursor:not-allowed;}
 .toast .toast-title{font-size:14px;font-weight:600;color:#222;}
 .toast .toast-sub{font-size:12px;color:#555;font-weight:400;margin-top:4px;line-height:1.6;}
 .toast.show{transform:translateY(0);}
+/* ===== FRONT POS (production: new window / prototype: in-app route #/pos, BO layout covered) ===== */
+.pos-app [hidden],.pos-app[hidden]{display:none!important;}
+.pos-app{position:fixed;inset:0;z-index:1300;background:#fff;overflow-y:auto;color:#222;}
+.pa-header{height:56px;display:flex;align-items:center;justify-content:space-between;padding:0 16px 0 24px;background:#fff;border-bottom:1px solid #eee;position:sticky;top:0;z-index:6;}
+.pa-store .code{font-size:13px;font-weight:600;color:#ff6b35;line-height:1.2;}
+.pa-store .name{font-size:17px;font-weight:700;color:#222;line-height:1.3;}
+.pa-header-r{display:flex;align-items:center;gap:8px;}
+.pa-back{display:flex;align-items:center;gap:2px;height:30px;padding:0 12px 0 8px;border:1px solid #ddd;border-radius:6px;font-size:11px;color:#555;text-decoration:none;background:#fff;}
+.pa-back:hover{background:#f7f7f7;}
+.pa-tabs{display:flex;gap:2px;padding:0 24px;background:#fff;border-bottom:1px solid #e8e8e8;position:sticky;top:56px;z-index:6;}
+.pa-tab{display:flex;align-items:center;gap:8px;height:44px;padding:0 16px;font-size:13px;font-weight:500;color:#444;text-decoration:none;border-bottom:3px solid transparent;margin-bottom:-1px;}
+.pa-tab svg{width:20px;height:20px;fill:#666;}
+.pa-tab:hover{color:#222;background:#fafafa;}
+.pa-tab.active{color:#ff6b35;border-bottom-color:#ff6b35;font-weight:600;}
+.pa-tab.active svg{fill:#ff6b35;}
+.pa-body{padding:22px 12px 48px;}
+.pa-toprow{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;margin-bottom:16px;}
+.pa-mode{display:flex;align-items:center;gap:12px;font-size:13px;font-weight:700;color:#bbb;padding-left:2px;margin-bottom:6px;}
+.pa-mode .on{color:#222;}
+.pa-switch{width:44px;height:22px;border-radius:11px;background:#ffd2bd;position:relative;cursor:pointer;flex-shrink:0;}
+.pa-switch .knob{position:absolute;left:-2px;top:-3px;width:28px;height:28px;border-radius:50%;background:#ff6b35;color:#fff;font-size:14px;font-weight:600;display:flex;align-items:center;justify-content:center;transition:left .2s;box-shadow:0 1px 3px rgba(0,0,0,.2);}
+.pa-switch.inv .knob{left:18px;}
+.pa-info{width:18px;height:18px;border-radius:50%;background:#222;color:#fff;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;cursor:help;font-family:Georgia,serif;}
+.pa-staff{display:flex;gap:16px;width:490px;flex-shrink:0;}
+.pa-staff>div{flex:1;min-width:0;}
+.pa-staff label,.pa-attr label{display:block;font-size:12px;font-weight:600;color:#555;margin-bottom:6px;}
+.pa-staff .req{color:#ff6b35;}
+.pa-grid{display:flex;gap:12px;align-items:flex-start;}
+.pa-left{flex:1;min-width:0;}
+.pa-right{width:490px;flex-shrink:0;}
+.pa-card{border:1px solid #eee;border-radius:8px;padding:18px 20px;background:#fff;}
+.pa-card.cream{background:#FFF9F4;border-color:#f6ece3;}
+.pa-card+.pa-card{margin-top:24px;}
+.pa-inputrow{display:flex;align-items:center;gap:14px;}
+.pa-inputrow>label{font-size:13px;font-weight:500;white-space:nowrap;}
+.pa-input{height:34px;width:100%;border:1px solid #d5d5d5;border-radius:4px;padding:0 10px;font-size:12px;outline:none;background:#fff;color:#222;}
+.pa-input::placeholder{color:#aaa;}
+.pa-input:focus{border-color:#ff6b35;}
+.pa-input:disabled{background:#f3f3f3;color:#999;}
+.pa-search{position:relative;}
+.pa-search .ico{position:absolute;left:9px;top:8px;width:18px;height:18px;fill:#333;pointer-events:none;}
+.pa-input.has-ico{padding-left:34px;}
+.pa-search .caret{position:absolute;right:8px;top:7px;width:20px;height:20px;fill:#555;pointer-events:none;}
+#pa-barcode{padding-right:32px;}
+.pa-sugg{position:absolute;top:38px;left:0;right:0;background:#fff;border:1px solid #e0e0e0;border-radius:6px;box-shadow:0 6px 20px rgba(0,0,0,.1);max-height:280px;overflow-y:auto;z-index:20;}
+.pa-sugg div{padding:9px 12px;font-size:12px;cursor:pointer;border-bottom:1px solid #f5f5f5;}
+.pa-sugg div:hover{background:#FFF4EE;}
+.pa-sugg div span{color:#999;margin-left:6px;}
+.pa-sugg div.none{color:#999;cursor:default;}
+.pa-sugg div.none:hover{background:#fff;}
+.pa-done{display:flex;align-items:center;gap:8px;background:#E8F5E9;color:#2E7D32;border-radius:6px;padding:10px 14px;font-size:12px;font-weight:600;margin-bottom:14px;}
+.pa-done span{font-weight:400;color:#4b6b4d;}
+.pa-table{width:100%;border-collapse:collapse;margin-top:18px;font-size:12px;}
+.pa-table th{background:#FFF8F2;font-weight:500;font-size:11px;padding:10px 6px;color:#333;line-height:1.6;}
+.pa-table td{padding:9px 6px;border-bottom:1px solid #f0f0f0;text-align:center;}
+.pa-table td.l{text-align:left;}
+.pa-table td .sub{font-size:11px;color:#999;margin-top:2px;}
+.pa-table td.neg{color:#d32f2f;font-weight:600;}
+.pa-table tr.pa-empty td{height:94px;background:#fafafa;font-size:13px;border-bottom:none;}
+.pa-qty{display:inline-flex;align-items:center;border:1px solid #ddd;border-radius:4px;overflow:hidden;}
+.pa-qty button{width:24px;height:26px;border:none;background:#f7f7f7;cursor:pointer;font-size:14px;color:#555;}
+.pa-qty button:disabled{color:#ccc;cursor:not-allowed;}
+.pa-qty span{min-width:30px;text-align:center;font-weight:600;}
+.pa-del{border:none;background:none;color:#aaa;font-size:18px;cursor:pointer;line-height:1;}
+.pa-del:hover{color:#d32f2f;}
+.pa-totals{display:flex;justify-content:flex-end;gap:16px;font-size:12px;color:#555;padding:20px 0 24px;border-top:1px solid #eee;margin-top:24px;}
+.pa-totals b{color:#ff6b35;font-weight:700;margin-left:4px;}
+.pa-actions{display:flex;justify-content:space-between;}
+.pa-btn{height:32px;padding:0 22px;border-radius:4px;font-size:11px;border:1px solid #ddd;background:#fff;color:#555;cursor:pointer;}
+.pa-btn:hover:not(:disabled){background:#f7f7f7;}
+.pa-btn:disabled{background:#eee;border-color:#eee;color:#bbb;cursor:not-allowed;}
+.pa-sec-title{display:flex;align-items:center;gap:8px;font-size:14px;font-weight:700;margin-bottom:12px;}
+.pa-sec-title svg{width:20px;height:20px;fill:#222;}
+.pa-link{font-size:11px;color:#3b6fd8;text-decoration:underline;cursor:pointer;}
+.pa-link.disabled{color:#bbb;pointer-events:none;}
+.pa-or{display:flex;align-items:center;gap:10px;font-size:10px;font-weight:700;color:#555;margin:12px 0;}
+.pa-or::before,.pa-or::after{content:'';flex:1;height:1px;background:#d5d5d5;}
+.pa-member{display:flex;align-items:center;gap:10px;border:1px solid #ffd2bd;background:#fff;border-radius:6px;padding:10px 12px;margin-top:8px;font-size:12px;}
+.pa-member .nm{font-weight:700;color:#222;}
+.pa-member .nm span{font-weight:500;color:#ff6b35;margin-left:6px;font-size:11px;}
+.pa-member .sub{color:#777;margin-top:3px;font-size:11px;}
+.pa-member button{margin-left:auto;border:none;background:none;color:#aaa;font-size:18px;cursor:pointer;}
+.pa-member button:disabled{visibility:hidden;}
+.pa-big{width:100%;height:44px;border:none;border-radius:4px;background:#ff6b35;color:#fff;font-size:12px;font-weight:600;cursor:pointer;}
+.pa-big:hover:not(:disabled){background:#e55e2b;}
+.pa-big.dark{background:#555;}
+.pa-big.dark:hover:not(:disabled){background:#444;}
+.pa-big:disabled{background:#ebebeb;color:#c4c4c4;cursor:not-allowed;}
+.pa-hint{font-size:11px;color:#999;text-align:center;margin-top:6px;}
+.pa-check{display:flex;align-items:center;justify-content:center;gap:8px;font-size:12px;margin:14px 0;cursor:pointer;}
+.pa-check input{width:16px;height:16px;accent-color:#ff6b35;}
+.pa-gift{display:flex;gap:8px;}
+.pa-gift .pa-btn{padding:0 12px;height:34px;white-space:nowrap;}
+.pa-attr label{font-size:11px;font-weight:700;color:#222;margin:14px 0 6px;}
+.pa-attr label:first-child{margin-top:0;}
+.pa-seg{display:inline-flex;border:1px solid #333;border-radius:4px;overflow:hidden;}
+.pa-seg button{width:106px;height:34px;border:none;border-right:1px solid #333;background:#fff;font-size:11px;cursor:pointer;color:#222;}
+.pa-seg button:last-child{border-right:none;}
+.pa-seg button.on{background:#ff6b35;color:#fff;font-weight:600;}
+.pa-seg.disabled{opacity:.5;pointer-events:none;}
+.pa-soon{border:1px solid #eee;border-radius:8px;text-align:center;padding:80px 24px;color:#888;font-size:13px;}
+.pa-soon .t{font-size:15px;font-weight:600;color:#222;margin-bottom:8px;}
+/* POS layout v2: sticky cart (left) + grouped right panel */
+.pa-grid{align-items:flex-start;}
+.pa-left{position:sticky;top:123px;}
+/* body has zoom:0.8 -> divide vh by 0.8 so the cart fills the visible viewport */
+.pa-cart{display:flex;flex-direction:column;height:calc(100vh / 0.8 - 146px);min-height:560px;padding:16px 22px 18px;}
+.pa-cart-head{display:flex;align-items:center;gap:16px;min-height:32px;margin-bottom:14px;}
+.pa-cart-head .pa-mode{margin:0;}
+.pa-cart-head .pa-done{margin:0 0 0 auto;padding:7px 12px;}
+.pa-table-wrap{flex:1;min-height:0;overflow-y:auto;margin-top:16px;border-bottom:1px solid #eee;}
+.pa-table-wrap .pa-table{margin-top:0;}
+.pa-table-wrap .pa-table thead th{position:sticky;top:0;z-index:1;}
+.pa-table tr.pa-empty td{height:auto;padding:56px 0;background:#fafafa;color:#888;}
+.pa-empty .ic{width:40px;height:40px;fill:#d0d0d0;display:block;margin:0 auto 10px;}
+.pa-empty .t{font-size:14px;font-weight:600;color:#555;margin-bottom:4px;}
+.pa-table tr.over td{background:#FFF5F5;}
+.pa-summary{display:flex;align-items:center;gap:28px;background:#FFF8F2;border-radius:8px;padding:14px 22px;margin:16px 0 14px;}
+.pa-sum-meta{font-size:12px;color:#777;font-weight:500;}
+.pa-sum-sub{margin-left:auto;display:flex;flex-direction:column;gap:4px;font-size:12px;color:#666;min-width:170px;}
+.pa-sum-sub>div{display:flex;justify-content:space-between;gap:16px;}
+.pa-sum-sub b{color:#222;font-weight:600;}
+.pa-sum-sub b.disc{color:#d9480f;}
+.pa-sum-total{display:flex;flex-direction:column;align-items:flex-end;padding-left:28px;border-left:1px solid #f1dccd;}
+.pa-sum-total>span{font-size:12px;font-weight:600;color:#555;}
+.pa-sum-total small{font-size:13px;font-weight:600;color:#ff6b35;margin-right:6px;}
+.pa-sum-total b{font-size:30px;font-weight:800;color:#ff6b35;letter-spacing:-0.5px;line-height:1.15;}
+.pa-staff{width:auto;margin-bottom:14px;}
+.pa-card+.pa-card{margin-top:16px;}
+.pa-attr{margin-top:20px;padding-top:18px;border-top:1px dashed #ecd9c8;}
+.pa-attr-title{font-size:13px;font-weight:700;color:#222;margin-bottom:12px;}
+.pa-attr-grid{display:flex;gap:12px;}
+.pa-attr-grid>div{flex:1;min-width:0;}
+.pa-attr label{margin-top:12px;}
+.pa-attr-grid label{margin-top:0;}
+.pa-seg{display:flex;width:100%;}
+.pa-seg button{flex:1;width:auto;}
+.pa-print{position:sticky;bottom:12px;box-shadow:0 -4px 16px rgba(0,0,0,0.06);border-color:#f1dccd;}
+.pa-print-row{display:flex;gap:8px;}
+.pa-print-row .pa-big{flex:1;}
+.pa-print .pa-check{margin:12px 0;}
+.pa-table tr.pa-pkg td{background:#fcfcfc;color:#777;font-size:11px;padding-top:7px;padding-bottom:7px;}
+.pa-table tr.pa-pkg td.l{padding-left:22px;position:relative;}
+.pa-table tr.pa-pkg td.l::before{content:'';position:absolute;left:8px;top:6px;width:8px;height:12px;border-left:1px solid #ccc;border-bottom:1px solid #ccc;}
+.pa-table tr.pa-pkg td b{color:#555;font-weight:600;}
+.pa-pkg-tag{display:inline-block;font-size:9px;font-weight:700;letter-spacing:.3px;color:#ff6b35;background:#FFF1E9;border-radius:3px;padding:1px 5px;margin-right:6px;vertical-align:1px;}
+.pa-table tr.has-pkg td{border-bottom-color:transparent;}
+/* POS right panel v3: white cards, soft controls */
+.pa-right .pa-card{border:1px solid #ececec;border-radius:10px;padding:18px;box-shadow:0 1px 2px rgba(0,0,0,0.03);}
+.pa-staff-card{padding:14px 18px!important;}
+.pa-staff{margin:0;gap:12px;}
+.pa-staff label{font-size:11px;font-weight:600;color:#888;margin-bottom:5px;}
+.pa-head{display:flex;align-items:center;gap:10px;margin-bottom:14px;}
+.pa-head-ic{width:32px;height:32px;border-radius:8px;background:#FFF1E9;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.pa-head-ic svg{width:18px;height:18px;fill:#ff6b35;}
+.pa-head .t{font-size:14px;font-weight:700;color:#222;}
+.pa-head .s{font-size:11px;color:#999;margin-top:2px;}
+.pa-row{display:flex;gap:8px;align-items:center;}
+.pa-right .pa-input{height:38px;border-color:#e2e2e2;border-radius:6px;font-size:12px;}
+.pa-right .multi-select-trigger{border-color:#e2e2e2!important;border-radius:6px!important;}
+.pa-ghost{height:38px;padding:0 14px;border:1px solid #e2e2e2;border-radius:6px;background:#fff;font-size:12px;font-weight:600;color:#555;cursor:pointer;white-space:nowrap;}
+.pa-ghost:hover:not(:disabled){border-color:#ff6b35;color:#ff6b35;}
+.pa-ghost.on{border-color:#ff6b35;background:#FFF5EF;color:#ff6b35;}
+.pa-ghost:disabled{color:#bbb;background:#f7f7f7;cursor:not-allowed;}
+.pa-member{gap:12px;border:1px solid #ffd9c7;background:#FFFAF7;border-radius:8px;padding:10px 12px;margin-top:10px;}
+.pa-avatar{width:34px;height:34px;border-radius:50%;background:#ff6b35;color:#fff;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.pa-avatar.nm{background:#c9c9c9;}
+.pa-attr{margin-top:18px;padding-top:16px;border-top:1px solid #f0f0f0;}
+.pa-sub-title{font-size:11px;font-weight:700;color:#999;letter-spacing:.6px;text-transform:uppercase;margin-bottom:10px;}
+.pa-attr label{font-size:11px;font-weight:600;color:#888;margin:12px 0 5px;}
+.pa-attr-grid label{margin-top:0;}
+.pa-seg{display:flex;width:100%;background:#f3f3f4;border:none;border-radius:8px;padding:3px;gap:3px;overflow:visible;}
+.pa-seg button{flex:1;height:32px;border:none!important;border-radius:6px;background:transparent;color:#666;font-size:12px;font-weight:500;}
+.pa-seg button:hover{color:#222;}
+.pa-seg button.on{background:#fff;color:#ff6b35;font-weight:700;box-shadow:0 1px 3px rgba(0,0,0,0.12);}
+.pa-inputgroup{display:flex;}
+.pa-inputgroup .pa-input{border-radius:6px 0 0 6px;}
+.pa-inputgroup button{height:38px;padding:0 16px;border:1px solid #e2e2e2;border-left:none;border-radius:0 6px 6px 0;background:#fafafa;font-size:12px;font-weight:600;color:#555;cursor:pointer;white-space:nowrap;}
+.pa-inputgroup button:disabled{color:#c4c4c4;cursor:not-allowed;}
+.pa-print{border-color:#f3dccd!important;box-shadow:0 -6px 20px rgba(0,0,0,0.06)!important;}
+.pa-confirm{display:flex;align-items:center;justify-content:space-between;height:50px;padding:0 20px;font-size:14px;border-radius:8px;}
+.pa-confirm .amt{font-size:15px;font-weight:800;}
+.pa-confirm:disabled .amt{display:none;}
+.pa-confirm:disabled{justify-content:center;}
+.pa-print .pa-check{justify-content:flex-start;margin:10px 0 0;font-size:12px;color:#555;}
+.pa-ac-head{display:flex;align-items:center;justify-content:space-between;margin:16px 0 8px;padding-top:14px;border-top:1px solid #f0f0f0;}
+.pa-ac-head>span{font-size:11px;font-weight:700;color:#999;letter-spacing:.6px;}
+.pa-ac-head .pa-check{margin:0;}
+.pa-outline{flex:1;height:40px;border:1px solid #ff6b35;border-radius:8px;background:#fff;color:#ff6b35;font-size:12px;font-weight:700;cursor:pointer;}
+.pa-outline:hover:not(:disabled){background:#FFF5EF;}
+.pa-outline.gray{border-color:#bbb;color:#555;}
+.pa-outline.gray:hover:not(:disabled){background:#f7f7f7;}
+.pa-outline:disabled{border-color:#e6e6e6;color:#c4c4c4;background:#fafafa;cursor:not-allowed;}
 </style>
 <!-- SheetJS: client-side Excel (.xlsx) export -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
@@ -600,8 +793,139 @@ table.grid td input[type="checkbox"]:disabled{opacity:0.35;cursor:not-allowed;}
     </div>
   </div>
 
-  <div class="pos-wrap"><button class="pos-btn"><span>Front POS</span><svg width="20" height="20" viewBox="0 0 24 24" fill="#fff"><use href="#i-chevron-right"/></svg></button></div>
+  <div class="pos-wrap"><button class="pos-btn" onclick="location.hash='#/pos'"><span>Front POS</span><svg width="20" height="20" viewBox="0 0 24 24" fill="#fff"><use href="#i-chevron-right"/></svg></button></div>
 </nav>
+
+<!-- FRONT POS (production: opens in a new window / prototype: in-app route #/pos covering the BO layout) -->
+<div class="pos-app" id="pos-app" hidden>
+  <div class="pa-header">
+    <div class="pa-store"><div class="code" id="pa-store-code"></div><div class="name" id="pa-store-name"></div></div>
+    <div class="pa-header-r">
+      <a class="pa-back" href="#/"><svg width="18" height="18" viewBox="0 0 24 24" fill="#555"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>Back to BO</a>
+      <button class="lang-btn">Language <b>English</b><svg width="20" height="20" viewBox="0 0 24 24" fill="#222"><use href="#i-chevron-down"/></svg></button>
+      <button class="user-btn">monster1437 (SUPERADMIN)<svg width="20" height="20" viewBox="0 0 24 24" fill="#fff"><use href="#i-chevron-down"/></svg></button>
+    </div>
+  </div>
+  <nav class="pa-tabs" id="pa-tabs"></nav>
+
+  <!-- Front POS Main -->
+  <div class="pa-body" id="pa-main">
+    <div class="pa-grid">
+      <!-- Left: cart (sticky, fills the viewport; totals pinned at the bottom) -->
+      <div class="pa-left">
+        <div class="pa-card pa-cart">
+          <div class="pa-cart-head">
+            <div class="pa-mode">
+              <span id="pa-mode-sales" class="on">SALES</span>
+              <div class="pa-switch" id="pa-switch" onclick="posToggleMode()"><span class="knob" id="pa-knob">$</span></div>
+              <span id="pa-mode-inv">INVENTORY</span>
+              <span class="pa-info" title="Switch between SALES and INVENTORY mode.">i</span>
+            </div>
+            <div class="pa-done" id="pa-done" hidden></div>
+          </div>
+          <div class="pa-inputrow">
+            <label>Invoice No.</label>
+            <input class="pa-input" id="pa-invoice" placeholder="Please enter or it will auto-generate." style="flex:1;">
+            <label style="margin-left:12px;">Product Barcode</label>
+            <div class="pa-search" style="flex:2;">
+              <svg class="caret" viewBox="0 0 24 24"><path d="M7 10l5 5 5-5z"/></svg>
+              <input class="pa-input" id="pa-barcode" autocomplete="off" placeholder="Please scan or enter the product name, code, and barcode." oninput="posSuggest()" onfocus="posSuggest()" onkeydown="if(event.key==='Enter')posBarcodeEnter()">
+              <div class="pa-sugg" id="pa-sugg" hidden></div>
+            </div>
+          </div>
+          <div class="pa-table-wrap">
+            <table class="pa-table">
+              <thead><tr><th style="width:40px;">#</th><th>Product Information<br>(Name)</th><th>Qty</th><th>Currency</th><th>Customer Price</th><th>Discount Price</th><th>Total</th><th>Stock<br>(SALES)</th><th style="width:36px;"></th></tr></thead>
+              <tbody id="pa-items"></tbody>
+            </table>
+          </div>
+          <div class="pa-summary">
+            <div class="pa-sum-meta" id="pa-t-meta">0 item(s) · Qty 0</div>
+            <div class="pa-sum-sub">
+              <div><span>Customer Price</span><b id="pa-t-cp">0</b></div>
+              <div><span>Discount Price</span><b id="pa-t-dp" class="disc">0</b></div>
+            </div>
+            <div class="pa-sum-total"><span>Total</span><div><small id="pa-t-cur">USD</small><b id="pa-t-total">0</b></div></div>
+          </div>
+          <div class="pa-actions">
+            <button class="pa-btn" id="pa-clear" onclick="posClear()">All Clear</button>
+            <button class="pa-btn" id="pa-refund" onclick="showToast('Manual Refund','Manual Refund is not included in this prototype yet.')">Manual Refund</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right: staff -> customer -> sales & print (sticky) -> gift pay -->
+      <div class="pa-right">
+        <div class="pa-card pa-staff-card">
+          <div class="pa-staff">
+            <div><label>Cashier <span class="req">*</span></label><select id="pa-cashier" style="width:100%;height:38px;" onchange="posSync()"></select></div>
+            <div><label>Seller</label><select id="pa-seller" style="width:100%;height:38px;"></select></div>
+          </div>
+        </div>
+
+        <div class="pa-card">
+          <div class="pa-head">
+            <span class="pa-head-ic"><svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg></span>
+            <div><div class="t">Customer Member Search</div><div class="s">Search by email / phone, scan QR, or continue as non-member.</div></div>
+          </div>
+          <div class="pa-row">
+            <select id="pa-mcountry" style="width:150px;height:38px;flex-shrink:0;"><option>United States</option><option>Canada</option></select>
+            <div class="pa-search" style="flex:1;">
+              <svg class="ico" viewBox="0 0 24 24"><use href="#i-search"/></svg>
+              <input class="pa-input has-ico" id="pa-msearch" autocomplete="off" placeholder="Search by Email OR Phone" oninput="posMemberSuggest()" onkeydown="if(event.key==='Enter')posMemberEnter()">
+              <div class="pa-sugg" id="pa-msugg" hidden></div>
+            </div>
+          </div>
+          <div class="pa-row" style="margin-top:8px;">
+            <div class="pa-search" style="flex:1;">
+              <svg class="ico" viewBox="0 0 24 24"><path d="M3 11h8V3H3v8zm2-6h4v4H5V5zm-2 16h8v-8H3v8zm2-6h4v4H5v-4zm8-12v8h8V3h-8zm6 6h-4V5h4v4zm0 10h2v2h-2zm-6-6h2v2h-2zm2 2h2v2h-2zm-2 2h2v2h-2zm2 2h2v2h-2zm2-2h2v2h-2zm0-4h2v2h-2zm2 2h2v2h-2z"/></svg>
+              <input class="pa-input has-ico" id="pa-qr" autocomplete="off" placeholder="Scan Customer QR" onkeydown="if(event.key==='Enter')posQrEnter()">
+            </div>
+            <button class="pa-ghost" id="pa-nonmember" onclick="posSetNonMember()">Non-Member</button>
+          </div>
+          <div id="pa-member"></div>
+
+          <div class="pa-attr" id="pa-attr">
+            <div class="pa-sub-title">Customer Information</div>
+            <div class="pa-attr-grid">
+              <div><label>Country</label><select id="pa-a-country" style="width:100%;height:38px;" onchange="posCountryChange()"></select></div>
+              <div><label>Continent</label><select id="pa-a-continent" style="width:100%;height:38px;"></select></div>
+            </div>
+            <label>Customer Type</label><select id="pa-a-ctype" style="width:100%;height:38px;"><option value="">Please Select.</option><option>LOCAL</option><option>FOREIGN</option></select>
+            <label>Gender</label><div class="pa-seg" id="pa-a-gender"><button onclick="posSeg(this)">N/A</button><button onclick="posSeg(this)">MALE</button><button onclick="posSeg(this)">FEMALE</button></div>
+            <label>Usage Type</label><div class="pa-seg" id="pa-a-usage"><button onclick="posSeg(this)">N/A</button><button onclick="posSeg(this)">Normal</button><button onclick="posSeg(this)">Gift</button></div>
+          </div>
+        </div>
+
+        <div class="pa-card pa-print">
+          <button class="pa-big pa-confirm" id="pa-confirm" onclick="posConfirm()"><span>Confirm Sales</span><span class="amt" id="pa-confirm-amt"></span></button>
+          <div class="pa-hint" id="pa-confirm-hint"></div>
+          <label class="pa-check"><input type="checkbox" id="pa-savecashier"> Save cashier information</label>
+          <div class="pa-ac-head"><span>AC CARD</span><label class="pa-check"><input type="checkbox" id="pa-skipac" onchange="posSync()"> Skip AC Card Print.</label></div>
+          <div class="pa-print-row">
+            <button class="pa-outline" id="pa-ac" onclick="posAcPrint(false)">AC Card Print</button>
+            <button class="pa-outline gray" id="pa-acre" onclick="posAcPrint(true)">AC Card RE Print</button>
+          </div>
+        </div>
+        <div class="pa-card">
+          <div class="pa-head" style="margin-bottom:12px;">
+            <span class="pa-head-ic"><svg viewBox="0 0 24 24"><path d="M20 6h-2.18c.11-.31.18-.65.18-1 0-1.66-1.34-3-3-3-1.05 0-1.96.54-2.5 1.35l-.5.67-.5-.68C10.96 2.54 10.05 2 9 2 7.34 2 6 3.34 6 5c0 .35.07.69.18 1H4c-1.11 0-1.99.89-1.99 2L2 19c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V8c0-1.11-.89-2-2-2zm-5-2c.55 0 1 .45 1 1s-.45 1-1 1-1-.45-1-1 .45-1 1-1zM9 4c.55 0 1 .45 1 1s-.45 1-1 1-1-.45-1-1 .45-1 1-1zm11 15H4v-2h16v2zm0-5H4V8h5.08L7 10.83 8.62 12 11 8.76l1-1.36 1 1.36L15.38 12 17 10.83 14.92 8H20v6z"/></svg></span>
+            <div><div class="t">Gift Pay</div></div>
+          </div>
+          <div class="pa-inputgroup">
+            <input class="pa-input" id="pa-gift" placeholder="Please enter serial code." oninput="posSync()">
+            <button id="pa-foc" onclick="posFocCheck()">FOC Check</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Other POS tabs -->
+  <div class="pa-body" id="pa-soon" hidden>
+    <div class="pa-soon"><div class="t">Coming Soon</div><span id="pa-soon-name"></span> is not included in this prototype yet.</div>
+  </div>
+</div>
 
 <!-- MAIN -->
 <main class="main">
@@ -3438,6 +3762,233 @@ function printLabel(idx){
   window.print();
 }
 
+// ===== Front POS =====
+// Production: Front POS opens in a new window. Prototype: same app via #/pos (covers the BO layout)
+const POS_STORE={code:'US1007',name:'GM_CostaMesa_MALL_SCP',currency:'USD'};
+const POS_TABS=[
+  {path:'/pos',label:'Front POS Main',icon:'M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63h7.45c.75 0 1.41-.41 1.75-1.03l3.58-6.49A1.003 1.003 0 0020 4H5.21l-.94-2H1zm16 16c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2z'},
+  {path:'/pos/daily-sales-summary',label:'Daily Sales Summary',icon:'M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z'},
+  {path:'/pos/rx-operation-list',label:'Rx Operation List',icon:'M4 8h4V4H4v4zm6 12h4v-4h-4v4zm-6 0h4v-4H4v4zm0-6h4v-4H4v4zm6 0h4v-4h-4v4zm6-10v4h4V4h-4zm-6 4h4V4h-4v4zm6 6h4v-4h-4v4zm0 6h4v-4h-4v4z'},
+  {path:'/pos/store-pickup-list',label:'Store Pickup List',icon:'M20 4H4v2h16V4zm1 10v-2l-1-5H4l-1 5v2h1v6h10v-6h4v6h2v-6h1zm-9 4H6v-4h6v4z'},
+  {path:'/pos/outbound-label-print',label:'Outbound Label Print',icon:'M20 8h-3V4H3c-1.1 0-2 .9-2 2v11h2c0 1.66 1.34 3 3 3s3-1.34 3-3h6c0 1.66 1.34 3 3 3s3-1.34 3-3h2v-5l-3-4zM6 18.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zm13.5-9l1.96 2.5H17V9.5h2.5zm-1.5 9c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5z'}
+];
+const POS_CASHIERS=['[250005] monster1437 이우주','[250011] jane.park','[250017] alex.kim'];
+const POS_SELLERS=['[250011] jane.park','[250017] alex.kim','[250023] chris.lee'];
+// Country -> Continent (same values as Daily Record View customer info)
+const POS_COUNTRIES={'United States':'North America','Canada':'North America','Korea':'Asia/Pacific','Japan':'Asia/Pacific','China':'Asia/Pacific','France':'Europe','United Kingdom':'Europe'};
+const POS_MEMBERS=[
+  {id:'M100231',name:'Emily Johnson',email:'emily.j@gmail.com',phone:'+1 213-555-0142',country:'United States',gender:'FEMALE'},
+  {id:'M100587',name:'Daniel Kim',email:'daniel.kim@outlook.com',phone:'+1 714-555-0199',country:'Korea',gender:'MALE'},
+  {id:'M100912',name:'Sophie Martin',email:'sophie.m@yahoo.fr',phone:'+33 6 12 34 56 78',country:'France',gender:'FEMALE'}
+];
+// Dummy prices: Customer Price (selling price) / Discount Price (Store Customer Price master, applied instead of selling price)
+function posPrice(p){
+  const n=parseInt(p.code.slice(-2),10),cp=280+(n%8)*20;
+  return {cp,dp:[3,10,17].includes(n)?Math.round(cp*0.8):null,stock:n%9===4?0:2+(n*7)%11};
+}
+// Package mapped to each product (by category, dummy): added automatically as a set, price 0, qty follows the product
+// Packages have no barcode
+const POS_PACKAGES={OPTICAL:{code:'PK-OPT-001',name:'GM OPTICAL PACKAGE'},SUNGLASSES:{code:'PK-SUN-001',name:'GM SUNGLASSES PACKAGE'}};
+function posPackage(p){return POS_PACKAGES[p.category]||null;}
+const posFmt=n=>n.toLocaleString('en-US',{maximumFractionDigits:2});
+let pos={mode:'SALES',items:[],member:null,nonMember:false,confirmed:false,acPrinted:false,invoice:''};
+let posInited=false;
+function posEnter(path){
+  const tab=POS_TABS.find(t=>t.path===path);
+  if(!posInited){posInit();posInited=true;}
+  document.getElementById('pos-app').hidden=false;
+  document.body.style.overflow='hidden';
+  document.getElementById('pa-tabs').innerHTML=POS_TABS.map(t=>`<a class="pa-tab${t===tab?' active':''}" href="#${t.path}"><svg viewBox="0 0 24 24"><path d="${t.icon}"/></svg>${t.label}</a>`).join('');
+  const isMain=tab.path==='/pos';
+  document.getElementById('pa-main').hidden=!isMain;
+  document.getElementById('pa-soon').hidden=isMain;
+  document.getElementById('pa-soon-name').textContent=tab.label;
+}
+function posLeave(){
+  if(document.getElementById('pos-app').hidden) return;
+  document.getElementById('pos-app').hidden=true;
+  document.body.style.overflow='';
+}
+function posInit(){
+  document.getElementById('pa-store-code').textContent='['+POS_STORE.code+']';
+  document.getElementById('pa-store-name').textContent=POS_STORE.name;
+  document.getElementById('pa-cashier').innerHTML='<option value="">Please Select.</option>'+POS_CASHIERS.map((c,i)=>`<option${i===0?' selected':''}>${c}</option>`).join('');
+  document.getElementById('pa-seller').innerHTML='<option value="">Please enter a value.</option>'+POS_SELLERS.map(c=>`<option>${c}</option>`).join('');
+  document.getElementById('pa-a-country').innerHTML='<option value="">Please Select.</option>'+Object.keys(POS_COUNTRIES).map(c=>`<option>${c}</option>`).join('');
+  document.getElementById('pa-a-continent').innerHTML='<option value="">Please Select.</option>'+[...new Set(Object.values(POS_COUNTRIES))].map(c=>`<option>${c}</option>`).join('');
+  document.querySelectorAll('#pos-app select').forEach(s=>{csBuild(s);csRefresh(s);});
+  // Close suggestion lists on outside click
+  document.addEventListener('click',e=>{if(!e.target.closest('.pa-search')) document.querySelectorAll('.pa-sugg').forEach(b=>b.hidden=true);});
+  posRender();
+}
+function posToggleMode(){
+  pos.mode=pos.mode==='SALES'?'INVENTORY':'SALES';
+  const inv=pos.mode==='INVENTORY';
+  document.getElementById('pa-switch').classList.toggle('inv',inv);
+  document.getElementById('pa-knob').textContent=inv?'':'$';
+  document.getElementById('pa-mode-sales').classList.toggle('on',!inv);
+  document.getElementById('pa-mode-inv').classList.toggle('on',inv);
+}
+// ----- Products -----
+function posSuggest(){
+  const box=document.getElementById('pa-sugg'),q=document.getElementById('pa-barcode').value.trim().toLowerCase();
+  if(pos.confirmed){box.hidden=true;return;}
+  const list=PRODUCTS.filter(p=>!q||(p.code+' '+p.name+' '+p.barcode).toLowerCase().includes(q)).slice(0,30);
+  box.innerHTML=list.length?list.map(p=>`<div onclick="posAddItem('${p.code}')"><b>${p.code}</b> / ${p.name}<span>${p.barcode}</span></div>`).join(''):'<div class="none">No matching product.</div>';
+  box.hidden=false;
+}
+function posBarcodeEnter(){
+  const q=document.getElementById('pa-barcode').value.trim().toLowerCase();if(!q) return;
+  const exact=PRODUCTS.find(p=>p.barcode===q||p.code===q);
+  const list=PRODUCTS.filter(p=>(p.code+' '+p.name+' '+p.barcode).toLowerCase().includes(q));
+  if(exact||list.length===1) return posAddItem((exact||list[0]).code);
+  if(!list.length) showToast('Product Barcode','No matching product.','error');
+}
+function posAddItem(code){
+  if(pos.confirmed) return;
+  const it=pos.items.find(i=>i.code===code);
+  if(it) it.qty++; else pos.items.push({code,qty:1});
+  document.getElementById('pa-barcode').value='';
+  document.getElementById('pa-sugg').hidden=true;
+  posRender();
+}
+function posQty(i,d){if(pos.confirmed)return;pos.items[i].qty=Math.max(1,pos.items[i].qty+d);posRender();}
+function posRemove(i){if(pos.confirmed)return;pos.items.splice(i,1);posRender();}
+function posTotals(){
+  return pos.items.reduce((a,it)=>{
+    const pr=posPrice(PRODUCTS.find(p=>p.code===it.code)),unit=pr.dp??pr.cp;
+    a.cp+=pr.cp*it.qty;a.disc+=(pr.cp-unit)*it.qty;a.total+=unit*it.qty;a.qty+=it.qty;return a;
+  },{cp:0,disc:0,total:0,qty:0});
+}
+// ----- Customer -----
+function posMemberMatches(q){
+  q=q.trim().toLowerCase();const digits=q.replace(/\D/g,'');
+  if(q.length<2) return [];
+  return POS_MEMBERS.filter(m=>m.email.toLowerCase().includes(q)||(digits.length>=3&&m.phone.replace(/\D/g,'').includes(digits)));
+}
+function posMemberSuggest(){
+  const box=document.getElementById('pa-msugg'),list=posMemberMatches(document.getElementById('pa-msearch').value);
+  if(!document.getElementById('pa-msearch').value.trim()){box.hidden=true;return;}
+  box.innerHTML=list.length?list.map(m=>`<div onclick="posSelectMember('${m.id}')"><b>${m.name}</b><span>${m.email} · ${m.phone}</span></div>`).join(''):'<div class="none">No member found.</div>';
+  box.hidden=false;
+}
+function posMemberEnter(){
+  const list=posMemberMatches(document.getElementById('pa-msearch').value);
+  if(list.length===1) posSelectMember(list[0].id);
+  else if(!list.length) showToast('Customer Member Search','No member found.','error');
+}
+function posQrEnter(){
+  const el=document.getElementById('pa-qr');if(!el.value.trim()) return;
+  // Simulated scan: any value resolves to a dummy member
+  posSelectMember(POS_MEMBERS[el.value.length%POS_MEMBERS.length].id);
+}
+function posSelectMember(id){
+  const m=POS_MEMBERS.find(x=>x.id===id);
+  pos.member=m;pos.nonMember=false;
+  document.getElementById('pa-msearch').value='';document.getElementById('pa-qr').value='';
+  document.getElementById('pa-msugg').hidden=true;
+  // Auto-fill customer info from membership (Customer Type: same country as the store -> LOCAL)
+  posSetAttrs(m.country,m.gender);
+  posRender();
+}
+function posSetNonMember(){if(pos.nonMember) return posClearMember();  // toggle off
+  pos.member=null;pos.nonMember=true;['pa-msearch','pa-qr'].forEach(id=>document.getElementById(id).value='');posSetAttrs('','');posRender();}
+function posClearMember(){pos.member=null;pos.nonMember=false;posSetAttrs('','');posRender();}
+function posSetAttrs(country,gender){
+  const set=(id,v)=>{const s=document.getElementById(id);s.value=v;csRefresh(s);};
+  set('pa-a-country',country);
+  set('pa-a-continent',POS_COUNTRIES[country]||'');
+  set('pa-a-ctype',country?(country==='United States'?'LOCAL':'FOREIGN'):'');
+  document.querySelectorAll('#pa-a-gender button').forEach(b=>b.classList.toggle('on',b.textContent===gender));
+}
+function posCountryChange(){
+  const c=document.getElementById('pa-a-country').value,set=(id,v)=>{const s=document.getElementById(id);s.value=v;csRefresh(s);};
+  set('pa-a-continent',POS_COUNTRIES[c]||'');
+  set('pa-a-ctype',c?(c==='United States'?'LOCAL':'FOREIGN'):'');
+}
+function posSeg(btn){btn.parentNode.querySelectorAll('button').forEach(b=>b.classList.toggle('on',b===btn));}
+// ----- Sales & Print -----
+function posGenInvoice(){
+  const d=new Date(),pad=n=>String(n).padStart(2,'0'),A='0123456789ABCDEFGHJKLMNPQRSTUVWXYZ';
+  return String(d.getFullYear()).slice(2)+pad(d.getMonth()+1)+pad(d.getDate())+'0'+Array.from({length:5},()=>A[Math.floor(Math.random()*A.length)]).join('');
+}
+function posConfirm(){
+  if(document.getElementById('pa-confirm').disabled) return;
+  const inv=document.getElementById('pa-invoice');
+  pos.invoice=inv.value.trim()||posGenInvoice();inv.value=pos.invoice;
+  pos.confirmed=true;
+  const t=posTotals(),skip=document.getElementById('pa-skipac').checked;
+  showToast('Sales Confirmed','Invoice No. '+pos.invoice+' · Total '+POS_STORE.currency+' '+posFmt(t.total)+(skip?'<br>AC Card print skipped.':''));
+  posRender();
+}
+function posAcPrint(re){
+  pos.acPrinted=true;
+  showToast(re?'AC Card RE Print':'AC Card Print','AC card printed: '+posTotals().qty+' item(s)<br>Invoice No. '+pos.invoice);
+  posRender();
+}
+function posFocCheck(){
+  const v=document.getElementById('pa-gift').value.trim();if(!v) return;
+  showToast('FOC Check','Serial code '+v.replace(/</g,'&lt;')+' is valid (prototype).');
+}
+function posClear(){
+  pos={mode:pos.mode,items:[],member:null,nonMember:false,confirmed:false,acPrinted:false,invoice:''};
+  ['pa-invoice','pa-barcode','pa-msearch','pa-qr','pa-gift'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('pa-skipac').checked=false;
+  if(!document.getElementById('pa-savecashier').checked){const s=document.getElementById('pa-cashier');s.selectedIndex=1;csRefresh(s);}
+  const sel=document.getElementById('pa-seller');sel.selectedIndex=0;csRefresh(sel);
+  posSetAttrs('','');
+  document.querySelectorAll('#pa-a-usage button').forEach(b=>b.classList.remove('on'));
+  posRender();
+}
+// ----- Render -----
+function posRender(){
+  const lock=pos.confirmed;
+  document.getElementById('pa-items').innerHTML=pos.items.length?pos.items.map((it,i)=>{
+    const p=PRODUCTS.find(x=>x.code===it.code),pr=posPrice(p),unit=pr.dp??pr.cp;let pk;
+    return `<tr class="${pr.stock<it.qty?'over':''}${posPackage(p)?' has-pkg':''}"><td>${i+1}</td><td class="l"><b>${p.code}</b> / ${p.name}<div class="sub">${p.barcode}</div></td>
+      <td><span class="pa-qty"><button ${lock||it.qty<=1?'disabled':''} onclick="posQty(${i},-1)">−</button><span>${it.qty}</span><button ${lock?'disabled':''} onclick="posQty(${i},1)">+</button></span></td>
+      <td>${POS_STORE.currency}</td><td>${posFmt(pr.cp)}</td><td>${pr.dp!=null?posFmt(pr.dp):'-'}</td><td><b>${posFmt(unit*it.qty)}</b></td>
+      <td class="${pr.stock<it.qty?'neg':''}">${pr.stock}</td><td>${lock?'':`<button class="pa-del" title="Remove (with package)" onclick="posRemove(${i})">×</button>`}</td></tr>`
+      +((pk=posPackage(p))?`<tr class="pa-pkg"><td></td><td class="l"><span class="pa-pkg-tag">PACKAGE</span><b>${pk.code}</b> / ${pk.name}</td>
+      <td>${it.qty}</td><td>${POS_STORE.currency}</td><td>0</td><td>-</td><td><b>0</b></td><td>-</td><td></td></tr>`:'');
+  }).join(''):`<tr class="pa-empty"><td colspan="9"><svg class="ic" viewBox="0 0 24 24"><path d="M2 6h2v12H2V6zm3 0h1v12H5V6zm2 0h3v12H7V6zm4 0h1v12h-1V6zm3 0h2v12h-2V6zm3 0h1v12h-1V6zm2 0h3v12h-3V6z"/></svg><div class="t">No rows</div>Scan a product barcode or search by product name / code to start.</td></tr>`;
+  const t=posTotals();
+  document.getElementById('pa-t-cp').textContent=posFmt(t.cp);
+  document.getElementById('pa-t-dp').textContent=t.disc?'-'+posFmt(t.disc):'0';
+  document.getElementById('pa-t-meta').textContent=pos.items.length+' item(s) · Qty '+t.qty;
+  document.getElementById('pa-t-cur').textContent=POS_STORE.currency;
+  document.getElementById('pa-confirm-amt').textContent=POS_STORE.currency+' '+posFmt(t.total);
+  document.getElementById('pa-t-total').textContent=posFmt(t.total);
+  // Customer
+  const m=pos.member;
+  document.getElementById('pa-member').innerHTML=m?`<div class="pa-member"><span class="pa-avatar">${m.name.split(' ').map(w=>w[0]).join('')}</span><div><div class="nm">${m.name}<span>${m.id}</span></div><div class="sub">${m.email} · ${m.phone}</div></div><button ${lock?'disabled':''} onclick="posClearMember()">×</button></div>`
+    :pos.nonMember?`<div class="pa-member"><span class="pa-avatar nm">NM</span><div><div class="nm">Non-Member</div><div class="sub">Sales without membership</div></div><button ${lock?'disabled':''} onclick="posClearMember()">×</button></div>`:'';
+  // Enable / disable
+  const skip=document.getElementById('pa-skipac').checked,hasCust=!!(m||pos.nonMember),cashier=document.getElementById('pa-cashier').value;
+  const dis=(id,v)=>{document.getElementById(id).disabled=v;};
+  ['pa-invoice','pa-barcode','pa-skipac'].forEach(id=>dis(id,lock));
+  // Non-Member: membership search fields are disabled
+  ['pa-msearch','pa-qr'].forEach(id=>dis(id,lock||pos.nonMember));
+  if(pos.nonMember) document.getElementById('pa-msugg').hidden=true;
+  const nmb=document.getElementById('pa-nonmember');nmb.disabled=lock;nmb.classList.toggle('on',pos.nonMember);
+  dis('pa-clear',!(pos.items.length||hasCust));
+  dis('pa-refund',lock||pos.items.length>0);
+  dis('pa-confirm',lock||!pos.items.length||!cashier||!hasCust);
+  dis('pa-ac',!lock||pos.acPrinted||skip);
+  dis('pa-acre',!pos.acPrinted);
+  dis('pa-gift',lock||!pos.items.length);
+  dis('pa-foc',lock||!pos.items.length||!document.getElementById('pa-gift').value.trim());
+  ['pa-cashier','pa-seller','pa-a-country','pa-a-continent','pa-a-ctype'].forEach(id=>{const s=document.getElementById(id);s.disabled=lock;csRefresh(s);});
+  {const s=document.getElementById('pa-mcountry');s.disabled=lock||pos.nonMember;csRefresh(s);}
+  document.querySelectorAll('#pa-attr .pa-seg').forEach(s=>s.classList.toggle('disabled',lock));
+  const need=[!pos.items.length&&'add a product',!hasCust&&'select a customer (Member / Non-Member)',!cashier&&'select a cashier'].filter(Boolean);
+  document.getElementById('pa-confirm-hint').textContent=!lock&&need.length?'To confirm sales, '+need.join(', ')+'.':'';
+  const done=document.getElementById('pa-done');
+  done.hidden=!lock;
+  if(lock) done.innerHTML=`✓ Sales Confirmed · Invoice No. ${pos.invoice}<span>${skip?'AC Card print skipped.':pos.acPrinted?'AC card printed.':'Print the AC card.'} Press All Clear to start a new sale.</span>`;
+}
+const posSync=posRender;
+
 // ===== Hash Router =====
 // Request No. (prototype-only id used in URL)
 let nextReqNo=REQUEST_DATA.length+1;
@@ -3527,6 +4078,12 @@ function route(){
   isRouting=true;
   try{
     let m;
+    // Front POS: full-screen POS app (production opens it in a new window)
+    if(path==='/pos'||path.startsWith('/pos/')){
+      if(!POS_TABS.some(t=>t.path===path)) return redirect('#/pos');
+      return posEnter(path);
+    }
+    posLeave();
     if(path==='/inventory/outbound'){
       setPageHeader(OUTBOUND_PAGE);
       activateTab(params.get('tab')==='request'?'request':'outbound');

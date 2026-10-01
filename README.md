@@ -20,6 +20,8 @@ BO 신규/변경 기능의 기획 검토용 UI 프로토타입입니다. 여러 
 | Outbound Request Detail | `#/inventory/outbound-request/{Request No.}` |
 | Master Information > Price > Discount Price | `#/master/price/discount-price` |
 | Sales > Daily Record View | `#/sales/daily-record-view` |
+| Front POS > Front POS Main | `#/pos` |
+| Front POS > 그 외 탭 (Coming Soon) | `#/pos/daily-sales-summary`, `#/pos/rx-operation-list`, `#/pos/store-pickup-list`, `#/pos/outbound-label-print` |
 
 그 외 사이드바 메뉴는 "Coming Soon" 화면으로 표시됩니다.
 
@@ -62,6 +64,17 @@ BO 신규/변경 기능의 기획 검토용 UI 프로토타입입니다. 여러 
 - **검색 필터**: BP, Store (BP 선택 후 활성화), Sales Type, Currency, Sales Date (기간), Keyword (Receipt No., Original Receipt No., Product Code, Product Name)
 - **Total Sum**: Total / Sales Total / Return Total (Currency 단일 선택 시에만 합계 표시)
 - **Excel Export**, **페이지네이션**: Discount Price와 동일
+
+### Front POS
+- **진입**: 사이드바 하단 Front POS 버튼 → `#/pos` (운영은 새 창, 프로토타입은 BO 레이아웃을 덮는 전체 화면). 헤더의 Back to BO로 복귀
+- **헤더 / 탭**: 계정의 POS 스토어 (`[US1007] GM_CostaMesa_MALL_SCP`) + POS 메뉴 탭 5종 (Front POS Main 외 Coming Soon)
+- **제품 (좌측)**: Product Barcode 자동완성 / 바코드 Enter 추가, 수량 +/−, 삭제, 재고 초과 행 경고. 하단 요약 (품목 수·수량, Customer Price, Discount Price(할인 금액), Total)
+- **패키지 자동 추가**: 제품 추가 시 매핑된 패키지가 하위 행으로 세트 추가 (가격 0, 수량은 제품 수량을 따라감, 제품 삭제 시 함께 삭제, 바코드 없음, 집계·재고 제외)
+- **고객 (우측)**: Customer Member Search (Email / Phone, QR) 또는 Non-Member (선택 시 멤버십 필드 비활성화). 멤버 선택 시 Customer Information 자동 입력 (Country / Continent / Customer Type / Gender, Usage Type은 수기)
+- **Sales & Print**: Confirm Sales (제품 + Cashier + 고객 필수, Invoice No. 미입력 시 자동 생성) → AC Card Print → AC Card RE Print, Skip AC Card Print 선택 가능
+- **Gift Pay**: Serial 입력 + FOC Check (시뮬레이션)
+- **미구현 / 확인 필요**: SALES / INVENTORY 토글 동작, Manual Refund, 외부 POS 매출 조회 후 AC Card 출력, AC Card 내용
+- 가격, 재고, 멤버, Cashier / Seller, 패키지 매핑은 더미 데이터
 
 ## Master Data
 
