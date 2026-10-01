@@ -149,10 +149,13 @@ body{background:#f8f8f8;color:#222;font-size:13px;overflow-x:hidden;zoom:0.8;}
 .drv-orig{display:block;font-size:12px;font-weight:400;color:#999;margin-top:3px;letter-spacing:0.3px;font-variant-numeric:tabular-nums;}
 #drv-view table.grid tbody tr.empty-row{cursor:default;}
 /* Period Sales View */
-.psv-tabs{display:flex;background:#fff;border:1px solid #e5e5e5;border-radius:8px;padding:0 16px;margin-bottom:16px;}
-.psv-tab{padding:14px 28px;font-size:13px;font-weight:600;color:#666;cursor:pointer;border-bottom:2px solid transparent;}
+/* Tabs: same style as Outbound List tabs (no box, underline only) */
+.psv-tabs{display:flex;gap:0;border-bottom:1px solid #e8e8e8;margin-bottom:24px;}
+.psv-tab{padding:12px 24px;font-size:13px;font-weight:600;color:#888;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px;transition:all .15s;white-space:nowrap;}
+.psv-tab:hover{color:#555;}
 .psv-tab.active{color:#ff6b35;border-bottom-color:#ff6b35;}
-#psv-view table.grid tbody tr{cursor:default;}
+#psv-view table.grid tbody tr,#prsv-view table.grid tbody tr{cursor:default;}
+#prsv-view table.grid tbody tr:hover td{background:#fff!important;}
 #psv-view .drv-cust-group{border-bottom:1px solid rgba(255,255,255,0.35)!important;}
 #psv-view .drv-cust-group,#psv-view th.drv-cust-first{border-left:2px solid rgba(255,255,255,0.5)!important;}
 #psv-view td.drv-cust-first{border-left:2px solid #f0f0f0!important;}
@@ -909,6 +912,55 @@ table.grid td input[type="checkbox"]:disabled{opacity:0.35;cursor:not-allowed;}
     </div>
   </div>
 
+  <!-- ===== PRODUCT SALES VIEW (Sales > Product Sales View) ===== -->
+  <div class="detail-view" id="prsv-view">
+    <div class="search-box">
+      <table class="search-table">
+        <tr><th>Brand</th><td><div class="field-row"><div class="field-inline"><select id="prsv-brand" style="min-width:360px;"><option value="">All</option></select></div></div></td></tr>
+        <tr><th>BP</th><td><div class="field-row"><div class="multi-select-wrap">
+          <div class="multi-select-trigger" id="prsvBp-trigger" onclick="toggleMulti('prsvBp')" style="min-width:360px;">BP (All)</div>
+          <div class="multi-select-dropdown hidden" id="prsvBp-dropdown"></div></div></div></td></tr>
+        <tr><th>Store</th><td><div class="field-row"><div class="multi-select-wrap">
+          <div class="multi-select-trigger disabled" id="prsvStore-trigger" style="min-width:360px;">Select BP first</div>
+          <div class="multi-select-dropdown hidden" id="prsvStore-dropdown"></div></div></div></td></tr>
+        <tr><th>Sales Type</th><td><div class="field-row"><div class="field-inline"><select id="prsv-type" style="min-width:360px;"><option value="">All</option><option value="NORMAL">NORMAL</option><option value="RETURN">RETURN</option></select></div></div></td></tr>
+        <tr><th>Sales Date</th><td><div class="field-row">
+          <div class="field-inline"><input type="date" id="prsv-from" style="min-width:170px;"></div>
+          <span style="color:#999;font-size:13px;">~</span>
+          <div class="field-inline"><input type="date" id="prsv-to" style="min-width:170px;"></div>
+        </div></td></tr>
+        <tr><th>Keyword<br><span style="font-weight:400;font-size:10px;color:#999;">Product Code, Product Name</span></th>
+          <td><div class="field-row"><div class="field-inline" style="flex:1;max-width:360px;"><input type="text" id="prsv-keyword" placeholder="Please enter at least 2 characters" style="width:100%;" onkeydown="if(event.key==='Enter')searchProductSales()"></div></div></td></tr>
+      </table>
+      <div class="search-action">
+        <button class="btn-reset" onclick="resetProductSales()"><svg width="14" height="14" viewBox="0 0 24 24" fill="#555"><path d="M17.65 6.35C16.2 4.9 14.21 4 12 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08c-.82 2.33-3.04 4-5.65 4-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"/></svg>Reset</button>
+        <button class="btn-search" onclick="searchProductSales()"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><use href="#i-search"/></svg>Search</button>
+      </div>
+    </div>
+    <div class="table-box">
+      <div class="table-toolbar">
+        <div class="table-toolbar-left">Total <b id="prsv-total">0</b> Count</div>
+        <div class="table-toolbar-right"><button class="btn-action btn-outline" onclick="exportProductSales()"><svg width="14" height="14" viewBox="0 0 24 24" fill="#555"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>Excel Export</button></div>
+      </div>
+      <div class="grid-wrap"><table class="grid">
+        <thead><tr class="hdr"><th>Brand</th><th class="tl">Sales Date</th><th class="tl">Store Information<br><span style="font-size:10px;font-weight:400;opacity:.85;">(Code / Name)</span></th><th class="tl">Product Info<br><span style="font-size:10px;font-weight:400;opacity:.85;">(Code / Name / Barcode)</span></th><th>Product Category 1</th><th>Product Category 2</th><th>Currency</th><th>Sales Type</th><th class="tr">Total Qty</th><th class="tr">Total</th><th class="tr">Net</th><th class="tr">VAT</th></tr></thead>
+        <tbody id="prsv-body"></tbody>
+      </table></div>
+      <div class="pg-bar">
+        <div class="rpp"><span>Rows per page:</span>
+          <select id="prsv-rpp" style="width:72px;" onchange="pgState('prsv').page=1;renderPrsvPage();">
+            <option value="30" selected>30</option><option value="50">50</option><option value="100">100</option><option value="300">300</option>
+          </select>
+        </div>
+        <span id="prsv-range">0–0 of 0</span>
+        <div class="pg-nav">
+          <button class="pg-btn" id="prsv-prev" onclick="pgGo('prsv',-1)"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg></button>
+          <button class="pg-btn" id="prsv-next" onclick="pgGo('prsv',1)"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg></button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- ===== PERIOD SALES VIEW (Sales > Period Sales View) ===== -->
   <div class="detail-view" id="psv-view">
     <div class="psv-tabs">
@@ -1294,13 +1346,14 @@ function selectMulti(id,el){
   el.classList.toggle('selected');
   const sel=[...document.querySelectorAll('#'+id+'-dropdown .dd-item.selected')];
   const t=document.getElementById(id+'-trigger');
-  const labels={bp:'BP',fromStore:'From Store',toStore:'To Store',dpBrand:'Brand',dpStore:'Store',drvBp:'BP',drvStore:'Store',psvBp:'BP',psvStore:'Store'};
+  const labels={bp:'BP',fromStore:'From Store',toStore:'To Store',dpBrand:'Brand',dpStore:'Store',drvBp:'BP',drvStore:'Store',psvBp:'BP',psvStore:'Store',prsvBp:'BP',prsvStore:'Store'};
   if(!sel.length) t.textContent=labels[id]+' (All)';
   else if(sel.length===1) t.textContent=sel[0].textContent.replace('✓','').trim();
   else t.textContent=sel[0].textContent.replace('✓','').trim()+' +'+(sel.length-1);
   if(id==='bp') refreshStoreDropdowns();
   if(id==='drvBp') refreshDrvStores();
   if(id==='psvBp') refreshPsvStores();
+  if(id==='prsvBp') refreshPrsvStores();
 }
 document.addEventListener('click',e=>{document.querySelectorAll('.multi-select-dropdown').forEach(dd=>{if(!dd.parentElement.contains(e.target))dd.classList.add('hidden');});});
 
@@ -1463,7 +1516,7 @@ function tagBadge(tag){
 }
 
 // ===== Shared pagination (Rows per page 30/50/100/300 + range + prev/next) =====
-const PAGERS={ob:{render:()=>renderList()},drv:{render:()=>renderDrvPage()},sp:{render:()=>renderSpPage()},psv:{render:()=>renderPsvPage()}};
+const PAGERS={ob:{render:()=>renderList()},drv:{render:()=>renderDrvPage()},sp:{render:()=>renderSpPage()},psv:{render:()=>renderPsvPage()},prsv:{render:()=>renderPrsvPage()}};
 function pgState(key){return PAGERS[key];}
 // Returns [start,end) of current page and updates range text / button state
 function pgRange(key,total){
@@ -1714,6 +1767,7 @@ function showListView(){
   document.getElementById('dp-view').classList.remove('active');
   document.getElementById('drv-view').classList.remove('active');
   document.getElementById('psv-view').classList.remove('active');
+  document.getElementById('prsv-view').classList.remove('active');
   document.getElementById('sp-view').classList.remove('active');
   document.getElementById('home-view').classList.remove('active');
   document.getElementById('list-view').classList.remove('hidden');
@@ -2069,7 +2123,7 @@ function csRefresh(sel){
   trg.classList.toggle('disabled',sel.disabled);
 }
 function csSyncModal(){
-  document.querySelectorAll('#ob-reg-modal select, #dp-view select, #sp-view select, #drv-view select, #psv-view select, .pg-bar select').forEach(s=>{csBuild(s);csRefresh(s);});
+  document.querySelectorAll('#ob-reg-modal select, #dp-view select, #sp-view select, #drv-view select, #psv-view select, #prsv-view select, .pg-bar select').forEach(s=>{csBuild(s);csRefresh(s);});
 }
 // Re-sync whenever step content / options / disabled state change (ignore the custom UI's own mutations)
 new MutationObserver(muts=>{
@@ -3086,6 +3140,73 @@ function exportPeriodSales(){
   XLSX.writeFile(wb,fileName);showToast('Excel Export',fileName+' — '+(aoa.length-1)+' rows');
 }
 
+// ===== Product Sales View (Sales) =====
+// Item lines of DRV_DATA aggregated by date x store x product x currency x sales type
+let prsvInited=false,prsvLastRows=[];
+function prsvEnter(){
+  if(prsvInited) return;
+  document.getElementById('prsv-brand').innerHTML='<option value="">All</option>'+[...document.querySelectorAll('#reg-brand option')].filter(o=>o.value).map(o=>'<option value="'+o.value+'">'+o.text+'</option>').join('');
+  document.getElementById('prsvBp-dropdown').innerHTML=Object.entries(getMasterBPs()).map(([c,n])=>`<div class="dd-item" onclick="selectMulti('prsvBp',this)" data-val="${c}"><span class="check-ico">✓</span>${n}</div>`).join('');
+  csSyncModal();prsvInited=true;prsvDefaultDates();searchProductSales();
+}
+function prsvDefaultDates(){const [f,t]=psvDefaultRange('daily');document.getElementById('prsv-from').value=f;document.getElementById('prsv-to').value=t;}
+function refreshPrsvStores(){
+  const bps=[...document.querySelectorAll('#prsvBp-dropdown .dd-item.selected')].map(el=>el.dataset.val);
+  const trg=document.getElementById('prsvStore-trigger'),dd=document.getElementById('prsvStore-dropdown');
+  if(!bps.length){trg.textContent='Select BP first';trg.classList.add('disabled');trg.removeAttribute('onclick');dd.innerHTML='';dd.classList.add('hidden');return;}
+  let stores=[];bps.forEach(bp=>{stores=stores.concat(getBpStores(bp));});
+  dd.innerHTML=stores.map(s=>`<div class="dd-item" onclick="selectMulti('prsvStore',this)" data-val="${s.code}"><span class="check-ico">✓</span>${s.name}</div>`).join('');
+  trg.textContent='Store (All)';trg.classList.remove('disabled');trg.setAttribute('onclick',"toggleMulti('prsvStore')");
+}
+function searchProductSales(){
+  const v=id=>document.getElementById(id).value,multi=id=>[...document.querySelectorAll('#'+id+'-dropdown .dd-item.selected')].map(el=>el.dataset.val);
+  const kw=v('prsv-keyword').trim().toLowerCase(),from=v('prsv-from'),to=v('prsv-to');
+  if(kw&&kw.length<2){showToast('Search','Please enter at least 2 characters.','error');return;}
+  if(from&&to&&from>to){showToast('Search','Sales Date: start date must be before end date.','error');return;}
+  const bps=multi('prsvBp'),stores=multi('prsvStore'),type=v('prsv-type'),brand=v('prsv-brand');
+  const r2=n=>Math.round(n*100)/100,groups={};
+  DRV_DATA.filter(r=>(!brand||brand==='GENTLE_MONSTER')&&(!bps.length||bps.includes(r.bp))&&(!stores.length||stores.includes(r.storeCode))&&(!type||r.type===type)&&(!from||r.date>=from)&&(!to||r.date<=to))
+  .forEach(r=>{
+    // Item-level Net / VAT (VAT split by net ratio; last item takes the rounding remainder)
+    const sign=r.type==='RETURN'?-1:1,rate=r.net?r.vat/r.net:0;let left=r.vat;
+    r.items.forEach((it,i)=>{
+      if(kw&&!it.code.toLowerCase().includes(kw)&&!it.name.toLowerCase().includes(kw)) {left-=r2(it.qty*it.price*sign*rate);return;}
+      const net=r2(it.qty*it.price*sign),vat=i===r.items.length-1?r2(left):r2(net*rate);left-=vat;
+      const key=[r.date,r.storeCode,it.code,r.currency,r.type].join('|');
+      const p=PRODUCT_MASTER.find(x=>x.code===it.code)||{};
+      const g=groups[key]||(groups[key]={date:r.date,store:r.store,code:it.code,name:it.name,barcode:p.barcode||'-',cat1:p.cat1||'-',cat2:p.cat2||'-',currency:r.currency,type:r.type,qty:0,net:0,vat:0});
+      g.qty+=it.qty*sign;g.net=r2(g.net+net);g.vat=r2(g.vat+vat);
+    });
+  });
+  // Latest date first; same product: RETURN above NORMAL (same as production)
+  prsvLastRows=Object.values(groups).map(g=>({...g,total:r2(g.net+g.vat)}))
+    .sort((a,b)=>b.date.localeCompare(a.date)||a.store.localeCompare(b.store)||a.code.localeCompare(b.code)||b.type.localeCompare(a.type));
+  PAGERS.prsv.page=1;document.getElementById('prsv-total').textContent=prsvLastRows.length;renderPrsvPage();
+}
+function renderPrsvPage(){
+  const rows=prsvLastRows,[s,e]=pgRange('prsv',rows.length),neg=n=>n<0?' style="color:#C62828"':'';
+  document.getElementById('prsv-body').innerHTML=rows.length?rows.slice(s,e).map(g=>`<tr><td>${dpBrandText('GENTLE_MONSTER')}</td><td class="tl">${g.date}</td><td class="tl">${g.store}</td>
+    <td class="tl">${g.code} / ${g.name} / ${g.barcode}</td><td>${g.cat1}</td><td>${g.cat2}</td><td>${g.currency}</td><td>${salesTypeTag(g.type)}</td>
+    <td class="tr num"${neg(g.qty)}>${g.qty}</td><td class="tr num"${neg(g.total)}>${fmtAmt2(g.total)}</td><td class="tr num"${neg(g.net)}>${fmtAmt2(g.net)}</td><td class="tr num"${neg(g.vat)}>${fmtAmt2(g.vat)}</td></tr>`).join('')
+    :'<tr><td colspan="12" class="dp-empty">No data found.</td></tr>';
+}
+function resetProductSales(){
+  document.querySelectorAll('#prsvBp-dropdown .dd-item.selected').forEach(el=>el.classList.remove('selected'));
+  document.getElementById('prsvBp-trigger').textContent='BP (All)';refreshPrsvStores();
+  ['prsv-brand','prsv-type'].forEach(id=>{const s=document.getElementById(id);s.selectedIndex=0;csRefresh(s);});
+  document.getElementById('prsv-keyword').value='';prsvDefaultDates();searchProductSales();
+}
+function exportProductSales(){
+  if(typeof XLSX==='undefined'){showToast('Excel Export','Excel library failed to load. Check network and reload.','error');return;}
+  if(!prsvLastRows.length){showToast('Excel Export','No data to export.','error');return;}
+  const aoa=[['Brand','Sales Date','Store Information (Code / Name)','Product Info (Code / Name / Barcode)','Product Category 1','Product Category 2','Currency','Sales Type','Total Qty','Total','Net','VAT']]
+    .concat(prsvLastRows.map(g=>['1100 / GENTLE MONSTER',g.date,g.store,g.code+' / '+g.name+' / '+g.barcode,g.cat1,g.cat2,g.currency,g.type,g.qty,g.total,g.net,g.vat]));
+  const ws=XLSX.utils.aoa_to_sheet(aoa),wb=XLSX.utils.book_new();XLSX.utils.book_append_sheet(wb,ws,'Product Sales View');
+  const d=new Date(),pad=n=>String(n).padStart(2,'0');
+  const fileName='Product_Sales_View_'+d.getFullYear()+pad(d.getMonth()+1)+pad(d.getDate())+'_'+pad(d.getHours())+pad(d.getMinutes())+'.xlsx';
+  XLSX.writeFile(wb,fileName);showToast('Excel Export',fileName+' — '+prsvLastRows.length+' rows');
+}
+
 // ===== Hash Router =====
 // Request No. (prototype-only id used in URL)
 let nextReqNo=REQUEST_DATA.length+1;
@@ -3098,6 +3219,7 @@ const HOME_LINKS=[
   {menu:'Master Information › Price',title:'Store Customer Price',desc:'Store price by Brand > Store (SAP), used before sales price at POS',path:'/master/price/store-customer-price'},
   {menu:'Master Information › Price',title:'Supply Price',desc:'Supply price by Brand > BP',path:'/master/price/supply-price'},
   {menu:'Sales',title:'Daily Record View',desc:'Daily receipts with Total Sum (sales / return)',path:'/sales/daily-record-view'},
+  {menu:'Sales',title:'Product Sales View',desc:'Sales by product (date x store x product)',path:'/sales/product-sales-view'},
   {menu:'Sales',title:'Period Sales View',desc:'Sales totals by hour / day / month',path:'/sales/period-sales-view?tab=daily'}
 ];
 function renderHomeCards(){
@@ -3117,7 +3239,7 @@ const MENU_PAGES={
   '/master/price/store-customer-price':{bc:['Master Information','Price'],title:'Store Customer Price',open:['master','mst-price'],view:'dp-view',onEnter:()=>{if(!dpRendered)searchDiscountPrice();}},
   '/sales/daily-record-view':{bc:['Sales'],title:'Daily Record View',open:['sales'],view:'drv-view',onEnter:()=>{if(!drvRendered)searchDailyRecord();}},
   '/sales/period-sales-view':{bc:['Sales'],title:'Period Sales View',open:['sales'],view:'psv-view',onEnter:()=>psvEnter()},
-  '/sales/product-sales-view':{bc:['Sales'],title:'Product Sales View',open:['sales']},
+  '/sales/product-sales-view':{bc:['Sales'],title:'Product Sales View',open:['sales'],view:'prsv-view',onEnter:()=>prsvEnter()},
   '/sales/rx-sales-view':{bc:['Sales'],title:'RX Sales View',open:['sales']},
   '/order/order-list':{bc:['Order'],title:'Order List',open:['order']},
   '/rx/prescription-review':{bc:['RX (Lens)'],title:'Rx Prescription Review',open:['rx']},
