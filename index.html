@@ -153,8 +153,14 @@ body{background:#f8f8f8;color:#222;font-size:13px;overflow-x:hidden;zoom:0.8;}
 .psv-tab{padding:14px 28px;font-size:13px;font-weight:600;color:#666;cursor:pointer;border-bottom:2px solid transparent;}
 .psv-tab.active{color:#ff6b35;border-bottom-color:#ff6b35;}
 #psv-view table.grid tbody tr{cursor:default;}
+#psv-view .drv-cust-group{border-bottom:1px solid rgba(255,255,255,0.35)!important;}
+#psv-view .drv-cust-group,#psv-view th.drv-cust-first{border-left:2px solid rgba(255,255,255,0.5)!important;}
+#psv-view td.drv-cust-first{border-left:2px solid #f0f0f0!important;}
 #psv-view table.grid tbody tr:hover td{background:#fff!important;}
-.psv-lines div{line-height:22px;}
+/* Sales / Return lines: same height in every column so values stay aligned with the tags */
+.psv-lines{display:flex;flex-direction:column;gap:12px;}
+.psv-lines div{height:22px;line-height:22px;}
+.psv-lines .ob-tag{vertical-align:middle;}
 .psv-net{font-weight:700;color:#222!important;}
 #drv-view .drv-cust-group{border-bottom:1px solid rgba(255,255,255,0.35)!important;}
 #drv-view .drv-cust-group,#drv-view .drv-cust-first{border-left:2px solid rgba(255,255,255,0.5)!important;}
@@ -2791,7 +2797,9 @@ const DRV_DATA=(()=>{
   const past=rows.filter(r=>r.date!==today).filter((r,i)=>i%6===3);
   const todays=rows.filter(r=>r.date===today).filter((r,i)=>i%5===2).slice(0,TODAY_RETURNS);
   past.concat(todays).forEach(o=>{
-    rows.push({...o,dateTime:o.date+' 21:'+o.dateTime.slice(14,19)+' ('+o.dateTime.split('(')[1],receiptNo:o.receiptNo.slice(0,7)+code(),origReceiptNo:o.receiptNo,type:'RETURN',
+    // Return time: same day, later than the original sale (spread across hours, not only 21:xx)
+    const oh=+o.dateTime.slice(11,13),om=+o.dateTime.slice(14,16),rh=Math.min(20,oh+Math.floor(rnd()*3)),rm=rh===oh?Math.min(59,om+1+Math.floor(rnd()*(59-om))):Math.floor(rnd()*60);
+    rows.push({...o,dateTime:o.date+' '+pad(rh)+':'+pad(rm)+':'+o.dateTime.slice(17,19)+' ('+o.dateTime.split('(')[1],receiptNo:o.receiptNo.slice(0,7)+code(),origReceiptNo:o.receiptNo,type:'RETURN',
       qty:0-o.qty,net:0-o.net,vat:0-o.vat,total:0-o.total,items:o.items});  // 0-x avoids -0
   });
   // POS customer info (Country / Continent / Customer Type / Gender / Usage Type)
@@ -2979,7 +2987,13 @@ function psvApplyTab(tab){
   const [f,t]=psvDefaultRange(tab),type=tab==='monthly'?'month':'date';
   ['psv-from','psv-to'].forEach((id,i)=>{const el=document.getElementById(id);el.type=type;el.value=i?t:f;});
   const hr=tab==='hourly'?'<th class="tl">Time Slot</th>':'';
-  document.getElementById('psv-head').innerHTML=`<tr class="hdr"><th>Brand</th><th class="tl">Sales Date</th>${hr}<th class="tl">Store Information<br><span style="font-size:10px;font-weight:400;opacity:.85;">(Code / Name)</span></th><th>Currency</th><th>Sales Type</th><th class="tr">Transaction Count</th><th class="tr">Total Qty</th><th class="tr">Average Unit</th><th class="tr">Total Sales Amount</th><th class="tr">Total Return Amount</th><th class="tr">Net Qty</th><th class="tr">Net Amount</th></tr>`;
+  const mix=tab==='daily',rs=mix?' rowspan="2"':'';
+  const lead=tab==='hourly'?hr:`<th${rs}>Brand</th><th${rs} class="tl">Sales Date</th>`;
+  const base=`${lead}<th${rs} class="tl">Store Information<br><span style="font-size:10px;font-weight:400;opacity:.85;">(Code / Name)</span></th><th${rs}>Currency</th><th${rs}>Sales Type</th><th${rs} class="tr">Transaction Count</th><th${rs} class="tr">Total Qty</th><th${rs} class="tr">Average Unit</th><th${rs} class="tr">Total Sales Amount</th><th${rs} class="tr">Total Return Amount</th><th${rs} class="tr">Net Qty</th><th${rs} class="tr">Net Amount</th>`;
+  document.getElementById('psv-head').innerHTML=mix
+    ?`<tr class="hdr">${base}<th colspan="${PSV_CTYPES.length}" class="drv-cust-group">Customer Type</th><th colspan="${PSV_CONTS.length}" class="drv-cust-group">Continent</th></tr>
+      <tr class="hdr">${PSV_CTYPES.map((k,i)=>'<th'+(i===0?' class="drv-cust-first"':'')+'>'+k+'</th>').join('')}${PSV_CONTS.map((k,i)=>'<th'+(i===0?' class="drv-cust-first"':'')+'>'+k+'</th>').join('')}</tr>`
+    :`<tr class="hdr">${base}</tr>`;
   searchPeriodSales();
 }
 function refreshPsvStores(){
@@ -3000,14 +3014,26 @@ function searchPeriodSales(){
   const groups={};
   recs.forEach(r=>{
     const hour=r.dateTime.slice(11,13),slot=hour+':00 ~ '+hour+':59';
-    const key=[pk(r),psvTab==='hourly'?slot:'',r.storeCode,r.currency].join('|');
-    const g=groups[key]||(groups[key]={period:pk(r),slot:psvTab==='hourly'?slot:'',store:r.store,currency:r.currency,NORMAL:{cnt:0,qty:0,amt:0},RETURN:{cnt:0,qty:0,amt:0}});
+    const hourly=psvTab==='hourly';
+    const key=[hourly?'':pk(r),hourly?slot:'',r.storeCode,r.currency].join('|');
+    const g=groups[key]||(groups[key]={period:hourly?'':pk(r),slot:psvTab==='hourly'?slot:'',store:r.store,currency:r.currency,NORMAL:{cnt:0,qty:0,amt:0},RETURN:{cnt:0,qty:0,amt:0}});
     const t=g[r.type];t.cnt++;t.qty+=r.qty;t.amt=Math.round((t.amt+r.total)*100)/100;
+    // Customer mix (sales receipts only; empty -> N/A)
+    if(r.type==='NORMAL'){const c=r.customer||{},ct=g.ctype||(g.ctype={}),cn=g.cont||(g.cont={});
+      ct[c.customerType||'N/A']=(ct[c.customerType||'N/A']||0)+1;cn[c.continent||'N/A']=(cn[c.continent||'N/A']||0)+1;}
   });
-  psvLastRows=Object.values(groups).sort((a,b)=>(b.period+b.slot).localeCompare(a.period+a.slot)||a.store.localeCompare(b.store));
+  // Hourly: time slot ascending; Daily / Monthly: latest period first
+  psvLastRows=Object.values(groups).sort((a,b)=>(psvTab==='hourly'?a.slot.localeCompare(b.slot):b.period.localeCompare(a.period))||a.store.localeCompare(b.store));
   PAGERS.psv.page=1;
   document.getElementById('psv-total').textContent=psvLastRows.length;
   renderPsvSum(recs,cur);renderPsvPage();
+}
+// Customer mix columns (Daily Total): ratio of sales receipts in the row, "77.8% (7)"
+const PSV_CTYPES=['N/A','LOCAL','FOREIGN'];
+const PSV_CONTS=['N/A'].concat([...new Set(DRV_DATA.map(r=>(r.customer||{}).continent).filter(Boolean))].sort());
+function psvMixCells(g){
+  const n=g.NORMAL.cnt,cell=(map,k,first)=>{const c=(map||{})[k]||0;const pct=n?Math.round(c/n*1000)/10:0;return '<td'+(first?' class="drv-cust-first"':'')+'>'+pct+'% ('+c+')</td>';};
+  return PSV_CTYPES.map((k,i)=>cell(g.ctype,k,i===0)).join('')+PSV_CONTS.map((k,i)=>cell(g.cont,k,i===0)).join('');
 }
 // Average Unit = amount / |qty| (returns: negative, same as production)
 const psvAvg=t=>t.qty?Math.round(t.amt/Math.abs(t.qty)*100)/100:0;
@@ -3017,12 +3043,12 @@ function renderPsvPage(){
   const neg=n=>n<0?' style="color:#C62828"':'';
   const col=(ls,f)=>'<div class="psv-lines">'+ls.map(l=>'<div'+neg(f(l))+'>'+fmtAmt2(f(l))+'</div>').join('')+'</div>';
   document.getElementById('psv-body').innerHTML=rows.length?rows.slice(s,e).map(g=>{const ls=psvLines(g),nq=g.NORMAL.qty+g.RETURN.qty,na=Math.round((g.NORMAL.amt+g.RETURN.amt)*100)/100;
-    return `<tr><td>${dpBrandText('GENTLE_MONSTER')}</td><td class="tl">${g.period}</td>${hr?'<td class="tl">'+g.slot+'</td>':''}<td class="tl">${g.store}</td><td>${g.currency}</td>
+    return `<tr>${hr?'<td class="tl">'+g.slot+'</td>':'<td>'+dpBrandText('GENTLE_MONSTER')+'</td><td class="tl">'+g.period+'</td>'}<td class="tl">${g.store}</td><td>${g.currency}</td>
       <td><div class="psv-lines">${ls.map(l=>'<div>'+salesTypeTag(l.type)+'</div>').join('')}</div></td>
       <td class="tr num">${col(ls,l=>l.cnt)}</td><td class="tr num">${col(ls,l=>l.qty)}</td><td class="tr num">${col(ls,l=>psvAvg(l))}</td>
       <td class="tr num">${col(ls,l=>l.sales)}</td><td class="tr num">${col(ls,l=>l.ret)}</td>
-      <td class="tr num psv-net"${neg(nq)}>${nq}</td><td class="tr num psv-net"${neg(na)}>${fmtAmt2(na)}</td></tr>`;}).join('')
-    :'<tr><td colspan="'+(hr?13:12)+'" class="dp-empty">No data found.</td></tr>';
+      <td class="tr num psv-net"${neg(nq)}>${nq}</td><td class="tr num psv-net"${neg(na)}>${fmtAmt2(na)}</td>${psvTab==='daily'?psvMixCells(g):''}</tr>`;}).join('')
+    :'<tr><td colspan="'+(hr?11:psvTab==='daily'?12+PSV_CTYPES.length+PSV_CONTS.length:12)+'" class="dp-empty">No data found.</td></tr>';
 }
 // Total Sum: only when a single currency is selected
 function renderPsvSum(recs,currency){
@@ -3047,10 +3073,13 @@ function exportPeriodSales(){
   if(typeof XLSX==='undefined'){showToast('Excel Export','Excel library failed to load. Check network and reload.','error');return;}
   if(!psvLastRows.length){showToast('Excel Export','No data to export.','error');return;}
   const hr=psvTab==='hourly';
-  const head=['Brand','Sales Date'].concat(hr?['Time Slot']:[],['Store Information (Code / Name)','Currency','Sales Type','Transaction Count','Total Qty','Average Unit','Total Sales Amount','Total Return Amount','Net Qty','Net Amount']);
+  const mix=psvTab==='daily';
+  const head=(hr?['Time Slot']:['Brand','Sales Date']).concat(['Store Information (Code / Name)','Currency','Sales Type','Transaction Count','Total Qty','Average Unit','Total Sales Amount','Total Return Amount','Net Qty','Net Amount'],
+    mix?PSV_CTYPES.map(k=>'Customer Type: '+k).concat(PSV_CONTS.map(k=>'Continent: '+k)):[]);
+  const mixVals=g=>{const n=g.NORMAL.cnt,f=(m,k)=>{const c=(m||{})[k]||0;return (n?Math.round(c/n*1000)/10:0)+'% ('+c+')';};return PSV_CTYPES.map(k=>f(g.ctype,k)).concat(PSV_CONTS.map(k=>f(g.cont,k)));};
   const aoa=[head];
   psvLastRows.forEach(g=>{const nq=g.NORMAL.qty+g.RETURN.qty,na=Math.round((g.NORMAL.amt+g.RETURN.amt)*100)/100;
-    psvLines(g).forEach(l=>aoa.push(['1100 / GENTLE MONSTER',g.period].concat(hr?[g.slot]:[],[g.store,g.currency,l.type,l.cnt,l.qty,psvAvg(l),l.sales,l.ret,nq,na])));});
+    psvLines(g).forEach(l=>aoa.push((hr?[g.slot]:['1100 / GENTLE MONSTER',g.period]).concat([g.store,g.currency,l.type,l.cnt,l.qty,psvAvg(l),l.sales,l.ret,nq,na],mix&&l.type==='NORMAL'?mixVals(g):[])));});
   const ws=XLSX.utils.aoa_to_sheet(aoa);const wb=XLSX.utils.book_new();XLSX.utils.book_append_sheet(wb,ws,'Period Sales View');
   const d=new Date(),pad=n=>String(n).padStart(2,'0');
   const fileName='Period_Sales_View_'+psvTab+'_'+d.getFullYear()+pad(d.getMonth()+1)+pad(d.getDate())+'_'+pad(d.getHours())+pad(d.getMinutes())+'.xlsx';
