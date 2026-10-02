@@ -83,7 +83,7 @@ BO 신규/변경 기능의 기획 검토용 UI 프로토타입입니다. 여러 
 - **List**: 검색 필터 (Approval Status / Processing Status / Cancel·Refund 멀티 셀렉트, Search Period (Order / Save Date), Keyword 2자 이상), 페이지네이션
 - **Register Outbound**: Confirm + 미완료 + 취소·환불 아님 건만 선택 가능 → Outbound Registration 팝업 (Carrier FedEx / UPS, 기본 FedEx) → TMS 전송
 - **Customer Email**: Confirm + Completed + 취소·환불 아님 건만 발송 가능
-- **Detail**: Customer Membership Info (멤버 검색, 등록 처방전 선택, Non-Member) / Order Info (Mapped Product, C.O.F) / Prescription (업로드 + OCR 자동 입력 시뮬레이션, 환자·처방자, SPH·CYL·AXIS·PD(Single/Dual)·OC) / Orderer Info / Recipient Info (Ship to Address 주소 검색·수기 입력·검증, Ship to Store) / Policy Agreements (동의 + 서명) / Comment
+- **Detail**: Customer Membership Info (멤버 검색, 등록 처방전 선택, Non-Member) / Order Info (Mapped Product, C.O.F) / Prescription (업로드 + OCR 자동 입력 시뮬레이션, 환자·처방자, SPH·CYL·AXIS·PD(Single/Dual)·OC) / Purchaser Info (주문자) / Patient & Shipping Info (수령자 = 처방전 환자, 이름 자동 입력, Ship to Address 주소 검색·수기 입력·검증, Ship to Store) / Policy Agreements (동의 + 서명) / Comment
 - **Index**: 섹션별 완료 체크 → Save (Unready → Requested) → Confirm / Reject. Unready 외 상태는 읽기 전용, 승인 상태는 목록에도 반영
 
 ## Master Data

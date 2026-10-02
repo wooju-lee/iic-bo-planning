@@ -723,7 +723,7 @@ table.grid td input[type="checkbox"]:disabled{opacity:0.35;cursor:not-allowed;}
 .rd-back svg{width:20px;height:20px;fill:#555;}
 .rd-head .id{font-size:20px;font-weight:700;color:#222;}
 .rd-head .sub{font-size:13px;color:#888;}
-.rd-head .rx-badge{font-size:9px;}
+.rd-head .rx-badge{font-size:11px;padding:3px 9px;}  /* ~20% larger (was 9px) */
 .rd-layout{display:flex;gap:16px;align-items:flex-start;}
 .rd-form{flex:1;min-width:0;}
 .rd-side{width:240px;flex-shrink:0;position:sticky;top:115px;}
@@ -853,6 +853,20 @@ table.grid td input[type="checkbox"]:disabled{opacity:0.35;cursor:not-allowed;}
 .rd-actions .rej{background:#fff;color:#ff6b35;border:1px solid #ff6b35;}
 .rd-actions .cfm{background:#333;color:#fff;border:none;}
 .rd-actions .msg{flex:1;text-align:center;font-size:10px;color:#888;padding:4px 0;}
+.rd-ship{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:6px 0 18px;}
+.rd-ship-card{display:flex;align-items:center;gap:12px;padding:12px 14px;border:1px solid #e0e0e0;border-radius:8px;background:#fff;cursor:pointer;transition:border-color .15s,background .15s;}
+.rd-ship-card:hover{border-color:#ffb594;}
+.rd-ship-card .ic{width:34px;height:34px;border-radius:8px;background:#f3f3f4;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.rd-ship-card .ic svg{width:18px;height:18px;fill:#888;}
+.rd-ship-card .t{font-size:12px;font-weight:600;color:#555;}
+.rd-ship-card .d{font-size:10px;color:#999;margin-top:2px;}
+.rd-ship-card.on{border:1.5px solid #ff6b35;background:#FFF8F4;padding:11.5px 13.5px;}
+.rd-ship-card.on .ic{background:#ff6b35;}
+.rd-ship-card.on .ic svg{fill:#fff;}
+.rd-ship-card.on .t{color:#222;}
+.rd-ship-card.ro{cursor:default;opacity:.7;}
+.rd-ship-card.ro:hover{border-color:#e0e0e0;}
+.rd-ship-card.on.ro:hover{border-color:#ff6b35;}
 </style>
 <!-- SheetJS: client-side Excel (.xlsx) export -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
@@ -4436,7 +4450,7 @@ function rxConfirmOutbound(){
   rxCloseOutbound();rxRenderList();
   showToast('Outbound Registration','Outbound registered via '+carrier+'. '+n+' orders sent to TMS.');
 }
-// ----- Rx Operation Detail (from bo_pos_rx_operation detail-view, incl. Orderer / Recipient Info split) -----
+// ----- Rx Operation Detail (from bo_pos_rx_operation detail-view, incl. Purchaser / Patient & Shipping Info split) -----
 const RX_MEMBERS=[
   {id:'MBR-001',email:'y7ol****@gmail.com',phone:'010-7211-9843',provider:'GOOGLE',name:'Kim Yujin',prescriptions:[
     {id:'RX-2025-0812',date:'2025-08-12',prescriber:'Dr. Smith',expiry:'2026-08-12',status:'Active'},
@@ -4505,8 +4519,8 @@ function rdSections(){
     ['Order Info','rd-sec-order',1,1],
     ['Prescription','rd-sec-prescription',rxF,8],
     ['Documents','rd-sec-prescription',(s.expiryDate?1:0)+(s.files.length?1:0),2],
-    ['Orderer Info','rd-sec-contact',[s.custName,s.custPhone,s.custEmail].filter(v=>t(v)).length,3],
-    ['Recipient Info','rd-sec-delivery',[s.rcvName,s.rcvPhone,s.rcvEmail].filter(v=>t(v)).length+(addrOk?1:0),4],
+    ['Purchaser Info','rd-sec-contact',[s.custName,s.custPhone,s.custEmail].filter(v=>t(v)).length,3],
+    ['Patient & Shipping Info','rd-sec-delivery',[s.rcvName,s.rcvPhone,s.rcvEmail].filter(v=>t(v)).length+(addrOk?1:0),4],
     ['Policy Agreements','rd-sec-policy',(s.chkRx?1:0)+(s.chkHipaa?1:0)+(s.sigData?1:0),3],
     ['Comment','rd-sec-comment',1,1]
   ];
@@ -4599,7 +4613,7 @@ function rdOcrFile(input){
       rxAddress:o.rxAddress,rxPhone:o.rxPhone,rxFax:o.rxFax,issueDate:o.issueDate,expiryDate:o.expiryDate,signature:o.signature,files:st.files.concat(f.name),
       rxv:{odSph:rdSigned(o.od.sph),odCyl:rdSigned(o.od.cyl),odAxis:String(o.od.axis),odPd:half,odOc:'',osSph:rdSigned(o.os.sph),osCyl:rdSigned(o.os.cyl),osAxis:String(o.os.axis),osPd:half,osOc:''}});
     if(!st.rcvNameEdited) st.rcvName=o.patientName;
-    if(rd===st){rdRender();showToast('OCR','OCR auto-fill complete');}
+    if(rd===st){rdRender();showToast('Auto-fill Complete','');}
   },2000);
 }
 function rdRemoveFile(i){rd.files.splice(i,1);rdRender();}
@@ -4739,24 +4753,29 @@ function rdRender(){
       </div>
     </div>
 
-    <!-- 4. Orderer Info -->
+    <!-- 4. Purchaser Info -->
     <div class="rd-sec" id="rd-sec-contact">
-      ${rdTitle('Orderer Info',1)}
+      ${rdTitle('Purchaser Info',1)}
       <div class="rd-g3"><div>${rdL('Name',1)}${rdIn('custName',{ph:'Full name'})}</div><div>${rdL('Phone',1)}${rdIn('custPhone',{type:'tel',ph:'Phone number'})}</div><div>${rdL('Email',1)}${rdIn('custEmail',{type:'email',ph:'example@email.com'})}</div></div>
     </div>
 
-    <!-- 5. Recipient Info -->
+    <!-- 5. Patient & Shipping Info (recipient = prescription patient) -->
     <div class="rd-sec" id="rd-sec-delivery">
-      ${rdTitle('Recipient Info',1)}
+      ${rdTitle('Patient &amp; Shipping Info',1)}
       <div class="rd-g3 rd-divide">
-        <div>${rdL('Name (Patient)',1)}${rdIn('rcvName',{id:'rd-rcvName',ph:'Prescription patient name'})}<div class="rd-hint">Auto-filled from prescription patient name</div></div>
+        <div>${rdL('Patient Name',1)}${rdIn('rcvName',{id:'rd-rcvName',ph:'Prescription patient name'})}<div class="rd-hint">Auto-filled from prescription patient name</div></div>
         <div>${rdL('Phone',1)}${rdIn('rcvPhone',{type:'tel',ph:'Phone number'})}</div><div>${rdL('Email',1)}${rdIn('rcvEmail',{type:'email',ph:'example@email.com'})}</div>
       </div>
-      ${rdL('Address (Ship to Address / Ship to Store)',1)}
-      <div style="display:flex;gap:16px;margin:6px 0 12px;">
-        <span class="rd-radio${s.dlvType==='address'?' on':''}" onclick="if(!rdRO()){rd.dlvType='address';rdRender();}"><i></i>Ship to Address</span>
-        <span class="rd-radio${s.dlvType==='store'?' on':''}" onclick="if(!rdRO()){rd.dlvType='store';rdRender();}"><i></i>Ship to Store</span>
+      ${rdL('Shipping Type',1)}
+      <div class="rd-ship">
+        <div class="rd-ship-card${s.dlvType==='address'?' on':''}${ro?' ro':''}" onclick="if(!rdRO()){rd.dlvType='address';rdRender();}">
+          <span class="ic"><svg viewBox="0 0 24 24"><path d="M20 8h-3V4H3c-1.1 0-2 .9-2 2v11h2c0 1.66 1.34 3 3 3s3-1.34 3-3h6c0 1.66 1.34 3 3 3s3-1.34 3-3h2v-5l-3-4zM6 18.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zm13.5-9l1.96 2.5H17V9.5h2.5zm-1.5 9c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/></svg></span>
+          <div><div class="t">Ship to Address</div><div class="d">Deliver to the customer's address</div></div></div>
+        <div class="rd-ship-card${s.dlvType==='store'?' on':''}${ro?' ro':''}" onclick="if(!rdRO()){rd.dlvType='store';rdRender();}">
+          <span class="ic"><svg viewBox="0 0 24 24"><path d="M20 4H4v2h16V4zm1 10v-2l-1-5H4l-1 5v2h1v6h10v-6h4v6h2v-6h1zm-9 4H6v-4h6v4z"/></svg></span>
+          <div><div class="t">Ship to Store</div><div class="d">Pick up at ${POS_STORE.code}</div></div></div>
       </div>
+      ${s.dlvType==='address'?rdL('Shipping Address',1):''}
       ${s.dlvType==='store'?`<div>${rdL('Pickup Store')}<input class="rd-in" value="${store}" disabled style="font-size:10px;"></div>`
       :s.dlvMode==='search'?`<div class="rd-rel" style="margin-bottom:8px;"><svg class="rd-search-ico" viewBox="0 0 24 24" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
           ${rdIn('dlvSearch',{ph:'Search address',on:"rd.dlvSearch=this.value;rd.dlvVerified=false;rdAddrDD();rdRenderIndex()",extra:'onfocus="if(rd.dlvSearch)rdAddrDD()" onblur="rdHideDD(\'rd-dd-addr\')" style="padding-left:30px;"'})}
