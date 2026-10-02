@@ -636,6 +636,223 @@ table.grid td input[type="checkbox"]:disabled{opacity:0.35;cursor:not-allowed;}
 .pa-outline.gray{border-color:#bbb;color:#555;}
 .pa-outline.gray:hover:not(:disabled){background:#f7f7f7;}
 .pa-outline:disabled{border-color:#e6e6e6;color:#c4c4c4;background:#fafafa;cursor:not-allowed;}
+/* ===== POS > Rx Operation List (merged from bo_pos_rx_operation prototype) ===== */
+.rx-body{padding:22px 32px 40px;background:#f5f5f5;min-height:calc(100vh / 0.8 - 101px);}
+.rx-search{background:#fff;border:1px solid #e0e0e0;border-radius:8px;margin-bottom:24px;}
+.rx-search table{width:100%;border-collapse:collapse;}
+.rx-search tr{border-bottom:1px solid #f0f0f0;}
+.rx-search th{background:#f7f8fa;padding:12px 14px;font-size:11px;font-weight:600;color:#555;text-align:left;white-space:nowrap;width:140px;border-right:1px solid #eee;letter-spacing:.2px;}
+.rx-search th .sub{display:block;font-weight:400;color:#999;margin-top:2px;}
+.rx-search td{padding:10px 14px;}
+.rx-search tr:first-child th:first-child{border-top-left-radius:8px;}
+.rx-search-foot{display:flex;justify-content:center;gap:6px;padding:8px 12px;background:#f7f8fa;border-top:1px solid #eee;border-radius:0 0 8px 8px;}
+.rx-btn{display:inline-flex;align-items:center;justify-content:center;gap:4px;height:30px;padding:0 20px;border-radius:4px;font-size:11px;font-weight:500;cursor:pointer;border:1px solid #ddd;background:#fff;color:#555;}
+.rx-btn:hover{background:#f5f5f5;}
+.rx-btn svg{width:14px;height:14px;}
+.rx-btn.primary{background:#ff6b35;border-color:#ff6b35;color:#fff;font-weight:600;padding:0 24px;}
+.rx-btn.primary:hover{background:#e55e2b;}
+.rx-btn.primary:disabled{opacity:.4;cursor:not-allowed;background:#ff6b35;}
+.rx-input{height:33px;border:1px solid #ddd;border-radius:6px;padding:0 12px;font-size:12px;color:#333;outline:none;background:#fff;}
+.rx-input:focus{border-color:#ff6b35;box-shadow:0 0 0 2px rgba(255,107,53,.12);}
+.rx-input::placeholder{font-size:11px;color:#bbb;}
+/* multi / single select */
+.rx-ms{position:relative;min-width:170px;user-select:none;}
+.rx-ms-trg{display:flex;align-items:center;justify-content:space-between;min-height:33px;padding:0 12px;border:1px solid #ddd;border-radius:6px;background:#fff;font-size:12px;color:#333;cursor:pointer;}
+.rx-ms-trg:hover{border-color:#ccc;}
+.rx-ms.open .rx-ms-trg{border-color:#ff6b35;box-shadow:0 0 0 2px rgba(255,107,53,.12);border-bottom-left-radius:0;border-bottom-right-radius:0;}
+.rx-ms-vals{display:flex;flex-wrap:wrap;gap:4px;align-items:center;flex:1;min-width:0;padding:4px 0;}
+.rx-ms-vals .ph{color:#999;}
+.rx-chip{display:inline-flex;align-items:center;gap:4px;background:#FFF3E0;color:#e55a00;font-size:11px;font-weight:500;padding:2px 8px;border-radius:999px;white-space:nowrap;}
+.rx-chip b{cursor:pointer;opacity:.6;font-weight:400;}
+.rx-chip b:hover{opacity:1;}
+.rx-caret{width:16px;height:16px;fill:#666;flex-shrink:0;margin-left:8px;transition:transform .15s;}
+.rx-ms.open .rx-caret{transform:rotate(180deg);}
+.rx-ms-dd{position:absolute;top:100%;left:0;right:0;z-index:100;background:#fff;border:1px solid #ff6b35;border-top:none;border-radius:0 0 6px 6px;max-height:180px;overflow-y:auto;box-shadow:0 8px 20px rgba(0,0,0,.1);}
+.rx-ms-dd div{padding:8px 14px;font-size:12px;color:#333;cursor:pointer;}
+.rx-ms-dd div:hover{background:#FFF3E0;}
+.rx-ms-dd div.on{color:#ff6b35;font-weight:600;background:#FFF8F3;}
+/* list */
+.rx-box{background:#fff;border:1px solid #E5E5E5;border-radius:8px;padding:18px;}
+.rx-toolbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;font-size:12px;color:#555;}
+.rx-grid-wrap{overflow-x:auto;}
+.rx-grid{width:100%;border-collapse:collapse;}
+.rx-grid th{background:#ff6b35;color:#fff;padding:8px 10px;font-size:10px;font-weight:600;text-align:center;border-right:1px solid rgba(255,255,255,.2);white-space:nowrap;line-height:1.5;}
+.rx-grid th:last-child{border-right:none;}
+.rx-grid th .n{font-weight:400;font-size:11px;}
+.rx-grid td{padding:10px;border-bottom:1px solid #eee;text-align:center;font-size:11px;color:#555;background:#fff;white-space:nowrap;}
+.rx-grid td.l{text-align:left;}
+.rx-grid tbody tr{cursor:pointer;}
+.rx-grid tbody tr:hover td{background:#f5f9ff;}
+.rx-grid tbody tr.dim td{background:#f5f5f5;color:#bbb;}
+.rx-grid tbody tr.dim .rx-badge{opacity:.4;}
+.rx-chk{appearance:none;-webkit-appearance:none;width:16px;height:16px;border:1.5px solid #ccc;border-radius:4px;background:#fff;cursor:pointer;position:relative;vertical-align:middle;margin:0;}
+.rx-chk:checked{background:#ff6b35;border-color:#ff6b35;}
+.rx-chk:checked::after{content:'';position:absolute;left:4.5px;top:1.5px;width:4px;height:8px;border:solid #fff;border-width:0 1.5px 1.5px 0;transform:rotate(45deg);}
+.rx-chk:disabled{background:#f0f0f0;border-color:#e0e0e0;cursor:not-allowed;}
+.rx-grid th .rx-chk{border-color:#fff;}
+.rx-badge{display:inline-flex;align-items:center;padding:2px 7px;border-radius:999px;font-size:10px;font-weight:600;}
+.rx-badge.y{background:#FFF8E1;color:#F57F17;}.rx-badge.g{background:#E8F5E9;color:#2E7D32;}.rx-badge.o{background:#FFF3E0;color:#E65100;}
+.rx-badge.r{background:#FFEBEE;color:#C62828;}.rx-badge.b{background:#E3F2FD;color:#1565C0;}.rx-badge.gr{background:#F5F5F5;color:#888;}
+.rx-badge.none{background:#FAFAFA;color:#bbb;}
+.rx-mail{width:28px;height:28px;display:inline-flex;align-items:center;justify-content:center;border-radius:50%;border:none;background:none;cursor:pointer;}
+.rx-mail:hover{background:rgba(0,0,0,.06);}
+.rx-mail svg{width:18px;height:18px;fill:none;stroke-width:2;}
+.rx-mail.on svg{stroke:#4CAF50;}
+.rx-mail.off{opacity:.3;cursor:default;}.rx-mail.off svg{stroke:#888;}.rx-mail.off:hover{background:none;}
+.rx-pg{display:flex;align-items:center;justify-content:flex-end;gap:12px;padding-top:10px;font-size:11px;color:#888;}
+.rx-pg select{height:28px;border:1px solid #ddd;border-radius:4px;font-size:11px;padding:0 4px;outline:none;}
+.rx-pg button{min-width:28px;height:28px;border:1px solid #ddd;background:#fff;border-radius:4px;font-size:13px;color:#555;cursor:pointer;}
+.rx-pg button:disabled{opacity:.4;cursor:not-allowed;}
+/* outbound registration modal */
+#rx-ob-modal .modal-box{width:640px;max-width:92vw;max-height:90vh;display:flex;flex-direction:column;}
+#rx-ob-modal .modal-body{padding:16px 20px 20px;max-height:none;overflow-y:auto;}
+.rx-ob-carrier{display:grid;grid-template-columns:100px 1fr;align-items:center;gap:12px;background:#fafafa;border:1px solid #eee;border-radius:6px;padding:14px;margin-bottom:16px;font-size:12px;font-weight:500;}
+.rx-ob-carrier .req{color:#ef4444;}
+.rx-ob-list{border:1px solid #eee;border-radius:6px;overflow:hidden;max-height:40vh;overflow-y:auto;}
+.rx-ob-list table{width:100%;border-collapse:collapse;font-size:11px;}
+.rx-ob-list th{background:#f7f7f8;font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.4px;padding:8px 12px;text-align:left;color:#555;}
+.rx-ob-list td{padding:8px 12px;border-top:1px solid #f0f0f0;}
+.rx-tag-pre{display:inline-block;background:#FAF5FF;color:#7E22CE;border:1px solid #E9D5FF;border-radius:4px;font-size:10px;padding:0 6px;}
+.rx-ob-note{display:flex;gap:8px;background:#f7f7f8;border-radius:6px;padding:14px;margin-top:14px;font-size:11px;color:#777;line-height:1.7;}
+.rx-ob-note svg{width:14px;height:14px;fill:#999;flex-shrink:0;margin-top:2px;}
+.rx-tag-reg{display:inline-block;background:#FFFBEB;color:#B45309;border:1px solid #FDE68A;border-radius:4px;font-size:10px;padding:0 6px;margin:0 2px;}
+/* ----- Rx Operation Detail ----- */
+.rd-head{display:flex;align-items:center;gap:10px;padding:8px 0 24px;}
+.rd-back{width:28px;height:28px;display:flex;align-items:center;justify-content:center;border-radius:50%;text-decoration:none;}
+.rd-back:hover{background:rgba(0,0,0,.06);}
+.rd-back svg{width:20px;height:20px;fill:#555;}
+.rd-head .id{font-size:20px;font-weight:700;color:#222;}
+.rd-head .sub{font-size:13px;color:#888;}
+.rd-head .rx-badge{font-size:9px;}
+.rd-layout{display:flex;gap:16px;align-items:flex-start;}
+.rd-form{flex:1;min-width:0;}
+.rd-side{width:240px;flex-shrink:0;position:sticky;top:115px;}
+.rd-sec{background:#fff;border:1px solid #e0e0e0;border-radius:8px;padding:16px;margin-bottom:20px;scroll-margin-top:120px;}
+.rd-title{font-size:12px;font-weight:500;color:#333;margin-bottom:12px;display:flex;align-items:center;gap:6px;}
+.rd-title .dot,.rd-req{color:#ff6b35;}
+.rd-lbl{display:block;font-size:10px;font-weight:500;color:#777;margin-bottom:2px;}
+.rd-in{width:100%;height:26px;border:1px solid #ddd;border-radius:6px;padding:0 10px;font-size:11px;color:#333;outline:none;background:#fff;font-family:inherit;}
+.rd-in:focus{border-color:#ff6b35;}
+.rd-in::placeholder{color:#bbb;font-size:10px;}
+.rd-in:disabled{background:#f5f5f5;color:#999;}
+.rd-in[readonly]{background:#f5f5f5;}
+.rd-in.ocr{border-color:#4CAF50;background:#f1f8e9;}
+.rd-rel{position:relative;}
+.rd-dd{position:absolute;top:100%;left:0;right:0;margin-top:2px;background:#fff;border:1px solid #ddd;border-radius:6px;box-shadow:0 8px 20px rgba(0,0,0,.1);max-height:180px;overflow-y:auto;z-index:100;}
+.rd-dd>div{padding:7px 12px;font-size:11px;color:#333;cursor:pointer;border-bottom:1px solid #f5f5f5;}
+.rd-dd>div:hover{background:#f5f5f5;}
+.rd-dd .grp{padding:4px 10px;font-size:9px;font-weight:600;color:#999;background:#fafafa;cursor:default;}
+.rd-dd .grp:hover{background:#fafafa;}
+.rd-dd .none{color:#999;cursor:default;font-size:10px;}
+.rd-dd .m1{font-size:10px;font-weight:500;}.rd-dd .m2{font-size:9px;color:#999;margin-top:2px;}
+.rd-dd .manual{color:#ff6b35;font-size:10px;}
+.rd-btn{height:26px;padding:0 14px;font-size:10px;font-weight:500;border:1px solid #ddd;border-radius:6px;background:#fff;color:#555;cursor:pointer;display:inline-flex;align-items:center;gap:4px;white-space:nowrap;flex-shrink:0;}
+.rd-btn:hover:not(:disabled){background:#f5f5f5;}
+.rd-btn:disabled{opacity:.5;cursor:not-allowed;}
+.rd-btn.primary{background:#ff6b35;border-color:#ff6b35;color:#fff;}
+.rd-btn.primary:hover:not(:disabled){background:#e55e2b;}
+.rd-btn svg{width:12px;height:12px;}
+.rd-member{border:1px solid #4CAF50;border-radius:6px;padding:8px 12px;background:#f9fdf9;display:flex;align-items:center;justify-content:space-between;gap:8px;}
+.rd-member .m1{font-size:10px;font-weight:500;color:#333;}.rd-member .m2{font-size:9px;color:#888;margin-top:2px;}
+.rd-x{border:none;background:none;color:#999;cursor:pointer;font-size:14px;line-height:1;}
+.rd-rxitem{padding:6px 10px;border:1px solid #eee;border-radius:6px;font-size:10px;color:#555;cursor:pointer;}
+.rd-rxitem:hover{border-color:#ff6b35;background:#fff8f5;}
+.rd-rxitem.on{border-color:#ff6b35;background:#FFF3E0;}
+.rd-ok{margin-top:6px;padding:8px 10px;background:#f1f8e9;border:1px solid #4CAF50;border-radius:6px;font-size:10px;color:#2E7D32;}
+.rd-nm{margin-top:6px;display:flex;align-items:center;justify-content:flex-end;gap:8px;}
+.rd-tip{position:relative;font-size:10px;color:#888;border-bottom:1px dashed #bbb;cursor:pointer;}
+.rd-tip .tip{display:none;position:absolute;bottom:100%;left:50%;transform:translateX(-50%);margin-bottom:8px;background:#333;color:#fff;font-size:9px;padding:6px 10px;border-radius:6px;white-space:nowrap;z-index:100;}
+.rd-tip:hover .tip{display:block;}
+.rd-switch{width:36px;height:20px;border-radius:10px;background:#ddd;position:relative;cursor:pointer;transition:background .15s;}
+.rd-switch::after{content:'';position:absolute;top:2px;left:2px;width:16px;height:16px;border-radius:50%;background:#fff;box-shadow:0 1px 2px rgba(0,0,0,.2);transition:left .15s;}
+.rd-switch.on{background:#ff6b35;}.rd-switch.on::after{left:18px;}
+.rd-meta{display:flex;gap:24px;margin:8px 0 14px;font-size:11px;color:#888;}
+.rd-meta b{font-weight:500;color:#555;margin-right:6px;}
+.rd-otype{font-size:9px;padding:2px 8px;border-radius:4px;font-weight:600;background:#f0f0f0;color:#555;}
+.rd-otype.pre{background:#E3F2FD;color:#1565C0;}
+.rd-tbl{width:100%;border-collapse:collapse;border:1px solid #e0e0e0;}
+.rd-tbl th{background:#f5f5f5;color:#555;padding:8px 10px;font-size:10px;font-weight:500;text-align:center;border-right:1px solid #e8e8e8;border-bottom:1px solid #e0e0e0;line-height:1.5;}
+.rd-tbl th:last-child{border-right:none;}
+.rd-tbl th .n{font-weight:400;font-size:9px;}
+.rd-tbl td{padding:6px 8px;border-bottom:1px solid #eee;border-right:1px solid #eee;text-align:center;font-size:11px;color:#333;}
+.rd-tbl td:last-child{border-right:none;}
+.rd-tbl tr:last-child td{border-bottom:none;}
+.rd-type{display:inline-flex;align-items:center;gap:4px;font-size:10px;font-weight:500;color:#555;}
+.rd-type i{width:6px;height:6px;border-radius:50%;display:inline-block;}
+.rd-yn{display:inline-block;width:24px;height:20px;line-height:20px;text-align:center;font-size:9px;font-weight:600;border-radius:999px;background:#eee;color:#999;cursor:pointer;user-select:none;}
+.rd-yn.on{background:#ff6b35;color:#fff;}
+.rd-yn.w{width:30px;height:24px;line-height:24px;font-size:10px;border-radius:12px;}
+.rd-step{display:flex;align-items:center;gap:6px;margin-bottom:8px;font-size:10px;font-weight:500;color:#555;}
+.rd-step .no{width:14px;height:14px;border-radius:50%;background:#333;color:#fff;font-size:8px;font-weight:600;display:inline-flex;align-items:center;justify-content:center;}
+.rd-step .ocrtag{margin-left:auto;font-size:9px;padding:2px 6px;border-radius:999px;background:#E3F2FD;color:#1565C0;font-weight:500;}
+.rd-divide{margin-bottom:16px;padding-bottom:16px;border-bottom:1px solid #eee;}
+.rd-upload{display:flex;flex-direction:column;align-items:center;gap:6px;padding:14px 16px;border:1px dashed #ff6b35;border-radius:6px;background:#fff8f5;cursor:pointer;}
+.rd-upload:hover{background:#fff0e8;}
+.rd-upload.ro{pointer-events:none;opacity:.6;}
+.rd-upload svg{width:22px;height:22px;stroke:#ff6b35;fill:none;stroke-width:2;}
+.rd-upload .t{font-size:11px;font-weight:600;color:#ff6b35;}.rd-upload .s{font-size:9px;color:#999;}
+.rd-scan{display:flex;align-items:center;gap:12px;padding:14px 18px;border:1px solid #eee;border-radius:10px;}
+.rd-spin{width:20px;height:20px;border:2.5px solid #eee;border-top-color:#ff6b35;border-radius:50%;animation:rdspin .8s linear infinite;flex-shrink:0;}
+@keyframes rdspin{to{transform:rotate(360deg);}}
+.rd-file{display:flex;align-items:center;gap:6px;padding:5px 10px;border:1px solid #eee;border-radius:6px;font-size:11px;color:#ff6b35;background:#fafafa;margin-top:6px;}
+.rd-file span{flex:1;}
+.rd-file button{border:none;background:none;cursor:pointer;padding:0;display:flex;}
+.rd-file svg{width:16px;height:16px;stroke:#C62828;fill:none;stroke-width:2;}
+.rd-cap{font-size:9px;font-weight:600;color:#999;text-transform:uppercase;letter-spacing:.6px;margin-bottom:8px;}
+.rd-g2{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.rd-g2s{display:grid;grid-template-columns:1fr 1fr;gap:6px;}
+.rd-g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;}
+.rd-box{background:#f9fafb;border:1px solid #eee;border-radius:8px;padding:12px;display:flex;flex-direction:column;gap:6px;}
+.rd-vtbl td{padding:6px 8px;}
+.rd-vtbl td.eye{background:#f7f8fa;font-weight:500;color:#666;text-align:left;padding-left:16px;width:80px;}
+.rd-sel{width:100%;max-width:90px;height:28px;border:1px solid #ddd;border-radius:6px;text-align:center;text-align-last:center;font-size:11px;outline:none;cursor:pointer;appearance:none;-webkit-appearance:none;padding-right:18px;background:#fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='5' viewBox='0 0 8 5'%3E%3Cpath d='M0 0l4 5 4-5z' fill='%23999'/%3E%3C/svg%3E") no-repeat right 10px center/7px 4px;}
+.rd-sel:focus{border-color:#ff6b35;box-shadow:0 0 0 2px rgba(255,107,53,.12);}
+.rd-sel.ocr{border-color:#4CAF50;background-color:#f1f8e9;}
+.rd-sel:disabled{background-color:#f5f5f5;color:#999;cursor:not-allowed;}
+.rd-sel.off{opacity:.4;background-color:#e0e0e0;}
+.rd-pdseg{display:inline-flex;margin-top:4px;border:1px solid #ccc;border-radius:4px;overflow:hidden;}
+.rd-pdseg button{padding:3px 10px;font-size:10px;border:none;background:transparent;color:#999;cursor:pointer;}
+.rd-pdseg button.on{background:#ff6b35;color:#fff;font-weight:600;}
+.rd-hint{font-size:9px;color:#999;margin-top:2px;}
+.rd-radio{display:flex;align-items:center;gap:6px;cursor:pointer;font-size:11px;color:#999;}
+.rd-radio.on{color:#333;}
+.rd-radio i{width:16px;height:16px;border-radius:50%;border:2px solid #ccc;display:flex;align-items:center;justify-content:center;}
+.rd-radio.on i{border-color:#ff6b35;}
+.rd-radio.on i::after{content:'';width:8px;height:8px;border-radius:50%;background:#ff6b35;}
+.rd-search-ico{position:absolute;left:10px;top:6px;width:14px;height:14px;stroke:#999;fill:none;stroke-width:2;pointer-events:none;}
+.rd-warn{display:flex;align-items:center;justify-content:space-between;padding:8px 12px;background:#FFF8E1;border:1px solid #FFE0B2;border-radius:6px;font-size:10px;color:#E65100;}
+.rd-verified{font-size:10px;color:#4CAF50;}
+.rd-sugg{margin-top:8px;padding:10px;background:#f9fafb;border:1px solid #eee;border-radius:6px;}
+.rd-check{display:flex;align-items:center;gap:6px;font-size:11px;color:#777;cursor:pointer;}
+.rd-check input{width:14px;height:14px;accent-color:#ff6b35;}
+.rd-sig{width:100%;height:120px;border:1px solid #ddd;border-radius:6px;background:#fafafa;cursor:crosshair;display:block;touch-action:none;}
+.rd-sig.ro{pointer-events:none;opacity:.6;}
+.rd-cmt{padding:10px;background:#f9fafb;border:1px solid #eee;border-radius:6px;}
+.rd-cmt-h{display:flex;align-items:center;gap:6px;margin-bottom:3px;}
+.rd-ctype{font-size:9px;padding:2px 6px;border-radius:4px;font-weight:500;}
+.rd-ctype.General{background:#E8F5E9;color:#2E7D32;}.rd-ctype.Prescription{background:#E3F2FD;color:#1565C0;}.rd-ctype.Lens{background:#FFF3E0;color:#E65100;}
+.rd-ctype.Frame{background:#F3E5F5;color:#7B1FA2;}.rd-ctype.Delivery{background:#E0F2F1;color:#00695C;}
+.rd-link{font-size:9px;background:none;border:none;cursor:pointer;text-decoration:underline;padding:0;}
+.rd-cnt{text-align:right;font-size:9px;color:#bbb;margin-top:2px;}
+/* index sidebar */
+.rd-index{background:#fff;border:1px solid #e0e0e0;border-radius:8px;overflow:hidden;}
+.rd-index .hd{background:#ff6b35;color:#fff;padding:10px 14px;font-size:11px;font-weight:600;}
+.rd-index ul{list-style:none;margin:0;padding:0;}
+.rd-index li{display:flex;align-items:center;gap:8px;padding:10px 14px;border-bottom:1px solid #f0f0f0;cursor:pointer;font-size:10px;font-weight:500;color:#555;}
+.rd-index li:hover{background:#fafafa;}
+.rd-index li.ro{background:#E8F0FE;}
+.rd-index li.dis{background:#f5f5f5;color:#aaa;}
+.rd-index .ck{width:16px;height:16px;border-radius:4px;border:1.5px solid #ccc;background:#fff;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.rd-index .ck.on{background:#4CAF50;border-color:#4CAF50;}
+.rd-index .ck.off{background:#f5f5f5;border-color:#ccc;}
+.rd-index .ck svg{width:10px;height:10px;stroke:#fff;fill:none;stroke-width:3;}
+.rd-actions{padding:10px 14px;border-top:1px solid #eee;display:flex;gap:5px;}
+.rd-actions button{flex:1;height:30px;border-radius:6px;font-size:10px;font-weight:600;cursor:pointer;}
+.rd-actions .save{background:#ff6b35;color:#fff;border:none;}
+.rd-actions .save:disabled{opacity:.4;cursor:not-allowed;}
+.rd-actions .rej{background:#fff;color:#ff6b35;border:1px solid #ff6b35;}
+.rd-actions .cfm{background:#333;color:#fff;border:none;}
+.rd-actions .msg{flex:1;text-align:center;font-size:10px;color:#888;padding:4px 0;}
 </style>
 <!-- SheetJS: client-side Excel (.xlsx) export -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
@@ -925,6 +1142,80 @@ table.grid td input[type="checkbox"]:disabled{opacity:0.35;cursor:not-allowed;}
   <div class="pa-body" id="pa-soon" hidden>
     <div class="pa-soon"><div class="t">Coming Soon</div><span id="pa-soon-name"></span> is not included in this prototype yet.</div>
   </div>
+
+  <!-- POS > Rx Operation List (merged from bo_pos_rx_operation prototype) -->
+  <div class="rx-body" id="pa-rx" hidden>
+    <div id="rx-list">
+      <div class="rx-search">
+        <table>
+          <tr>
+            <th>Approval Status</th><td><div class="rx-ms" id="rx-f-approval"></div></td>
+            <th>Processing Status</th><td><div class="rx-ms" id="rx-f-work"></div></td>
+          </tr>
+          <tr>
+            <th>Cancel / Refund</th><td><div class="rx-ms" id="rx-f-cancel"></div></td>
+            <th>Search Period</th>
+            <td><div style="display:flex;align-items:center;gap:10px;">
+              <div class="rx-ms" id="rx-f-datetype" style="min-width:140px;"></div>
+              <input type="date" lang="en" class="rx-input" id="rx-f-from" style="min-width:140px;">
+              <span style="color:#aaa;">~</span>
+              <input type="date" lang="en" class="rx-input" id="rx-f-to" style="min-width:140px;">
+            </div></td>
+          </tr>
+          <tr style="border-bottom:none;">
+            <th>Keyword<span class="sub">Order No, Invoice No, Product Code, Product Name, Barcode</span></th>
+            <td colspan="3"><input type="text" class="rx-input" id="rx-f-kw" style="width:100%;" placeholder="Please enter at least 2 characters" onkeydown="if(event.key==='Enter')rxSearch()"></td>
+          </tr>
+        </table>
+        <div class="rx-search-foot">
+          <button class="rx-btn" onclick="rxReset()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/></svg>Reset</button>
+          <button class="rx-btn primary" onclick="rxSearch()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>Search</button>
+        </div>
+      </div>
+
+      <div class="rx-box">
+        <div class="rx-toolbar">
+          <div>Total <b id="rx-total">0</b> Count</div>
+          <button class="rx-btn primary" id="rx-ob-btn" disabled onclick="rxOpenOutbound()" style="height:28px;padding:0 20px;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M7 10l5 5 5-5"/><path d="M12 15V3"/></svg>Register Outbound</button>
+        </div>
+        <div class="rx-grid-wrap">
+          <table class="rx-grid">
+            <thead><tr>
+              <th style="width:36px;"><input type="checkbox" class="rx-chk" id="rx-chk-all" onchange="rxCheckAll(this.checked)"></th>
+              <th style="min-width:120px;">Order Date</th><th style="min-width:120px;">Save Date</th><th>Approval Status</th><th>Processing Status</th><th>Cancel / Refund</th>
+              <th style="min-width:150px;">Order No.</th><th style="min-width:150px;">Invoice No.<br><span class="n">(Inbound)</span></th>
+              <th style="min-width:300px;">Product Info<br><span class="n">Code / Name / Barcode</span></th><th>Customer Email</th>
+            </tr></thead>
+            <tbody id="rx-rows"></tbody>
+          </table>
+        </div>
+        <div class="rx-pg">
+          <span>Rows per page <select id="rx-size" onchange="rx.size=+this.value;rx.page=1;rxRenderList()"><option>30</option><option>50</option><option>100</option><option>300</option></select></span>
+          <span id="rx-range" style="font-size:12px;margin:0 6px;"></span>
+          <span style="display:flex;gap:3px;"><button id="rx-prev" onclick="rx.page--;rxRenderList()">&lsaquo;</button><button id="rx-next" onclick="rx.page++;rxRenderList()">&rsaquo;</button></span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Detail -->
+    <div id="rx-detail" hidden></div>
+  </div>
+
+  <!-- Rx Outbound Registration modal -->
+  <div class="modal-overlay" id="rx-ob-modal" onclick="if(event.target===this)rxCloseOutbound()">
+    <div class="modal-box">
+      <div class="modal-header"><span class="modal-title">Outbound Registration</span><button class="modal-close" onclick="rxCloseOutbound()">&times;</button></div>
+      <div class="modal-body">
+        <div class="rx-ob-carrier"><label>Carrier <span class="req">*</span></label><select id="rx-ob-carrier" style="width:100%;height:32px;"><option selected>FedEx</option><option>UPS</option></select></div>
+        <div style="font-size:12px;font-weight:500;margin-bottom:10px;">Order List</div>
+        <div class="rx-ob-list"><table><thead><tr><th>Order No.</th><th style="text-align:center;">Order Type</th><th>Store</th></tr></thead><tbody id="rx-ob-rows"></tbody></table></div>
+        <div class="rx-ob-note"><svg viewBox="0 0 24 24"><path d="M20 8h-3V4H3c-1.1 0-2 .9-2 2v11h2c0 1.66 1.34 3 3 3s3-1.34 3-3h6c0 1.66 1.34 3 3 3s3-1.34 3-3h2v-5l-3-4zM6 18.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zm13.5-9l1.96 2.5H17V9.5h2.5zm-1.5 9c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/></svg>
+          <span>Selected orders will be sent to TMS for outbound registration and the status will be updated to <span class="rx-tag-reg">Outbound Registered</span>.</span></div>
+        <div style="display:flex;justify-content:flex-end;margin-top:20px;"><button class="rx-btn primary" onclick="rxConfirmOutbound()" style="height:32px;">REGISTER OUTBOUND</button></div>
+      </div>
+    </div>
+  </div>
+
 </div>
 
 <!-- MAIN -->
@@ -3793,16 +4084,25 @@ function posPackage(p){return POS_PACKAGES[p.category]||null;}
 const posFmt=n=>n.toLocaleString('en-US',{maximumFractionDigits:2});
 let pos={mode:'SALES',items:[],member:null,nonMember:false,confirmed:false,acPrinted:false,invoice:''};
 let posInited=false;
+// Tab of a POS path (sub paths such as /pos/rx-operation-list/{Order No.} belong to their tab)
+function posTabOf(path){return POS_TABS.find(t=>t.path===path||(t.path!=='/pos'&&path.startsWith(t.path+'/')));}
 function posEnter(path){
-  const tab=POS_TABS.find(t=>t.path===path);
+  const tab=posTabOf(path);
   if(!posInited){posInit();posInited=true;}
   document.getElementById('pos-app').hidden=false;
   document.body.style.overflow='hidden';
   document.getElementById('pa-tabs').innerHTML=POS_TABS.map(t=>`<a class="pa-tab${t===tab?' active':''}" href="#${t.path}"><svg viewBox="0 0 24 24"><path d="${t.icon}"/></svg>${t.label}</a>`).join('');
-  const isMain=tab.path==='/pos';
+  const isMain=tab.path==='/pos',isRx=tab.path==='/pos/rx-operation-list';
   document.getElementById('pa-main').hidden=!isMain;
-  document.getElementById('pa-soon').hidden=isMain;
+  document.getElementById('pa-rx').hidden=!isRx;
+  document.getElementById('pa-soon').hidden=isMain||isRx;
   document.getElementById('pa-soon-name').textContent=tab.label;
+  if(isRx){
+    let id=decodeURIComponent(path.slice(tab.path.length+1))||null;
+    if(id&&!RX_ORDERS.some(o=>o.id===id)){history.replaceState(null,'','#'+tab.path);id=null;}
+    rxEnter(id);
+  }
+  document.getElementById('pos-app').scrollTop=0;
 }
 function posLeave(){
   if(document.getElementById('pos-app').hidden) return;
@@ -3989,6 +4289,542 @@ function posRender(){
 }
 const posSync=posRender;
 
+// ===== POS > Rx Operation List (merged from bo_pos_rx_operation prototype; was boposrxoperation.vercel.app) =====
+// Dummy orders from bo_pos_rx_operation (lib/data.ts); store US1001 -> US1007 (POS store)
+// [id, orderDate, orderType, approval, workStatus, cancelRefund, invoiceNo, saveDate, emailSent, products[[code,name,barcode,price]]]
+const RX_ORDERS_RAW=[
+  ["SLUS1007260508161127VESWH", "2026-07-20 14:32 (PST)", "NORMAL", "Confirm", "Finalized", "Refunded", "STM2605188213", "2026-07-20 15:10 (PST)", true, [["11000000", "SMART ALIO-01", "8809639024362", 295], ["14000225", "POLY-AR", "-", 280], ["15000001", "RX PACKAGE-01", "-", 0]]],
+  ["SLUS100726050811264DNNNU", "2026-07-21 09:15 (PST)", "NORMAL", "Confirm", "Outbound Inspection", "-", "STM2605192847", "2026-07-21 10:42 (PST)", true, [["11000005", "GATTA-01", "8809639021927", 320], ["14000220", "174-AR", "-", 350], ["15000002", "RX PACKAGE-02", "-", 0]]],
+  ["SLUS10072605071446QYZMO", "2026-07-22 11:48 (PST)", "PREORDER", "Requested", "Pending", "-", "-", "-", false, [["11000006", "HAVANA-01", "8809639022009", 275], ["14000223", "PL-167-AR", "-", 310], ["15000001", "RX PACKAGE-01", "-", 0]]],
+  ["SLUS1007260507144204O85MX", "2026-07-22 16:05 (PST)", "NORMAL", "Confirm", "Re Do", "-", "STM2605201534", "2026-07-23 16:30 (PST)", false, [["11000008", "HEY-01 OPT", "8809639023815", 245], ["14000226", "POLY-BG", "-", 280], ["15000002", "RX PACKAGE-02", "-", 0]]],
+  ["SLUS10072605071354TN0NM", "2026-07-23 10:22 (PST)", "NORMAL", "Reject", "Pending", "-", "-", "-", false, [["11000003", "DAY-01 OPT", "8809639023860", 265], ["14000222", "CR39-TINT", "-", 190], ["15000001", "RX PACKAGE-01", "-", 0]]],
+  ["SLUS100726050713480PALEC", "2026-07-24 13:37 (PST)", "PREORDER", "Unready", "Pending", "-", "-", "-", false, [["11000014", "WESTCOAST-01", "8809639021989", 310], ["14000227", "POLY-PF-AR", "-", 340], ["15000002", "RX PACKAGE-02", "-", 0]]],
+  ["SLUS10072605071335063P6PG", "2026-07-25 08:50 (PST)", "NORMAL", "Confirm", "Completed", "Canceled", "STM2605215678", "2026-07-25 09:18 (PST)", true, [["11000010", "TOM21-A02", "8809639021941", 290], ["14000228", "POLY-POL-AR", "-", 300], ["15000001", "RX PACKAGE-01", "-", 0]]],
+  ["SLUS100726050709304QGN03", "2026-07-26 17:58 (PST)", "NORMAL", "Unready", "Inbound Inspection", "-", "-", "-", false, [["11000016", "DAISY-032", "8809639023334", 255], ["14000217", "167-PF-AR", "-", 330], ["15000002", "RX PACKAGE-02", "-", 0]]],
+  ["SLUS10072605081520ABCDE", "2026-07-27 10:15 (PST)", "NORMAL", "Confirm", "Completed", "Canceled", "STM2605227890", "2026-07-27 11:30 (PST)", true, [["11000012", "RICK-01", "8809639023501", 285], ["14000230", "CR39-AR", "-", 220], ["15000001", "RX PACKAGE-01", "-", 0]]],
+  ["SLUS10072605081633FGHIJ", "2026-07-28 14:22 (PST)", "NORMAL", "Confirm", "Finalized", "Refunded", "STM2605231456", "2026-07-28 15:45 (PST)", true, [["11000018", "LUNA-02", "8809639024001", 310], ["14000231", "174-PF-AR", "-", 360], ["15000002", "RX PACKAGE-02", "-", 0]]],
+  ["SLUS10072605081745KLMNO", "2026-07-29 09:30 (PST)", "NORMAL", "Confirm", "In Progress", "-", "STM2605242367", "2026-07-29 10:15 (PST)", false, [["11000020", "CLEO-01 OPT", "8809639024105", 275], ["14000232", "POLY-PF-BG", "-", 300], ["15000001", "RX PACKAGE-01", "-", 0]]],
+  ["SLUS10072605081858PQRST", "2026-07-30 16:45 (PST)", "PREORDER", "Confirm", "Completed", "Canceled", "STM2605253478", "2026-07-30 17:20 (PST)", true, [["11000022", "MARS-01", "8809639024208", 330], ["14000233", "167-TINT", "-", 250], ["15000002", "RX PACKAGE-02", "-", 0]]],
+  ["SLUS10072605081911UVWXY", "2026-07-31 11:10 (PST)", "NORMAL", "Confirm", "Outbound Inspection", "-", "STM2605264589", "2026-07-31 12:05 (PST)", false, [["11000024", "VEGA-02", "8809639024312", 295], ["14000234", "POLY-AR", "-", 280], ["15000001", "RX PACKAGE-01", "-", 0]]],
+  ["SLUS10072605082024ZABCD", "2026-08-01 08:55 (PST)", "NORMAL", "Confirm", "Finalized", "Refunded", "STM2605275690", "2026-08-01 09:40 (PST)", true, [["11000026", "SIRIUS-01", "8809639024415", 340], ["14000235", "174-POL-AR", "-", 380], ["15000002", "RX PACKAGE-02", "-", 0]]],
+  ["SLUS10072605082135EMAILA", "2026-08-02 10:30 (PST)", "NORMAL", "Confirm", "Completed", "-", "STM2605286701", "2026-08-02 11:15 (PST)", false, [["11000028", "NERO-01", "8809639024520", 305], ["14000236", "167-AR", "-", 330], ["15000001", "RX PACKAGE-01", "-", 0]]],
+  ["SLUS10072605082248EMAILB", "2026-08-03 13:45 (PST)", "NORMAL", "Confirm", "Completed", "-", "STM2605297812", "2026-08-03 14:20 (PST)", false, [["11000030", "ORION-02", "8809639024633", 280], ["14000237", "POLY-BG", "-", 290], ["15000002", "RX PACKAGE-02", "-", 0]]],
+  ["SLUS10072605082351EMAILC", "2026-08-04 09:10 (PST)", "PREORDER", "Confirm", "Completed", "-", "STM2605308923", "2026-08-04 10:05 (PST)", false, [["11000032", "ATLAS-01", "8809639024746", 320], ["14000238", "174-PF-AR", "-", 360], ["15000001", "RX PACKAGE-01", "-", 0]]]
+];
+const RX_ORDERS=RX_ORDERS_RAW.map(([id,orderDate,orderType,approval,workStatus,cancelRefund,invoiceNo,saveDate,emailSent,products])=>
+  ({id,orderDate,orderType,approval,workStatus,cancelRefund,invoiceNo,saveDate,emailSent,products:products.map(([code,name,barcode,price])=>({code,name,barcode,price}))}));
+const RX_OPTS={
+  approval:['Unready','Requested','Confirm','Reject','Canceled'],
+  work:['Pending','Inbound Inspection','In Progress','Re Do','Outbound Inspection','Completed','Finalized'],
+  cancel:['Canceled','Refunded']
+};
+const RX_DATE_TYPES=[['ORDER','Order Date'],['SAVE','Save Date']];
+const RX_APPROVAL_CLS={Unready:'y',Confirm:'g',Requested:'o',Reject:'r'};
+const RX_WORK_CLS={Pending:'y','Inbound Inspection':'o','In Progress':'b','Re Do':'r','Outbound Inspection':'o',Completed:'b',Finalized:'g'};
+const RX_CANCEL_CLS={Canceled:'gr',Refunded:'r'};
+const RX_CARET='<svg class="rx-caret" viewBox="0 0 24 24"><path d="M7 10l5 5 5-5z"/></svg>';
+const RX_MAIL='<svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 7l-10 6L2 7"/></svg>';
+let rx={f:{approval:new Set(),work:new Set(),cancel:new Set(),dateType:'ORDER'},applied:null,page:1,size:30,checked:new Set(),outbound:new Set()},rxInited=false;
+
+// Multi / single select (same behavior as the RX prototype's MultiSelect / SingleSelect)
+function rxRenderSelect(key){
+  const el=document.getElementById('rx-f-'+(key==='dateType'?'datetype':key)),open=el.classList.contains('open');
+  if(key==='dateType'){
+    el.innerHTML=`<div class="rx-ms-trg" onclick="rxToggleSelect('dateType')"><span>${RX_DATE_TYPES.find(d=>d[0]===rx.f.dateType)[1]}</span>${RX_CARET}</div>`
+      +(open?`<div class="rx-ms-dd">${RX_DATE_TYPES.map(([v,l])=>`<div class="${v===rx.f.dateType?'on':''}" onclick="rx.f.dateType='${v}';rxCloseSelects()">${l}</div>`).join('')}</div>`:'');
+    return;
+  }
+  const sel=rx.f[key];
+  el.innerHTML=`<div class="rx-ms-trg" onclick="rxToggleSelect('${key}')"><div class="rx-ms-vals">${sel.size?[...sel].map(v=>`<span class="rx-chip">${v}<b onclick="event.stopPropagation();rxPick('${key}','${v}')">✕</b></span>`).join(''):'<span class="ph">All</span>'}</div>${RX_CARET}</div>`
+    +(open?`<div class="rx-ms-dd">${RX_OPTS[key].map(v=>`<div class="${sel.has(v)?'on':''}" onclick="rxPick('${key}','${v}')">${v}</div>`).join('')}</div>`:'');
+}
+function rxToggleSelect(key){
+  const el=document.getElementById('rx-f-'+(key==='dateType'?'datetype':key)),willOpen=!el.classList.contains('open');
+  rxCloseSelects();
+  if(willOpen){el.classList.add('open');rxRenderSelect(key);}
+}
+function rxCloseSelects(){
+  ['approval','work','cancel','dateType'].forEach(k=>{document.getElementById('rx-f-'+(k==='dateType'?'datetype':k)).classList.remove('open');rxRenderSelect(k);});
+}
+function rxPick(key,v){const s=rx.f[key];s.has(v)?s.delete(v):s.add(v);rxRenderSelect(key);}
+
+function rxInit(){
+  rxCloseSelects();
+  csBuild(document.getElementById('rx-ob-carrier'));
+  document.addEventListener('mousedown',e=>{if(!e.target.closest('.rx-ms')&&document.querySelector('#pa-rx .rx-ms.open')) rxCloseSelects();});
+  rxSearch();
+}
+function rxSearch(){
+  rx.applied={approval:new Set(rx.f.approval),work:new Set(rx.f.work),cancel:new Set(rx.f.cancel),dateType:rx.f.dateType,
+    from:document.getElementById('rx-f-from').value,to:document.getElementById('rx-f-to').value,kw:document.getElementById('rx-f-kw').value.trim().toLowerCase()};
+  rx.page=1;rx.checked.clear();rxRenderList();
+}
+function rxReset(){
+  rx.f={approval:new Set(),work:new Set(),cancel:new Set(),dateType:'ORDER'};
+  ['rx-f-from','rx-f-to','rx-f-kw'].forEach(id=>document.getElementById(id).value='');
+  rxCloseSelects();rxSearch();
+}
+function rxFiltered(){
+  const a=rx.applied;
+  return RX_ORDERS.filter(d=>{
+    if(a.approval.size&&!a.approval.has(d.approval)) return false;
+    if(a.work.size&&!a.work.has(d.workStatus)) return false;
+    if(a.cancel.size&&!a.cancel.has(d.cancelRefund)) return false;
+    if(a.from||a.to){
+      const v=(a.dateType==='ORDER'?d.orderDate:d.saveDate).slice(0,10);
+      if(!v||v==='-') return false;
+      if(a.from&&v<a.from) return false;
+      if(a.to&&v>a.to) return false;
+    }
+    if(a.kw.length>=2){
+      const hit=d.id.toLowerCase().includes(a.kw)||d.invoiceNo.toLowerCase().includes(a.kw)
+        ||d.products.some(p=>(p.code+' '+p.name+' '+p.barcode).toLowerCase().includes(a.kw));
+      if(!hit) return false;
+    }
+    return true;
+  });
+}
+// Outbound can be registered only for confirmed, not completed/finalized, not cancelled/refunded orders
+function rxCanCheck(d){return d.approval==='Confirm'&&d.workStatus!=='Completed'&&d.workStatus!=='Finalized'&&d.cancelRefund==='-'&&!rx.outbound.has(d.id);}
+function rxEmailOk(d){return d.approval==='Confirm'&&d.workStatus==='Completed'&&d.cancelRefund==='-';}
+function rxRenderList(){
+  const list=rxFiltered(),pages=Math.max(1,Math.ceil(list.length/rx.size));
+  rx.page=Math.min(Math.max(1,rx.page),pages);
+  const start=(rx.page-1)*rx.size,rows=list.slice(start,start+rx.size);
+  document.getElementById('rx-total').textContent=list.length;
+  document.getElementById('rx-rows').innerHTML=rows.map(d=>{
+    const cr=d.cancelRefund!=='-',can=rxCanCheck(d),mail=rxEmailOk(d);
+    return `<tr class="${cr?'dim':''}" onclick="location.hash='#/pos/rx-operation-list/${d.id}'">
+      <td onclick="event.stopPropagation()"><input type="checkbox" class="rx-chk" ${can?'':'disabled'} ${rx.checked.has(d.id)?'checked':''} onchange="rxCheck('${d.id}',this.checked)"></td>
+      <td>${d.orderDate}</td><td>${d.saveDate}</td>
+      <td><span class="rx-badge ${RX_APPROVAL_CLS[d.approval]||''}">${d.approval}</span></td>
+      <td><span class="rx-badge ${RX_WORK_CLS[d.workStatus]||''}">${d.workStatus}</span></td>
+      <td><span class="rx-badge ${cr?(RX_CANCEL_CLS[d.cancelRefund]||'gr'):'none'}">${d.cancelRefund}</span></td>
+      <td>${d.id}</td><td>${d.invoiceNo}</td>
+      <td class="l">${d.products.map(p=>`<div>${p.code} / ${p.name} / ${p.barcode}</div>`).join('')}</td>
+      <td onclick="event.stopPropagation()"><button class="rx-mail ${mail?'on':'off'}" ${mail?`onclick="showToast('Customer Email','Email sent to customer.')"`:''}>${RX_MAIL}</button></td>
+    </tr>`;
+  }).join('')||'<tr><td colspan="10" style="padding:40px;color:#999;cursor:default;">No data</td></tr>';
+  const checkable=rows.filter(rxCanCheck);
+  document.getElementById('rx-chk-all').checked=checkable.length>0&&checkable.every(d=>rx.checked.has(d.id));
+  document.getElementById('rx-ob-btn').disabled=!rx.checked.size;
+  document.getElementById('rx-range').textContent=(list.length?start+1:0)+'-'+Math.min(start+rx.size,list.length)+' of '+list.length;
+  document.getElementById('rx-prev').disabled=rx.page===1;
+  document.getElementById('rx-next').disabled=rx.page===pages;
+}
+function rxCheck(id,on){on?rx.checked.add(id):rx.checked.delete(id);rxRenderList();}
+function rxCheckAll(on){
+  const list=rxFiltered(),start=(rx.page-1)*rx.size;
+  rx.checked.clear();
+  if(on) list.slice(start,start+rx.size).filter(rxCanCheck).forEach(d=>rx.checked.add(d.id));
+  rxRenderList();
+}
+// ----- Outbound Registration -----
+function rxOpenOutbound(){
+  if(!rx.checked.size) return;
+  const sel=document.getElementById('rx-ob-carrier');sel.value='FedEx';csRefresh(sel);
+  document.getElementById('rx-ob-rows').innerHTML=RX_ORDERS.filter(d=>rx.checked.has(d.id)).map(d=>`<tr>
+    <td style="font-weight:500;">${d.invoiceNo!=='-'?d.invoiceNo:d.id.slice(-10)}</td>
+    <td style="text-align:center;">${d.orderType==='PREORDER'?'<span class="rx-tag-pre">PREORDER</span>':'<span style="color:#999;">—</span>'}</td>
+    <td>${POS_STORE.code} / ${POS_STORE.name}</td></tr>`).join('');
+  document.getElementById('rx-ob-modal').classList.add('show');
+}
+function rxCloseOutbound(){document.getElementById('rx-ob-modal').classList.remove('show');}
+function rxConfirmOutbound(){
+  const n=rx.checked.size,carrier=document.getElementById('rx-ob-carrier').value;
+  rx.checked.forEach(id=>rx.outbound.add(id));rx.checked.clear();
+  rxCloseOutbound();rxRenderList();
+  showToast('Outbound Registration','Outbound registered via '+carrier+'. '+n+' orders sent to TMS.');
+}
+// ----- Rx Operation Detail (from bo_pos_rx_operation detail-view, incl. Orderer / Recipient Info split) -----
+const RX_MEMBERS=[
+  {id:'MBR-001',email:'y7ol****@gmail.com',phone:'010-7211-9843',provider:'GOOGLE',name:'Kim Yujin',prescriptions:[
+    {id:'RX-2025-0812',date:'2025-08-12',prescriber:'Dr. Smith',expiry:'2026-08-12',status:'Active'},
+    {id:'RX-2024-0305',date:'2024-03-05',prescriber:'Dr. Lee',expiry:'2025-03-05',status:'Expired'}]},
+  {id:'MBR-002',email:'mons****@naver.com',phone:'010-5523-4421',provider:'NAVER',name:'Park Jihoon',prescriptions:[
+    {id:'RX-2026-0115',date:'2026-01-15',prescriber:'Dr. Tanaka',expiry:'2027-01-15',status:'Active'}]},
+  {id:'MBR-003',email:'monster1437@gmail.com',phone:'010-3344-5566',provider:'GOOGLE',name:'Lee Soyeon',prescriptions:[]}
+];
+const RX_COUNTRIES=['United States','Japan','Singapore','South Korea','China','United Kingdom','France','Germany','Canada','Australia','Italy','Spain','Brazil','India','Thailand','Vietnam','Indonesia','Malaysia','Philippines','Taiwan'];
+const RX_ADDRESSES=[
+  {addr:'123 Main St',city:'Los Angeles',state:'CA',zip:'90012'},
+  {addr:'123 Main Street',city:'Irvine',state:'CA',zip:'92602'},
+  {addr:'456 New Plaza Dr',city:'Fremont',state:'CA',zip:'94538'},
+  {addr:'789 Broadway',city:'New York',state:'NY',zip:'10003'}
+];
+const RX_MASTER_FRAMES=[['11000001','SMART ALIO-02'],['11000002','BOLD-01 OPT'],['11000003','DAY-01 OPT'],['11000005','GATTA-01'],['11000006','HAVANA-01'],['11000008','HEY-01 OPT'],
+  ['11000010','TOM21-A02'],['11000012','CARIN-01'],['11000014','WESTCOAST-01'],['11000016','DAISY-032'],['11000018','ROMEO-01'],['11000020','LUNA-05 OPT']].map(([code,name])=>({code,name}));
+// OCR mock (AWS Textract response)
+const RX_OCR={patientName:'Kim Yujin',patientDob:'1992-03-15',prescriber:'Dr. James Smith',license:'OPT-2024-83721',rxAddress:'350 5th Ave, New York, NY 10118',rxPhone:'212-555-0147',rxFax:'212-555-0148',
+  signature:true,issueDate:'2026-06-10',expiryDate:'2027-06-10',od:{sph:-2.0,cyl:-0.5,axis:125},os:{sph:-2.25,cyl:-0.75,axis:30},pd:63,lowConf:['rxAddress','rxFax','osCyl','osAxis']};
+const RX_COMMENT_TYPES=['General','Prescription','Lens','Frame','Delivery'];
+// Prescription value options
+const rdRange=(from,to,step,fmt)=>{const o=[''];for(let v=from;step>0?v<=to+1e-9:v>=to-1e-9;v+=step)o.push(fmt(v));return o;};
+const rdSigned=v=>v>0?'+'+v.toFixed(2):v.toFixed(2);
+const RX_VAL_OPTS={sph:rdRange(8,-12,-0.25,rdSigned),cyl:rdRange(6,-6,-0.25,rdSigned),axis:rdRange(0,180,1,v=>String(v)),pd:rdRange(1,100,0.5,v=>v.toFixed(1)),oc:rdRange(0,40,0.5,v=>v.toFixed(1))};
+const RX_VAL_COLS=['sph','cyl','axis','pd','oc'];
+const RD_ICON={
+  back:'<svg viewBox="0 0 24 24"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>',
+  search:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>',
+  upload:'<svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M17 8l-5-5-5 5"/><path d="M12 3v12"/></svg>',
+  trash:'<svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6M14 11v6"/><path d="M9 6V4h6v2"/></svg>',
+  check:'<svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>',
+  pencil:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></svg>',
+  warn:'<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="vertical-align:-3px;margin-right:4px;"><path d="M10.3 3.9L1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/><path d="M12 9v4M12 17h.01"/></svg>'
+};
+const rdEsc=v=>String(v??'').replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;');
+const rdFrame=o=>o.products.find(p=>p.code.startsWith('11'));
+const rdLens=o=>o.products.find(p=>p.code.startsWith('14'));
+const rdPkg=o=>o.products.find(p=>p.code.startsWith('15'));
+// Detail state is kept per order while the prototype is open
+const RD_STATES={};
+let rd=null,rdOrder=null;
+function rdNewState(o){
+  const f=rdFrame(o);
+  return {approval:o.approval,country:'',member:null,custSearch:'',nonMember:false,rxId:'',
+    rxv:{odSph:'',odCyl:'',odAxis:'',odPd:'',odOc:'',osSph:'',osCyl:'',osAxis:'',osPd:'',osOc:''},pdMode:'dual',
+    patientName:'',patientDob:'',prescriber:'',license:'',rxAddress:'',rxPhone:'',rxFax:'',issueDate:'',expiryDate:'',signature:false,
+    files:[],ocrScanning:false,ocrApplied:false,lowConf:[],
+    custName:'',custPhone:'',custEmail:'',rcvName:'',rcvNameEdited:false,rcvPhone:'',rcvEmail:'',
+    dlvType:'address',dlvMode:'search',dlvSearch:'',dlvCityS:'',dlvStateS:'',dlvZipS:'',dlvAddr2S:'',dlvAddr1:'',dlvAddr2:'',dlvCity:'',dlvState:'',dlvZip:'',dlvVerified:false,dlvSuggestion:null,
+    chkRx:false,chkHipaa:false,chkMkt:false,sigData:null,cof:false,mapped:f?f.code+' / '+f.name:'',
+    commentType:'General',commentText:'',editing:null,editText:'',
+    comments:[{id:'c1',type:'Prescription',author:'monster818',date:'2026-07-30 15:08',text:'CYL value confirmed with prescriber. Proceeding with -0.75.'},
+      {id:'c2',type:'General',author:'monster1437',date:'2026-07-30 14:22',text:'Please check the frame alignment before processing.'}]};
+}
+const rdRO=()=>rd.approval!=='Unready';  // editable only while Unready
+// ----- Index (summary checks) -----
+function rdSections(){
+  const s=rd,t=v=>String(v||'').trim();
+  const cust=s.nonMember?[2,2]:[(s.country?1:0)+((s.member||t(s.custSearch))?1:0),2];
+  const pd=s.pdMode==='single'?[s.rxv.odPd]:[s.rxv.odPd,s.rxv.osPd];
+  const rxF=[s.rxv.odSph,s.rxv.odCyl,s.rxv.odAxis,s.rxv.osSph,s.rxv.osCyl,s.rxv.osAxis,...pd].filter(Boolean).length;
+  const addrOk=s.dlvType==='store'||(s.dlvMode==='search'?!!(s.dlvSearch&&s.dlvCityS&&s.dlvVerified):!!(s.dlvAddr1&&s.dlvCity&&s.dlvState&&s.dlvZip&&s.dlvVerified));
+  return [
+    ['Customer Info','rd-sec-customer',...cust],
+    ['Order Info','rd-sec-order',1,1],
+    ['Prescription','rd-sec-prescription',rxF,8],
+    ['Documents','rd-sec-prescription',(s.expiryDate?1:0)+(s.files.length?1:0),2],
+    ['Orderer Info','rd-sec-contact',[s.custName,s.custPhone,s.custEmail].filter(v=>t(v)).length,3],
+    ['Recipient Info','rd-sec-delivery',[s.rcvName,s.rcvPhone,s.rcvEmail].filter(v=>t(v)).length+(addrOk?1:0),4],
+    ['Policy Agreements','rd-sec-policy',(s.chkRx?1:0)+(s.chkHipaa?1:0)+(s.sigData?1:0),3],
+    ['Comment','rd-sec-comment',1,1]
+  ];
+}
+function rdRenderIndex(){
+  const secs=rdSections(),a=rd.approval,ro=['Requested','Confirm','Reject','Canceled'].includes(a),dis=a==='Reject'||a==='Canceled';
+  const all=secs.reduce((x,s)=>x+s[2],0)>=secs.reduce((x,s)=>x+s[3],0);
+  const el=document.getElementById('rd-index');if(!el) return;
+  el.innerHTML=`<div class="hd">Index</div><ul>${secs.map(([label,anchor,f,tot])=>{
+      const done=f>=tot,ck=ro?(dis?'off':'on'):(done?'on':'');
+      return `<li class="${ro?(dis?'dis':'ro'):''}" onclick="document.getElementById('${anchor}').scrollIntoView({behavior:'smooth',block:'start'})"><span class="ck ${ck}">${(done||ro)&&!dis?RD_ICON.check:''}</span>${label}</li>`;
+    }).join('')}</ul>
+    <div class="rd-actions">${['Confirm','Reject','Canceled'].includes(a)?`<div class="msg">This order has been ${{Confirm:'confirmed',Reject:'rejected',Canceled:'canceled'}[a]}.</div>`
+      :a==='Requested'?'<button class="rej" onclick="rdAction(\'Reject\')">Reject</button><button class="cfm" onclick="rdAction(\'Confirm\')">Confirm</button>'
+      :`<button class="save" ${all?'':'disabled'} onclick="rdAction('Requested')">Save</button>`}</div>`;
+}
+function rdAction(next){
+  rd.approval=next;rdOrder.approval=next;  // reflect in the list as well
+  showToast('Rx Operation',next==='Requested'?'Saved successfully.':next==='Confirm'?'Confirmed.':'Rejected.');
+  rdRender();
+}
+// ----- Field updates (no full re-render while typing) -----
+function rdSet(k,v){
+  rd[k]=v;
+  if(k==='patientName'&&!rd.rcvNameEdited){rd.rcvName=v;const el=document.getElementById('rd-rcvName');if(el) el.value=v;}
+  if(k==='rcvName') rd.rcvNameEdited=true;
+  rdRenderIndex();
+}
+function rdSetRx(k,v){rd.rxv[k]=v;rdRenderIndex();}
+// Generic suggestion box (country / member / mapped product / address)
+function rdShowDD(id,html){const el=document.getElementById(id);if(!el) return;el.innerHTML=html;el.hidden=!html;}
+function rdHideDD(id){setTimeout(()=>{const el=document.getElementById(id);if(el) el.hidden=true;},150);}
+function rdCountryDD(){
+  const q=rd.country.toLowerCase(),list=q?RX_COUNTRIES.filter(c=>c.toLowerCase().includes(q)):RX_COUNTRIES;
+  rdShowDD('rd-dd-country',list.map(c=>`<div onmousedown="rdPickCountry('${c}')">${c}</div>`).join(''));
+}
+function rdPickCountry(c){rd.country=c;document.getElementById('rd-country').value=c;document.getElementById('rd-dd-country').hidden=true;rdRenderIndex();}
+function rdMemberDD(force){
+  const q=rd.custSearch.toLowerCase();
+  if(!force&&q.length<2){rdShowDD('rd-dd-member','');return;}
+  const list=RX_MEMBERS.filter(m=>m.email.toLowerCase().includes(q)||m.phone.replace(/-/g,'').includes(q.replace(/-/g,''))||m.name.toLowerCase().includes(q));
+  rdShowDD('rd-dd-member',list.length?list.map(m=>`<div onmousedown="rdSelectMember('${m.id}')"><div class="m1">${m.email} / ${m.phone}</div><div class="m2">${m.name} | ${m.provider}</div></div>`).join('')
+    :'<div class="none">No matching membership found</div>');
+}
+function rdSelectMember(id){
+  const m=RX_MEMBERS.find(x=>x.id===id);
+  Object.assign(rd,{member:m,custSearch:'',custName:m.name,custPhone:m.phone,custEmail:m.email});
+  rdRender();
+}
+function rdDeselectMember(){rd.member=null;rd.rxId='';rdRender();}
+function rdPickMemberRx(id){
+  if(rdRO()) return;
+  const rx=rd.member.prescriptions.find(p=>p.id===id);
+  Object.assign(rd,{rxId:id,prescriber:rx.prescriber,expiryDate:rx.expiry});
+  showToast('Prescription','Prescription '+id+' loaded');rdRender();
+}
+function rdToggleNonMember(){if(rdRO()) return;rd.nonMember=!rd.nonMember;rdRender();}
+function rdMappedDD(){
+  const q=rd.mapped.toLowerCase(),m=f=>(f.code+' '+f.name).toLowerCase().includes(q);
+  const groups=[['Order Frame',rdOrder.products.filter(p=>p.code.startsWith('11')).filter(m)],['Master Frame',RX_MASTER_FRAMES.filter(m)]].filter(g=>g[1].length);
+  rdShowDD('rd-dd-mapped',groups.length?groups.map(([g,items])=>`<div class="grp">${g}</div>`+items.map(f=>`<div onmousedown="rdPickMapped('${f.code} / ${rdEsc(f.name)}')">${f.code} / ${f.name}</div>`).join('')).join(''):'<div class="none">No results</div>');
+}
+function rdPickMapped(v){rd.mapped=v;document.getElementById('rd-mapped').value=v;document.getElementById('rd-dd-mapped').hidden=true;}
+function rdAddrDD(){
+  const q=rd.dlvSearch.toLowerCase();
+  rdShowDD('rd-dd-addr',RX_ADDRESSES.filter(a=>a.addr.toLowerCase().includes(q)).map((a,i)=>`<div onmousedown="rdPickAddr(${RX_ADDRESSES.indexOf(a)})">${a.addr}, ${a.city}, ${a.state} ${a.zip}</div>`).join('')
+    +`<div class="manual" onmousedown="rd.dlvMode='manual';rdRender()">✎ Can't find your address? Enter it manually</div>`);
+}
+function rdPickAddr(i){const a=RX_ADDRESSES[i];Object.assign(rd,{dlvSearch:a.addr,dlvCityS:a.city,dlvStateS:a.state,dlvZipS:a.zip,dlvVerified:true});rdRender();}
+function rdManualChange(k,v){rd[k]=v;rd.dlvVerified=false;if(k==='dlvAddr1') rd.dlvSuggestion=null;rdRenderDlvCheck();rdRenderIndex();}
+function rdRevalidate(){
+  const m=RX_ADDRESSES.find(a=>rd.dlvAddr1.toLowerCase().startsWith(a.addr.split(' ')[0].toLowerCase()));
+  rd.dlvVerified=true;rd.dlvSuggestion=m||null;rdRenderDlvCheck();rdRenderIndex();
+}
+function rdApplySuggestion(){
+  const a=rd.dlvSuggestion;if(!a) return;
+  Object.assign(rd,{dlvAddr1:a.addr,dlvCity:a.city,dlvState:a.state,dlvZip:a.zip,dlvSuggestion:null});
+  showToast('Address','Suggested address applied.');rdRender();
+}
+// ----- OCR upload (simulated AWS Textract) -----
+function rdOcrFile(input){
+  const f=input.files[0];input.value='';if(!f) return;
+  if(!['image/jpeg','image/png','application/pdf'].includes(f.type)) return showToast('Upload Prescription','Unsupported file type. JPG, PNG, or PDF only.','error');
+  if(f.size>10*1024*1024) return showToast('Upload Prescription','File size exceeds 10MB limit.','error');
+  rd.ocrScanning=true;rdRender();
+  const st=rd;
+  setTimeout(()=>{
+    const o=RX_OCR,half=(o.pd/2).toFixed(1);
+    Object.assign(st,{ocrScanning:false,ocrApplied:true,lowConf:o.lowConf.slice(),patientName:o.patientName,patientDob:o.patientDob,prescriber:o.prescriber,license:o.license,
+      rxAddress:o.rxAddress,rxPhone:o.rxPhone,rxFax:o.rxFax,issueDate:o.issueDate,expiryDate:o.expiryDate,signature:o.signature,files:st.files.concat(f.name),
+      rxv:{odSph:rdSigned(o.od.sph),odCyl:rdSigned(o.od.cyl),odAxis:String(o.od.axis),odPd:half,odOc:'',osSph:rdSigned(o.os.sph),osCyl:rdSigned(o.os.cyl),osAxis:String(o.os.axis),osPd:half,osOc:''}});
+    if(!st.rcvNameEdited) st.rcvName=o.patientName;
+    if(rd===st){rdRender();showToast('OCR','OCR auto-fill complete');}
+  },2000);
+}
+function rdRemoveFile(i){rd.files.splice(i,1);rdRender();}
+// ----- Comment -----
+function rdNowTs(){const d=new Date(),p=n=>String(n).padStart(2,'0');return d.getFullYear()+'-'+p(d.getMonth()+1)+'-'+p(d.getDate())+' '+p(d.getHours())+':'+p(d.getMinutes());}
+function rdCount(el,id){document.getElementById(id).textContent=el.value.replace(/\s/g,'').length+' / 200';}
+function rdAddComment(){
+  if(!rd.commentText.trim()) return showToast('Comment','Please enter a comment.','error');
+  rd.comments.unshift({id:'cmt-'+Date.now(),type:rd.commentType,author:'monster1437',date:rdNowTs(),text:rd.commentText.trim()});
+  rd.commentText='';rd.commentType='General';rdRender();
+}
+function rdDelComment(id){rd.comments=rd.comments.filter(c=>c.id!==id);rdRender();}
+function rdEditComment(id){rd.editing=id;rd.editText=rd.comments.find(c=>c.id===id).text;rdRender();}
+function rdSaveComment(id){
+  if(!rd.editText.trim()) return showToast('Comment','Comment cannot be empty.','error');
+  rd.comments.find(c=>c.id===id).text=rd.editText.trim();rd.editing=null;rdRender();
+}
+// ----- Signature pad -----
+function rdBindSignature(){
+  const c=document.getElementById('rd-sig');if(!c) return;
+  const ctx=c.getContext('2d');ctx.lineWidth=2;ctx.lineCap='round';ctx.strokeStyle='#333';
+  if(rd.sigData){const img=new Image();img.onload=()=>ctx.drawImage(img,0,0);img.src=rd.sigData;}
+  if(rdRO()) return;
+  let drawing=false;
+  const pos=e=>{const r=c.getBoundingClientRect(),t=e.touches?e.touches[0]:e;return {x:(t.clientX-r.left)*(c.width/r.width),y:(t.clientY-r.top)*(c.height/r.height)};};
+  const start=e=>{e.preventDefault();drawing=true;const p=pos(e);ctx.beginPath();ctx.moveTo(p.x,p.y);};
+  const move=e=>{if(!drawing)return;e.preventDefault();const p=pos(e);ctx.lineTo(p.x,p.y);ctx.stroke();};
+  const end=()=>{if(!drawing)return;drawing=false;rd.sigData=c.toDataURL();rdRenderIndex();};
+  c.addEventListener('mousedown',start);c.addEventListener('mousemove',move);c.addEventListener('mouseup',end);c.addEventListener('mouseleave',end);
+  c.addEventListener('touchstart',start,{passive:false});c.addEventListener('touchmove',move,{passive:false});c.addEventListener('touchend',end);
+}
+function rdClearSignature(){rd.sigData=null;const c=document.getElementById('rd-sig');c.getContext('2d').clearRect(0,0,c.width,c.height);rdRenderIndex();}
+// ----- Render -----
+function rdIn(k,opt={}){  // text / date input bound to rd[k]
+  const ro=rdRO()||opt.disabled;
+  return `<input type="${opt.type||'text'}" class="rd-in${opt.cls?' '+opt.cls:''}" ${opt.id?`id="${opt.id}"`:''} value="${rdEsc(rd[k])}" placeholder="${opt.ph||''}" ${ro?'disabled':''}
+    oninput="${opt.on||`rdSet('${k}',this.value)`}" ${opt.extra||''}>`;
+}
+const rdL=(t,req)=>`<label class="rd-lbl">${t}${req?' <span class="rd-req">*</span>':''}</label>`;
+const rdTitle=(t,req)=>`<div class="rd-title"><span class="dot">&#9679;</span> ${t}${req?' <span class="rd-req">*</span>':''}</div>`;
+function rdRenderDlvCheck(){
+  const el=document.getElementById('rd-dlv-check');if(!el) return;
+  const s=rd,filled=s.dlvAddr1&&s.dlvCity&&s.dlvState&&s.dlvZip;
+  el.innerHTML=(!s.dlvVerified?`<div class="rd-warn"><span>${RD_ICON.warn}Unverified Address &middot; Check Address Required</span><button class="rd-btn" ${filled?'':'disabled'} onclick="rdRevalidate()">Check Address</button></div>`
+    :'<div class="rd-verified">✓ Verified</div>')
+    +(s.dlvSuggestion?`<div class="rd-sugg"><div class="rd-hint" style="margin:0 0 4px;">Suggested standardization — use this address?</div>
+      <div style="font-size:11px;font-weight:500;color:#333;margin-bottom:8px;">${s.dlvSuggestion.addr}, ${s.dlvSuggestion.city}, ${s.dlvSuggestion.state} ${s.dlvSuggestion.zip}</div>
+      <button class="rd-btn primary" onclick="rdApplySuggestion()">Apply</button></div>`:'');
+}
+function rdRender(){
+  const s=rd,o=rdOrder,ro=rdRO(),fr=rdFrame(o),ln=rdLens(o),pk=rdPkg(o),store=POS_STORE.code+' / '+POS_STORE.name;
+  const prodRow=(p,type,color,mapped,cof)=>p?`<tr><td><span class="rd-type"><i style="background:${color}"></i>${type}</span></td>
+    <td style="text-align:left;">${p.code} / ${p.name} / ${p.barcode}</td><td>${mapped||'<span style="color:#999">-</span>'}</td><td>1</td><td style="font-weight:600;">${p.price}</td><td>${cof||'<span style="color:#999">-</span>'}</td></tr>`:'';
+  const valSel=(eye,col,i)=>{
+    const k=eye+col[0].toUpperCase()+col.slice(1),off=eye==='os'&&col==='pd'&&s.pdMode==='single',dis=ro||off;
+    return `<td><select class="rd-sel${s.ocrApplied&&!dis?' ocr':''}${off?' off':''}" ${dis?'disabled':''} onchange="rdSetRx('${k}',this.value)">${RX_VAL_OPTS[col].map(v=>`<option value="${v}" ${s.rxv[k]===v?'selected':''}>${v||'—'}</option>`).join('')}</select></td>`;
+  };
+  const m=s.member;
+  document.getElementById('rx-detail').innerHTML=`
+  <div class="rd-head">
+    <a class="rd-back" href="#/pos/rx-operation-list" title="Back to List">${RD_ICON.back}</a>
+    <span class="id">${o.id}</span><span class="sub">(${o.id})</span>
+    <span class="rx-badge ${RX_APPROVAL_CLS[s.approval]||'y'}">${s.approval}</span>
+  </div>
+  <div class="rd-layout">
+  <div class="rd-form">
+
+    <!-- 1. Customer -->
+    <div class="rd-sec" id="rd-sec-customer">
+      ${rdTitle('Customer Membership Info')}
+      <div style="width:50%;margin-bottom:16px;" class="rd-rel">${rdL('Country',1)}
+        ${rdIn('country',{id:'rd-country',ph:'Search country',disabled:s.nonMember,on:"rdSet('country',this.value);rdCountryDD()",extra:'onfocus="rdCountryDD()" onblur="rdHideDD(\'rd-dd-country\')"'})}
+        <div class="rd-dd" id="rd-dd-country" hidden></div></div>
+      ${rdL('Email / Phone / Membership QR',1)}
+      <div style="display:flex;gap:10px;align-items:flex-start;">
+        <div style="width:50%;">
+          ${!m?`<div class="rd-rel">${rdIn('custSearch',{ph:'Search by Email OR Phone',disabled:s.nonMember,on:"rdSet('custSearch',this.value);rdMemberDD()",extra:'onfocus="rdMemberDD()" onblur="rdHideDD(\'rd-dd-member\')"'})}<div class="rd-dd" id="rd-dd-member" hidden></div></div>`
+          :`<div class="rd-member"><div><div class="m1">${m.email} / ${m.phone}</div><div class="m2">${m.provider} | ${m.id}</div></div>${ro?'':'<button class="rd-x" onclick="rdDeselectMember()">✕</button>'}</div>
+            ${m.prescriptions.length?`<div style="margin-top:10px;"><div class="rd-lbl" style="font-size:9px;">Registered Prescriptions</div>
+              <div style="display:flex;flex-direction:column;gap:6px;">${m.prescriptions.filter(p=>p.status==='Active').map(p=>`<div class="rd-rxitem${s.rxId===p.id?' on':''}" onclick="rdPickMemberRx('${p.id}')">${p.id} | ${p.date}</div>`).join('')}</div>
+              ${s.rxId?`<div class="rd-ok">✓ <b>${s.rxId}</b> selected</div>`:''}</div>`
+            :'<div style="margin-top:8px;font-size:9px;color:#bbb;text-align:center;padding:6px 0;">No registered prescriptions</div>'}`}
+          <div class="rd-nm"><span class="rd-tip" onclick="rdToggleNonMember()">Non-Member<span class="tip">If no membership, enable Non-Member mode to skip customer search</span></span>
+            <div class="rd-switch${s.nonMember?' on':''}" onclick="rdToggleNonMember()"></div></div>
+        </div>
+        ${ro?'':`<button class="rd-btn" ${s.nonMember?'disabled':''} onmousedown="event.preventDefault()" onclick="rdMemberDD(true)">${RD_ICON.search} Search</button>`}
+      </div>
+    </div>
+
+    <!-- 2. Order Info -->
+    <div class="rd-sec" id="rd-sec-order">
+      ${rdTitle('Order Info')}
+      <div class="rd-meta"><div><b>Order Type</b><span class="rd-otype${o.orderType==='PREORDER'?' pre':''}">${o.orderType||'NORMAL'}</span></div>
+        <div><b>Order Date</b>${o.orderDate}</div><div><b>Store</b>${store}</div></div>
+      <table class="rd-tbl"><thead><tr><th>Type</th><th>Product Info<br><span class="n">Code / Name / Barcode</span></th><th>Mapped Product</th><th>Qty</th><th>Total Price</th>
+        <th><span class="rd-tip" style="border:none;cursor:help;color:#555;font-size:10px;">C.O.F<span class="tip">Customer's Own Frame</span></span></th></tr></thead>
+      <tbody>
+        ${prodRow(fr,'FRAME','#E65100')}
+        ${prodRow(ln,'LENS','#1565C0',`<div class="rd-rel" style="min-width:300px;">${rdIn('mapped',{id:'rd-mapped',ph:'Product Code / Name / Barcode',cls:'',on:"rd.mapped=this.value;rdMappedDD()",extra:'onfocus="rdMappedDD()" onblur="rdHideDD(\'rd-dd-mapped\')" style="padding-right:26px;font-size:10px;"'})}
+          <span style="position:absolute;right:8px;top:6px;width:12px;height:12px;color:#999;pointer-events:none;">${RD_ICON.search}</span><div class="rd-dd" id="rd-dd-mapped" hidden style="text-align:left;"></div></div>`,
+          `<span class="rd-yn${s.cof?' on':''}" onclick="if(!rdRO()){rd.cof=!rd.cof;rdRender();}">${s.cof?'Y':'N'}</span>`)}
+        ${prodRow(pk,'PACKAGE','#7B1FA2')}
+      </tbody></table>
+    </div>
+
+    <!-- 3. Prescription -->
+    <div class="rd-sec" id="rd-sec-prescription">
+      ${rdTitle('Prescription')}
+      <div class="rd-divide">
+        <div class="rd-step"><span class="no">1</span>Scan Prescription</div>
+        ${!s.ocrScanning?`<label class="rd-upload${ro?' ro':''}"><input type="file" accept=".jpg,.jpeg,.png,.pdf" hidden ${ro?'disabled':''} onchange="rdOcrFile(this)">${RD_ICON.upload}
+            <span class="t">Upload Prescription</span><span class="s">JPG, PNG, PDF (max 10MB, 1 page) &middot; OCR auto-filling supported</span></label>`
+          :`<div class="rd-scan"><div class="rd-spin"></div><div><div style="font-size:11px;font-weight:600;color:#333;">Analyzing prescription...</div><div class="rd-hint">Extracting values via AWS Textract</div></div></div>`}
+        ${s.files.map((f,i)=>`<div class="rd-file"><span>${rdEsc(f)}</span>${ro?'':`<button onclick="rdRemoveFile(${i})" title="Delete">${RD_ICON.trash}</button>`}</div>`).join('')}
+      </div>
+      <div class="rd-divide">
+        <div class="rd-step"><span class="no">2</span>Prescription Values${s.ocrApplied?'<span class="ocrtag">OCR Auto-filled</span>':''}</div>
+        <div class="rd-cap">Basic Info</div>
+        <div class="rd-g2" style="margin-bottom:14px;">
+          <div class="rd-box"><div class="rd-cap" style="margin:0 0 2px;">Patient</div>
+            <div>${rdL('Name',1)}${rdIn('patientName',{ph:'Patient name'})}</div>
+            <div>${rdL('Date of Birth',1)}${rdIn('patientDob',{type:'date'})}</div></div>
+          <div class="rd-box"><div class="rd-cap" style="margin:0 0 2px;">Prescriber</div>
+            <div>${rdL('Prescriber',1)}${rdIn('prescriber',{ph:'Prescriber name'})}</div>
+            <div class="rd-g2s"><div>${rdL('License No.',1)}${rdIn('license',{ph:'LIC number'})}</div>
+              <div>${rdL('Signature')}<div style="height:26px;display:flex;align-items:center;gap:6px;">
+                <span class="rd-yn w${s.signature?' on':''}" onclick="if(!rdRO()){rd.signature=true;rdRender();}">Y</span><span class="rd-yn w${!s.signature?' on':''}" onclick="if(!rdRO()){rd.signature=false;rdRender();}">N</span></div></div></div>
+            <div>${rdL('Address',1)}${rdIn('rxAddress',{ph:'City, State, ZIP',cls:s.lowConf.includes('rxAddress')?'ocr':''})}</div>
+            <div class="rd-g2s"><div>${rdL('Phone')}${rdIn('rxPhone',{ph:'Optional'})}</div><div>${rdL('Fax')}${rdIn('rxFax',{ph:'Optional',cls:s.lowConf.includes('rxFax')?'ocr':''})}</div></div>
+            <div class="rd-g2s"><div>${rdL('Issue Date')}${rdIn('issueDate',{type:'date'})}</div><div>${rdL('Expiry Date',1)}${rdIn('expiryDate',{type:'date'})}</div></div>
+          </div>
+        </div>
+        <div class="rd-cap" style="border-top:1px solid #eee;padding-top:12px;">Prescription Values</div>
+        <table class="rd-tbl rd-vtbl"><thead><tr><th style="width:80px;"></th><th>SPH <span style="color:#ffcdd2">*</span></th><th>CYL <span style="color:#ffcdd2">*</span></th><th>AXIS <span style="color:#ffcdd2">*</span></th>
+          <th>PD <span style="color:#ffcdd2">*</span><br><span class="rd-pdseg"><button class="${s.pdMode==='single'?'on':''}" onclick="rd.pdMode='single';rdRender()">Single</button><button class="${s.pdMode==='dual'?'on':''}" onclick="rd.pdMode='dual';rdRender()">Dual</button></span></th><th>OC</th></tr></thead>
+          <tbody><tr><td class="eye">OD (R)</td>${RX_VAL_COLS.map((c,i)=>valSel('od',c,i)).join('')}</tr><tr><td class="eye">OS (L)</td>${RX_VAL_COLS.map((c,i)=>valSel('os',c,i)).join('')}</tr></tbody></table>
+      </div>
+    </div>
+
+    <!-- 4. Orderer Info -->
+    <div class="rd-sec" id="rd-sec-contact">
+      ${rdTitle('Orderer Info',1)}
+      <div class="rd-g3"><div>${rdL('Name',1)}${rdIn('custName',{ph:'Full name'})}</div><div>${rdL('Phone',1)}${rdIn('custPhone',{type:'tel',ph:'Phone number'})}</div><div>${rdL('Email',1)}${rdIn('custEmail',{type:'email',ph:'example@email.com'})}</div></div>
+    </div>
+
+    <!-- 5. Recipient Info -->
+    <div class="rd-sec" id="rd-sec-delivery">
+      ${rdTitle('Recipient Info',1)}
+      <div class="rd-g3 rd-divide">
+        <div>${rdL('Name (Patient)',1)}${rdIn('rcvName',{id:'rd-rcvName',ph:'Prescription patient name'})}<div class="rd-hint">Auto-filled from prescription patient name</div></div>
+        <div>${rdL('Phone',1)}${rdIn('rcvPhone',{type:'tel',ph:'Phone number'})}</div><div>${rdL('Email',1)}${rdIn('rcvEmail',{type:'email',ph:'example@email.com'})}</div>
+      </div>
+      ${rdL('Address (Ship to Address / Ship to Store)',1)}
+      <div style="display:flex;gap:16px;margin:6px 0 12px;">
+        <span class="rd-radio${s.dlvType==='address'?' on':''}" onclick="if(!rdRO()){rd.dlvType='address';rdRender();}"><i></i>Ship to Address</span>
+        <span class="rd-radio${s.dlvType==='store'?' on':''}" onclick="if(!rdRO()){rd.dlvType='store';rdRender();}"><i></i>Ship to Store</span>
+      </div>
+      ${s.dlvType==='store'?`<div>${rdL('Pickup Store')}<input class="rd-in" value="${store}" disabled style="font-size:10px;"></div>`
+      :s.dlvMode==='search'?`<div class="rd-rel" style="margin-bottom:8px;"><svg class="rd-search-ico" viewBox="0 0 24 24" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+          ${rdIn('dlvSearch',{ph:'Search address',on:"rd.dlvSearch=this.value;rd.dlvVerified=false;rdAddrDD();rdRenderIndex()",extra:'onfocus="if(rd.dlvSearch)rdAddrDD()" onblur="rdHideDD(\'rd-dd-addr\')" style="padding-left:30px;"'})}
+          <div class="rd-dd" id="rd-dd-addr" hidden></div></div>
+        <div style="margin-bottom:8px;">${rdIn('dlvAddr2S',{ph:'Address Line 2'})}</div>
+        <div class="rd-g3"><div>${rdL('City',1)}<input class="rd-in" readonly value="${rdEsc(s.dlvCityS)}"></div><div>${rdL('State',1)}<input class="rd-in" readonly value="${rdEsc(s.dlvStateS)}"></div><div>${rdL('ZIP',1)}<input class="rd-in" readonly value="${rdEsc(s.dlvZipS)}"></div></div>`
+      :`<div style="display:flex;justify-content:flex-end;margin-bottom:8px;"><button class="rd-btn" onclick="rd.dlvMode='search';rd.dlvVerified=false;rdRender()">${RD_ICON.search} Back to Search</button></div>
+        <div style="margin-bottom:8px;">${rdL('Address',1)}${rdIn('dlvAddr1',{on:"rdManualChange('dlvAddr1',this.value)"})}</div>
+        <div style="margin-bottom:8px;">${rdL('Address Line 2')}${rdIn('dlvAddr2',{ph:'Apt, Suite, Unit, etc.'})}</div>
+        <div class="rd-g3" style="margin-bottom:10px;"><div>${rdL('City',1)}${rdIn('dlvCity',{on:"rdManualChange('dlvCity',this.value)"})}</div><div>${rdL('State',1)}${rdIn('dlvState',{on:"rdManualChange('dlvState',this.value)"})}</div><div>${rdL('ZIP',1)}${rdIn('dlvZip',{on:"rdManualChange('dlvZip',this.value)"})}</div></div>
+        <div id="rd-dlv-check"></div>`}
+    </div>
+
+    <!-- 6. Policy Agreements -->
+    <div class="rd-sec" id="rd-sec-policy">
+      ${rdTitle('Policy Agreements')}
+      <div style="display:flex;flex-direction:column;gap:10px;">
+        <label class="rd-check"><input type="checkbox" ${s.chkRx?'checked':''} ${ro?'disabled':''} onchange="rdSet('chkRx',this.checked)"><span>I have read and agree to the Consent &amp; Agreement Policy for prescription lens services. <span class="rd-req">*</span></span></label>
+        <label class="rd-check"><input type="checkbox" ${s.chkHipaa?'checked':''} ${ro?'disabled':''} onchange="rdSet('chkHipaa',this.checked)"><span>I authorize the use and disclosure of my health information as described in the HIPAA Authorization. <span class="rd-req">*</span></span></label>
+        <label class="rd-check"><input type="checkbox" ${s.chkMkt?'checked':''} ${ro?'disabled':''} onchange="rdSet('chkMkt',this.checked)"><span>I agree to receive marketing communications. (Optional)</span></label>
+      </div>
+      <div style="margin-top:14px;padding-top:14px;border-top:1px solid #eee;">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;"><span style="font-size:10px;font-weight:600;color:#555;">Customer Signature <span class="rd-req">*</span></span>
+          ${ro?'':'<button class="rd-btn" style="background:#eee;border-color:#eee;" onclick="rdClearSignature()">Clear</button>'}</div>
+        <canvas id="rd-sig" class="rd-sig${ro?' ro':''}" width="600" height="120"></canvas>
+      </div>
+    </div>
+
+    <!-- 7. Comment -->
+    <div class="rd-sec" id="rd-sec-comment">
+      ${rdTitle('Comment')}
+      <div style="display:flex;gap:8px;margin-bottom:10px;">
+        <select class="rd-in" style="width:160px;" onchange="rd.commentType=this.value">${RX_COMMENT_TYPES.map(t=>`<option ${s.commentType===t?'selected':''}>${t}</option>`).join('')}</select>
+        <div style="flex:1;display:flex;gap:6px;"><div style="flex:1;">
+          <textarea class="rd-in" style="height:26px;padding:4px 10px;resize:none;" maxlength="200" placeholder="Enter comment" oninput="rd.commentText=this.value;rdCount(this,'rd-cnt-new')">${rdEsc(s.commentText)}</textarea>
+          <div class="rd-cnt" id="rd-cnt-new">${s.commentText.replace(/\s/g,'').length} / 200</div></div>
+          <button class="rd-btn primary" onclick="rdAddComment()">Add</button></div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:10px;margin-top:4px;">
+        ${s.comments.map(c=>`<div class="rd-cmt"><div class="rd-cmt-h"><span class="rd-ctype ${c.type}">${c.type}</span><span style="font-size:10px;font-weight:600;color:#333;">${c.author}</span>
+            <span style="font-size:9px;color:#bbb;margin-left:auto;">${c.date}</span>
+            ${c.author==='monster1437'&&s.editing!==c.id?`<span style="display:flex;gap:4px;margin-left:6px;"><button class="rd-link" style="color:#1565C0;" onclick="rdEditComment('${c.id}')">Edit</button><button class="rd-link" style="color:#e53935;" onclick="rdDelComment('${c.id}')">Delete</button></span>`:''}</div>
+          ${s.editing===c.id?`<div style="display:flex;gap:6px;align-items:center;"><input class="rd-in" style="height:28px;border:1.5px solid #ff6b35;background:#fff8f5;" maxlength="200" value="${rdEsc(s.editText)}" oninput="rd.editText=this.value;rdCount(this,'rd-cnt-edit')">
+              <button class="rd-btn primary" style="height:28px;" onclick="rdSaveComment('${c.id}')">Save</button><button class="rd-btn" style="height:28px;width:28px;padding:0;justify-content:center;background:#eee;border-color:#eee;" onclick="rd.editing=null;rdRender()">&times;</button></div>
+            <div class="rd-cnt" id="rd-cnt-edit">${s.editText.replace(/\s/g,'').length} / 200</div>`
+          :`<div style="font-size:11px;color:#555;line-height:1.6;">${rdEsc(c.text)}</div>`}</div>`).join('')}
+      </div>
+    </div>
+  </div>
+
+  <!-- Index -->
+  <div class="rd-side"><div class="rd-index" id="rd-index"></div></div>
+  </div>`;
+  rdRenderIndex();rdRenderDlvCheck();rdBindSignature();
+}
+function rdEnter(o){
+  rdOrder=o;rd=RD_STATES[o.id]||(RD_STATES[o.id]=rdNewState(o));
+  rdRender();
+}
+// ----- Screen switch (list / detail) -----
+function rxEnter(orderId){
+  if(!rxInited){rxInit();rxInited=true;}
+  const d=orderId&&RX_ORDERS.find(o=>o.id===orderId);
+  document.getElementById('rx-list').hidden=!!d;
+  document.getElementById('rx-detail').hidden=!d;
+  if(d) rdEnter(d); else rxRenderList();  // list: refresh (approval may have changed in detail)
+}
+
 // ===== Hash Router =====
 // Request No. (prototype-only id used in URL)
 let nextReqNo=REQUEST_DATA.length+1;
@@ -4080,7 +4916,7 @@ function route(){
     let m;
     // Front POS: full-screen POS app (production opens it in a new window)
     if(path==='/pos'||path.startsWith('/pos/')){
-      if(!POS_TABS.some(t=>t.path===path)) return redirect('#/pos');
+      if(!posTabOf(path)) return redirect('#/pos');
       return posEnter(path);
     }
     posLeave();

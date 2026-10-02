@@ -21,7 +21,9 @@ BO 신규/변경 기능의 기획 검토용 UI 프로토타입입니다. 여러 
 | Master Information > Price > Discount Price | `#/master/price/discount-price` |
 | Sales > Daily Record View | `#/sales/daily-record-view` |
 | Front POS > Front POS Main | `#/pos` |
-| Front POS > 그 외 탭 (Coming Soon) | `#/pos/daily-sales-summary`, `#/pos/rx-operation-list`, `#/pos/store-pickup-list`, `#/pos/outbound-label-print` |
+| Front POS > Rx Operation List | `#/pos/rx-operation-list` |
+| Front POS > Rx Operation Detail | `#/pos/rx-operation-list/{Order No.}` |
+| Front POS > 그 외 탭 (Coming Soon) | `#/pos/daily-sales-summary`, `#/pos/store-pickup-list`, `#/pos/outbound-label-print` |
 
 그 외 사이드바 메뉴는 "Coming Soon" 화면으로 표시됩니다.
 
@@ -75,6 +77,14 @@ BO 신규/변경 기능의 기획 검토용 UI 프로토타입입니다. 여러 
 - **Gift Pay**: Serial 입력 + FOC Check (시뮬레이션)
 - **미구현 / 확인 필요**: SALES / INVENTORY 토글 동작, Manual Refund, 외부 POS 매출 조회 후 AC Card 출력, AC Card 내용
 - 가격, 재고, 멤버, Cashier / Seller, 패키지 매핑은 더미 데이터
+
+### Front POS > Rx Operation
+- 기존 별도 프로토타입 (bo_pos_rx_operation, boposrxoperation.vercel.app)을 이 프로토타입으로 통합. 스토어는 POS 스토어 (US1007) 기준
+- **List**: 검색 필터 (Approval Status / Processing Status / Cancel·Refund 멀티 셀렉트, Search Period (Order / Save Date), Keyword 2자 이상), 페이지네이션
+- **Register Outbound**: Confirm + 미완료 + 취소·환불 아님 건만 선택 가능 → Outbound Registration 팝업 (Carrier FedEx / UPS, 기본 FedEx) → TMS 전송
+- **Customer Email**: Confirm + Completed + 취소·환불 아님 건만 발송 가능
+- **Detail**: Customer Membership Info (멤버 검색, 등록 처방전 선택, Non-Member) / Order Info (Mapped Product, C.O.F) / Prescription (업로드 + OCR 자동 입력 시뮬레이션, 환자·처방자, SPH·CYL·AXIS·PD(Single/Dual)·OC) / Orderer Info / Recipient Info (Ship to Address 주소 검색·수기 입력·검증, Ship to Store) / Policy Agreements (동의 + 서명) / Comment
+- **Index**: 섹션별 완료 체크 → Save (Unready → Requested) → Confirm / Reject. Unready 외 상태는 읽기 전용, 승인 상태는 목록에도 반영
 
 ## Master Data
 
