@@ -20,6 +20,8 @@ BO 신규/변경 기능의 기획 검토용 UI 프로토타입입니다. 여러 
 | Outbound Request Detail | `#/inventory/outbound-request/{Request No.}` |
 | Master Information > Price > Discount Price | `#/master/price/discount-price` |
 | Sales > Daily Record View | `#/sales/daily-record-view` |
+| Inventory > Monitoring > Inventory List | `#/inventory/monitoring/inventory-list` |
+| Inventory > Monitoring > Inventory Ledger | `#/inventory/monitoring/inventory-ledger` |
 | Order > Order List | `#/order/order-list` |
 | Order > Refund List | `#/order/refund-list` (기존 `#/order/return-list` 자동 이동) |
 | Front POS > Front POS Main | `#/pos` |
@@ -68,6 +70,18 @@ BO 신규/변경 기능의 기획 검토용 UI 프로토타입입니다. 여러 
 - **검색 필터**: BP, Store (BP 선택 후 활성화), Sales Type, Currency, Sales Date (기간), Keyword (Receipt No., Original Receipt No., Product Code, Product Name)
 - **Total Sum**: Total / Sales Total / Return Total (Currency 단일 선택 시에만 합계 표시)
 - **Excel Export**, **페이지네이션**: Discount Price와 동일
+
+### Inventory > Monitoring > Inventory List (조회 전용)
+- **검색**: Brand / BP / Store / Location / Product Category 1 / Product Category 2 (Category 1 기준) / Keyword (BP, Store, Product Code / Name, Barcode)
+- **컬럼**: BP / Store / Location / Product Info, Product Category 1·2, Collection, On-hand Qty, Outbound Pending Qty, Adjustment Pending Qty, Available Qty, Pending Inbound (수량 컬럼 강조, 우측 정렬)
+- On-hand Qty는 Inventory Ledger 더미의 최종 After Qty와 동일, Available = On-hand - Outbound Pending - Adjustment Pending (가정)
+
+### Inventory > Monitoring > Inventory Ledger (조회 전용)
+- 메뉴 구조: 운영과 동일 (Inbound / Outbound / Outbound Order / Stocktaking / Adjustment / Movement / Monitoring > Inventory List · Ledger · Snapshot · Snapshot (WH) · In/Out History), 기존 `#/inventory/snapshot`은 Monitoring 하위로 자동 이동
+- **검색**: BP / Store (BP 기준) / Location / Inventory Transaction Type (Sales, Refund, Inbound (SAP), Inbound (Manual), Outbound, Adjustment, Stocktaking, Movement) / Search Period (필수, 기본 7일) / Keyword (Invoice No., Product Code, Product Name, Barcode)
+- **컬럼**: Transaction Date Time (Time Zone), BP / Store / Location / Product Info, Inventory Transaction Type (처리 유형별 라벨·색상, iic-bo InventoryOperation 기준), Before Qty, Transaction Qty, After Qty, Invoice No.
+- **Exclude Reversal History**: 체크 시 원복(Reversal) 이력 제외, 컬럼 정렬, Excel Export
+- 원장 데이터는 더미 (스토어·로케이션·상품별 Before / After 연속)
 
 ### Order > Order List / Refund List
 - **검색 필터** (Daily Record View와 동일한 검색 UI): BP / Store (BP 선택 후 활성화, 멀티 셀렉트), Order Status / Refund Type (멀티 셀렉트), Currency, 기간 (+ TODAY / 1 WEEK / 1 MONTH / 3 MONTHS), Keyword (2자 이상), Reset / Search

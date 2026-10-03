@@ -51,7 +51,7 @@ body{background:#f8f8f8;color:#222;font-size:13px;overflow-x:hidden;zoom:0.8;}
 .menu-item.active .menu-text{color:#222;font-weight:600;}
 .submenu{overflow:hidden;transition:max-height .3s ease;}
 .submenu.closed{max-height:0;}
-.submenu.open{max-height:500px;}
+.submenu.open{max-height:800px;}
 .pos-wrap{position:fixed;bottom:40px;left:16px;width:268px;z-index:1201;transition:opacity .25s ease;}
 .sidebar.collapsed .pos-wrap{opacity:0;pointer-events:none;}
 .pos-btn{display:flex;align-items:center;justify-content:center;gap:6px;width:auto;margin-left:auto;padding:8px 14px;background:#ff6b35;color:#fff;border:none;border-radius:6px;font-size:12px;font-weight:500;cursor:pointer;}
@@ -912,6 +912,42 @@ table.grid th.ol-sort.asc .arr{transform:rotate(180deg);}
 .ol-ptbl td .b{font-size:11px;color:#999;margin-top:2px;}
 .ol-ptbl tr.tot td{background:#ececec;font-weight:700;border-top:2px solid #ddd;border-bottom:none;}
 .ol-note{font-size:11px;color:#999;margin-top:8px;}
+/* ===== Inventory Ledger (read only) ===== */
+.lg-noti{font-size:12px;color:#555;margin:-14px 0 18px;}
+.lg-chk{display:inline-flex;align-items:center;gap:8px;font-size:12px;color:#333;margin-right:12px;cursor:pointer;}
+.lg-chk input{width:16px;height:16px;accent-color:#ff6b35;}
+#lg-view table.grid tbody tr{cursor:default;}
+#lg-view table.grid th.lg-sort{cursor:pointer;user-select:none;}
+#lg-view table.grid th.lg-sort .arr{margin-left:6px;opacity:.5;}
+#lg-view table.grid th.lg-sort.on .arr{opacity:1;}
+.lg-chip{display:inline-block;padding:3px 10px;border-radius:999px;font-size:11px;font-weight:700;white-space:nowrap;}
+.lg-chip.sale{background:#E8F5E9;color:#1B5E20;border:1px solid #A5D6A7;}
+.lg-chip.refund{background:#FFF3E0;color:#E65100;border:1px solid #FFCC80;}
+.lg-chip.inbound{background:#E3F2FD;color:#0D47A1;border:1px solid #90CAF9;}
+.lg-chip.outbound{background:#FFEBEE;color:#B71C1C;border:1px solid #EF9A9A;}
+.lg-chip.request{background:#FFF8E1;color:#FF6F00;border:1px solid #FFE082;}
+.lg-chip.adjustment{background:#EDE7F6;color:#311B92;border:1px solid #B39DDB;}
+.lg-chip.stocktaking{background:#FCE4EC;color:#880E4F;border:1px solid #F48FB1;}
+.lg-chip.movement{background:#E0F2F1;color:#004D40;border:1px solid #80CBC4;}
+.lg-chip.reversal{background:#F5F5F5;color:#424242;border:1px solid #BDBDBD;}
+.lg-chip.progress{background:#E1F5FE;color:#01579B;border:1px solid #81D4FA;}
+#lg-view table.grid td.lg-neg{color:#C62828;font-weight:600;}
+#lg-view table.grid th .sub{font-size:10px;font-weight:400;opacity:.85;}
+/* ===== Inventory List (read only): quantity columns highlighted ===== */
+#il-view table.grid tbody tr{cursor:default;}
+#il-view table.grid th .sub{font-size:10px;font-weight:400;opacity:.85;}
+#il-view table.grid th.qty{background:#FFF3E6;color:#333;}
+#il-view table.grid td.qty{background:#FFFBF6;}
+#il-view table.grid td.zero{color:#bbb;}
+#il-view th.il-first{border-left:2px solid rgba(255,107,53,0.35)!important;}
+#il-view td.il-first{border-left:2px solid #f3e3d3!important;}
+#il-view .il-c{font-weight:600;color:#222;}
+#il-view .il-pn{font-weight:400;color:#333;margin-left:4px;}
+#il-view .il-n{font-size:11px;color:#999;margin-top:2px;}
+#il-view .il-sep{color:#bbb;margin:0 4px;}
+#il-view th.il-avail{color:#222;font-weight:700;}
+#il-view td.il-avail{font-weight:700;color:#222;background:#FFF3E6;}
+#il-view td.il-avail.neg{color:#C62828;}
 </style>
 <!-- SheetJS: client-side Excel (.xlsx) export -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
@@ -1018,9 +1054,21 @@ table.grid th.ol-sort.asc .arr{transform:rotate(180deg);}
   <div class="submenu closed" id="sub-inv">
     <a class="menu-item depth2" href="#/inventory/inbound"><span class="menu-text">Inbound List</span></a>
     <a class="menu-item depth2 active" href="#/inventory/outbound"><span class="menu-text">Outbound List</span></a>
-    <a class="menu-item depth2" href="#/inventory/snapshot"><span class="menu-text">Inventory Snapshot</span></a>
-    <a class="menu-item depth2" href="https://bo-inv-adjustment.vercel.app/"><span class="menu-text">Inventory Adjustment</span></a>
+    <a class="menu-item depth2" href="#/inventory/outbound-order"><span class="menu-text">Outbound Order List</span></a>
     <a class="menu-item depth2" href="https://bo-inventory-stocktaking-v2.vercel.app/"><span class="menu-text">Inventory Stocktaking</span></a>
+    <a class="menu-item depth2" href="https://bo-inv-adjustment.vercel.app/"><span class="menu-text">Inventory Adjustment</span></a>
+    <a class="menu-item depth2" href="#/inventory/movement"><span class="menu-text">Inventory Movement</span></a>
+    <div class="menu-item depth2" onclick="toggle('inv-mon')">
+      <span class="menu-text">Monitoring</span>
+      <div class="arrow-ico" id="arr-inv-mon"><svg viewBox="0 0 24 24" fill="#888"><use href="#i-chevron-down"/></svg></div>
+    </div>
+    <div class="submenu closed" id="sub-inv-mon">
+      <a class="menu-item depth3" href="#/inventory/monitoring/inventory-list"><span class="menu-text">Inventory List</span></a>
+      <a class="menu-item depth3" href="#/inventory/monitoring/inventory-ledger"><span class="menu-text">Inventory Ledger</span></a>
+      <a class="menu-item depth3" href="#/inventory/monitoring/snapshot"><span class="menu-text">Inventory Snapshot</span></a>
+      <a class="menu-item depth3" href="#/inventory/monitoring/snapshot-wh"><span class="menu-text">Inventory Snapshot (WH)</span></a>
+      <a class="menu-item depth3" href="#/inventory/monitoring/in-out-history"><span class="menu-text">Inventory In/Out History</span></a>
+    </div>
   </div>
 
   <div class="menu-item depth1" onclick="toggle('rpt')">
@@ -1617,6 +1665,117 @@ table.grid th.ol-sort.asc .arr{transform:rotate(180deg);}
         <div class="rpp"><span>Rows per page:</span><select id="rl-rpp" style="width:72px;" onchange="pgState('rl').page=1;olRenderPage('rl');"><option value="30" selected>30</option><option value="50">50</option><option value="100">100</option><option value="300">300</option></select></div>
         <span id="rl-range">0–0 of 0</span>
         <div class="pg-nav"><button class="pg-btn" id="rl-prev" onclick="pgGo('rl',-1)"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg></button><button class="pg-btn" id="rl-next" onclick="pgGo('rl',1)"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg></button></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== INVENTORY LEDGER VIEW (Inventory > Monitoring) — read only ===== -->
+  <div class="detail-view" id="lg-view">
+    <div class="lg-noti">View the complete history of all inventory changes.</div>
+    <!-- SEARCH (same UI as Daily Record View search) -->
+    <div class="search-box">
+      <table class="search-table">
+        <tr>
+          <th>BP</th>
+          <td><div class="field-row"><div class="field-inline"><select id="lg-bp" style="min-width:360px;" onchange="lgBpChange()"></select></div></div></td>
+        </tr>
+        <tr>
+          <th>Store</th>
+          <td><div class="field-row"><div class="multi-select-wrap">
+            <div class="multi-select-trigger" id="lgStore-trigger" onclick="toggleMulti('lgStore')" style="min-width:360px;">Store (All)</div>
+            <div class="multi-select-dropdown hidden" id="lgStore-dropdown"></div>
+          </div></div></td>
+        </tr>
+        <tr>
+          <th>Location</th>
+          <td><div class="field-row"><div class="multi-select-wrap">
+            <div class="multi-select-trigger" id="lgLoc-trigger" onclick="toggleMulti('lgLoc')" style="min-width:360px;">Location (All)</div>
+            <div class="multi-select-dropdown hidden" id="lgLoc-dropdown"></div>
+          </div></div></td>
+        </tr>
+        <tr>
+          <th>Inventory Transaction Type</th>
+          <td><div class="field-row"><div class="multi-select-wrap">
+            <div class="multi-select-trigger" id="lgType-trigger" onclick="toggleMulti('lgType')" style="min-width:360px;">Inventory Transaction Type (All)</div>
+            <div class="multi-select-dropdown hidden" id="lgType-dropdown"></div>
+          </div></div></td>
+        </tr>
+        <tr>
+          <th>Search Period <span style="color:#ff6b35;">*</span></th>
+          <td><div class="field-row">
+            <div class="field-inline"><input type="date" id="lg-from" style="min-width:170px;"></div>
+            <span style="color:#999;font-size:13px;">~</span>
+            <div class="field-inline"><input type="date" id="lg-to" style="min-width:170px;"></div>
+          </div></td>
+        </tr>
+        <tr>
+          <th>Keyword<br><span style="font-weight:400;font-size:10px;color:#999;">Invoice No., Product Code,<br>Product Name, Barcode</span></th>
+          <td><div class="field-row"><div class="field-inline" style="flex:1;max-width:360px;">
+            <input type="text" id="lg-kw" placeholder="Please enter at least 2 characters" style="width:100%;" onkeydown="if(event.key==='Enter')lgSearch()">
+          </div></div></td>
+        </tr>
+      </table>
+      <div class="search-action">
+        <button class="btn-reset" onclick="lgReset()"><svg width="14" height="14" viewBox="0 0 24 24" fill="#555"><path d="M17.65 6.35C16.2 4.9 14.21 4 12 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08c-.82 2.33-3.04 4-5.65 4-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"/></svg>Reset</button>
+        <button class="btn-search" onclick="lgSearch()"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><use href="#i-search"/></svg>Search</button>
+      </div>
+    </div>
+    <div class="table-box">
+      <div class="table-toolbar">
+        <div class="table-toolbar-left">Total <b id="lg-total">0</b> Count</div>
+        <div class="table-toolbar-right">
+          <label class="lg-chk"><input type="checkbox" id="lg-exclude" onchange="lgSearch()"> Exclude Reversal History</label>
+          <button class="btn-action btn-outline" onclick="lgExport()"><svg width="14" height="14" viewBox="0 0 24 24" fill="#555"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>Excel Export</button>
+        </div>
+      </div>
+      <div class="grid-wrap"><table class="grid"><thead id="lg-head"></thead><tbody id="lg-body"></tbody></table></div>
+      <div class="pg-bar">
+        <div class="rpp"><span>Rows per page:</span><select id="lg-rpp" style="width:72px;" onchange="pgState('lg').page=1;lgRenderPage();"><option value="30" selected>30</option><option value="50">50</option><option value="100">100</option><option value="300">300</option></select></div>
+        <span id="lg-range">0–0 of 0</span>
+        <div class="pg-nav"><button class="pg-btn" id="lg-prev" onclick="pgGo('lg',-1)"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg></button><button class="pg-btn" id="lg-next" onclick="pgGo('lg',1)"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg></button></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== INVENTORY LIST VIEW (Inventory > Monitoring) — read only ===== -->
+  <div class="detail-view" id="il-view">
+    <div class="search-box">
+      <table class="search-table">
+        <tr><th>Brand</th><td><div class="field-row"><div class="field-inline"><select id="il-brand" style="min-width:360px;"><option value="">All</option><option value="GENTLE_MONSTER">GENTLE MONSTER</option></select></div></div></td></tr>
+        <tr><th>BP</th><td><div class="field-row"><div class="field-inline"><select id="il-bp" style="min-width:360px;" onchange="ilBpChange()"></select></div></div></td></tr>
+        <tr><th>Store</th><td><div class="field-row"><div class="multi-select-wrap">
+            <div class="multi-select-trigger" id="ilStore-trigger" onclick="toggleMulti('ilStore')" style="min-width:360px;">Store (All)</div>
+            <div class="multi-select-dropdown hidden" id="ilStore-dropdown"></div></div></div></td></tr>
+        <tr><th>Location</th><td><div class="field-row"><div class="multi-select-wrap">
+            <div class="multi-select-trigger" id="ilLoc-trigger" onclick="toggleMulti('ilLoc')" style="min-width:360px;">Location (All)</div>
+            <div class="multi-select-dropdown hidden" id="ilLoc-dropdown"></div></div></div></td></tr>
+        <tr><th>Product Category 1</th><td><div class="field-row"><div class="field-inline"><select id="il-cat1" style="min-width:360px;" onchange="ilCat1Change()"></select></div></div></td></tr>
+        <tr><th>Product Category 2</th><td><div class="field-row"><div class="field-inline"><select id="il-cat2" style="min-width:360px;"></select></div></div></td></tr>
+        <tr><th>Keyword<br><span style="font-weight:400;font-size:10px;color:#999;">BP Code / Name, Store Code / Name,<br>Product Code / Name, Barcode</span></th>
+          <td><div class="field-row"><div class="field-inline" style="flex:1;max-width:360px;"><input type="text" id="il-kw" placeholder="Please enter at least 2 characters" style="width:100%;" onkeydown="if(event.key==='Enter')ilSearch()"></div></div></td></tr>
+      </table>
+      <div class="search-action">
+        <button class="btn-reset" onclick="ilReset()"><svg width="14" height="14" viewBox="0 0 24 24" fill="#555"><path d="M17.65 6.35C16.2 4.9 14.21 4 12 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08c-.82 2.33-3.04 4-5.65 4-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"/></svg>Reset</button>
+        <button class="btn-search" onclick="ilSearch()"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><use href="#i-search"/></svg>Search</button>
+      </div>
+    </div>
+    <div class="table-box">
+      <div class="table-toolbar">
+        <div class="table-toolbar-left">Total <b id="il-total">0</b> Count</div>
+        <div class="table-toolbar-right"><button class="btn-action btn-outline" onclick="ilExport()"><svg width="14" height="14" viewBox="0 0 24 24" fill="#555"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>Excel Export</button></div>
+      </div>
+      <div class="grid-wrap"><table class="grid"><thead>
+        <tr class="hdr">
+          <th>BP Information<br><span class="sub">(Code / Name)</span></th><th class="tl">Store Information<br><span class="sub">(Code / Name)</span></th>
+          <th class="tl">Location Information<br><span class="sub">(Code / Name)</span></th><th class="tl">Product Info<br><span class="sub">(Code / Name / Barcode)</span></th>
+          <th class="tl">Product Category<br><span class="sub">(Category 1 › Category 2)</span></th><th>Collection</th>
+          <th class="tr qty il-first">On-hand Qty</th><th class="tr qty">Outbound Pending Qty</th><th class="tr qty">Adjustment Pending Qty</th><th class="tr qty il-avail">Available Qty</th><th class="tr qty">Pending Inbound</th>
+        </tr>
+      </thead><tbody id="il-body"></tbody></table></div>
+      <div class="pg-bar">
+        <div class="rpp"><span>Rows per page:</span><select id="il-rpp" style="width:72px;" onchange="pgState('il').page=1;ilRenderPage();"><option value="30" selected>30</option><option value="50">50</option><option value="100">100</option><option value="300">300</option></select></div>
+        <span id="il-range">0–0 of 0</span>
+        <div class="pg-nav"><button class="pg-btn" id="il-prev" onclick="pgGo('il',-1)"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg></button><button class="pg-btn" id="il-next" onclick="pgGo('il',1)"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg></button></div>
       </div>
     </div>
   </div>
@@ -2234,7 +2393,7 @@ function selectMulti(id,el){
   el.classList.toggle('selected');
   const sel=[...document.querySelectorAll('#'+id+'-dropdown .dd-item.selected')];
   const t=document.getElementById(id+'-trigger');
-  const labels={olBp:'BP',olStore:'Store',olStatus:'Order Status',rlBp:'BP',rlStore:'Store',rlStatus:'Refund Type',bp:'BP',fromStore:'From Store',toStore:'To Store',dpBrand:'Brand',dpStore:'Store',drvBp:'BP',drvStore:'Store',psvBp:'BP',psvStore:'Store',prsvBp:'BP',prsvStore:'Store'};
+  const labels={ilStore:'Store',ilLoc:'Location',lgStore:'Store',lgLoc:'Location',lgType:'Inventory Transaction Type',olBp:'BP',olStore:'Store',olStatus:'Order Status',rlBp:'BP',rlStore:'Store',rlStatus:'Refund Type',bp:'BP',fromStore:'From Store',toStore:'To Store',dpBrand:'Brand',dpStore:'Store',drvBp:'BP',drvStore:'Store',psvBp:'BP',psvStore:'Store',prsvBp:'BP',prsvStore:'Store'};
   if(!sel.length) t.textContent=labels[id]+' (All)';
   else if(sel.length===1) t.textContent=sel[0].textContent.replace('✓','').trim();
   else t.textContent=sel[0].textContent.replace('✓','').trim()+' +'+(sel.length-1);
@@ -2659,7 +2818,7 @@ function showListView(){
   document.getElementById('prsv-view').classList.remove('active');
   document.getElementById('sp-view').classList.remove('active');
   document.getElementById('home-view').classList.remove('active');
-  ['ol-view','rl-view'].forEach(id=>document.getElementById(id).classList.remove('active'));
+  ['ol-view','rl-view','lg-view','il-view'].forEach(id=>document.getElementById(id).classList.remove('active'));
   document.getElementById('list-view').classList.remove('hidden');
   document.getElementById('detail-view').classList.remove('active');
   document.getElementById('ob-detail-view').classList.remove('active');
@@ -4079,7 +4238,7 @@ function renderPrsvPage(){
   document.getElementById('prsv-body').innerHTML=rows.length?rows.slice(s,e).map(g=>`<tr><td>${dpBrandText('GENTLE_MONSTER')}</td><td class="tl">${g.date}</td><td class="tl">${g.store}</td>
     <td class="tl">${g.code} / ${g.name} / ${g.barcode}</td><td>${g.cat1}</td><td>${g.cat2}</td><td>${g.currency}</td><td>${salesTypeTag(g.type)}</td>
     <td class="tr num"${neg(g.qty)}>${g.qty}</td><td class="tr num"${neg(g.total)}>${fmtAmt2(g.total)}</td><td class="tr num"${neg(g.net)}>${fmtAmt2(g.net)}</td><td class="tr num"${neg(g.vat)}>${fmtAmt2(g.vat)}</td></tr>`).join('')
-    :'<tr><td colspan="12" class="dp-empty">No data found.</td></tr>';
+    :'<tr><td colspan="11" class="dp-empty">No data found.</td></tr>';
 }
 function resetProductSales(){
   document.querySelectorAll('#prsvBp-dropdown .dd-item.selected').forEach(el=>el.classList.remove('selected'));
@@ -5039,18 +5198,18 @@ function rxEnter(orderId){
 
 // ===== Order > Order List / Refund List =====
 // Dummy data in production format (online / AU stores). Prices include VAT: Net = Total / 1.1, VAT = Total - Net
-const OL_BPS={C1002:'C1002 / GM_미국법인',C1010:'C1010 / GM_호주법인'};
+const OL_BPS={C1002:'C1002 / GM_미국법인',C1012:'C1012 / GM_Australia'};
 const OL_STORES=[
   {code:'US1004',name:'GM_ONLINE_USA_Official',bp:'C1002',tz:'PST',cur:'USD',fmt:'online'},
   {code:'US1001',name:'GM_LosAngeles_FS_Downtown',bp:'C1002',tz:'PST',cur:'USD',fmt:'sl'},
-  {code:'AU1003',name:'GM_ONLINE_Australia_DJ',bp:'C1010',tz:'UTC',cur:'AUD',fmt:'sl'},
-  {code:'AU1002',name:'GM_Sydney_MALL_DJ',bp:'C1010',tz:'AET_SYD',cur:'AUD',fmt:'sl'},
-  {code:'AU1004',name:'GM_Melbourne_MALL_Chadstone',bp:'C1010',tz:'AET_SYD',cur:'AUD',fmt:'sl'}
+  {code:'AU1003',name:'GM_ONLINE_Australia_DJ',bp:'C1012',tz:'UTC',cur:'AUD',fmt:'sl'},
+  {code:'AU1002',name:'GM_Sydney_MALL_DJ',bp:'C1012',tz:'AET_SYD',cur:'AUD',fmt:'sl'},
+  {code:'AU1004',name:'GM_Melbourne_MALL_Chadstone',bp:'C1012',tz:'AET_SYD',cur:'AUD',fmt:'sl'}
 ];
 const OL_STATUS=['PENDING','CONFIRMED','FULFILLED','COMPLETED','CANCELED'];
 const RL_TYPES=['REFUND','EXCHANGE','FORCE_REFUND'];
 const OL_PKG={code:'11500340',name:'2025 PACKAGE SET(SUN)',barcode:'8809983943661'};
-const OL_LOCS={SALES:'1000 / SALES',DP:'1200 / DP',HOLDING:'1300 / HOLDING'};
+const OL_LOCS={SALES:'1000 / SALES',DP:'1010 / DP',HOLDING:'1030 / HOLDING'};
 const olR2=n=>Math.round(n*100)/100;
 // line amounts: unit price incl. VAT x qty
 function olLine(it){const total=it.price*it.qty,net=olR2(total/1.1);return {total,net,vat:olR2(total-net),unit:it.qty?olR2(net/it.qty):0};}
@@ -5199,6 +5358,231 @@ function olExport(p){
   XLSX.writeFile(wb,fn);showToast('Excel Export',fn+' — '+(aoa.length-1)+' rows');
 }
 
+// ===== Inventory > Monitoring > Inventory Ledger (read only) =====
+// Operation -> [label (lokalise en), chip category, filter group (LedgerType), reversal]  — iic-bo InventoryOperation / LedgerType, iic-bo-frontend INV_LEDGER_META
+const LG_OPS={
+  SALE:['Sales','sale','SALE'],SALE_COMPENSATION:['Sales Reversal','reversal','SALE',1],
+  RX_SALE_COMPLETE:['RX Sale (Completed)','sale','SALE'],RX_SALE_COMPLETE_COMPENSATION:['RX Sale Reversal (Completed)','reversal','SALE',1],
+  REFUND:['Refund','refund','REFUND'],REFUND_COMPENSATION:['Refund Reversal','reversal','REFUND',1],
+  INBOUND_SAP:['Inbound (SAP)','inbound','INBOUND_SAP'],
+  INBOUND_MANUAL:['Inbound (Manual)','inbound','INBOUND_MANUAL'],INBOUND_MANUAL_COMPENSATION:['Inbound Reversal (Manual)','reversal','INBOUND_MANUAL',1],
+  OUTBOUND:['Outbound (Confirmed)','outbound','OUTBOUND'],OUTBOUND_COMPENSATION:['Outbound Reversal','reversal','OUTBOUND',1],
+  INBOUND_ADJUSTMENT:['Inbound Adjustment','adjustment','ADJUSTMENT'],
+  ADJUSTMENT:['Adjustment','adjustment','ADJUSTMENT'],ADJUSTMENT_COMPENSATION:['Inventory Adjustment Reversal','reversal','ADJUSTMENT',1],
+  STOCKTAKING_ADJUSTMENT:['Stocktaking Adjustment','stocktaking','ADJUSTMENT'],
+  STOCKTAKING:['Stocktaking','stocktaking','STOCKTAKING'],
+  MOVEMENT:['Movement','movement','MOVEMENT'],MOVEMENT_COMPENSATION:['Movement Reversal','reversal','MOVEMENT',1],
+  MOVEMENT_RX:['Movement (RX)','movement','MOVEMENT']
+};
+// Search filter: LedgerType (8)
+const LG_TYPES=[['SALE','Sales'],['REFUND','Refund'],['INBOUND_SAP','Inbound (SAP)'],['INBOUND_MANUAL','Inbound (Manual)'],['OUTBOUND','Outbound'],['ADJUSTMENT','Adjustment'],['STOCKTAKING','Stocktaking'],['MOVEMENT','Movement']];
+const LG_BPS={C1002:'C1002 / GM_미국법인',C1012:'C1012 / GM_Australia'};
+const LG_STORES=[
+  {code:'US1001',name:'GM_LosAngeles_FS_Downtown',bp:'C1002',tz:'America/Los_Angeles'},
+  {code:'US1004',name:'GM_ONLINE_USA_Official',bp:'C1002',tz:'America/Los_Angeles'},
+  {code:'US1006',name:'GM_WH_USA',bp:'C1002',tz:'America/Los_Angeles',wh:1},
+  {code:'AU1002',name:'GM_Sydney_MALL_DJ',bp:'C1012',tz:'Australia/Sydney'},
+  {code:'AU1003',name:'GM_ONLINE_Australia_DJ',bp:'C1012',tz:'Australia/Sydney'},
+  {code:'AU1004',name:'GM_Melbourne_MALL_Chadstone',bp:'C1012',tz:'Australia/Sydney'}
+];
+const LG_LOC=(c,n)=>({code:c,name:n});
+const LG_LOCS={SALES:LG_LOC('1000','SALES'),DP:LG_LOC('1010','DP'),HOLDING:LG_LOC('1030','HOLDING'),RXHLD:LG_LOC('1040','Rx HLD'),WH:LG_LOC('1110','AVAILABLE')};
+const LG_PRODUCTS=PRODUCT_MASTER.slice(0,18).map(p=>({code:p.code,name:p.name,barcode:p.barcode})).concat([
+  {code:'11500340',name:'2025 PACKAGE SET(SUN)',barcode:'8809983943661'},{code:'11500341',name:'2025 PACKAGE SET(OPT)',barcode:'8809983943678'},
+  {code:'11500904',name:'2026 PACKAGE SET(POCKET-W)',barcode:'8800352191621'}]);
+const LG_DATA=(()=>{
+  let seed=29;const rnd=()=>(seed=(seed*16807)%2147483647)/2147483647,pick=a=>a[Math.floor(rnd()*a.length)],ri=(a,b)=>a+Math.floor(rnd()*(b-a+1));
+  const pad=n=>String(n).padStart(2,'0'),A='0123456789ABCDEFGHJKLMNPQRSTUVWXYZ',code=n=>Array.from({length:n},()=>pick(A)).join(''),num=n=>Array.from({length:n},()=>ri(0,9)).join('');
+  const stock={},key=(s,l,p)=>s.code+'|'+l.code+'|'+p.code;
+  const qty=(s,l,p)=>stock[key(s,l,p)]??(stock[key(s,l,p)]=s.wh?ri(200,600):l===LG_LOCS.SALES?ri(20,300):ri(0,15));
+  const rows=[],last={},today=new Date();today.setHours(0,0,0,0);
+  let id=0;
+  const push=(s,l,p,op,q,inv,at)=>{
+    const before=qty(s,l,p);if(before+q<0) q=-before;if(!q) return;
+    stock[key(s,l,p)]=before+q;
+    const row={id:++id,at,store:s,loc:l,product:p,op,before,q,after:before+q,inv};rows.push(row);
+    if(!LG_OPS[op][3]) last[s.code+op]=row;  // latest original, target of a later reversal
+  };
+  const OPS=[['SALE',30],['REFUND',6],['OUTBOUND',10],['INBOUND_SAP',6],['INBOUND_MANUAL',6],['ADJUSTMENT',4],['STOCKTAKING_ADJUSTMENT',2],['INBOUND_ADJUSTMENT',1],['MOVEMENT',3],['MOVEMENT_RX',2],['RX_SALE_COMPLETE',3],
+    ['SALE_COMPENSATION',2],['REFUND_COMPENSATION',1],['OUTBOUND_COMPENSATION',1],['INBOUND_MANUAL_COMPENSATION',1],['ADJUSTMENT_COMPENSATION',1],['MOVEMENT_COMPENSATION',1]];
+  const total=OPS.reduce((a,o)=>a+o[1],0),pickOp=()=>{let r=rnd()*total;for(const [o,w] of OPS){if((r-=w)<0) return o;}return 'SALE';};
+  for(let day=45;day>=0;day--){
+    const d=new Date(today);d.setDate(d.getDate()-day);
+    const ymd=d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate()),yymmdd=ymd.slice(2).replace(/-/g,'');
+    LG_STORES.forEach(s=>{
+      const n=s.wh?ri(0,2):ri(2,5);
+      for(let k=0;k<n;k++){
+        const at=ymd+' '+pad(ri(9,21))+':'+pad(ri(0,59))+':'+pad(ri(0,59));
+        let op=s.wh?pick(['INBOUND_SAP','OUTBOUND','OUTBOUND','ADJUSTMENT']):pickOp();
+        const prods=[...LG_PRODUCTS].sort(()=>rnd()-0.5).slice(0,op==='OUTBOUND'||op==='INBOUND_SAP'?ri(2,4):1);
+        const base=s.wh?LG_LOCS.WH:LG_LOCS.SALES;
+        // Reversal: cancels the latest original of the same kind (same invoice, opposite qty)
+        if(LG_OPS[op][3]){
+          const orig=op.replace('_COMPENSATION',''),prev=last[s.code+orig];
+          if(!prev){op=orig;}else{push(prev.store,prev.loc,prev.product,op,-prev.q,prev.inv,at);delete last[s.code+orig];continue;}
+        }
+        const inv=op==='SALE'||op==='RX_SALE_COMPLETE'?'SL'+s.code+yymmdd+at.slice(11).replace(/:/g,'')+code(5)
+          :op==='REFUND'?'RF'+s.code+yymmdd+at.slice(11).replace(/:/g,'')+code(5)
+          :op==='INBOUND_SAP'?'80'+num(8):op==='OUTBOUND'||op==='INBOUND_MANUAL'||op==='INBOUND_ADJUSTMENT'?'STM'+yymmdd+num(4)
+          :op.startsWith('MOVEMENT')?'MOV'+yymmdd+num(4):op.startsWith('STOCKTAKING')?'STK'+yymmdd+num(3):'ADJ'+yymmdd+num(4);
+        prods.forEach(p=>{
+          let q;
+          switch(op){
+            case 'SALE':q=-ri(1,2);break;
+            case 'RX_SALE_COMPLETE':push(s,LG_LOCS.RXHLD,p,op,-1,inv,at);return;
+            case 'REFUND':q=ri(1,2);break;
+            case 'OUTBOUND':q=-ri(3,11);break;
+            case 'INBOUND_SAP':q=ri(5,30);break;
+            case 'INBOUND_MANUAL':case 'INBOUND_ADJUSTMENT':q=ri(1,5);break;
+            case 'ADJUSTMENT':case 'STOCKTAKING_ADJUSTMENT':q=pick([-3,-2,-1,1,2]);break;
+            case 'MOVEMENT':case 'MOVEMENT_RX':{  // two lines: out of SALES, into DP / Rx HLD
+              const to=op==='MOVEMENT'?pick([LG_LOCS.DP,LG_LOCS.HOLDING]):LG_LOCS.RXHLD,m=ri(1,3);
+              push(s,base,p,op,-m,inv,at);push(s,to,p,op,m,inv,at);return;}
+          }
+          push(s,base,p,op,q,inv,at);
+        });
+      }
+    });
+  }
+  return rows;
+})();
+let lgInited=false,lgRows=[],lgSort={field:'at',asc:false};
+PAGERS.lg={render:()=>lgRenderPage()};
+const LG_COLS=[['at','Transaction Date Time',1],['bp','BP Information<br><span class="sub">(Code / Name)</span>',1],['store','Store Information<br><span class="sub">(Code / Name)</span>',1],
+  ['loc','Location Information<br><span class="sub">(Code / Name)</span>',0],['product','Product Info<br><span class="sub">(Code / Name / Barcode)</span>',1],['op','Inventory Transaction Type',0],
+  ['before','Before Qty',1],['q','Transaction Qty',1],['after','After Qty',1],['inv','Invoice No.',0]];
+// Left-aligned columns (text values) / right-aligned columns (quantities)
+const LG_LEFT=['store','loc','product'],LG_RIGHT=['before','q','after'];
+function lgEnter(){
+  if(lgInited) return;
+  document.getElementById('lg-bp').innerHTML='<option value="">All</option>'+Object.entries(LG_BPS).map(([c,n])=>`<option value="${c}">${n}</option>`).join('');
+  document.getElementById('lgLoc-dropdown').innerHTML=Object.values(LG_LOCS).map(l=>`<div class="dd-item" onclick="selectMulti('lgLoc',this)" data-val="${l.code}"><span class="check-ico">✓</span>${l.code} / ${l.name}</div>`).join('');
+  document.getElementById('lgType-dropdown').innerHTML=LG_TYPES.map(([v,l])=>`<div class="dd-item" onclick="selectMulti('lgType',this)" data-val="${v}"><span class="check-ico">✓</span>${l}</div>`).join('');
+  ['lg-bp','lg-rpp'].forEach(id=>{const s=document.getElementById(id);csBuild(s);csRefresh(s);});
+  lgBpChange();lgDefaultPeriod();lgInited=true;lgSearch();
+}
+// Store options follow the selected BP (All -> every store)
+function lgBpChange(){
+  const bp=document.getElementById('lg-bp').value;
+  document.getElementById('lgStore-dropdown').innerHTML=LG_STORES.filter(s=>!bp||s.bp===bp).map(s=>`<div class="dd-item" onclick="selectMulti('lgStore',this)" data-val="${s.code}"><span class="check-ico">✓</span>${s.code} / ${s.name}</div>`).join('');
+  document.getElementById('lgStore-trigger').textContent='Store (All)';
+}
+function lgDefaultPeriod(){const t=new Date(),f=new Date();f.setDate(t.getDate()-7);document.getElementById('lg-from').value=olYmd(f);document.getElementById('lg-to').value=olYmd(t);}
+function lgSearch(){
+  const v=id=>document.getElementById(id).value,multi=id=>[...document.querySelectorAll('#'+id+'-dropdown .dd-item.selected')].map(el=>el.dataset.val);
+  const from=v('lg-from'),to=v('lg-to'),kw=v('lg-kw').trim().toLowerCase(),bp=v('lg-bp'),stores=multi('lgStore'),locs=multi('lgLoc'),types=multi('lgType');
+  if(!from||!to) return showToast('Search','Search Period is required.','error');
+  if(from>to) return showToast('Search','Start date must not be after end date.','error');
+  if(kw&&kw.length<2) return showToast('Search','Please enter at least 2 characters.','error');
+  const excl=document.getElementById('lg-exclude').checked;
+  lgRows=LG_DATA.filter(r=>{const o=LG_OPS[r.op],d=r.at.slice(0,10);
+    return (!bp||r.store.bp===bp)&&(!stores.length||stores.includes(r.store.code))&&(!locs.length||locs.includes(r.loc.code))&&(!types.length||types.includes(o[2]))
+      &&!(excl&&o[3])&&d>=from&&d<=to&&(!kw||[r.inv,r.product.code,r.product.name,r.product.barcode].some(x=>x.toLowerCase().includes(kw)));});
+  PAGERS.lg.page=1;lgRenderHead();lgRenderPage();
+}
+function lgReset(){
+  ['lgStore','lgLoc','lgType'].forEach(k=>document.querySelectorAll('#'+k+'-dropdown .dd-item.selected').forEach(el=>el.classList.remove('selected')));
+  document.getElementById('lgLoc-trigger').textContent='Location (All)';document.getElementById('lgType-trigger').textContent='Inventory Transaction Type (All)';
+  const b=document.getElementById('lg-bp');b.selectedIndex=0;csRefresh(b);lgBpChange();
+  document.getElementById('lg-kw').value='';document.getElementById('lg-exclude').checked=false;lgDefaultPeriod();lgSearch();
+}
+function lgSortBy(f){lgSort=lgSort.field===f?{field:f,asc:!lgSort.asc}:{field:f,asc:false};lgRenderHead();lgRenderPage();}
+function lgRenderHead(){
+  document.getElementById('lg-head').innerHTML='<tr class="hdr">'+LG_COLS.map(([f,t,sortable])=>{const tl=LG_LEFT.includes(f)?' tl':LG_RIGHT.includes(f)?' tr':'';return sortable
+    ?`<th class="lg-sort${tl}${lgSort.field===f?' on':''}" onclick="lgSortBy('${f}')">${t}<span class="arr">${lgSort.field===f?(lgSort.asc?'↑':'↓'):'↕'}</span></th>`:`<th class="${tl.trim()}">${t}</th>`;}).join('')+'</tr>';
+}
+function lgVal(r,f){return f==='bp'?r.store.bp:f==='store'?r.store.code:f==='product'?r.product.code:f==='at'?r.at+String(r.id).padStart(6,'0'):r[f];}
+function lgRenderPage(){
+  const {field,asc}=lgSort,rows=[...lgRows].sort((a,b)=>{const x=lgVal(a,field),y=lgVal(b,field);return (asc?1:-1)*(typeof x==='number'?x-y:String(x).localeCompare(String(y)));});
+  document.getElementById('lg-total').textContent=rows.length;
+  const [s,e]=pgRange('lg',rows.length),n=v=>v.toLocaleString('en-US');
+  document.getElementById('lg-body').innerHTML=rows.length?rows.slice(s,e).map(r=>{const o=LG_OPS[r.op];
+    return `<tr><td>${r.at} (${r.store.tz})</td><td>${LG_BPS[r.store.bp]}</td><td class="tl">${r.store.code} / ${r.store.name}</td><td class="tl">${r.loc.code} / ${r.loc.name}</td>
+      <td class="tl">${r.product.code} / ${r.product.name} / ${r.product.barcode}</td><td><span class="lg-chip ${o[1]}">${o[0]}</span></td>
+      <td class="tr">${n(r.before)}</td><td class="tr${r.q<0?' lg-neg':''}">${n(r.q)}</td><td class="tr">${n(r.after)}</td><td>${r.inv}</td></tr>`;}).join('')
+    :`<tr><td colspan="${LG_COLS.length}" class="dp-empty">No data found.</td></tr>`;
+}
+function lgExport(){
+  if(typeof XLSX==='undefined') return showToast('Excel Export','Excel library failed to load. Check network and reload.','error');
+  if(!lgRows.length) return showToast('Excel Export','No data to export.','error');
+  const aoa=[['Transaction Date Time','BP Information','Store Information','Location Information','Product Code','Product Name','Barcode','Inventory Transaction Type','Before Qty','Transaction Qty','After Qty','Invoice No.']];
+  lgRows.forEach(r=>aoa.push([r.at+' ('+r.store.tz+')',LG_BPS[r.store.bp],r.store.code+' / '+r.store.name,r.loc.code+' / '+r.loc.name,r.product.code,r.product.name,r.product.barcode,LG_OPS[r.op][0],r.before,r.q,r.after,r.inv]));
+  const ws=XLSX.utils.aoa_to_sheet(aoa),wb=XLSX.utils.book_new();XLSX.utils.book_append_sheet(wb,ws,'Inventory Ledger');
+  const d=new Date(),p=n=>String(n).padStart(2,'0'),fn='Inventory_Ledger_'+d.getFullYear()+p(d.getMonth()+1)+p(d.getDate())+'_'+p(d.getHours())+p(d.getMinutes())+'.xlsx';
+  XLSX.writeFile(wb,fn);showToast('Excel Export',fn+' — '+(aoa.length-1)+' rows');
+}
+
+// ===== Inventory > Monitoring > Inventory List (read only) =====
+// On-hand = latest After Qty per store x location x product in the Inventory Ledger (same dummy data)
+// Available = On-hand - Outbound Pending - Adjustment Pending (assumed)
+const IL_DATA=(()=>{
+  let seed=53;const rnd=()=>(seed=(seed*16807)%2147483647)/2147483647,ri=(a,b)=>a+Math.floor(rnd()*(b-a+1));
+  const last={};[...LG_DATA].sort((a,b)=>a.id-b.id).forEach(r=>{last[r.store.code+'|'+r.loc.code+'|'+r.product.code]=r;});
+  const cat=p=>{const m=PRODUCT_MASTER.find(x=>x.code===p.code);return m?[m.cat1,m.cat2]:['PACKAGE','PACKAGE SET'];};
+  return Object.values(last).map(r=>{
+    const onHand=r.after,reserved=onHand&&rnd()<0.15?ri(1,Math.min(5,onHand)):0,adj=onHand-reserved>0&&rnd()<0.06?1:0;
+    const [c1,c2]=cat(r.product);
+    return {store:r.store,loc:r.loc,product:r.product,cat1:c1,cat2:c2,collection:rnd()<0.2?'2026 SS':'-',
+      onHand,reserved,adj,available:onHand-reserved-adj,incoming:rnd()<0.1?ri(5,20):0};
+  }).sort((a,b)=>(a.store.bp+a.store.code+a.loc.code+a.product.code).localeCompare(b.store.bp+b.store.code+b.loc.code+b.product.code));
+})();
+let ilInited=false,ilRows=[];
+PAGERS.il={render:()=>ilRenderPage()};
+function ilEnter(){
+  if(ilInited) return;
+  document.getElementById('il-bp').innerHTML='<option value="">All</option>'+Object.entries(LG_BPS).map(([c,n])=>`<option value="${c}">${n}</option>`).join('');
+  document.getElementById('ilLoc-dropdown').innerHTML=Object.values(LG_LOCS).map(l=>`<div class="dd-item" onclick="selectMulti('ilLoc',this)" data-val="${l.code}"><span class="check-ico">✓</span>${l.code} / ${l.name}</div>`).join('');
+  document.getElementById('il-cat1').innerHTML='<option value="">All</option>'+[...new Set(IL_DATA.map(r=>r.cat1))].map(c=>`<option>${c}</option>`).join('');
+  ilBpChange();ilCat1Change();
+  ['il-brand','il-bp','il-cat1','il-cat2','il-rpp'].forEach(id=>{const s=document.getElementById(id);csBuild(s);csRefresh(s);});
+  ilInited=true;ilSearch();
+}
+function ilBpChange(){
+  const bp=document.getElementById('il-bp').value;
+  document.getElementById('ilStore-dropdown').innerHTML=LG_STORES.filter(s=>!bp||s.bp===bp).map(s=>`<div class="dd-item" onclick="selectMulti('ilStore',this)" data-val="${s.code}"><span class="check-ico">✓</span>${s.code} / ${s.name}</div>`).join('');
+  document.getElementById('ilStore-trigger').textContent='Store (All)';
+}
+// Category 2 options follow Category 1
+function ilCat1Change(){
+  const c1=document.getElementById('il-cat1').value,el=document.getElementById('il-cat2');
+  el.innerHTML='<option value="">All</option>'+[...new Set(IL_DATA.filter(r=>!c1||r.cat1===c1).map(r=>r.cat2))].sort().map(c=>`<option>${c}</option>`).join('');
+  csRefresh(el);
+}
+function ilSearch(){
+  const v=id=>document.getElementById(id).value,multi=id=>[...document.querySelectorAll('#'+id+'-dropdown .dd-item.selected')].map(el=>el.dataset.val);
+  const bp=v('il-bp'),stores=multi('ilStore'),locs=multi('ilLoc'),c1=v('il-cat1'),c2=v('il-cat2'),kw=v('il-kw').trim().toLowerCase();
+  if(kw&&kw.length<2) return showToast('Search','Please enter at least 2 characters.','error');
+  ilRows=IL_DATA.filter(r=>(!bp||r.store.bp===bp)&&(!stores.length||stores.includes(r.store.code))&&(!locs.length||locs.includes(r.loc.code))&&(!c1||r.cat1===c1)&&(!c2||r.cat2===c2)
+    &&(!kw||[LG_BPS[r.store.bp],r.store.code,r.store.name,r.product.code,r.product.name,r.product.barcode].some(x=>x.toLowerCase().includes(kw))));
+  PAGERS.il.page=1;ilRenderPage();
+}
+function ilReset(){
+  ['ilStore','ilLoc'].forEach(k=>document.querySelectorAll('#'+k+'-dropdown .dd-item.selected').forEach(el=>el.classList.remove('selected')));
+  document.getElementById('ilLoc-trigger').textContent='Location (All)';
+  ['il-brand','il-bp','il-cat1'].forEach(id=>{const s=document.getElementById(id);s.selectedIndex=0;csRefresh(s);});
+  ilBpChange();ilCat1Change();document.getElementById('il-kw').value='';ilSearch();
+}
+function ilRenderPage(){
+  document.getElementById('il-total').textContent=ilRows.length;
+  const [s,e]=pgRange('il',ilRows.length),q=v=>`<td class="tr qty${v?'':' zero'}">${v.toLocaleString('en-US')}</td>`;
+  const two=(c,n)=>`<div class="il-c">${c}</div><div class="il-n">${n}</div>`;
+  document.getElementById('il-body').innerHTML=ilRows.length?ilRows.slice(s,e).map(r=>`<tr><td>${LG_BPS[r.store.bp]}</td>
+    <td class="tl">${two(r.store.code,r.store.name)}</td><td class="tl">${two(r.loc.code,r.loc.name)}</td>
+    <td class="tl"><div class="il-c">${r.product.code} <span class="il-pn">${r.product.name}</span></div><div class="il-n">${r.product.barcode}</div></td>
+    <td class="tl">${r.cat1} <span class="il-sep">›</span> ${r.cat2}</td><td>${r.collection}</td>
+    ${q(r.onHand).replace('class="tr qty','class="tr qty il-first')}${q(r.reserved)}${q(r.adj)}<td class="tr qty il-avail${r.available<=0?' neg':''}">${r.available.toLocaleString('en-US')}</td>${q(r.incoming)}</tr>`).join('')
+    :'<tr><td colspan="11" class="dp-empty">No data found.</td></tr>';
+}
+function ilExport(){
+  if(typeof XLSX==='undefined') return showToast('Excel Export','Excel library failed to load. Check network and reload.','error');
+  if(!ilRows.length) return showToast('Excel Export','No data to export.','error');
+  const aoa=[['BP Information','Store Information','Location Information','Product Code','Product Name','Barcode','Product Category 1','Product Category 2','Collection','On-hand Qty','Outbound Pending Qty','Adjustment Pending Qty','Available Qty','Pending Inbound']];
+  ilRows.forEach(r=>aoa.push([LG_BPS[r.store.bp],r.store.code+' / '+r.store.name,r.loc.code+' / '+r.loc.name,r.product.code,r.product.name,r.product.barcode,r.cat1,r.cat2,r.collection,r.onHand,r.reserved,r.adj,r.available,r.incoming]));
+  const ws=XLSX.utils.aoa_to_sheet(aoa),wb=XLSX.utils.book_new();XLSX.utils.book_append_sheet(wb,ws,'Inventory List');
+  const d=new Date(),p=n=>String(n).padStart(2,'0'),fn='Inventory_List_'+d.getFullYear()+p(d.getMonth()+1)+p(d.getDate())+'_'+p(d.getHours())+p(d.getMinutes())+'.xlsx';
+  XLSX.writeFile(wb,fn);showToast('Excel Export',fn+' — '+(aoa.length-1)+' rows');
+}
+
 // ===== Hash Router =====
 // Request No. (prototype-only id used in URL)
 let nextReqNo=REQUEST_DATA.length+1;
@@ -5238,7 +5622,13 @@ const MENU_PAGES={
   '/rx/prescription-review':{bc:['RX (Lens)'],title:'Rx Prescription Review',open:['rx']},
   '/rx/work-management':{bc:['RX (Lens)'],title:'Rx Work Management',open:['rx']},
   '/inventory/inbound':{bc:['Inventory'],title:'Inbound List',open:['inv']},
-  '/inventory/snapshot':{bc:['Inventory'],title:'Inventory Snapshot',open:['inv']},
+  '/inventory/outbound-order':{bc:['Inventory'],title:'Outbound Order List',open:['inv']},
+  '/inventory/movement':{bc:['Inventory'],title:'Inventory Movement',open:['inv']},
+  '/inventory/monitoring/inventory-list':{bc:['Inventory','Monitoring'],title:'Inventory List',open:['inv','inv-mon'],view:'il-view',onEnter:()=>ilEnter()},
+  '/inventory/monitoring/inventory-ledger':{bc:['Inventory','Monitoring'],title:'Inventory Ledger',open:['inv','inv-mon'],view:'lg-view',onEnter:()=>lgEnter()},
+  '/inventory/monitoring/snapshot':{bc:['Inventory','Monitoring'],title:'Inventory Snapshot',open:['inv','inv-mon']},
+  '/inventory/monitoring/snapshot-wh':{bc:['Inventory','Monitoring'],title:'Inventory Snapshot (WH)',open:['inv','inv-mon']},
+  '/inventory/monitoring/in-out-history':{bc:['Inventory','Monitoring'],title:'Inventory In/Out History',open:['inv','inv-mon']},
   '/report/report-board':{bc:['Global Report'],title:'Report Board',open:['rpt']},
   '/store/offline-name-tag':{bc:['Store Management'],title:'Offline Name Tag',open:['store']},
   '/system/account/employee-account':{bc:['System Setting','Account'],title:'Employee Account',open:['sys','sys-account']},
@@ -5249,7 +5639,7 @@ const MENU_PAGES={
   '/system/inventory/location-code':{bc:['System Setting','Inventory'],title:'Location Code',open:['sys','sys-inventory']}
 };
 // Renamed menus: old path -> new path (keeps shared links working)
-const ROUTE_ALIASES={'/master/price/discount-price':'/master/price/store-customer-price','/order/return-list':'/order/refund-list'};
+const ROUTE_ALIASES={'/master/price/discount-price':'/master/price/store-customer-price','/order/return-list':'/order/refund-list','/inventory/snapshot':'/inventory/monitoring/snapshot'};
 let isRouting=false;
 function listRoute(){return '#/inventory/outbound'+(currentTab==='request'?'?tab=request':'');}
 // Update URL on user navigation (skipped while the router itself is rendering)
