@@ -876,6 +876,42 @@ table.grid td input[type="checkbox"]:disabled{opacity:0.35;cursor:not-allowed;}
 .rd-index .nv{width:16px;height:16px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
 .rd-index .nv svg{width:16px;height:16px;fill:#bbb;}
 .rd-index li.nav:hover .nv svg{fill:#ff6b35;}
+/* ===== Order > Order List / Refund List (production layout: labels above, inline filters) ===== */
+.ol-quick{display:flex;gap:4px;margin-left:8px;}
+.ol-quick button{height:32px;padding:0 12px;border:1px solid #d5d5d5;border-radius:4px;background:#fff;font-size:11px;font-weight:500;color:#555;cursor:pointer;}
+.ol-quick button:hover{background:#f7f7f7;}
+.ol-quick button.on{border-color:#ff6b35;color:#ff6b35;background:#FFF5EF;}
+table.grid th.ol-sort{cursor:pointer;user-select:none;}
+table.grid th.ol-sort .arr{display:inline-block;margin-left:10px;transition:transform .15s;}
+table.grid th.ol-sort.asc .arr{transform:rotate(180deg);}
+.ol-no{color:#ff6b35;font-weight:600;cursor:pointer;}
+.ol-no:hover{text-decoration:underline;}
+.ol-no-sub{font-size:11px;color:#333;margin-top:2px;}
+.ol-pill{display:inline-block;min-width:92px;padding:6px 14px;border-radius:999px;font-size:10px;font-weight:600;color:#fff;letter-spacing:.3px;text-align:center;}
+.ol-pill.COMPLETED{background:#4a7c4e;}.ol-pill.CONFIRMED{background:#5b8bd0;}.ol-pill.PENDING{background:#e6a23c;}
+.ol-pill.FULFILLED{background:#3a9b9b;}.ol-pill.CANCELED{background:#9e9e9e;}
+.ol-pill.REFUND{background:#c9534f;}.ol-pill.EXCHANGE{background:#7b61c4;}.ol-pill.FORCE_REFUND{background:#8d3a37;}
+/* detail modal */
+#ol-modal .modal-box{width:1000px;max-width:94vw;max-height:90vh;display:flex;flex-direction:column;border-radius:10px;}
+#ol-modal .modal-header{padding:22px 28px;}
+#ol-modal .modal-body{padding:24px 28px 28px;max-height:none;overflow-y:auto;}
+.ol-mt{display:flex;align-items:center;gap:12px;font-size:18px;font-weight:700;color:#222;}
+.ol-mt .no{color:#ff6b35;}
+.ol-mt .ol-pill{min-width:0;font-size:11px;padding:7px 20px;}
+.ol-sec{display:flex;align-items:center;gap:8px;font-size:14px;font-weight:700;color:#222;margin:4px 0 12px;}
+.ol-sec svg{width:18px;height:18px;fill:none;stroke:#555;stroke-width:1.8;}
+.ol-info{display:flex;gap:40px;background:#f8f9fa;border:1px solid #eee;border-radius:8px;padding:16px 20px;margin-bottom:24px;}
+.ol-info .k{font-size:11px;color:#777;margin-bottom:6px;}
+.ol-info .v{font-size:13px;color:#222;}
+.ol-ptbl{width:100%;border-collapse:collapse;font-size:12px;}
+.ol-ptbl th{background:#FFF8F2;font-weight:500;color:#333;padding:14px 10px;text-align:center;}
+.ol-ptbl th.l,.ol-ptbl td.l{text-align:left;padding-left:12px;}
+.ol-ptbl td{padding:10px;border-bottom:1px solid #eee;text-align:center;background:#f5f5f5;color:#222;}
+.ol-ptbl td .c{font-weight:600;}
+.ol-ptbl td .n{font-size:11px;color:#777;margin-top:2px;}
+.ol-ptbl td .b{font-size:11px;color:#999;margin-top:2px;}
+.ol-ptbl tr.tot td{background:#ececec;font-weight:700;border-top:2px solid #ddd;border-bottom:none;}
+.ol-note{font-size:11px;color:#999;margin-top:8px;}
 </style>
 <!-- SheetJS: client-side Excel (.xlsx) export -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
@@ -961,7 +997,7 @@ table.grid td input[type="checkbox"]:disabled{opacity:0.35;cursor:not-allowed;}
   </div>
   <div class="submenu closed" id="sub-order">
     <a class="menu-item depth2" href="#/order/order-list"><span class="menu-text">Order List</span></a>
-    <a class="menu-item depth2" href="#/order/return-list"><span class="menu-text">Return List</span></a>
+    <a class="menu-item depth2" href="#/order/refund-list"><span class="menu-text">Refund List</span></a>
   </div>
 
   <div class="menu-item depth1" onclick="toggle('rx')">
@@ -1456,6 +1492,135 @@ table.grid td input[type="checkbox"]:disabled{opacity:0.35;cursor:not-allowed;}
     </div>
   </div>
 
+  <!-- ===== ORDER LIST / REFUND LIST (Order) — one template, prefix ol / rl ===== -->
+  <div class="detail-view" id="ol-view">
+    <!-- SEARCH (same UI as Daily Record View search) -->
+    <div class="search-box">
+      <table class="search-table">
+        <tr>
+          <th>BP</th>
+          <td><div class="field-row"><div class="multi-select-wrap">
+            <div class="multi-select-trigger" id="olBp-trigger" onclick="toggleMulti('olBp')" style="min-width:360px;">BP (All)</div>
+            <div class="multi-select-dropdown hidden" id="olBp-dropdown"></div>
+          </div></div></td>
+        </tr>
+        <tr>
+          <th>Store</th>
+          <td><div class="field-row"><div class="multi-select-wrap">
+            <div class="multi-select-trigger disabled" id="olStore-trigger" style="min-width:360px;">Select BP first</div>
+            <div class="multi-select-dropdown hidden" id="olStore-dropdown"></div>
+          </div></div></td>
+        </tr>
+        <tr>
+          <th>Order Status</th>
+          <td><div class="field-row"><div class="multi-select-wrap">
+            <div class="multi-select-trigger" id="olStatus-trigger" onclick="toggleMulti('olStatus')" style="min-width:360px;">Order Status (All)</div>
+            <div class="multi-select-dropdown hidden" id="olStatus-dropdown"></div>
+          </div></div></td>
+        </tr>
+        <tr>
+          <th>Currency</th>
+          <td><div class="field-row"><div class="field-inline"><select id="ol-cur" style="min-width:360px;"></select></div></div></td>
+        </tr>
+        <tr>
+          <th>Order Date</th>
+          <td><div class="field-row">
+            <div class="field-inline"><input type="date" id="ol-from" style="min-width:170px;" onchange="olQuickClear('ol')"></div>
+            <span style="color:#999;font-size:13px;">~</span>
+            <div class="field-inline"><input type="date" id="ol-to" style="min-width:170px;" onchange="olQuickClear('ol')"></div>
+            <div class="ol-quick" id="ol-quick"><button data-d="0" onclick="olQuick('ol',0)">TODAY</button><button data-d="7" onclick="olQuick('ol',7)">1 WEEK</button><button data-d="30" onclick="olQuick('ol',30)">1 MONTH</button><button data-d="90" onclick="olQuick('ol',90)">3 MONTHS</button></div>
+          </div></td>
+        </tr>
+        <tr>
+          <th>Keyword<br><span style="font-weight:400;font-size:10px;color:#999;">Order No., Store Code, Store Name</span></th>
+          <td><div class="field-row"><div class="field-inline" style="flex:1;max-width:360px;">
+            <input type="text" id="ol-kw" placeholder="Please enter at least 2 characters" style="width:100%;" onkeydown="if(event.key==='Enter')olSearch('ol')">
+          </div></div></td>
+        </tr>
+      </table>
+      <div class="search-action">
+        <button class="btn-reset" onclick="olReset('ol')"><svg width="14" height="14" viewBox="0 0 24 24" fill="#555"><path d="M17.65 6.35C16.2 4.9 14.21 4 12 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08c-.82 2.33-3.04 4-5.65 4-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"/></svg>Reset</button>
+        <button class="btn-search" onclick="olSearch('ol')"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><use href="#i-search"/></svg>Search</button>
+      </div>
+    </div>
+    <div class="table-box">
+      <div class="table-toolbar">
+        <div class="table-toolbar-left">Total <b id="ol-total">0</b> Count</div>
+        <div class="table-toolbar-right"><button class="btn-action btn-outline" onclick="olExport('ol')"><svg width="14" height="14" viewBox="0 0 24 24" fill="#555"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>Excel Export</button></div>
+      </div>
+      <div class="grid-wrap"><table class="grid"><thead id="ol-head"></thead><tbody id="ol-body"></tbody></table></div>
+      <div class="pg-bar">
+        <div class="rpp"><span>Rows per page:</span><select id="ol-rpp" style="width:72px;" onchange="pgState('ol').page=1;olRenderPage('ol');"><option value="30" selected>30</option><option value="50">50</option><option value="100">100</option><option value="300">300</option></select></div>
+        <span id="ol-range">0–0 of 0</span>
+        <div class="pg-nav"><button class="pg-btn" id="ol-prev" onclick="pgGo('ol',-1)"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg></button><button class="pg-btn" id="ol-next" onclick="pgGo('ol',1)"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg></button></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="detail-view" id="rl-view">
+    <!-- SEARCH (same UI as Daily Record View search) -->
+    <div class="search-box">
+      <table class="search-table">
+        <tr>
+          <th>BP</th>
+          <td><div class="field-row"><div class="multi-select-wrap">
+            <div class="multi-select-trigger" id="rlBp-trigger" onclick="toggleMulti('rlBp')" style="min-width:360px;">BP (All)</div>
+            <div class="multi-select-dropdown hidden" id="rlBp-dropdown"></div>
+          </div></div></td>
+        </tr>
+        <tr>
+          <th>Store</th>
+          <td><div class="field-row"><div class="multi-select-wrap">
+            <div class="multi-select-trigger disabled" id="rlStore-trigger" style="min-width:360px;">Select BP first</div>
+            <div class="multi-select-dropdown hidden" id="rlStore-dropdown"></div>
+          </div></div></td>
+        </tr>
+        <tr>
+          <th>Refund Type</th>
+          <td><div class="field-row"><div class="multi-select-wrap">
+            <div class="multi-select-trigger" id="rlStatus-trigger" onclick="toggleMulti('rlStatus')" style="min-width:360px;">Refund Type (All)</div>
+            <div class="multi-select-dropdown hidden" id="rlStatus-dropdown"></div>
+          </div></div></td>
+        </tr>
+        <tr>
+          <th>Currency</th>
+          <td><div class="field-row"><div class="field-inline"><select id="rl-cur" style="min-width:360px;"></select></div></div></td>
+        </tr>
+        <tr>
+          <th>Refund Date</th>
+          <td><div class="field-row">
+            <div class="field-inline"><input type="date" id="rl-from" style="min-width:170px;" onchange="olQuickClear('rl')"></div>
+            <span style="color:#999;font-size:13px;">~</span>
+            <div class="field-inline"><input type="date" id="rl-to" style="min-width:170px;" onchange="olQuickClear('rl')"></div>
+            <div class="ol-quick" id="rl-quick"><button data-d="0" onclick="olQuick('rl',0)">TODAY</button><button data-d="7" onclick="olQuick('rl',7)">1 WEEK</button><button data-d="30" onclick="olQuick('rl',30)">1 MONTH</button><button data-d="90" onclick="olQuick('rl',90)">3 MONTHS</button></div>
+          </div></td>
+        </tr>
+        <tr>
+          <th>Keyword<br><span style="font-weight:400;font-size:10px;color:#999;">Refund No., Original Order No.,<br>Store Code, Store Name</span></th>
+          <td><div class="field-row"><div class="field-inline" style="flex:1;max-width:360px;">
+            <input type="text" id="rl-kw" placeholder="Please enter at least 2 characters" style="width:100%;" onkeydown="if(event.key==='Enter')olSearch('rl')">
+          </div></div></td>
+        </tr>
+      </table>
+      <div class="search-action">
+        <button class="btn-reset" onclick="olReset('rl')"><svg width="14" height="14" viewBox="0 0 24 24" fill="#555"><path d="M17.65 6.35C16.2 4.9 14.21 4 12 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08c-.82 2.33-3.04 4-5.65 4-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"/></svg>Reset</button>
+        <button class="btn-search" onclick="olSearch('rl')"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><use href="#i-search"/></svg>Search</button>
+      </div>
+    </div>
+    <div class="table-box">
+      <div class="table-toolbar">
+        <div class="table-toolbar-left">Total <b id="rl-total">0</b> Count</div>
+        <div class="table-toolbar-right"><button class="btn-action btn-outline" onclick="olExport('rl')"><svg width="14" height="14" viewBox="0 0 24 24" fill="#555"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>Excel Export</button></div>
+      </div>
+      <div class="grid-wrap"><table class="grid"><thead id="rl-head"></thead><tbody id="rl-body"></tbody></table></div>
+      <div class="pg-bar">
+        <div class="rpp"><span>Rows per page:</span><select id="rl-rpp" style="width:72px;" onchange="pgState('rl').page=1;olRenderPage('rl');"><option value="30" selected>30</option><option value="50">50</option><option value="100">100</option><option value="300">300</option></select></div>
+        <span id="rl-range">0–0 of 0</span>
+        <div class="pg-nav"><button class="pg-btn" id="rl-prev" onclick="pgGo('rl',-1)"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg></button><button class="pg-btn" id="rl-next" onclick="pgGo('rl',1)"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg></button></div>
+      </div>
+    </div>
+  </div>
+
   <!-- ===== STORE CUSTOMER PRICE VIEW (Master > Price > Store Customer Price) ===== -->
   <div class="detail-view" id="dp-view">
     <!-- SEARCH (same UI as Outbound List search) -->
@@ -1863,6 +2028,12 @@ table.grid td input[type="checkbox"]:disabled{opacity:0.35;cursor:not-allowed;}
     </div>
   </div>
 
+  <!-- ORDER / REFUND DETAIL MODAL -->
+  <div class="modal-overlay" id="ol-modal" onclick="if(event.target===this)this.classList.remove('show')">
+    <div class="modal-box"><div class="modal-header"><div class="ol-mt" id="ol-modal-title"></div><button class="modal-close" onclick="document.getElementById('ol-modal').classList.remove('show')">&times;</button></div>
+      <div class="modal-body" id="ol-modal-body"></div></div>
+  </div>
+
   <!-- STATUS HISTORY MODAL -->
   <div class="modal-overlay" id="status-history-modal" onclick="if(event.target===this)this.classList.remove('show');">
     <div class="modal-box">
@@ -2063,7 +2234,7 @@ function selectMulti(id,el){
   el.classList.toggle('selected');
   const sel=[...document.querySelectorAll('#'+id+'-dropdown .dd-item.selected')];
   const t=document.getElementById(id+'-trigger');
-  const labels={bp:'BP',fromStore:'From Store',toStore:'To Store',dpBrand:'Brand',dpStore:'Store',drvBp:'BP',drvStore:'Store',psvBp:'BP',psvStore:'Store',prsvBp:'BP',prsvStore:'Store'};
+  const labels={olBp:'BP',olStore:'Store',olStatus:'Order Status',rlBp:'BP',rlStore:'Store',rlStatus:'Refund Type',bp:'BP',fromStore:'From Store',toStore:'To Store',dpBrand:'Brand',dpStore:'Store',drvBp:'BP',drvStore:'Store',psvBp:'BP',psvStore:'Store',prsvBp:'BP',prsvStore:'Store'};
   if(!sel.length) t.textContent=labels[id]+' (All)';
   else if(sel.length===1) t.textContent=sel[0].textContent.replace('✓','').trim();
   else t.textContent=sel[0].textContent.replace('✓','').trim()+' +'+(sel.length-1);
@@ -2071,6 +2242,7 @@ function selectMulti(id,el){
   if(id==='drvBp') refreshDrvStores();
   if(id==='psvBp') refreshPsvStores();
   if(id==='prsvBp') refreshPrsvStores();
+  if(id==='olBp'||id==='rlBp') olBpChange(id.slice(0,2));
 }
 document.addEventListener('click',e=>{document.querySelectorAll('.multi-select-dropdown').forEach(dd=>{if(!dd.parentElement.contains(e.target))dd.classList.add('hidden');});});
 
@@ -2487,6 +2659,7 @@ function showListView(){
   document.getElementById('prsv-view').classList.remove('active');
   document.getElementById('sp-view').classList.remove('active');
   document.getElementById('home-view').classList.remove('active');
+  ['ol-view','rl-view'].forEach(id=>document.getElementById(id).classList.remove('active'));
   document.getElementById('list-view').classList.remove('hidden');
   document.getElementById('detail-view').classList.remove('active');
   document.getElementById('ob-detail-view').classList.remove('active');
@@ -4864,6 +5037,168 @@ function rxEnter(orderId){
   if(d) rdEnter(d); else rxRenderList();  // list: refresh (approval may have changed in detail)
 }
 
+// ===== Order > Order List / Refund List =====
+// Dummy data in production format (online / AU stores). Prices include VAT: Net = Total / 1.1, VAT = Total - Net
+const OL_BPS={C1002:'C1002 / GM_미국법인',C1010:'C1010 / GM_호주법인'};
+const OL_STORES=[
+  {code:'US1004',name:'GM_ONLINE_USA_Official',bp:'C1002',tz:'PST',cur:'USD',fmt:'online'},
+  {code:'US1001',name:'GM_LosAngeles_FS_Downtown',bp:'C1002',tz:'PST',cur:'USD',fmt:'sl'},
+  {code:'AU1003',name:'GM_ONLINE_Australia_DJ',bp:'C1010',tz:'UTC',cur:'AUD',fmt:'sl'},
+  {code:'AU1002',name:'GM_Sydney_MALL_DJ',bp:'C1010',tz:'AET_SYD',cur:'AUD',fmt:'sl'},
+  {code:'AU1004',name:'GM_Melbourne_MALL_Chadstone',bp:'C1010',tz:'AET_SYD',cur:'AUD',fmt:'sl'}
+];
+const OL_STATUS=['PENDING','CONFIRMED','FULFILLED','COMPLETED','CANCELED'];
+const RL_TYPES=['REFUND','EXCHANGE','FORCE_REFUND'];
+const OL_PKG={code:'11500340',name:'2025 PACKAGE SET(SUN)',barcode:'8809983943661'};
+const OL_LOCS={SALES:'1000 / SALES',DP:'1200 / DP',HOLDING:'1300 / HOLDING'};
+const olR2=n=>Math.round(n*100)/100;
+// line amounts: unit price incl. VAT x qty
+function olLine(it){const total=it.price*it.qty,net=olR2(total/1.1);return {total,net,vat:olR2(total-net),unit:it.qty?olR2(net/it.qty):0};}
+const olIsPkg=it=>it.code===OL_PKG.code;
+const OL_DATA=(()=>{
+  let seed=11;const rnd=()=>(seed=(seed*16807)%2147483647)/2147483647,pick=a=>a[Math.floor(rnd()*a.length)];
+  const A='0123456789ABCDEFGHJKLMNPQRSTUVWXYZ',code=n=>Array.from({length:n},()=>pick(A)).join(''),pad=n=>String(n).padStart(2,'0');
+  const prices=[335,345,375,385,395,425,455];
+  const today=new Date();today.setHours(0,0,0,0);
+  const orders=[],refunds=[];
+  for(let i=0;i<150;i++){
+    const s=pick([OL_STORES[0],OL_STORES[0],OL_STORES[0],OL_STORES[2],OL_STORES[2],OL_STORES[1],OL_STORES[3],OL_STORES[4]]);
+    const d=new Date(today);d.setDate(d.getDate()-Math.floor(rnd()*100));
+    const ymd=d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate()),hh=pad(Math.floor(rnd()*24)),mi=pad(Math.floor(rnd()*60)),ss=pad(Math.floor(rnd()*60));
+    const yymmdd=ymd.slice(2).replace(/-/g,'');
+    const no=s.fmt==='online'?yymmdd+'0RS'+code(10):'SL'+s.code+yymmdd+hh+mi+ss+code(5);
+    // items: frame(s) + mapped package per frame (price 0)
+    const items=[];
+    [...PRODUCT_MASTER].sort(()=>rnd()-0.5).slice(0,1+(rnd()<0.3?1:0)).forEach(p=>{
+      const qty=rnd()<0.85?1:2;items.push({code:p.code,name:p.name,barcode:p.barcode,qty,price:pick(prices),cancelQty:0});
+      items.push({...OL_PKG,qty,price:0,cancelQty:0});
+    });
+    const age=(today-d)/864e5,status=age<2?pick(['PENDING','CONFIRMED']):age<6?pick(['CONFIRMED','CONFIRMED','FULFILLED']):pick(['COMPLETED','COMPLETED','COMPLETED','CANCELED','FULFILLED']);
+    if(status==='CANCELED') items.forEach(it=>it.cancelQty=it.qty);
+    else if(status==='COMPLETED'&&items.length>2&&rnd()<0.4){items[2].cancelQty=items[2].qty;items[3].cancelQty=items[3].qty;}  // partial cancel (frame + its package)
+    const o={no,date:ymd,dateTime:ymd+' '+hh+':'+mi+' ('+s.tz+')',status,store:s,loc:OL_LOCS.SALES,items};
+    orders.push(o);
+    // Refunds: part of completed orders, a few days after the order
+    if((status==='COMPLETED'||status==='FULFILLED')&&rnd()<0.55){
+      const rd=new Date(d);rd.setDate(rd.getDate()+1+Math.floor(rnd()*5));if(rd>today) rd.setTime(today.getTime());
+      const rymd=rd.getFullYear()+'-'+pad(rd.getMonth()+1)+'-'+pad(rd.getDate()),rh=pad(Math.floor(rnd()*24)),rm=pad(Math.floor(rnd()*60)),rs=pad(Math.floor(rnd()*60));
+      // Inbound location of refunded items (usually SALES; some to HOLDING / DP)
+      const loc=rnd()<0.85?OL_LOCS.SALES:pick([OL_LOCS.HOLDING,OL_LOCS.DP]);
+      const ritems=items.filter(it=>it.qty>it.cancelQty).slice(0,2).map(it=>({...it,qty:it.qty-it.cancelQty,store:s,loc}));
+      refunds.push({no:'RF'+s.code+rymd.slice(2).replace(/-/g,'')+rh+rm+rs+code(5),orderNo:no,type:pick(['REFUND','REFUND','REFUND','REFUND','EXCHANGE','FORCE_REFUND']),
+        date:rymd,dateTime:rymd+' '+rh+':'+rm+' ('+s.tz+')',store:s,loc,items:ritems});
+    }
+  }
+  return {ol:orders,rl:refunds};
+})();
+const OL_CFG={
+  ol:{statusKey:'status',statusOpts:OL_STATUS,statusLabel:'Order Status',dateLabel:'Order Date',
+    head:['Order Date','Status','Order No. #','Store Information','Location Information','Currency','Total Qty','Total'],
+    kw:r=>[r.no,r.store.code,r.store.name]},
+  rl:{statusKey:'type',statusOpts:RL_TYPES,statusLabel:'Refund Type',dateLabel:'Refund Date',
+    head:['Refund Date','Refund Type','Refund No. #','Original Order No. #','Store Information','Location','Currency','Total Qty','Total'],
+    kw:r=>[r.no,r.orderNo,r.store.code,r.store.name]}
+};
+const OL_STATE={ol:{rows:[],asc:false,inited:false},rl:{rows:[],asc:false,inited:false}};
+PAGERS.ol={render:()=>olRenderPage('ol')};PAGERS.rl={render:()=>olRenderPage('rl')};
+// Total Qty excludes package items (same as production)
+const olQty=r=>r.items.filter(it=>!olIsPkg(it)).reduce((a,it)=>a+it.qty,0);
+const olTotal=r=>r.items.reduce((a,it)=>a+olLine(it).total,0);
+const olPillLabel=v=>v.replace('_',' ');
+function olEnter(p){
+  const st=OL_STATE[p];
+  if(!st.inited){
+    document.getElementById(p+'Bp-dropdown').innerHTML=Object.entries(OL_BPS).map(([c,n])=>`<div class="dd-item" onclick="selectMulti('${p}Bp',this)" data-val="${c}"><span class="check-ico">✓</span>${n}</div>`).join('');
+    document.getElementById(p+'-cur').innerHTML='<option value="">All</option>'+[...new Set(OL_STORES.map(s=>s.cur))].map(c=>`<option>${c}</option>`).join('');
+    document.getElementById(p+'Status-dropdown').innerHTML=OL_CFG[p].statusOpts.map(v=>`<div class="dd-item" onclick="selectMulti('${p}Status',this)" data-val="${v}"><span class="check-ico">✓</span>${olPillLabel(v)}</div>`).join('');
+    [p+'-cur',p+'-rpp'].forEach(id=>{const s=document.getElementById(id);csBuild(s);csRefresh(s);});
+    olQuick(p,30,true);st.inited=true;olSearch(p);
+  }
+}
+function olBpChange(p){
+  const bps=[...document.querySelectorAll('#'+p+'Bp-dropdown .dd-item.selected')].map(el=>el.dataset.val),trg=document.getElementById(p+'Store-trigger'),dd=document.getElementById(p+'Store-dropdown');
+  if(!bps.length){trg.textContent='Select BP first';trg.classList.add('disabled');trg.removeAttribute('onclick');dd.innerHTML='';dd.classList.add('hidden');return;}
+  dd.innerHTML=OL_STORES.filter(s=>bps.includes(s.bp)).map(s=>`<div class="dd-item" onclick="selectMulti('${p}Store',this)" data-val="${s.code}"><span class="check-ico">✓</span>${s.code} / ${s.name}</div>`).join('');
+  trg.textContent='Store (All)';trg.classList.remove('disabled');trg.setAttribute('onclick',"toggleMulti('"+p+"Store')");
+}
+function olYmd(d){const p=n=>String(n).padStart(2,'0');return d.getFullYear()+'-'+p(d.getMonth()+1)+'-'+p(d.getDate());}
+function olQuick(p,days,silent){
+  const t=new Date(),f=new Date();f.setDate(t.getDate()-days);
+  document.getElementById(p+'-from').value=olYmd(f);document.getElementById(p+'-to').value=olYmd(t);
+  document.querySelectorAll('#'+p+'-quick button').forEach(b=>b.classList.toggle('on',+b.dataset.d===days));
+}
+function olReset(p){
+  ['Bp','Status'].forEach(k=>document.querySelectorAll('#'+p+k+'-dropdown .dd-item.selected').forEach(el=>el.classList.remove('selected')));
+  document.getElementById(p+'Bp-trigger').textContent='BP (All)';document.getElementById(p+'Status-trigger').textContent=OL_CFG[p].statusLabel+' (All)';
+  olBpChange(p);
+  const c=document.getElementById(p+'-cur');c.selectedIndex=0;csRefresh(c);
+  document.getElementById(p+'-kw').value='';olQuick(p,30);olSearch(p);
+}
+function olQuickClear(p){document.querySelectorAll('#'+p+'-quick button').forEach(b=>b.classList.remove('on'));}
+function olSearch(p){
+  const v=id=>document.getElementById(p+id).value,multi=id=>[...document.querySelectorAll('#'+p+id+'-dropdown .dd-item.selected')].map(el=>el.dataset.val);
+  const from=v('-from'),to=v('-to'),kw=v('-kw').trim().toLowerCase(),bps=multi('Bp'),cur=v('-cur'),stores=multi('Store'),stats=multi('Status'),cfg=OL_CFG[p];
+  if(from&&to&&from>to) return showToast('Search',cfg.dateLabel+': start date must be before end date.','error');
+  if(kw&&kw.length<2) return showToast('Search','Please enter at least 2 characters.','error');
+  OL_STATE[p].rows=OL_DATA[p].filter(r=>(!bps.length||bps.includes(r.store.bp))&&(!stores.length||stores.includes(r.store.code))&&(!stats.length||stats.includes(r[cfg.statusKey]))
+    &&(!cur||r.store.cur===cur)&&(!from||r.date>=from)&&(!to||r.date<=to)&&(!kw||cfg.kw(r).some(x=>x.toLowerCase().includes(kw))));
+  PAGERS[p].page=1;olRenderHead(p);olRenderPage(p);
+}
+function olRenderHead(p){
+  const st=OL_STATE[p],h=OL_CFG[p].head;
+  document.getElementById(p+'-head').innerHTML='<tr class="hdr">'+h.map((t,i)=>i===0?`<th class="ol-sort${st.asc?' asc':''}" style="min-width:180px;" onclick="OL_STATE['${p}'].asc=!OL_STATE['${p}'].asc;olRenderHead('${p}');olRenderPage('${p}')">${t}<span class="arr">↓</span></th>`:`<th>${t}</th>`).join('')+'</tr>';
+}
+function olRenderPage(p){
+  const st=OL_STATE[p],rows=[...st.rows].sort((a,b)=>(st.asc?1:-1)*((a.date+a.dateTime.slice(11,16)).localeCompare(b.date+b.dateTime.slice(11,16))));
+  document.getElementById(p+'-total').textContent=rows.length;
+  const [s,e]=pgRange(p,rows.length),n=OL_CFG[p].head.length;
+  document.getElementById(p+'-body').innerHTML=rows.length?rows.slice(s,e).map(r=>{
+    const idx=OL_DATA[p].indexOf(r),store=r.store.code+' / '+r.store.name;
+    const noCell=p==='ol'?`<div class="ol-no" onclick="olOpen('ol',${idx})">${r.no}</div><div class="ol-no-sub">(${r.no})</div>`
+      :`<div class="ol-no" onclick="olOpen('rl',${idx})">${r.orderNo}</div><div class="ol-no-sub">(${r.no})</div>`;
+    return `<tr onclick="olOpen('${p}',${idx})"><td>${r.dateTime}</td><td><span class="ol-pill ${r[OL_CFG[p].statusKey]}">${olPillLabel(r[OL_CFG[p].statusKey])}</span></td>
+      <td onclick="event.stopPropagation()">${noCell}</td>${p==='rl'?`<td>${r.orderNo}</td>`:''}<td>${store}</td><td>${r.loc}</td><td>${r.store.cur}</td><td>${olQty(r)}</td><td>${fmtAmt2(olTotal(r))}</td></tr>`;
+  }).join(''):`<tr><td colspan="${n}" class="dp-empty">No data found.</td></tr>`;
+}
+// ----- Detail modal -----
+const OL_ICON_INFO='<svg viewBox="0 0 24 24" stroke-linecap="round"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 8h8M8 12h8M8 16h5"/></svg>';
+const OL_ICON_BAG='<svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M6 7h12l1 14H5z"/><path d="M9 10V6a3 3 0 0 1 6 0v4"/></svg>';
+function olOpen(p,idx){
+  const r=OL_DATA[p][idx],o=p==='ol',store=r.store.code+' / '+r.store.name;
+  const status=o?r.status:r.type;
+  document.getElementById('ol-modal-title').innerHTML=`<span class="no">${o?r.no:r.orderNo}</span><span>(${r.no})</span><span class="ol-pill ${status}">${olPillLabel(status)}</span>`;
+  const info=o?[['Order Date',r.dateTime],['Store',store],['Location',r.loc],['Currency',r.store.cur]]:[['Refund Date',r.dateTime],['Store',store],['Currency',r.store.cur]];
+  const sum=r.items.reduce((a,it)=>{const l=olLine(it);a.net+=l.net;a.vat+=l.vat;a.total+=l.total;return a;},{net:0,vat:0,total:0});
+  const cancel=r.items.filter(it=>!olIsPkg(it)).reduce((a,it)=>a+it.cancelQty,0);
+  const prod=it=>`<div class="c">${it.code}</div><div class="n">${it.name}</div>${o?'':`<div class="b">${it.barcode}</div>`}`;
+  const rows=r.items.map(it=>{const l=olLine(it);
+    return o?`<tr><td class="l">${prod(it)}</td><td>${it.qty}</td><td>${it.cancelQty?'-'+it.cancelQty:'-'}</td><td>${fmtAmt2(l.unit)}</td><td>${fmtAmt2(l.net)}</td><td>${fmtAmt2(l.vat)}</td><td>${fmtAmt2(l.total)}</td></tr>`
+      :`<tr><td class="l">${prod(it)}</td><td>${it.store.code} /<br>${it.store.name}</td><td>${it.loc}</td><td>${it.qty}</td><td>${fmtAmt2(l.unit)}</td><td>${fmtAmt2(l.net)}</td><td>${fmtAmt2(l.vat)}</td><td>${fmtAmt2(l.total)}</td></tr>`;}).join('');
+  const tot=o?`<tr class="tot"><td>Total</td><td>${olQty(r)}</td><td>${cancel?'-'+cancel:'-'}</td><td>-</td><td>${fmtAmt2(olR2(sum.net))}</td><td>${fmtAmt2(olR2(sum.vat))}</td><td>${fmtAmt2(sum.total)}</td></tr>`
+    :`<tr class="tot"><td colspan="3">Total</td><td>${olQty(r)}</td><td>-</td><td>${fmtAmt2(olR2(sum.net))}</td><td>${fmtAmt2(olR2(sum.vat))}</td><td>${fmtAmt2(sum.total)}</td></tr>`;
+  document.getElementById('ol-modal-body').innerHTML=`
+    <div class="ol-sec">${OL_ICON_INFO}${o?'Order':'Refund'} Information</div>
+    <div class="ol-info">${info.map(([k,v])=>`<div><div class="k">${k}</div><div class="v">${v}</div></div>`).join('')}</div>
+    <div class="ol-sec">${OL_ICON_BAG}${o?'Product List':'Refund Products'}</div>
+    <table class="ol-ptbl"><thead><tr>${(o?['Product Info','Qty','Cancel Qty','Unit','Net','VAT','Total']:['Product Info','Store','Location Information','Qty','Unit','Net','VAT','Total Price']).map((h,i)=>`<th${i===0?' class="l"':''}>${h}</th>`).join('')}</tr></thead>
+      <tbody>${rows}${tot}</tbody></table>
+    <div class="ol-note">${o?'Total quantity excludes package items.':'Store / Location: where the refunded items were received (inbound). Total quantity excludes package items.'}</div>`;
+  document.getElementById('ol-modal').classList.add('show');
+}
+// ----- Excel export: one row per product line (all pages) -----
+function olExport(p){
+  if(typeof XLSX==='undefined') return showToast('Excel Export','Excel library failed to load. Check network and reload.','error');
+  const st=OL_STATE[p];if(!st.rows.length) return showToast('Excel Export','No data to export.','error');
+  const o=p==='ol',aoa=[o?['Order Date','Status','Order No.','Store','Location','Product Code','Product Name','Qty','Cancel Qty','Currency','Unit','Net','VAT','Total']
+    :['Refund Date','Refund Type','Refund No.','Original Order No.','Store','Location','Product Code','Product Name','Qty','Currency','Unit','Net','VAT','Total']];
+  st.rows.forEach(r=>r.items.forEach(it=>{const l=olLine(it),s=r.store.code+' / '+r.store.name;
+    aoa.push(o?[r.dateTime,r.status,r.no,s,r.loc,it.code,it.name,it.qty,it.cancelQty,r.store.cur,l.unit,l.net,l.vat,l.total]
+      :[r.dateTime,olPillLabel(r.type),r.no,r.orderNo,it.store.code+' / '+it.store.name,it.loc,it.code,it.name,it.qty,r.store.cur,l.unit,l.net,l.vat,l.total]);}));
+  const ws=XLSX.utils.aoa_to_sheet(aoa),wb=XLSX.utils.book_new();XLSX.utils.book_append_sheet(wb,ws,o?'Order List':'Refund List');
+  const d=new Date(),pd=n=>String(n).padStart(2,'0'),fn=(o?'Order_List_':'Refund_List_')+d.getFullYear()+pd(d.getMonth()+1)+pd(d.getDate())+'_'+pd(d.getHours())+pd(d.getMinutes())+'.xlsx';
+  XLSX.writeFile(wb,fn);showToast('Excel Export',fn+' — '+(aoa.length-1)+' rows');
+}
+
 // ===== Hash Router =====
 // Request No. (prototype-only id used in URL)
 let nextReqNo=REQUEST_DATA.length+1;
@@ -4898,8 +5233,8 @@ const MENU_PAGES={
   '/sales/period-sales-view':{bc:['Sales'],title:'Period Sales View',open:['sales'],view:'psv-view',onEnter:()=>psvEnter()},
   '/sales/product-sales-view':{bc:['Sales'],title:'Product Sales View',open:['sales'],view:'prsv-view',onEnter:()=>prsvEnter()},
   '/sales/rx-sales-view':{bc:['Sales'],title:'RX Sales View',open:['sales']},
-  '/order/order-list':{bc:['Order'],title:'Order List',open:['order']},
-  '/order/return-list':{bc:['Order'],title:'Return List',open:['order']},
+  '/order/order-list':{bc:['Order'],title:'Order List',open:['order'],view:'ol-view',onEnter:()=>olEnter('ol')},
+  '/order/refund-list':{bc:['Order'],title:'Refund List',open:['order'],view:'rl-view',onEnter:()=>olEnter('rl')},
   '/rx/prescription-review':{bc:['RX (Lens)'],title:'Rx Prescription Review',open:['rx']},
   '/rx/work-management':{bc:['RX (Lens)'],title:'Rx Work Management',open:['rx']},
   '/inventory/inbound':{bc:['Inventory'],title:'Inbound List',open:['inv']},
@@ -4914,7 +5249,7 @@ const MENU_PAGES={
   '/system/inventory/location-code':{bc:['System Setting','Inventory'],title:'Location Code',open:['sys','sys-inventory']}
 };
 // Renamed menus: old path -> new path (keeps shared links working)
-const ROUTE_ALIASES={'/master/price/discount-price':'/master/price/store-customer-price'};
+const ROUTE_ALIASES={'/master/price/discount-price':'/master/price/store-customer-price','/order/return-list':'/order/refund-list'};
 let isRouting=false;
 function listRoute(){return '#/inventory/outbound'+(currentTab==='request'?'?tab=request':'');}
 // Update URL on user navigation (skipped while the router itself is rendering)

@@ -20,6 +20,8 @@ BO 신규/변경 기능의 기획 검토용 UI 프로토타입입니다. 여러 
 | Outbound Request Detail | `#/inventory/outbound-request/{Request No.}` |
 | Master Information > Price > Discount Price | `#/master/price/discount-price` |
 | Sales > Daily Record View | `#/sales/daily-record-view` |
+| Order > Order List | `#/order/order-list` |
+| Order > Refund List | `#/order/refund-list` (기존 `#/order/return-list` 자동 이동) |
 | Front POS > Front POS Main | `#/pos` |
 | Front POS > Rx Operation List | `#/pos/rx-operation-list` |
 | Front POS > Rx Operation Detail | `#/pos/rx-operation-list/{Order No.}` |
@@ -66,6 +68,14 @@ BO 신규/변경 기능의 기획 검토용 UI 프로토타입입니다. 여러 
 - **검색 필터**: BP, Store (BP 선택 후 활성화), Sales Type, Currency, Sales Date (기간), Keyword (Receipt No., Original Receipt No., Product Code, Product Name)
 - **Total Sum**: Total / Sales Total / Return Total (Currency 단일 선택 시에만 합계 표시)
 - **Excel Export**, **페이지네이션**: Discount Price와 동일
+
+### Order > Order List / Refund List
+- **검색 필터** (Daily Record View와 동일한 검색 UI): BP / Store (BP 선택 후 활성화, 멀티 셀렉트), Order Status / Refund Type (멀티 셀렉트), Currency, 기간 (+ TODAY / 1 WEEK / 1 MONTH / 3 MONTHS), Keyword (2자 이상), Reset / Search
+- **Order List 컬럼**: Order Date (정렬), Status, Order No. #, Store Information, Location Information, Currency, Total Qty, Total
+- **Refund List 컬럼**: Refund Date (정렬), Refund Type, Refund No. # (원주문번호 + 환불번호), Original Order No. #, Store Information, Location, Currency, Total Qty, Total
+- **상세 모달**: Order No. / Refund No. 클릭 시 (Order: Order Information + Product List(Qty, Cancel Qty, Unit, Net, VAT, Total) / Refund: Refund Information + Refund Products(Store, Location = 반품 입고 로케이션))
+- Total Qty는 패키지 제외, 금액은 VAT 포함 가격 기준 (Net = Total / 1.1), Excel Export (상품 라인 단위)
+- 주문 / 환불 데이터는 더미 (US1004·US1001·AU1002~AU1004)
 
 ### Front POS
 - **진입**: 사이드바 하단 Front POS 버튼 → `#/pos` (운영은 새 창, 프로토타입은 BO 레이아웃을 덮는 전체 화면). 헤더의 Back to BO로 복귀
