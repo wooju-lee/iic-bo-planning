@@ -867,6 +867,15 @@ table.grid td input[type="checkbox"]:disabled{opacity:0.35;cursor:not-allowed;}
 .rd-ship-card.ro{cursor:default;opacity:.7;}
 .rd-ship-card.ro:hover{border-color:#e0e0e0;}
 .rd-ship-card.on.ro:hover{border-color:#ff6b35;}
+/* Store Employee dropdown: same row as the status badge, right edge aligned to the form (not the Index) */
+.rd-head{padding-right:256px;}
+.rd-emp{margin-left:auto;width:260px;}
+.rd-emp label{display:block;font-size:11px;font-weight:700;color:#666;margin-bottom:5px;}
+.rd-emp .multi-select-trigger{height:34px;border-radius:6px;}
+.rd-index li.nav{color:#888;border-top:1px dashed #eee;}
+.rd-index .nv{width:16px;height:16px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.rd-index .nv svg{width:16px;height:16px;fill:#bbb;}
+.rd-index li.nav:hover .nv svg{fill:#ff6b35;}
 </style>
 <!-- SheetJS: client-side Excel (.xlsx) export -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
@@ -4472,6 +4481,8 @@ const RX_MASTER_FRAMES=[['11000001','SMART ALIO-02'],['11000002','BOLD-01 OPT'],
 // OCR mock (AWS Textract response)
 const RX_OCR={patientName:'Kim Yujin',patientDob:'1992-03-15',prescriber:'Dr. James Smith',license:'OPT-2024-83721',rxAddress:'350 5th Ave, New York, NY 10118',rxPhone:'212-555-0147',rxFax:'212-555-0148',
   signature:true,issueDate:'2026-06-10',expiryDate:'2027-06-10',od:{sph:-2.0,cyl:-0.5,axis:125},os:{sph:-2.25,cyl:-0.75,axis:30},pd:63,lowConf:['rxAddress','rxFax','osCyl','osAxis']};
+// Store employee who fills in the Rx order (same staff list as POS cashier / seller)
+const RX_EMPLOYEES=[...new Set(POS_CASHIERS.concat(POS_SELLERS))];
 const RX_COMMENT_TYPES=['General','Prescription','Lens','Frame','Delivery'];
 // Prescription value options
 const rdRange=(from,to,step,fmt)=>{const o=[''];for(let v=from;step>0?v<=to+1e-9:v>=to-1e-9;v+=step)o.push(fmt(v));return o;};
@@ -4484,6 +4495,7 @@ const RD_ICON={
   upload:'<svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M17 8l-5-5-5 5"/><path d="M12 3v12"/></svg>',
   trash:'<svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6M14 11v6"/><path d="M9 6V4h6v2"/></svg>',
   check:'<svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>',
+  jump:'<svg viewBox="0 0 24 24"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>',
   pencil:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></svg>',
   warn:'<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="vertical-align:-3px;margin-right:4px;"><path d="M10.3 3.9L1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/><path d="M12 9v4M12 17h.01"/></svg>'
 };
@@ -4496,7 +4508,7 @@ const RD_STATES={};
 let rd=null,rdOrder=null;
 function rdNewState(o){
   const f=rdFrame(o);
-  return {approval:o.approval,country:'',member:null,custSearch:'',nonMember:false,rxId:'',
+  return {approval:o.approval,employee:'',country:'',member:null,custSearch:'',nonMember:false,rxId:'',
     rxv:{odSph:'',odCyl:'',odAxis:'',odPd:'',odOc:'',osSph:'',osCyl:'',osAxis:'',osPd:'',osOc:''},pdMode:'dual',
     patientName:'',patientDob:'',prescriber:'',license:'',rxAddress:'',rxPhone:'',rxFax:'',issueDate:'',expiryDate:'',signature:false,
     files:[],ocrScanning:false,ocrApplied:false,lowConf:[],
@@ -4516,6 +4528,7 @@ function rdSections(){
   const rxF=[s.rxv.odSph,s.rxv.odCyl,s.rxv.odAxis,s.rxv.osSph,s.rxv.osCyl,s.rxv.osAxis,...pd].filter(Boolean).length;
   const addrOk=s.dlvType==='store'||(s.dlvMode==='search'?!!(s.dlvSearch&&s.dlvCityS&&s.dlvVerified):!!(s.dlvAddr1&&s.dlvCity&&s.dlvState&&s.dlvZip&&s.dlvVerified));
   return [
+    ['Store Employee','rd-emp',s.employee?1:0,1],
     ['Customer Info','rd-sec-customer',...cust],
     ['Order Info','rd-sec-order',1,1],
     ['Prescription','rd-sec-prescription',rxF,8],
@@ -4523,16 +4536,18 @@ function rdSections(){
     ['Purchaser Info','rd-sec-contact',[s.custName,s.custPhone,s.custEmail].filter(v=>t(v)).length,3],
     ['Patient & Shipping Info','rd-sec-delivery',[s.rcvName,s.rcvPhone,s.rcvEmail].filter(v=>t(v)).length+(addrOk?1:0),4],
     ['Policy Agreements','rd-sec-policy',(s.chkRx?1:0)+(s.chkHipaa?1:0)+(s.sigData?1:0),3],
-    ['Comment','rd-sec-comment',1,1]
+    ['Comment','rd-sec-comment',0,0,true]  // navigation only (not a completion item)
   ];
 }
 function rdRenderIndex(){
   const secs=rdSections(),a=rd.approval,ro=['Requested','Confirm','Reject','Canceled'].includes(a),dis=a==='Reject'||a==='Canceled';
   const all=secs.reduce((x,s)=>x+s[2],0)>=secs.reduce((x,s)=>x+s[3],0);
   const el=document.getElementById('rd-index');if(!el) return;
-  el.innerHTML=`<div class="hd">Index</div><ul>${secs.map(([label,anchor,f,tot])=>{
+  el.innerHTML=`<div class="hd">Index</div><ul>${secs.map(([label,anchor,f,tot,navOnly])=>{
+      const go=`document.getElementById('${anchor}').scrollIntoView({behavior:'smooth',block:'start'})`;
+      if(navOnly) return `<li class="nav" onclick="${go}"><span class="nv">${RD_ICON.jump}</span>${label}</li>`;
       const done=f>=tot,ck=ro?(dis?'off':'on'):(done?'on':'');
-      return `<li class="${ro?(dis?'dis':'ro'):''}" onclick="document.getElementById('${anchor}').scrollIntoView({behavior:'smooth',block:'start'})"><span class="ck ${ck}">${(done||ro)&&!dis?RD_ICON.check:''}</span>${label}</li>`;
+      return `<li class="${ro?(dis?'dis':'ro'):''}" onclick="${go}"><span class="ck ${ck}">${(done||ro)&&!dis?RD_ICON.check:''}</span>${label}</li>`;
     }).join('')}</ul>
     <div class="rd-actions">${['Confirm','Reject','Canceled'].includes(a)?`<div class="msg">This order has been ${{Confirm:'confirmed',Reject:'rejected',Canceled:'canceled'}[a]}.</div>`
       :a==='Requested'?'<button class="rej" onclick="rdAction(\'Reject\')">Reject</button><button class="cfm" onclick="rdAction(\'Confirm\')">Confirm</button>'
@@ -4678,6 +4693,9 @@ function rdRender(){
     <a class="rd-back" href="#/pos/rx-operation-list" title="Back to List">${RD_ICON.back}</a>
     <span class="id">${o.id}</span><span class="sub">(${o.id})</span>
     <span class="rx-badge ${RX_APPROVAL_CLS[s.approval]||'y'}">${s.approval}</span>
+    <div class="rd-emp" id="rd-emp"><label>Store Employee <span class="rd-req">*</span></label>
+      <select id="rd-emp-sel" style="width:100%;height:34px;" ${ro?'disabled':''} onchange="rdSet('employee',this.value)">
+        <option value="">Store Employee</option>${RX_EMPLOYEES.map(e=>`<option ${s.employee===e?'selected':''}>${e}</option>`).join('')}</select></div>
   </div>
   <div class="rd-layout">
   <div class="rd-form">
@@ -4830,6 +4848,7 @@ function rdRender(){
   <!-- Index -->
   <div class="rd-side"><div class="rd-index" id="rd-index"></div></div>
   </div>`;
+  csBuild(document.getElementById('rd-emp-sel'));csRefresh(document.getElementById('rd-emp-sel'));
   rdRenderIndex();rdRenderDlvCheck();rdBindSignature();
 }
 function rdEnter(o){
