@@ -61,7 +61,7 @@ BO 신규/변경 기능의 기획 검토용 UI 프로토타입입니다. 여러 
 
 ### Master Information > Price > Discount Price
 - SAP에서 설정한 브랜드 > 스토어별 할인 가격 조회 (POS 매출 시 판매가보다 우선 적용되는 마스터)
-- **검색 필터**: Brand, Store (멀티 셀렉트), Product Category 1/2, Currency, Keyword (Product Code, Product Name, Discount Price)
+- **검색 필터**: Brand (단일), Store (멀티), Product Category 1 (단일), Product Category 2 (멀티), Currency, Keyword (Product Code, Product Name, Price)
 - **컬럼**: Brand, Store, Product Category 1/2, Product Info, Currency, Discount Price, Update Date
 - **Excel Export**: 페이지네이션과 관계없이 조회 결과 전체 출력
 - **페이지네이션**: Rows per page (30/50/100/300)

@@ -1787,10 +1787,7 @@ table.grid th.ol-sort.asc .arr{transform:rotate(180deg);}
       <table class="search-table">
         <tr>
           <th>Brand</th>
-          <td><div class="field-row"><div class="multi-select-wrap">
-            <div class="multi-select-trigger" id="dpBrand-trigger" onclick="toggleMulti('dpBrand')" style="min-width:360px;">Brand (All)</div>
-            <div class="multi-select-dropdown hidden" id="dpBrand-dropdown"></div>
-          </div></div></td>
+          <td><div class="field-row"><div class="field-inline"><select id="dp-brand" style="min-width:360px;"><option value="">All</option></select></div></div></td>
         </tr>
         <tr>
           <th>Store</th>
@@ -1805,7 +1802,10 @@ table.grid th.ol-sort.asc .arr{transform:rotate(180deg);}
         </tr>
         <tr>
           <th>Product Category 2</th>
-          <td><div class="field-row"><div class="field-inline"><select id="dp-cat2" style="min-width:360px;"><option value="">All</option></select></div></div></td>
+          <td><div class="field-row"><div class="multi-select-wrap">
+            <div class="multi-select-trigger" id="dpCat2-trigger" onclick="toggleMulti('dpCat2')" style="min-width:360px;">Product Category 2 (All)</div>
+            <div class="multi-select-dropdown hidden" id="dpCat2-dropdown"></div>
+          </div></div></td>
         </tr>
         <tr>
           <th>Currency</th>
@@ -2393,7 +2393,7 @@ function selectMulti(id,el){
   el.classList.toggle('selected');
   const sel=[...document.querySelectorAll('#'+id+'-dropdown .dd-item.selected')];
   const t=document.getElementById(id+'-trigger');
-  const labels={ilStore:'Store',ilLoc:'Location',lgStore:'Store',lgLoc:'Location',lgType:'Inventory Transaction Type',olBp:'BP',olStore:'Store',olStatus:'Order Status',rlBp:'BP',rlStore:'Store',rlStatus:'Refund Type',bp:'BP',fromStore:'From Store',toStore:'To Store',dpBrand:'Brand',dpStore:'Store',drvBp:'BP',drvStore:'Store',psvBp:'BP',psvStore:'Store',prsvBp:'BP',prsvStore:'Store'};
+  const labels={ilStore:'Store',ilLoc:'Location',lgStore:'Store',lgLoc:'Location',lgType:'Inventory Transaction Type',olBp:'BP',olStore:'Store',olStatus:'Order Status',rlBp:'BP',rlStore:'Store',rlStatus:'Refund Type',bp:'BP',fromStore:'From Store',toStore:'To Store',dpCat2:'Product Category 2',dpStore:'Store',drvBp:'BP',drvStore:'Store',psvBp:'BP',psvStore:'Store',prsvBp:'BP',prsvStore:'Store'};
   if(!sel.length) t.textContent=labels[id]+' (All)';
   else if(sel.length===1) t.textContent=sel[0].textContent.replace('✓','').trim();
   else t.textContent=sel[0].textContent.replace('✓','').trim()+' +'+(sel.length-1);
@@ -3729,26 +3729,27 @@ function initDiscountPriceFilters(){
   const uniq=key=>[...new Set(DISCOUNT_PRICE_DATA.map(r=>r[key]))].filter(v=>v&&v!=='-');
   const fillMulti=(id,items)=>{document.getElementById(id+'-dropdown').innerHTML=items.map(([v,t])=>
     `<div class="dd-item" onclick="selectMulti('${id}',this)" data-val="${v}"><span class="check-ico">✓</span>${t}</div>`).join('');};
-  // Brand options follow the registration modal brand master
-  fillMulti('dpBrand',[...document.querySelectorAll('#reg-brand option')].filter(o=>o.value).map(o=>[o.value,o.text]));
+  // Brand (single select): options follow the registration modal brand master
+  document.getElementById('dp-brand').innerHTML='<option value="">All</option>'+[...document.querySelectorAll('#reg-brand option')].filter(o=>o.value).map(o=>'<option value="'+o.value+'">'+o.text+'</option>').join('');
   fillMulti('dpStore',DP_STORES.map(s=>[s.code,s.code+' / '+s.name]));
   fill('dp-cat1',uniq('cat1'));
-  fill('dp-cat2',uniq('cat2'));
+  // Product Category 2: multi select
+  fillMulti('dpCat2',uniq('cat2').map(v=>[v,v]));
   fill('dp-currency',uniq('currency').sort());
 }
-function dpBrandText(key){return document.querySelector('#dpBrand-dropdown .dd-item[data-val="'+key+'"]')?.textContent.replace('✓','').trim()||key;}
+function dpBrandText(key){return document.querySelector('#dp-brand option[value="'+key+'"]')?.text||key;}
 function searchDiscountPrice(){
   const v=id=>document.getElementById(id).value;
   const multi=id=>[...document.querySelectorAll('#'+id+'-dropdown .dd-item.selected')].map(el=>el.dataset.val);
   const kw=v('dp-keyword').trim().toLowerCase();
   if(kw&&kw.length<2){showToast('Search','Please enter at least 2 characters.','error');return;}
-  const brands=multi('dpBrand'),stores=multi('dpStore');
+  const brand=v('dp-brand'),stores=multi('dpStore'),cat2s=multi('dpCat2');
   const kwNum=kw.replace(/,/g,'');
   const rows=DISCOUNT_PRICE_DATA.filter(r=>
-    (!brands.length||brands.includes(r.brand))&&
+    (!brand||r.brand===brand)&&
     (!stores.length||stores.includes(r.storeCode))&&
     (!v('dp-cat1')||r.cat1===v('dp-cat1'))&&
-    (!v('dp-cat2')||r.cat2===v('dp-cat2'))&&
+    (!cat2s.length||cat2s.includes(r.cat2))&&
     (!v('dp-currency')||r.currency===v('dp-currency'))&&
     (!kw||r.code.toLowerCase().includes(kw)||r.name.toLowerCase().includes(kw)||String(r.price).includes(kwNum)));
   dpLastRows=rows;
@@ -3797,11 +3798,11 @@ function exportDiscountPrice(){
   showToast('Excel Export',fileName+' — '+dpLastRows.length+' rows');
 }
 function resetDiscountPrice(){
-  ['dpBrand','dpStore'].forEach(id=>{
+  ['dpStore','dpCat2'].forEach(id=>{
     document.querySelectorAll('#'+id+'-dropdown .dd-item.selected').forEach(el=>el.classList.remove('selected'));
-    document.getElementById(id+'-trigger').textContent=id==='dpBrand'?'Brand (All)':'Store (All)';
+    document.getElementById(id+'-trigger').textContent=id==='dpStore'?'Store (All)':'Product Category 2 (All)';
   });
-  ['dp-cat1','dp-cat2','dp-currency'].forEach(id=>{const s=document.getElementById(id);s.selectedIndex=0;csRefresh(s);});
+  ['dp-brand','dp-cat1','dp-currency'].forEach(id=>{const s=document.getElementById(id);s.selectedIndex=0;csRefresh(s);});
   document.getElementById('dp-keyword').value='';
   searchDiscountPrice();
 }
