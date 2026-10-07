@@ -97,7 +97,13 @@ BO 신규/변경 기능의 기획 검토용 UI 프로토타입입니다. 여러 
 - **제품 (좌측)**: Product Barcode 자동완성 / 바코드 Enter 추가, 수량 +/−, 삭제, 재고 초과 행 경고. 하단 요약 (품목 수·수량, Customer Price, Discount Price(할인 금액), Total)
 - **패키지 자동 추가**: 제품 추가 시 매핑된 패키지가 하위 행으로 세트 추가 (가격 0, 수량은 제품 수량을 따라감, 제품 삭제 시 함께 삭제, 바코드 없음, 집계·재고 제외)
 - **고객 (우측)**: Customer Member Search (Email / Phone, QR) 또는 Non-Member (선택 시 멤버십 필드 비활성화). 멤버 선택 시 Customer Information 자동 입력 (Country / Continent / Customer Type / Gender, Usage Type은 수기)
-- **Sales & Print**: Confirm Sales (제품 + Cashier + 고객 필수, Invoice No. 미입력 시 자동 생성) → AC Card Print → AC Card RE Print, Skip AC Card Print 선택 가능
+- **Invoice No. 모드 (Lookup / Register)**: 국가별 설정(Store master)에 따라 필드 옆 토글로 전환. 허용 모드가 하나뿐인 국가는 토글 대신 `Lookup only` / `Register only` 고정 배지로 표시
+  - 국가 설정: US / CA = Lookup 기본 (Register는 거의 사용 안 함), AU = Lookup·Register 모두 사용 (기본 Register, **기본값 확인 필요**)
+  - **Lookup (파란색)**: 영수증의 Invoice No.를 스캔하면 과거 판매 건을 읽기 전용으로 표시하고 AC Card RE Print만 가능. Close / All Clear로 종료. 다른 스토어의 판매 건이나 없는 번호는 에러로 표시. 카트에 제품이 있으면 Lookup은 비활성화되고 Invoice No.는 Confirm 시 자동 생성
+  - **Register (주황색)**: 이번 판매의 Invoice No.를 입력 / 스캔. Enter로 중복을 검증하고, 통과하면 Product Barcode로 포커스 이동. 미입력 시 자동 생성. Enter 없이 Confirm하면 Confirm 시점에 검증
+  - **휴먼에러 방지**: 모드 전환 시 입력값 초기화, All Clear 후에는 국가 기본 모드로 복귀, 판매 확정 / 조회 중에는 토글 잠금, 제품 바코드가 Invoice No. 필드에 스캔되면 차단(Add to cart 제공), 에러 시 값이 선택되어 다음 스캔으로 바로 대체. 모드 간 이동(Register as new / View this sale)은 사용자가 링크를 클릭할 때만 가능하고 자동 전환은 없음
+  - 프로토타입은 US 스토어(US1007) 기준으로만 동작 (국가별 모드는 코드의 `POS_INVOICE_MODES` 설정). 과거 판매 건은 더미이며, 이번 세션에서 Confirm한 판매도 조회 가능
+- **Sales & Print**: Confirm Sales (제품 + Cashier + 고객 필수) → AC Card Print → AC Card RE Print, Skip AC Card Print 선택 가능
 - **Gift Pay**: Serial 입력 + FOC Check (시뮬레이션)
 - **미구현 / 확인 필요**: SALES / INVENTORY 토글 동작, Manual Refund, 외부 POS 매출 조회 후 AC Card 출력, AC Card 내용
 - 가격, 재고, 멤버, Cashier / Seller, 패키지 매핑은 더미 데이터

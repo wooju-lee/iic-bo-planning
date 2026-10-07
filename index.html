@@ -592,12 +592,38 @@ table.grid td input[type="checkbox"]:disabled{opacity:0.35;cursor:not-allowed;}
 .pa-table tr.has-pkg td{border-bottom-color:transparent;}
 /* POS right panel v3: white cards, soft controls */
 .pa-right .pa-card{border:1px solid #ececec;border-radius:10px;padding:18px;box-shadow:0 1px 2px rgba(0,0,0,0.03);}
+.pa-right .pa-card+.pa-card{margin-top:32px;}
 .pa-staff-card{padding:14px 18px!important;}
 .pa-staff{margin:0;gap:12px;}
 .pa-staff label{font-size:11px;font-weight:600;color:#888;margin-bottom:5px;}
 .pa-head{display:flex;align-items:center;gap:10px;margin-bottom:14px;}
 .pa-head-ic{width:32px;height:32px;border-radius:8px;background:#FFF1E9;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
 .pa-head-ic svg{width:18px;height:18px;fill:#ff6b35;}
+/* POS Invoice No.: Lookup (blue) / Register (orange) by store country */
+.pa-invmode{display:inline-flex;gap:2px;padding:2px;border:1px solid #e0e0e0;border-radius:6px;background:#f5f5f5;flex-shrink:0;}
+.pa-invmode button,.pa-invmode .fixed{display:flex;align-items:center;gap:4px;height:28px;padding:0 10px;border:none;border-radius:4px;background:none;font-size:11px;font-weight:600;color:#888;cursor:pointer;white-space:nowrap;}
+.pa-invmode svg{width:14px;height:14px;fill:currentColor;}
+.pa-invmode button:hover:not(:disabled):not(.on){color:#333;}
+.pa-invmode button.on.lookup,.pa-invmode .fixed.lookup{background:#3b6fd8;color:#fff;}
+.pa-invmode button.on.register,.pa-invmode .fixed.register{background:#ff6b35;color:#fff;}
+.pa-invmode .fixed{cursor:default;}
+.pa-invmode button:disabled{cursor:not-allowed;}
+.pa-invmode.locked{opacity:.55;}
+.pa-inv{position:relative;}
+.pa-inv .ico{position:absolute;left:9px;top:8px;width:18px;height:18px;pointer-events:none;}
+.pa-inv.lookup .ico{fill:#3b6fd8;}
+.pa-inv.register .ico{fill:#ff6b35;}
+.pa-inv.lookup .pa-input:focus{border-color:#3b6fd8;}
+.pa-inv.err .pa-input{border-color:#d32f2f;background:#FFF8F8;}
+.pa-inv.ok .pa-input{border-color:#2E7D32;}
+.pa-inv-msg{position:absolute;left:0;top:37px;font-size:11px;line-height:1.3;white-space:nowrap;z-index:2;}
+.pa-inv-msg.err{color:#d32f2f;}
+.pa-inv-msg.ok{color:#2E7D32;}
+.pa-inv-msg.info{color:#888;}
+.pa-inv-msg a{color:#3b6fd8;text-decoration:underline;cursor:pointer;margin-left:6px;font-weight:600;}
+.pa-done.lookup{background:#EAF1FD;color:#1f4fae;}
+.pa-done.lookup span{color:#4a5f86;}
+.pa-done button{margin-left:6px;height:24px;padding:0 10px;border:1px solid #b9cdf3;border-radius:4px;background:#fff;color:#1f4fae;font-size:11px;font-weight:600;cursor:pointer;}
 .pa-head .t{font-size:14px;font-weight:700;color:#222;}
 .pa-head .s{font-size:11px;color:#999;margin-top:2px;}
 .pa-row{display:flex;gap:8px;align-items:center;}
@@ -1149,7 +1175,12 @@ table.grid th.ol-sort.asc .arr{transform:rotate(180deg);}
           </div>
           <div class="pa-inputrow">
             <label>Invoice No.</label>
-            <input class="pa-input" id="pa-invoice" placeholder="Please enter or it will auto-generate." style="flex:1;">
+            <div class="pa-invmode" id="pa-invmode"></div>
+            <div class="pa-inv" id="pa-inv" style="flex:1;">
+              <svg class="ico" id="pa-inv-ico" viewBox="0 0 24 24"></svg>
+              <input class="pa-input has-ico" id="pa-invoice" autocomplete="off" oninput="posInvoiceInput()" onkeydown="if(event.key==='Enter')posInvoiceEnter()">
+              <div class="pa-inv-msg" id="pa-inv-msg"></div>
+            </div>
             <label style="margin-left:12px;">Product Barcode</label>
             <div class="pa-search" style="flex:2;">
               <svg class="caret" viewBox="0 0 24 24"><path d="M7 10l5 5 5-5z"/></svg>
@@ -4412,7 +4443,16 @@ function printLabel(idx){
 
 // ===== Front POS =====
 // Production: Front POS opens in a new window. Prototype: same app via #/pos (covers the BO layout)
-const POS_STORE={code:'US1007',name:'GM_CostaMesa_MALL_SCP',currency:'USD'};
+const POS_STORE={code:'US1007',name:'GM_CostaMesa_MALL_SCP',currency:'USD',country:'US'};
+// Invoice No. field mode by store country (Store master setting)
+// LOOKUP: scan the receipt's Invoice No. to look up a past sale / REGISTER: enter the Invoice No. for this sale (blank -> auto-generated)
+// modes: allowed modes (a single mode = fixed, no toggle) / def: mode on entry and after All Clear
+const POS_INVOICE_MODES={
+  US:{modes:['LOOKUP','REGISTER'],def:'LOOKUP'},   // register is rare
+  CA:{modes:['LOOKUP','REGISTER'],def:'LOOKUP'},   // register is rare
+  AU:{modes:['LOOKUP','REGISTER'],def:'REGISTER'}  // both used (default mode TBD)
+};
+function posInvCfg(){return POS_INVOICE_MODES[POS_STORE.country]||{modes:['REGISTER'],def:'REGISTER'};}
 const POS_TABS=[
   {path:'/pos',label:'Front POS Main',icon:'M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63h7.45c.75 0 1.41-.41 1.75-1.03l3.58-6.49A1.003 1.003 0 0020 4H5.21l-.94-2H1zm16 16c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2z'},
   {path:'/pos/daily-sales-summary',label:'Daily Sales Summary',icon:'M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z'},
@@ -4439,7 +4479,18 @@ function posPrice(p){
 const POS_PACKAGES={OPTICAL:{code:'PK-OPT-001',name:'GM OPTICAL PACKAGE'},SUNGLASSES:{code:'PK-SUN-001',name:'GM SUNGLASSES PACKAGE'}};
 function posPackage(p){return POS_PACKAGES[p.category]||null;}
 const posFmt=n=>n.toLocaleString('en-US',{maximumFractionDigits:2});
-let pos={mode:'SALES',items:[],member:null,nonMember:false,confirmed:false,acPrinted:false,invoice:''};
+// Past sales for Invoice No. lookup / duplicate check (dummy; sales confirmed in this session are added)
+// [store, invoiceNo, saleDate, cashier index, memberId (null = Non-Member), [[product index, qty]]]
+const POS_SALES=[
+  ['US1007','2610050K7M2Q','2026-10-05 14:22',0,'M100231',[[0,1],[12,1]]],
+  ['US1007','2610040R4TX8','2026-10-04 11:05',1,null,[[5,2]]],
+  ['US1007','2610010B9HQ3','2026-10-01 18:40',2,'M100587',[[20,1]]],
+  ['CA2003','261005073WMP','2026-10-05 16:10',1,'M100912',[[3,1]]],
+  ['CA2003','2610030NC5V7','2026-10-03 12:30',0,null,[[8,1],[16,1]]]
+].map(([store,inv,date,c,mid,items])=>({store,inv,date,cashier:POS_CASHIERS[c],member:POS_MEMBERS.find(m=>m.id===mid)||null,
+  items:items.map(([i,qty])=>({code:PRODUCTS[i].code,qty}))}));
+// invMode: LOOKUP / REGISTER, view: past sale being looked up, invMsg: message under the field, invChecked: validated Invoice No. (REGISTER)
+let pos={mode:'SALES',items:[],member:null,nonMember:false,confirmed:false,acPrinted:false,invoice:'',invMode:'LOOKUP',view:null,invMsg:null,invChecked:''};
 let posInited=false;
 // Tab of a POS path (sub paths such as /pos/rx-operation-list/{Order No.} belong to their tab)
 function posTabOf(path){return POS_TABS.find(t=>t.path===path||(t.path!=='/pos'&&path.startsWith(t.path+'/')));}
@@ -4469,6 +4520,7 @@ function posLeave(){
 function posInit(){
   document.getElementById('pa-store-code').textContent='['+POS_STORE.code+']';
   document.getElementById('pa-store-name').textContent=POS_STORE.name;
+  pos.invMode=posInvCfg().def;
   document.getElementById('pa-cashier').innerHTML='<option value="">Please Select.</option>'+POS_CASHIERS.map((c,i)=>`<option${i===0?' selected':''}>${c}</option>`).join('');
   document.getElementById('pa-seller').innerHTML='<option value="">Please enter a value.</option>'+POS_SELLERS.map(c=>`<option>${c}</option>`).join('');
   document.getElementById('pa-a-country').innerHTML='<option value="">Please Select.</option>'+Object.keys(POS_COUNTRIES).map(c=>`<option>${c}</option>`).join('');
@@ -4489,7 +4541,7 @@ function posToggleMode(){
 // ----- Products -----
 function posSuggest(){
   const box=document.getElementById('pa-sugg'),q=document.getElementById('pa-barcode').value.trim().toLowerCase();
-  if(pos.confirmed){box.hidden=true;return;}
+  if(pos.confirmed||pos.view){box.hidden=true;return;}
   const list=PRODUCTS.filter(p=>!q||(p.code+' '+p.name+' '+p.barcode).toLowerCase().includes(q)).slice(0,30);
   box.innerHTML=list.length?list.map(p=>`<div onclick="posAddItem('${p.code}')"><b>${p.code}</b> / ${p.name}<span>${p.barcode}</span></div>`).join(''):'<div class="none">No matching product.</div>';
   box.hidden=false;
@@ -4502,7 +4554,7 @@ function posBarcodeEnter(){
   if(!list.length) showToast('Product Barcode','No matching product.','error');
 }
 function posAddItem(code){
-  if(pos.confirmed) return;
+  if(pos.confirmed||pos.view) return;
   const it=pos.items.find(i=>i.code===code);
   if(it) it.qty++; else pos.items.push({code,qty:1});
   document.getElementById('pa-barcode').value='';
@@ -4511,8 +4563,8 @@ function posAddItem(code){
 }
 function posQty(i,d){if(pos.confirmed)return;pos.items[i].qty=Math.max(1,pos.items[i].qty+d);posRender();}
 function posRemove(i){if(pos.confirmed)return;pos.items.splice(i,1);posRender();}
-function posTotals(){
-  return pos.items.reduce((a,it)=>{
+function posTotals(items=pos.items){
+  return items.reduce((a,it)=>{
     const pr=posPrice(PRODUCTS.find(p=>p.code===it.code)),unit=pr.dp??pr.cp;
     a.cp+=pr.cp*it.qty;a.disc+=(pr.cp-unit)*it.qty;a.total+=unit*it.qty;a.qty+=it.qty;return a;
   },{cp:0,disc:0,total:0,qty:0});
@@ -4564,23 +4616,112 @@ function posCountryChange(){
   set('pa-a-ctype',c?(c==='United States'?'LOCAL':'FOREIGN'):'');
 }
 function posSeg(btn){btn.parentNode.querySelectorAll('button').forEach(b=>b.classList.toggle('on',b===btn));}
+// ----- Invoice No. (Lookup / Register by store country) -----
+const POS_INV_MODE={
+  LOOKUP:{label:'Lookup',ico:'<use href="#i-search"/>',tip:'Scan the receipt\'s Invoice No. to look up a past sale.'},
+  REGISTER:{label:'Register',ico:'<path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04a1 1 0 000-1.41l-2.34-2.34a1 1 0 00-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/>',tip:'Enter the Invoice No. for this sale.'}
+};
+const posEsc=v=>v.replace(/&/g,'&amp;').replace(/</g,'&lt;');
+function posFindSale(v){v=v.toUpperCase();return POS_SALES.find(s=>s.inv.toUpperCase()===v);}
+function posSetInvMode(m){
+  if(pos.confirmed||pos.view||m===pos.invMode||!posInvCfg().modes.includes(m)) return;
+  // Switching mode always empties the field: a value is never carried over to the other mode
+  pos.invMode=m;pos.invMsg=null;pos.invChecked='';
+  const el=document.getElementById('pa-invoice');el.value='';
+  posRender();
+  if(!el.disabled) el.focus();
+}
+function posInvoiceInput(){
+  pos.invChecked='';pos.invMsg=null;  // edited after validation -> validate again
+  posRender();
+}
+// Error: keep the value selected so the next scan replaces it
+function posInvError(type,html){
+  pos.invMsg={type,html};posRender();
+  const el=document.getElementById('pa-invoice');el.focus();el.select();
+}
+function posInvoiceEnter(){
+  const el=document.getElementById('pa-invoice'),v=el.value.trim(),esc=posEsc(v),cfg=posInvCfg();
+  if(!v||el.disabled) return;
+  // Product barcode scanned into the Invoice No. field
+  const p=PRODUCTS.find(x=>x.barcode===v||x.code===v);
+  if(p) return posInvError('err',`${esc} is a product barcode, not an Invoice No.`+(pos.view?'':`<a onclick="posInvToCart('${p.code}')">Add to cart</a>`));
+  const s=posFindSale(v);
+  if(pos.invMode==='LOOKUP'){
+    // While a past sale is open, a failed rescan keeps it on screen -> say which sale is still shown
+    const still=pos.view?` Still showing ${pos.view.inv}.`:'';
+    if(!s) return posInvError('err',`No sale found for Invoice No. ${esc}.`+still+(cfg.modes.includes('REGISTER')&&!pos.view?`<a onclick="posInvUseAsNew()">Register as new Invoice No.</a>`:''));
+    if(s.store!==POS_STORE.code) return posInvError('err',`Invoice No. ${esc} is a sale of another store (${s.store}).`+still);
+    pos.view=s;pos.invMsg=null;el.value=s.inv;
+    posSetAttrs(s.member?.country||'',s.member?.gender||'');
+    posRender();el.select();  // the next scan looks up another receipt
+    return;
+  }
+  // REGISTER: must not be used by another sale
+  if(s) return posInvError('err',`Invoice No. ${esc} is already used (${s.store} · ${s.date}).`
+    +(cfg.modes.includes('LOOKUP')&&s.store===POS_STORE.code&&!pos.items.length?`<a onclick="posInvViewSale()">View this sale</a>`:''));
+  pos.invChecked=v;pos.invMsg={type:'ok',html:'✓ Available. It is saved with this sale on Confirm Sales.'};
+  posRender();
+  document.getElementById('pa-barcode').focus();  // next: scan products
+}
+function posInvToCart(code){document.getElementById('pa-invoice').value='';pos.invMsg=null;posAddItem(code);}
+// Not found in Lookup -> use the same value as this sale's Invoice No. (explicit click only, never automatic)
+function posInvUseAsNew(){
+  const v=document.getElementById('pa-invoice').value;
+  posSetInvMode('REGISTER');document.getElementById('pa-invoice').value=v;posInvoiceEnter();
+}
+// Already used in Register -> open that sale in Lookup (only while the cart is empty)
+function posInvViewSale(){
+  const v=document.getElementById('pa-invoice').value;
+  posSetInvMode('LOOKUP');document.getElementById('pa-invoice').value=v;posInvoiceEnter();
+}
+function posRenderInvoice(){
+  const cfg=posInvCfg(),m=pos.invMode,mi=POS_INV_MODE[m],locked=pos.confirmed||!!pos.view;
+  const box=document.getElementById('pa-invmode');
+  box.className='pa-invmode'+(locked&&cfg.modes.length>1?' locked':'');
+  box.innerHTML=cfg.modes.length>1
+    ?cfg.modes.map(k=>`<button class="${k.toLowerCase()}${k===m?' on':''}" ${locked?'disabled':''} title="${POS_INV_MODE[k].tip}" onclick="posSetInvMode('${k}')"><svg viewBox="0 0 24 24">${POS_INV_MODE[k].ico}</svg>${POS_INV_MODE[k].label}</button>`).join('')
+    :`<span class="fixed ${m.toLowerCase()}" title="${mi.tip}"><svg viewBox="0 0 24 24">${mi.ico}</svg>${mi.label} only</span>`;
+  const el=document.getElementById('pa-invoice');
+  // Lookup replaces the cart, so it is available only while no new sale is in progress
+  const lookupBlocked=m==='LOOKUP'&&!pos.view&&!pos.confirmed&&pos.items.length>0;
+  if(lookupBlocked&&el.value){el.value='';pos.invMsg=null;}
+  el.disabled=pos.confirmed||lookupBlocked;
+  el.placeholder=m==='LOOKUP'
+    ?(lookupBlocked?'Auto-generated on Confirm Sales.':'Scan the receipt\'s Invoice No. to look up a past sale.')
+    :'Scan or enter the Invoice No. for this sale. (Blank: auto-generated)';
+  const msg=pos.invMsg||(lookupBlocked?{type:'info',html:'To look up a past sale, press All Clear first.'}:null);
+  document.getElementById('pa-inv').className='pa-inv '+m.toLowerCase()+(pos.invMsg?' '+pos.invMsg.type:'');
+  document.getElementById('pa-inv-ico').innerHTML=mi.ico;
+  const me=document.getElementById('pa-inv-msg');
+  me.className='pa-inv-msg'+(msg?' '+msg.type:'');me.innerHTML=msg?msg.html:'';
+}
 // ----- Sales & Print -----
 function posGenInvoice(){
   const d=new Date(),pad=n=>String(n).padStart(2,'0'),A='0123456789ABCDEFGHJKLMNPQRSTUVWXYZ';
-  return String(d.getFullYear()).slice(2)+pad(d.getMonth()+1)+pad(d.getDate())+'0'+Array.from({length:5},()=>A[Math.floor(Math.random()*A.length)]).join('');
+  let v;
+  do v=String(d.getFullYear()).slice(2)+pad(d.getMonth()+1)+pad(d.getDate())+'0'+Array.from({length:5},()=>A[Math.floor(Math.random()*A.length)]).join('');
+  while(posFindSale(v));
+  return v;
 }
 function posConfirm(){
   if(document.getElementById('pa-confirm').disabled) return;
-  const inv=document.getElementById('pa-invoice');
-  pos.invoice=inv.value.trim()||posGenInvoice();inv.value=pos.invoice;
-  pos.confirmed=true;
+  const inv=document.getElementById('pa-invoice'),v=pos.invMode==='REGISTER'?inv.value.trim():'';
+  // Register: an Invoice No. typed but not yet validated (Enter not pressed) is validated first
+  if(v&&pos.invChecked!==v){posInvoiceEnter();if(pos.invChecked!==v) return;}
+  pos.invoice=v||posGenInvoice();inv.value=pos.invoice;
+  pos.confirmed=true;pos.invMsg=null;
+  const d=new Date(),pad=n=>String(n).padStart(2,'0');
+  POS_SALES.push({store:POS_STORE.code,inv:pos.invoice,date:d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate())+' '+pad(d.getHours())+':'+pad(d.getMinutes()),
+    cashier:document.getElementById('pa-cashier').value,member:pos.member,items:pos.items.map(i=>({...i}))});
   const t=posTotals(),skip=document.getElementById('pa-skipac').checked;
-  showToast('Sales Confirmed','Invoice No. '+pos.invoice+' · Total '+POS_STORE.currency+' '+posFmt(t.total)+(skip?'<br>AC Card print skipped.':''));
+  showToast('Sales Confirmed','Invoice No. '+pos.invoice+(v?' (registered)':' (auto-generated)')+' · Total '+POS_STORE.currency+' '+posFmt(t.total)+(skip?'<br>AC Card print skipped.':''));
   posRender();
 }
 function posAcPrint(re){
-  pos.acPrinted=true;
-  showToast(re?'AC Card RE Print':'AC Card Print','AC card printed: '+posTotals().qty+' item(s)<br>Invoice No. '+pos.invoice);
+  const v=pos.view;
+  if(!v) pos.acPrinted=true;
+  showToast(re?'AC Card RE Print':'AC Card Print','AC card printed: '+posTotals(v?v.items:pos.items).qty+' item(s)<br>Invoice No. '+(v?v.inv:pos.invoice));
   posRender();
 }
 function posFocCheck(){
@@ -4588,7 +4729,8 @@ function posFocCheck(){
   showToast('FOC Check','Serial code '+v.replace(/</g,'&lt;')+' is valid (prototype).');
 }
 function posClear(){
-  pos={mode:pos.mode,items:[],member:null,nonMember:false,confirmed:false,acPrinted:false,invoice:''};
+  // Invoice No. mode returns to the country default (a mode switched for one sale is not carried over)
+  pos={mode:pos.mode,items:[],member:null,nonMember:false,confirmed:false,acPrinted:false,invoice:'',invMode:posInvCfg().def,view:null,invMsg:null,invChecked:''};
   ['pa-invoice','pa-barcode','pa-msearch','pa-qr','pa-gift'].forEach(id=>document.getElementById(id).value='');
   document.getElementById('pa-skipac').checked=false;
   if(!document.getElementById('pa-savecashier').checked){const s=document.getElementById('pa-cashier');s.selectedIndex=1;csRefresh(s);}
@@ -4599,50 +4741,54 @@ function posClear(){
 }
 // ----- Render -----
 function posRender(){
-  const lock=pos.confirmed;
-  document.getElementById('pa-items').innerHTML=pos.items.length?pos.items.map((it,i)=>{
+  // view: past sale looked up by Invoice No. (read-only, replaces the cart)
+  const view=pos.view,lock=pos.confirmed||!!view,items=view?view.items:pos.items;
+  document.getElementById('pa-items').innerHTML=items.length?items.map((it,i)=>{
     const p=PRODUCTS.find(x=>x.code===it.code),pr=posPrice(p),unit=pr.dp??pr.cp;let pk;
+    if(view) pr.stock=Infinity;  // stock is not shown for a past sale
     return `<tr class="${pr.stock<it.qty?'over':''}${posPackage(p)?' has-pkg':''}"><td>${i+1}</td><td class="l"><b>${p.code}</b> / ${p.name}<div class="sub">${p.barcode}</div></td>
       <td><span class="pa-qty"><button ${lock||it.qty<=1?'disabled':''} onclick="posQty(${i},-1)">−</button><span>${it.qty}</span><button ${lock?'disabled':''} onclick="posQty(${i},1)">+</button></span></td>
       <td>${POS_STORE.currency}</td><td>${posFmt(pr.cp)}</td><td>${pr.dp!=null?posFmt(pr.dp):'-'}</td><td><b>${posFmt(unit*it.qty)}</b></td>
-      <td class="${pr.stock<it.qty?'neg':''}">${pr.stock}</td><td>${lock?'':`<button class="pa-del" title="Remove (with package)" onclick="posRemove(${i})">×</button>`}</td></tr>`
+      <td class="${pr.stock<it.qty?'neg':''}">${view?'-':pr.stock}</td><td>${lock?'':`<button class="pa-del" title="Remove (with package)" onclick="posRemove(${i})">×</button>`}</td></tr>`
       +((pk=posPackage(p))?`<tr class="pa-pkg"><td></td><td class="l"><span class="pa-pkg-tag">PACKAGE</span><b>${pk.code}</b> / ${pk.name}</td>
       <td>${it.qty}</td><td>${POS_STORE.currency}</td><td>0</td><td>-</td><td><b>0</b></td><td>-</td><td></td></tr>`:'');
   }).join(''):`<tr class="pa-empty"><td colspan="9"><svg class="ic" viewBox="0 0 24 24"><path d="M2 6h2v12H2V6zm3 0h1v12H5V6zm2 0h3v12H7V6zm4 0h1v12h-1V6zm3 0h2v12h-2V6zm3 0h1v12h-1V6zm2 0h3v12h-3V6z"/></svg><div class="t">No rows</div>Scan a product barcode or search by product name / code to start.</td></tr>`;
-  const t=posTotals();
+  const t=posTotals(items);
   document.getElementById('pa-t-cp').textContent=posFmt(t.cp);
   document.getElementById('pa-t-dp').textContent=t.disc?'-'+posFmt(t.disc):'0';
-  document.getElementById('pa-t-meta').textContent=pos.items.length+' item(s) · Qty '+t.qty;
+  document.getElementById('pa-t-meta').textContent=items.length+' item(s) · Qty '+t.qty;
   document.getElementById('pa-t-cur').textContent=POS_STORE.currency;
   document.getElementById('pa-confirm-amt').textContent=POS_STORE.currency+' '+posFmt(t.total);
   document.getElementById('pa-t-total').textContent=posFmt(t.total);
   // Customer
-  const m=pos.member;
+  const m=view?view.member:pos.member,nonMember=view?!view.member:pos.nonMember;
   document.getElementById('pa-member').innerHTML=m?`<div class="pa-member"><span class="pa-avatar">${m.name.split(' ').map(w=>w[0]).join('')}</span><div><div class="nm">${m.name}<span>${m.id}</span></div><div class="sub">${m.email} · ${m.phone}</div></div><button ${lock?'disabled':''} onclick="posClearMember()">×</button></div>`
-    :pos.nonMember?`<div class="pa-member"><span class="pa-avatar nm">NM</span><div><div class="nm">Non-Member</div><div class="sub">Sales without membership</div></div><button ${lock?'disabled':''} onclick="posClearMember()">×</button></div>`:'';
+    :nonMember?`<div class="pa-member"><span class="pa-avatar nm">NM</span><div><div class="nm">Non-Member</div><div class="sub">Sales without membership</div></div><button ${lock?'disabled':''} onclick="posClearMember()">×</button></div>`:'';
   // Enable / disable
-  const skip=document.getElementById('pa-skipac').checked,hasCust=!!(m||pos.nonMember),cashier=document.getElementById('pa-cashier').value;
+  const skip=document.getElementById('pa-skipac').checked,hasCust=!!(m||nonMember),cashier=document.getElementById('pa-cashier').value;
   const dis=(id,v)=>{document.getElementById(id).disabled=v;};
-  ['pa-invoice','pa-barcode','pa-skipac'].forEach(id=>dis(id,lock));
+  ['pa-barcode','pa-skipac'].forEach(id=>dis(id,lock));
+  posRenderInvoice();
   // Non-Member: membership search fields are disabled
   ['pa-msearch','pa-qr'].forEach(id=>dis(id,lock||pos.nonMember));
   if(pos.nonMember) document.getElementById('pa-msugg').hidden=true;
-  const nmb=document.getElementById('pa-nonmember');nmb.disabled=lock;nmb.classList.toggle('on',pos.nonMember);
-  dis('pa-clear',!(pos.items.length||hasCust));
+  const nmb=document.getElementById('pa-nonmember');nmb.disabled=lock;nmb.classList.toggle('on',nonMember);
+  dis('pa-clear',!(pos.items.length||hasCust||view||document.getElementById('pa-invoice').value));
   dis('pa-refund',lock||pos.items.length>0);
   dis('pa-confirm',lock||!pos.items.length||!cashier||!hasCust);
-  dis('pa-ac',!lock||pos.acPrinted||skip);
-  dis('pa-acre',!pos.acPrinted);
+  dis('pa-ac',!pos.confirmed||pos.acPrinted||skip);
+  dis('pa-acre',!view&&!pos.acPrinted);
   dis('pa-gift',lock||!pos.items.length);
   dis('pa-foc',lock||!pos.items.length||!document.getElementById('pa-gift').value.trim());
   ['pa-cashier','pa-seller','pa-a-country','pa-a-continent','pa-a-ctype'].forEach(id=>{const s=document.getElementById(id);s.disabled=lock;csRefresh(s);});
   {const s=document.getElementById('pa-mcountry');s.disabled=lock||pos.nonMember;csRefresh(s);}
   document.querySelectorAll('#pa-attr .pa-seg').forEach(s=>s.classList.toggle('disabled',lock));
   const need=[!pos.items.length&&'add a product',!hasCust&&'select a customer (Member / Non-Member)',!cashier&&'select a cashier'].filter(Boolean);
-  document.getElementById('pa-confirm-hint').textContent=!lock&&need.length?'To confirm sales, '+need.join(', ')+'.':'';
+  document.getElementById('pa-confirm-hint').textContent=view?'Viewing a past sale. Close it to start a new sale.':!lock&&need.length?'To confirm sales, '+need.join(', ')+'.':'';
   const done=document.getElementById('pa-done');
-  done.hidden=!lock;
-  if(lock) done.innerHTML=`✓ Sales Confirmed · Invoice No. ${pos.invoice}<span>${skip?'AC Card print skipped.':pos.acPrinted?'AC card printed.':'Print the AC card.'} Press All Clear to start a new sale.</span>`;
+  done.hidden=!lock;done.classList.toggle('lookup',!!view);
+  if(view) done.innerHTML=`Past Sale · Invoice No. ${view.inv}<span>${view.date} · Cashier ${view.cashier}</span><button onclick="posClear()">Close</button>`;
+  else if(lock) done.innerHTML=`✓ Sales Confirmed · Invoice No. ${pos.invoice}<span>${skip?'AC Card print skipped.':pos.acPrinted?'AC card printed.':'Print the AC card.'} Press All Clear to start a new sale.</span>`;
 }
 const posSync=posRender;
 
