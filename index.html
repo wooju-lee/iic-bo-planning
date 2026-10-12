@@ -4293,6 +4293,8 @@ function exportProductSales(){
 // Label Register -> carrier select -> request to TMS -> label received (simulated) -> Label Print enabled
 const LABEL_CARRIERS=['FedEx','UPS'];
 const LABEL_DEFAULT_CARRIER='FedEx';
+const LABEL_SERVICE_TYPES=['Ground','Express'];
+const LABEL_DEFAULT_SERVICE_TYPE='Ground';
 const LABEL_BLOCKED=['OUTBOUND_COMPLETED','OUTBOUND_CANCELLED'];
 function obLabelActions(r,idx){
   if(r.type!=='S2S') return '';
@@ -4311,6 +4313,8 @@ function openLabelRegister(idx){
     <div style="padding:8px 4px 4px;">
       <div style="font-size:13px;font-weight:700;color:#222;margin-bottom:8px;">Carrier <span style="color:#d32f2f;">*</span></div>
       <div class="field-inline"><select id="lb-carrier" style="width:100%;height:38px;">${LABEL_CARRIERS.map(c=>'<option value="'+c+'"'+(c===LABEL_DEFAULT_CARRIER?' selected':'')+'>'+c+'</option>').join('')}</select></div>
+      <div style="font-size:13px;font-weight:700;color:#222;margin:16px 0 8px;">Service Type <span style="color:#d32f2f;">*</span></div>
+      <div class="field-inline"><select id="lb-service" style="width:100%;height:38px;">${LABEL_SERVICE_TYPES.map(t=>'<option value="'+t+'"'+(t===LABEL_DEFAULT_SERVICE_TYPE?' selected':'')+'>'+t+'</option>').join('')}</select></div>
       <div style="font-size:13px;color:#333;line-height:1.6;margin:18px 0 20px;">This order will be sent to TMS for label registration. Do you want to proceed?</div>
       <div class="lb-foot"><button class="btn-action btn-primary" id="lb-submit" onclick="submitLabelRegister(${idx})" style="height:36px;padding:0 28px;"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="vertical-align:-4px;margin-right:6px;"><path d="M20 8h-3V4H3c-1.1 0-2 .9-2 2v11h2c0 1.66 1.34 3 3 3s3-1.34 3-3h6c0 1.66 1.34 3 3 3s3-1.34 3-3h2v-5l-3-4zM6 18.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zm13.5-9l1.96 2.5H17V9.5h2.5zm-1.5 9c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/></svg>CONFIRM</button></div>
     </div>`;
@@ -4318,17 +4322,17 @@ function openLabelRegister(idx){
   csSyncModal();
 }
 function submitLabelRegister(idx){
-  const r=OUTBOUND_DATA[idx],carrier=document.getElementById('lb-carrier').value;if(!carrier)return;
-  r.label={status:'REQUESTED',carrier};
-  r.statusHistory=(r.statusHistory||[]).concat([{status:'Label Registered ('+carrier+')',date:nowStr(),by:'monster1437'}]);
-  closeLabelModal();openObDetail(idx);showToast('Label Register','Label requested to TMS ('+carrier+').');
+  const r=OUTBOUND_DATA[idx],carrier=document.getElementById('lb-carrier').value,serviceType=document.getElementById('lb-service').value;if(!carrier||!serviceType)return;
+  r.label={status:'REQUESTED',carrier,serviceType};
+  r.statusHistory=(r.statusHistory||[]).concat([{status:'Label Registered ('+carrier+' / '+serviceType+')',date:nowStr(),by:'monster1437'}]);
+  closeLabelModal();openObDetail(idx);showToast('Label Register','Label requested to TMS ('+carrier+' / '+serviceType+').');
   // Simulated TMS response
   setTimeout(()=>{
     const trackNo=genLabelTrackNo(carrier);
-    r.label={status:'RECEIVED',carrier,trackNo};r.carrier=carrier;r.trackNo=trackNo;
+    r.label={status:'RECEIVED',carrier,serviceType,trackNo};r.carrier=carrier;r.trackNo=trackNo;
     r.statusHistory.push({status:'Label Received (TMS)',date:nowStr(),by:'TMS'});
     if(currentObDetailIdx===idx) openObDetail(idx);
-    showToast('Label Received','TMS label received: '+carrier+' / '+trackNo);
+    showToast('Label Received','TMS label received: '+carrier+' ('+serviceType+') / '+trackNo);
   },3000);
 }
 // Dummy ship-from / ship-to addresses for the label (TMS returns the label as a PDF in production)
@@ -4337,7 +4341,11 @@ const LABEL_STORE_ADDR={
   US1002:{name:'GENTLE MONSTER BEVERLY HILLS',phone:'3102811580',street:'320 N BEVERLY DR',city:'BEVERLY HILLS',state:'CA',zip:'90210-4705'},
   US1010:{name:'GENTLE MONSTER US WH',phone:'7145550123',street:'2211 E HOWELL AVE',city:'ANAHEIM',state:'CA',zip:'92806-6009'}
 };
-const LABEL_SERVICE={UPS:{name:'UPS 2ND DAY AIR',lvl:'2'},FedEx:{name:'FEDEX 2DAY',lvl:'2'}};
+// Service name printed on the label by carrier / service type (dummy)
+const LABEL_SERVICE={
+  UPS:{Ground:{name:'UPS GROUND',lvl:'G'},Express:{name:'UPS 2ND DAY AIR',lvl:'2'}},
+  FedEx:{Ground:{name:'FEDEX GROUND',lvl:'G'},Express:{name:'FEDEX 2DAY',lvl:'2'}}
+};
 function genLabelTrackNo(carrier){
   const A='0123456789ABCDEFGHJKLMNPRSTUVWXYZ',rnd=(set,n)=>Array.from({length:n},()=>set[Math.floor(Math.random()*set.length)]).join('');
   return carrier==='UPS'?'1Z'+rnd(A,6)+'02'+rnd('0123456789',8):rnd('0123456789',12);
@@ -4363,7 +4371,7 @@ function lbAddr(store){
   return LABEL_STORE_ADDR[code]||{name:'GENTLE MONSTER '+((store||'').split(' / ')[1]||'').toUpperCase(),phone:'0000000000',street:'-',city:'-',state:'',zip:''};
 }
 function labelHtml(r){
-  const lb=r.label,from=lbAddr(r.fromStore),to=lbAddr(r.toStore),svc=LABEL_SERVICE[lb.carrier];
+  const lb=r.label,from=lbAddr(r.fromStore),to=lbAddr(r.toStore),svc=LABEL_SERVICE[lb.carrier][lb.serviceType||LABEL_DEFAULT_SERVICE_TYPE];
   const qty=(r.items||[]).reduce((a,i)=>a+(i.regQty||0),0),lbs=Math.max(1,Math.ceil(qty*0.12));
   const route=to.state+' '+(to.zip||'000').slice(0,3)+' 9-03';
   return `<div class="lp-label">

@@ -51,12 +51,13 @@ BO 신규/변경 기능의 기획 검토용 UI 프로토타입입니다. 여러 
 
 #### S2S Label (TMS)
 - **대상**: Outbound Detail 중 Type = S2S 건 (OUTBOUND INFORMATION 헤더의 Label Register / Label Print 버튼)
-- **Label Register**: Carrier 선택 (FedEx / UPS, 기본값 FedEx) → CONFIRM 시 TMS로 라벨 요청 → 라벨 수신 시 Carrier / Tracking No. 자동 입력, Label Print 활성화 (TMS 응답은 3초 후 수신으로 시뮬레이션)
+- **Label Register**: Carrier 선택 (FedEx / UPS, 기본값 FedEx) + Service Type 선택 (Ground / Express, 기본값 Ground) → CONFIRM 시 TMS로 라벨 요청 → 라벨 수신 시 Carrier / Tracking No. 자동 입력, Label Print 활성화 (TMS 응답은 3초 후 수신으로 시뮬레이션)
 - **라벨 상태 표시**: Not Registered / Waiting / Received
 - **Label Print**: PDF 뷰어 형태 팝업 (줌 / 회전 / 인쇄, 썸네일) + 4x6 배송 라벨 미리보기 (Ship From/To, 라우팅 코드, 서비스, 송장번호 바코드, REF: I/V No.)
 - **Tracking No. 형식**: UPS `1Z` + 16자리, FedEx 숫자 12자리
 - **제약**: OUTBOUND_COMPLETED / OUTBOUND_CANCELLED 상태에서는 Label Register 불가
-- **상태 변경 이력**: Label Registered / Label Received (TMS) / Label Printed
+- **상태 변경 이력**: Label Registered (Carrier / Service Type) / Label Received (TMS) / Label Printed
+- **라벨 서비스명**: Ground → `FEDEX GROUND` / `UPS GROUND`, Express → `FEDEX 2DAY` / `UPS 2ND DAY AIR` (더미)
 - 라벨의 스토어 주소, 2D 코드, 바코드는 더미 데이터 (실제 운영 시 TMS에서 PDF 라벨 수신)
 
 ### Master Information > Price > Discount Price
