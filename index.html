@@ -114,6 +114,41 @@ body{background:#f8f8f8;color:#222;font-size:13px;overflow-x:hidden;zoom:0.8;}
 #dp-view table.grid tbody tr,#sp-view table.grid tbody tr{cursor:default;}
 #dp-view table.grid tbody tr:hover td,#sp-view table.grid tbody tr:hover td{background:#fff!important;}
 .dp-empty{padding:48px 0!important;color:#999!important;}
+/* ===== Store (Master Information > Store) ===== */
+.st-sub{font-size:10px;font-weight:400;opacity:.85;}
+.grid th.st-sort{cursor:pointer;user-select:none;}
+.st-sort-ico{display:inline-block;width:10px;margin-left:4px;font-size:10px;}
+.grid th.st-sort[data-dir="asc"] .st-sort-ico::after{content:'▲';}
+.grid th.st-sort[data-dir="desc"] .st-sort-ico::after{content:'▼';}
+.st-link{color:#1976d2;text-decoration:underline;cursor:pointer;background:none;border:none;font-size:12px;padding:0;}
+.st-tz small{display:block;color:#888;font-size:11px;}
+.st-hist-fields div+div{margin-top:2px;}
+.modal-box.st-modal{width:1080px;max-width:94vw;max-height:90vh;display:flex;flex-direction:column;}
+.modal-box.st-modal .modal-body{padding:20px 28px 28px;max-height:none;flex:1;overflow-y:auto;background:#fafafa;}
+.st-modal-foot{display:flex;justify-content:flex-end;padding:14px 28px;border-top:1px solid #eee;background:#fff;}
+.st-sec-title{font-size:14px;font-weight:700;color:#222;margin:22px 0 10px;}
+.st-sec-title:first-child{margin-top:0;}
+.st-sec{background:#fff;border:1px solid #e8e8e8;border-radius:8px;padding:18px 22px;}
+.st-ro{display:grid;grid-template-columns:1fr 1fr;gap:12px 32px;}
+.st-ro>div{display:flex;align-items:center;gap:16px;font-size:12px;}
+.st-ro>div.full{grid-column:1/-1;}
+.st-ro label,.st-f label{width:150px;flex-shrink:0;font-size:12px;font-weight:600;color:#555;line-height:1.35;}
+.st-two{display:grid;grid-template-columns:1fr 1fr;gap:0 32px;}
+.st-f{display:flex;align-items:flex-start;gap:16px;margin-top:12px;}
+.st-f:first-child{margin-top:0;}
+.st-f>.st-in{flex:1;min-width:0;}
+.st-f input[type=text],.st-f input[type=date],.st-f textarea,.st-f select{width:100%;height:34px;border:1px solid #d5d5d5;border-radius:4px;padding:0 10px;font-size:12px;background:#fff;outline:none;box-sizing:border-box;font-family:inherit;}
+.st-f textarea{height:96px;padding:8px 10px;resize:vertical;}
+.st-f input:focus,.st-f textarea:focus{border-color:#ff6b35;box-shadow:0 0 0 2px rgba(255,107,53,0.12);}
+.st-f .st-err{display:none;color:#d32f2f;font-size:11px;margin-top:4px;}
+.st-f.err input,.st-f.err textarea{border-color:#d32f2f;}
+.st-f.err .st-err{display:block;}
+.st-req{color:#d32f2f;margin-left:2px;}
+.st-cnt{float:right;color:#aaa;font-size:10px;font-weight:400;}
+.st-mgr-sugg{position:relative;}
+.st-mgr-sugg .pa-sugg-list{position:absolute;left:0;right:0;top:36px;z-index:5;background:#fff;border:1px solid #ddd;border-radius:4px;box-shadow:0 4px 12px rgba(0,0,0,.08);max-height:180px;overflow:auto;}
+.st-mgr-sugg .pa-sugg-list div{padding:8px 10px;font-size:12px;cursor:pointer;}
+.st-mgr-sugg .pa-sugg-list div:hover{background:#fff4ee;}
 /* Home (Main) */
 .bc a{color:rgba(115,115,115,1);text-decoration:none;}
 .menu-item.depth1.group-current{background:rgba(0,0,0,0.02);}
@@ -1896,6 +1931,145 @@ table.grid th.ol-sort.asc .arr{transform:rotate(180deg);}
     </div>
   </div>
 
+  <!-- ===== STORE VIEW (Master Information > Store) ===== -->
+  <div class="detail-view" id="st-view">
+    <div class="psv-tabs">
+      <div class="psv-tab" data-tab="list" onclick="stSwitchTab('list')">STORE LIST</div>
+      <div class="psv-tab" data-tab="history" onclick="stSwitchTab('history')">EDIT HISTORY</div>
+    </div>
+    <!-- Tab 1: Store List -->
+    <div id="st-list-pane">
+      <div class="search-box">
+        <table class="search-table">
+          <tr>
+            <th>Brand</th>
+            <td><div class="field-row"><div class="field-inline"><select id="st-brand" style="min-width:360px;" onchange="stBrandChange()"><option value="">All</option></select></div></div></td>
+          </tr>
+          <tr>
+            <th>BP</th>
+            <td><div class="field-row"><div class="field-inline"><select id="st-bp" style="min-width:360px;" onchange="stBpChange('st')"><option value="">All</option></select></div></div></td>
+          </tr>
+          <tr>
+            <th>Store</th>
+            <td><div class="field-row"><div class="multi-select-wrap">
+              <div class="multi-select-trigger" id="stStore-trigger" onclick="toggleMulti('stStore')" style="min-width:360px;">Store (All)</div>
+              <div class="multi-select-dropdown hidden" id="stStore-dropdown"></div>
+            </div></div></td>
+          </tr>
+          <tr>
+            <th>Country</th>
+            <td><div class="field-row"><div class="field-inline"><select id="st-country" style="min-width:360px;"><option value="">All</option></select></div></div></td>
+          </tr>
+        </table>
+        <div class="search-action">
+          <button class="btn-search" onclick="searchStore()"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><use href="#i-search"/></svg>Search</button>
+        </div>
+      </div>
+      <div class="table-box">
+        <div class="table-toolbar">
+          <div class="table-toolbar-left">Total <b id="st-total">0</b> Count</div>
+          <div class="table-toolbar-right">
+            <button class="btn-action btn-outline" onclick="exportStore('list')">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="#555"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
+              Excel Export
+            </button>
+          </div>
+        </div>
+        <div class="grid-wrap">
+          <table class="grid">
+            <thead>
+              <tr class="hdr">
+                <th>Brand<br><span class="st-sub">(Code / Name)</span></th>
+                <th class="st-sort" data-sort="branchCode" onclick="stSort('branchCode')">BP Information<br><span class="st-sub">(Code / Name)</span><span class="st-sort-ico"></span></th>
+                <th class="st-sort" data-sort="storeCode" onclick="stSort('storeCode')">Store Information<br><span class="st-sub">(Code / Name)</span><span class="st-sort-ico"></span></th>
+                <th>Country</th>
+                <th>VAT<br><span class="st-sub">(%)</span></th>
+                <th>Currency<br><span class="st-sub">(Transaction Currency)</span></th>
+                <th>Currency<br><span class="st-sub">(Purchase Currency)</span></th>
+                <th>Store TimeZone</th>
+              </tr>
+            </thead>
+            <tbody id="st-body"></tbody>
+          </table>
+        </div>
+        <div class="pg-bar">
+          <div class="rpp"><span>Rows per page:</span>
+            <select id="st-rpp" style="width:72px;" onchange="stPage=1;renderStorePage();">
+              <option value="10">10</option><option value="30" selected>30</option><option value="50">50</option><option value="100">100</option><option value="300">300</option>
+            </select>
+          </div>
+          <span id="st-range">0–0 of 0</span>
+          <div class="pg-nav">
+            <button class="pg-btn" id="st-prev" onclick="stGo(-1)"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg></button>
+            <button class="pg-btn" id="st-next" onclick="stGo(1)"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg></button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Tab 2: Edit History -->
+    <div id="st-hist-pane" hidden>
+      <div class="search-box">
+        <table class="search-table">
+          <tr>
+            <th>BP</th>
+            <td><div class="field-row"><div class="field-inline"><select id="sth-bp" style="min-width:360px;" onchange="stBpChange('sth')"><option value="">All</option></select></div></div></td>
+          </tr>
+          <tr>
+            <th>Store</th>
+            <td><div class="field-row"><div class="multi-select-wrap">
+              <div class="multi-select-trigger" id="sthStore-trigger" onclick="toggleMulti('sthStore')" style="min-width:360px;">Store (All)</div>
+              <div class="multi-select-dropdown hidden" id="sthStore-dropdown"></div>
+            </div></div></td>
+          </tr>
+          <tr>
+            <th>Edit Date</th>
+            <td><div class="field-row">
+              <div class="field-inline"><input type="date" lang="en" id="sth-from" style="min-width:170px;"></div>
+              <span style="color:#999;">~</span>
+              <div class="field-inline"><input type="date" lang="en" id="sth-to" style="min-width:170px;"></div>
+            </div></td>
+          </tr>
+        </table>
+        <div class="search-action">
+          <button class="btn-search" onclick="searchStoreHistory()"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><use href="#i-search"/></svg>Search</button>
+        </div>
+      </div>
+      <div class="table-box">
+        <div class="table-toolbar">
+          <div class="table-toolbar-left">Total <b id="sth-total">0</b> Count</div>
+          <div class="table-toolbar-right">
+            <button class="btn-action btn-outline" onclick="exportStore('history')">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="#555"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
+              Excel Export
+            </button>
+          </div>
+        </div>
+        <div class="grid-wrap">
+          <table class="grid">
+            <thead>
+              <tr class="hdr">
+                <th style="width:220px;">Edit Date</th>
+                <th>Store Information<br><span class="st-sub">(Code / Name)</span></th>
+                <th>Edit Contents</th>
+                <th style="width:160px;">Process Account<br><span class="st-sub">(Account ID)</span></th>
+              </tr>
+            </thead>
+            <tbody id="sth-body"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- STORE DETAIL MODAL (Master Information > Store) -->
+  <div class="modal-overlay" id="st-modal" onclick="if(event.target===this)closeStoreModal();">
+    <div class="modal-box st-modal">
+      <div class="modal-header"><span class="modal-title" id="st-modal-title">Store</span><button class="modal-close" onclick="closeStoreModal()">&times;</button></div>
+      <div class="modal-body" id="st-modal-body"></div>
+      <div class="st-modal-foot"><button class="btn-action btn-primary" onclick="saveStore()" style="height:36px;padding:0 28px;">Save</button></div>
+    </div>
+  </div>
+
   <!-- ===== HOME (Main) ===== -->
   <div class="detail-view" id="home-view">
     <div class="home-section">
@@ -2424,7 +2598,7 @@ function selectMulti(id,el){
   el.classList.toggle('selected');
   const sel=[...document.querySelectorAll('#'+id+'-dropdown .dd-item.selected')];
   const t=document.getElementById(id+'-trigger');
-  const labels={ilStore:'Store',ilLoc:'Location',lgStore:'Store',lgLoc:'Location',lgType:'Inventory Transaction Type',olBp:'BP',olStore:'Store',olStatus:'Order Status',rlBp:'BP',rlStore:'Store',rlStatus:'Refund Type',bp:'BP',fromStore:'From Store',toStore:'To Store',dpCat2:'Product Category 2',dpStore:'Store',drvBp:'BP',drvStore:'Store',psvBp:'BP',psvStore:'Store',prsvBp:'BP',prsvStore:'Store'};
+  const labels={ilStore:'Store',ilLoc:'Location',lgStore:'Store',lgLoc:'Location',lgType:'Inventory Transaction Type',olBp:'BP',olStore:'Store',olStatus:'Order Status',rlBp:'BP',rlStore:'Store',rlStatus:'Refund Type',bp:'BP',fromStore:'From Store',toStore:'To Store',dpCat2:'Product Category 2',dpStore:'Store',stStore:'Store',sthStore:'Store',drvBp:'BP',drvStore:'Store',psvBp:'BP',psvStore:'Store',prsvBp:'BP',prsvStore:'Store'};
   if(!sel.length) t.textContent=labels[id]+' (All)';
   else if(sel.length===1) t.textContent=sel[0].textContent.replace('✓','').trim();
   else t.textContent=sel[0].textContent.replace('✓','').trim()+' +'+(sel.length-1);
@@ -3203,7 +3377,7 @@ function csRefresh(sel){
   trg.classList.toggle('disabled',sel.disabled);
 }
 function csSyncModal(){
-  document.querySelectorAll('#ob-reg-modal select, #dp-view select, #sp-view select, #drv-view select, #psv-view select, #prsv-view select, #label-modal select, .pg-bar select').forEach(s=>{csBuild(s);csRefresh(s);});
+  document.querySelectorAll('#ob-reg-modal select, #dp-view select, #sp-view select, #drv-view select, #psv-view select, #prsv-view select, #label-modal select, #st-view select, #st-modal select, .pg-bar select').forEach(s=>{csBuild(s);csRefresh(s);});
 }
 // Re-sync whenever step content / options / disabled state change (ignore the custom UI's own mutations)
 new MutationObserver(muts=>{
@@ -3839,6 +4013,324 @@ function resetDiscountPrice(){
 }
 initDiscountPriceFilters();
 csSyncModal();
+
+// ===== Store (Master Information > Store) =====
+// Source: iic-bo-frontend features/(master)/store (Store List / Edit History tabs) + iic-bo master/store API
+// Basic info (Brand / BP / Store / Country / VAT / Currency) comes from the store master and is read-only.
+// Editable in BO: Store TimeZone, address, manager, store management info, receipt info.
+// Store master is received from SAP (Kafka storeMasterInfo.upsert); closed stores and warehouses are listed too.
+const ST_BRANDS={'1100':'GENTLE MONSTER'};
+const ST_BPS={C1002:'GM_United States',C1012:'GM_Australia'};
+// Backend TimeZone enum (subset): list shows the enum name, offsets are fixed standard offsets
+const ST_TIMEZONES=[
+  {zoneId:'UTC',offset:'+00:00',name:'UTC'},
+  {zoneId:'Asia/Seoul',offset:'+09:00',name:'KST'},
+  {zoneId:'America/Los_Angeles',offset:'-08:00',name:'PST'},
+  {zoneId:'America/Denver',offset:'-07:00',name:'MST'},
+  {zoneId:'America/Chicago',offset:'-06:00',name:'CST'},
+  {zoneId:'America/New_York',offset:'-05:00',name:'EST'},
+  {zoneId:'America/Vancouver',offset:'-08:00',name:'PST_CA'},
+  {zoneId:'America/Toronto',offset:'-05:00',name:'EST_CA'},
+  {zoneId:'Australia/Sydney',offset:'+10:00',name:'AET_SYD'}
+];
+const ST_MANAGERS=[
+  {userId:'250005',username:'monster1437',fullName:'이우주'},
+  {userId:'250011',username:'jane.park',fullName:'Jane Park'},
+  {userId:'250017',username:'alex.kim',fullName:'Alex Kim'},
+  {userId:'250023',username:'chris.lee',fullName:'Chris Lee'}
+];
+// Dummy time zone by city in the store name
+function stZoneOf(name){
+  if(/NewYork|NewJersey/.test(name)) return 'America/New_York';
+  if(/Houston/.test(name)) return 'America/Chicago';
+  if(/Sydney/.test(name)) return 'Australia/Sydney';
+  return 'America/Los_Angeles';
+}
+const STORE_MASTER=[];
+Object.entries(REG_DATA.GENTLE_MONSTER.companies).forEach(([bp,c])=>Object.entries(c.stores).forEach(([code,s])=>{
+  STORE_MASTER.push({brandCode:'1100',branchCode:bp,storeCode:code,storeName:s.name,countryCode:'US',vat:null,transactionCurrency:'USD',purchaseCurrency:'USD',zoneId:stZoneOf(s.name)});
+}));
+STORE_MASTER.push({brandCode:'1100',branchCode:'C1012',storeCode:'AU1001',storeName:'GM_Sydney_DFS_AirportT1',countryCode:'AU',vat:10,transactionCurrency:'AUD',purchaseCurrency:'AUD',zoneId:'Australia/Sydney'});
+// Additional info (dummy): only a few stores have values
+STORE_MASTER.forEach((s,i)=>{
+  const filled=i%3===0;
+  s.detail={
+    storeSubName:filled?s.storeName.replace(/^GM_/,'').replace(/_/g,' '):'',
+    state:filled?(s.countryCode==='AU'?'NSW':s.zoneId==='America/New_York'?'NY':'CA'):'',
+    city:filled?(s.countryCode==='AU'?'Sydney':s.zoneId==='America/New_York'?'New York':'Los Angeles'):'',
+    line1:filled?(100+i*7)+' Main St':'',line2:filled?'Suite '+(10+i):'',postalCode:filled?(s.countryCode==='AU'?'2020':'9'+String(1000+i*13).slice(-4)):'',
+    floor:filled?String(1+i%3):'',section:filled&&i%2?'A':'',
+    managerId:filled?ST_MANAGERS[i%ST_MANAGERS.length].userId:'',email:filled?'store.'+s.storeCode.toLowerCase()+'@gentlemonster.com':'',
+    contact1:filled?'213555'+String(1000+i).slice(-4):'',contact2:'',fax:'',
+    openDate:filled?'2024-0'+(1+i%9)+'-15':'',closeDate:'',maxCapacity:filled?'120':'',minCapacity:filled?'60':'',contractRenewal:filled?'true':'',
+    storeReceiptInfo:'',giftReceiptInfo:''
+  };
+  // Contact / receipt info live in separate tables; a store without a row yet gets one on first save
+  s.hasContact=filled;s.hasReceipt=false;
+});
+// Edit history: one row per save, Edit Contents = changed field labels
+const ST_FIELD_LABELS={zoneId:'Store TimeZone',storeSubName:'Store Name_2',state:'Address 1 (State)',city:'Address 2 (City)',line1:'Address 3 (Detail)',line2:'Address 4 (Detail)',
+  postalCode:'ZIP',floor:'Floor',section:'Zone',managerId:'Responsible Manager',email:'Email',contact1:'Contact_1',contact2:'Contact_2',fax:'FAX',
+  openDate:'Open Date',closeDate:'Closed Date',maxCapacity:'Maximum Display Capacity',minCapacity:'Minimum Display Capacity',contractRenewal:'Contract Renewal Status',
+  storeReceiptInfo:'Receipt Info',giftReceiptInfo:'Gift Receipt Info'};
+// Dummy rows dated relative to today so they fall in the default search range (today-30 ~ today)
+// modifiedAt is shown in the editor's time zone; SAP sync rows are recorded by the SAP user in KST (address fields only)
+function stDaysAgo(n,hms){const d=new Date(Date.now()-n*864e5),pad=x=>String(x).padStart(2,'0');return d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate())+' '+hms;}
+const STORE_HISTORY=[
+  {modifiedAt:stDaysAgo(2,'14:22:05'),tz:'KST',storeCode:'US1001',fields:['state','city','line1','postalCode'],by:'monster1437'},
+  {modifiedAt:stDaysAgo(5,'03:00:12'),tz:'KST',storeCode:'US1003',fields:['postalCode','line1'],by:'SAP'},
+  {modifiedAt:stDaysAgo(9,'09:41:37'),tz:'PST',storeCode:'US1007',fields:['zoneId'],by:'jane.park'},
+  {modifiedAt:stDaysAgo(16,'18:03:12'),tz:'KST',storeCode:'AU1001',fields:['managerId','email','contact1'],by:'monster1437'},
+  {modifiedAt:stDaysAgo(24,'11:15:50'),tz:'EST',storeCode:'US1004',fields:['storeReceiptInfo','giftReceiptInfo'],by:'alex.kim'},
+  {modifiedAt:stDaysAgo(45,'16:30:00'),tz:'KST',storeCode:'US1002',fields:['floor','maxCapacity','minCapacity'],by:'monster1437'}
+];
+let stRendered=false,stLastRows=[],stPage=1,stSortKey=null,stSortDir=null,stEditing=null,sthRendered=false,sthLastRows=[];
+const stTz=z=>ST_TIMEZONES.find(t=>t.zoneId===z)||ST_TIMEZONES[0];
+const stStoreText=code=>{const s=STORE_MASTER.find(x=>x.storeCode===code);return s?code+' / '+s.storeName:code;};
+const stEsc=v=>String(v??'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+function initStoreFilters(){
+  const opts=(o)=>'<option value="">All</option>'+Object.entries(o).map(([v,t])=>'<option value="'+v+'">'+v+' / '+t+'</option>').join('');
+  document.getElementById('st-brand').innerHTML=opts(ST_BRANDS);
+  document.getElementById('st-bp').innerHTML=opts(ST_BPS);
+  document.getElementById('sth-bp').innerHTML=opts(ST_BPS);
+  // Country: nationality dropdown (all countries); the prototype lists store countries only
+  document.getElementById('st-country').innerHTML='<option value="">All</option>'+[['US','United States'],['CA','Canada'],['AU','Australia']].map(([v,t])=>'<option value="'+v+'">'+t+'</option>').join('');
+  stFillStores('st');stFillStores('sth');
+  // Edit Date default: today-30 ~ today (both required by the API)
+  const iso=d=>d.toISOString().slice(0,10);
+  document.getElementById('sth-from').value=iso(new Date(Date.now()-30*864e5));
+  document.getElementById('sth-to').value=iso(new Date());
+}
+// Store options follow the selected BP (grouped by BP when BP = All)
+function stFillStores(p){
+  const bp=document.getElementById(p+'-bp').value,id=p+'Store';
+  document.getElementById(id+'-dropdown').innerHTML=STORE_MASTER.filter(s=>!bp||s.branchCode===bp).map(s=>
+    `<div class="dd-item" onclick="selectMulti('${id}',this)" data-val="${s.storeCode}"><span class="check-ico">✓</span>${s.storeCode} / ${stEsc(s.storeName)}</div>`).join('');
+  document.getElementById(id+'-trigger').textContent='Store (All)';
+}
+function stBrandChange(){const b=document.getElementById('st-bp');b.selectedIndex=0;csRefresh(b);stFillStores('st');}
+function stBpChange(p){stFillStores(p);}
+function stSwitchTab(tab){
+  document.querySelectorAll('#st-view .psv-tab').forEach(t=>t.classList.toggle('active',t.dataset.tab===tab));
+  document.getElementById('st-list-pane').hidden=tab!=='list';
+  document.getElementById('st-hist-pane').hidden=tab!=='history';
+  const hash='#/master/store'+(tab==='history'?'?tab=history':'');
+  setRoute(hash);
+  if(tab==='list'&&!stRendered) searchStore();
+  if(tab==='history'&&!sthRendered) searchStoreHistory();
+}
+function storeEnter(){
+  const tab=new URLSearchParams(location.hash.split('?')[1]||'').get('tab')==='history'?'history':'list';
+  stSwitchTab(tab);
+}
+function searchStore(){
+  const v=id=>document.getElementById(id).value;
+  const stores=[...document.querySelectorAll('#stStore-dropdown .dd-item.selected')].map(el=>el.dataset.val);
+  stLastRows=STORE_MASTER.filter(s=>(!v('st-brand')||s.brandCode===v('st-brand'))&&(!v('st-bp')||s.branchCode===v('st-bp'))&&
+    (!stores.length||stores.includes(s.storeCode))&&(!v('st-country')||s.countryCode===v('st-country')));
+  // New search resets sort to default (API order)
+  stSortKey=null;stSortDir=null;
+  stPage=1;stRendered=true;
+  document.getElementById('st-total').textContent=stLastRows.length;
+  renderStorePage();
+}
+// Sortable: BP Information / Store Information (asc -> desc -> none)
+function stSort(key){
+  if(stSortKey!==key){stSortKey=key;stSortDir='asc';}
+  else if(stSortDir==='asc') stSortDir='desc';
+  else {stSortKey=null;stSortDir=null;}
+  stPage=1;renderStorePage();
+}
+function stSortedRows(){
+  // No sort selected -> API default: branchCode DESC
+  const key=stSortKey||'branchCode',d=stSortKey&&stSortDir==='asc'?1:-1;
+  return [...stLastRows].sort((a,b)=>a[key].localeCompare(b[key])*d||a.storeCode.localeCompare(b.storeCode));
+}
+function renderStorePage(){
+  const rows=stSortedRows(),total=rows.length;
+  const size=+document.getElementById('st-rpp').value||30;
+  const start=(stPage-1)*size,end=Math.min(start+size,total);
+  document.querySelectorAll('#st-view th.st-sort').forEach(th=>{if(th.dataset.sort===stSortKey) th.dataset.dir=stSortDir; else delete th.dataset.dir;});
+  document.getElementById('st-body').innerHTML=total?rows.slice(start,end).map(s=>{const tz=stTz(s.zoneId);return `<tr>
+    <td>${s.brandCode} / ${ST_BRANDS[s.brandCode]}</td>
+    <td>${s.branchCode} / ${ST_BPS[s.branchCode]}</td>
+    <td><button class="st-link" onclick="openStoreModal('${s.storeCode}')">${s.storeCode} / ${stEsc(s.storeName)}</button></td>
+    <td>${s.countryCode||'-'}</td><td>${s.vat||'-'}</td><td>${s.transactionCurrency||'-'}</td><td>${s.purchaseCurrency||'-'}</td>
+    <td class="st-tz">${tz.name}<small>(${tz.zoneId},${tz.offset})</small></td></tr>`;}).join('')
+    :'<tr><td colspan="8" class="dp-empty">No data found.</td></tr>';
+  document.getElementById('st-range').textContent=(total?start+1:0)+'–'+end+' of '+total;
+  document.getElementById('st-prev').disabled=stPage<=1;
+  document.getElementById('st-next').disabled=end>=total;
+}
+function stGo(delta){
+  const size=+document.getElementById('st-rpp').value||30;
+  stPage=Math.min(Math.max(1,Math.ceil(stLastRows.length/size)),Math.max(1,stPage+delta));
+  renderStorePage();
+}
+function searchStoreHistory(){
+  const v=id=>document.getElementById(id).value;
+  const stores=[...document.querySelectorAll('#sthStore-dropdown .dd-item.selected')].map(el=>el.dataset.val);
+  const from=v('sth-from'),to=v('sth-to');
+  if(!from||!to){showToast('Search','Edit Date (start / end) is required.','error');return;}
+  if(from>to){showToast('Search','Edit Date: start date must be on or before end date.','error');return;}
+  const bpOf=code=>STORE_MASTER.find(s=>s.storeCode===code)?.branchCode;
+  sthLastRows=STORE_HISTORY.filter(h=>(!v('sth-bp')||bpOf(h.storeCode)===v('sth-bp'))&&(!stores.length||stores.includes(h.storeCode))&&
+    (!from||h.modifiedAt.slice(0,10)>=from)&&(!to||h.modifiedAt.slice(0,10)<=to))
+    .sort((a,b)=>b.modifiedAt.localeCompare(a.modifiedAt));
+  sthRendered=true;
+  document.getElementById('sth-total').textContent=sthLastRows.length;
+  document.getElementById('sth-body').innerHTML=sthLastRows.length?sthLastRows.map(h=>`<tr>
+    <td>${h.modifiedAt} (${h.tz})</td><td>${stEsc(stStoreText(h.storeCode))}</td>
+    <td class="st-hist-fields">${h.fields.map(f=>'<div>'+ST_FIELD_LABELS[f]+'</div>').join('')}</td><td>${h.by}</td></tr>`).join('')
+    :'<tr><td colspan="4" class="dp-empty">No data found.</td></tr>';
+}
+// ----- Store detail modal -----
+// Field rules follow storeFormSchema (frontend zod schema)
+const ST_FORM=[
+  {sec:'addr',key:'storeSubName',label:'Store Name_2',max:50},
+  {sec:'addr',key:'state',label:'Address 1 (State)',req:true,max:200},
+  {sec:'addr',key:'city',label:'Address 2 (City)',req:true,max:100},
+  {sec:'addr',key:'line1',label:'Address 3 (Detail)',req:true,max:100},
+  {sec:'addr',key:'line2',label:'Address 4 (Detail)',req:true,max:100},
+  {sec:'addr',key:'postalCode',label:'ZIP',req:true,max:20},
+  {sec:'addr',key:'floor',label:'Floor',num999:true},
+  {sec:'addr',key:'section',label:'Zone',max:30},
+  {sec:'mgr',key:'managerId',label:'Responsible Manager',type:'manager'},
+  {sec:'mgr',key:'email',label:'Email',max:100},
+  {sec:'mgr',key:'contact1',label:'Contact_1',max:100},
+  {sec:'mgr',key:'contact2',label:'Contact_2',max:100},
+  {sec:'mgr',key:'fax',label:'FAX',max:100},
+  {sec:'ops',key:'openDate',label:'Open Date',type:'date'},
+  {sec:'ops',key:'closeDate',label:'Closed Date',type:'date'},
+  {sec:'ops',key:'maxCapacity',label:'Maximum Display Capacity',num999:true},
+  {sec:'ops',key:'minCapacity',label:'Minimum Display Capacity',num999:true},
+  {sec:'ops',key:'contractRenewal',label:'Contract Renewal Status',type:'yn'},
+  {sec:'rcpt',key:'storeReceiptInfo',label:'Receipt Info',type:'text',max:2000},
+  {sec:'rcpt',key:'giftReceiptInfo',label:'Gift Receipt Info',type:'text',max:2000}
+];
+const stMgrText=id=>{const m=ST_MANAGERS.find(x=>x.userId===id);return m?m.username+' ('+m.fullName+')':'';};
+function stFieldHtml(f,d){
+  const val=d[f.key]??'',id='stf-'+f.key,max=f.max?` maxlength="${f.max}"`:'';
+  let input;
+  if(f.type==='date') input=`<input type="date" lang="en" id="${id}" value="${val}">`;
+  else if(f.type==='yn') input=`<select id="${id}"><option value="">-</option><option value="true"${val==='true'?' selected':''}>Y</option><option value="false"${val==='false'?' selected':''}>N</option></select>`;
+  else if(f.type==='text') input=`<textarea id="${id}"${max} placeholder="Please enter Yeongsu information." oninput="stCount(this)">${stEsc(val)}</textarea>`;
+  else if(f.type==='manager') input=`<div class="st-mgr-sugg"><input type="text" id="${id}-q" value="${stEsc(stMgrText(val))}" placeholder="Please enter a value." autocomplete="off" oninput="stMgrSearch(this.value)"><input type="hidden" id="${id}" value="${val}"><div class="pa-sugg-list" id="${id}-list" hidden></div></div>`;
+  else input=`<input type="text" id="${id}" value="${stEsc(val)}"${max} placeholder="Please enter a value.">`;
+  const cnt=f.type==='text'?`<span class="st-cnt" id="${id}-cnt">${String(val).length} / ${f.max}</span>`:'';
+  return `<div class="st-f" data-key="${f.key}"><label>${f.label}${f.req?'<span class="st-req">*</span>':''}</label><div class="st-in">${cnt}${input}<div class="st-err"></div></div></div>`;
+}
+function stCount(el){const c=document.getElementById(el.id+'-cnt');if(c)c.textContent=el.value.length+' / '+el.maxLength;}
+function stMgrSearch(q){
+  const list=document.getElementById('stf-managerId-list');
+  document.getElementById('stf-managerId').value='';
+  q=q.trim().toLowerCase();
+  // Search starts from 1 character (users dropdown API)
+  const hits=q?ST_MANAGERS.filter(m=>(m.username+' '+m.fullName).toLowerCase().includes(q)):[];
+  list.innerHTML=hits.map(m=>`<div onclick="stMgrPick('${m.userId}')">${m.username} (${stEsc(m.fullName)})</div>`).join('');
+  list.hidden=!hits.length;
+}
+function stMgrPick(id){
+  document.getElementById('stf-managerId').value=id;
+  document.getElementById('stf-managerId-q').value=stMgrText(id);
+  document.getElementById('stf-managerId-list').hidden=true;
+}
+function openStoreModal(code){
+  const s=STORE_MASTER.find(x=>x.storeCode===code);if(!s) return;
+  stEditing=s;
+  const d={...s.detail,zoneId:s.zoneId},sec=k=>ST_FORM.filter(f=>f.sec===k).map(f=>stFieldHtml(f,d)).join('');
+  const ro=(l,v,cls)=>`<div${cls?' class="'+cls+'"':''}><label>${l}</label><span>${v||'-'}</span></div>`;
+  document.getElementById('st-modal-title').textContent=s.storeName;
+  document.getElementById('st-modal-body').innerHTML=`
+    <div class="st-sec-title"># Basic Information</div>
+    <div class="st-sec"><div class="st-ro">
+      ${ro('Brand',ST_BRANDS[s.brandCode],'full')}
+      ${ro('BP Information',ST_BPS[s.branchCode])}${ro('Store Information',s.storeCode+' / '+stEsc(s.storeName))}
+      ${ro('Country',s.countryCode)}${ro('VAT (%)',s.vat)}
+      ${ro('Currency<br>(Transaction Currency)',s.transactionCurrency)}${ro('Currency<br>(Purchase Currency)',s.purchaseCurrency)}
+    </div>
+    <div class="st-f" style="margin-top:14px;"><label>Store TimeZone<span class="st-req">*</span></label><div class="st-in">
+      <select id="stf-zoneId">${ST_TIMEZONES.map(t=>`<option value="${t.zoneId}"${t.zoneId===s.zoneId?' selected':''}>${t.zoneId} (${t.offset})</option>`).join('')}</select></div></div>
+    </div>
+    <div class="st-sec-title"># Additional Basic Information</div>
+    <div class="st-sec st-two"><div>${sec('addr')}</div><div>${sec('mgr')}</div></div>
+    <div class="st-two">
+      <div><div class="st-sec-title"># Store Management Info</div><div class="st-sec">${sec('ops')}</div></div>
+      <div><div class="st-sec-title"># Receipt Entry Info</div><div class="st-sec">${sec('rcpt')}</div></div>
+    </div>`;
+  document.getElementById('st-modal').classList.add('show');
+  csSyncModal();
+}
+function closeStoreModal(){document.getElementById('st-modal').classList.remove('show');stEditing=null;}
+function stValidate(vals){
+  const errs={};
+  ST_FORM.forEach(f=>{
+    const v=String(vals[f.key]??'').trim();
+    if(f.req&&!v) errs[f.key]='This field is required.';
+    else if(f.max&&v.length>f.max) errs[f.key]='Up to '+f.max+' characters.';
+    else if(f.num999&&v&&!/^[1-9]\d{0,2}$/.test(v)) errs[f.key]='Only values from 1 to 999 are allowed.';
+  });
+  // Open Date must be earlier than Closed Date
+  if(vals.openDate&&vals.closeDate&&vals.openDate>=vals.closeDate){
+    errs.openDate='Open Date must be earlier than Closed Date.';errs.closeDate='Closed Date must be later than Open Date.';
+  }
+  return errs;
+}
+// Backend validation (StoreDetailUpdateRequest): runs after the frontend schema passes, shown as an API error toast
+function stApiValidate(v){
+  if(['state','city','section'].some(k=>v[k].length>30)) return 'Address 1 (State) / Address 2 (City) / Zone: up to 30 characters.';
+  if(!/^[A-Za-z0-9 \-]{0,20}$/.test(v.postalCode)) return 'ZIP: letters, numbers, spaces and hyphens only.';
+  if(v.email&&!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(v.email)) return 'Email: invalid format.';
+  if(!/^\d*$/.test(v.contact1)||!/^\d*$/.test(v.contact2)) return 'Contact_1 / Contact_2: numbers only.';
+  if(v.maxCapacity&&v.minCapacity&&+v.maxCapacity<+v.minCapacity) return 'Only values from 1 to 999 are allowed. (Maximum must be ≥ Minimum)';
+  return '';
+}
+function saveStore(){
+  const s=stEditing;if(!s) return;
+  const vals={zoneId:document.getElementById('stf-zoneId').value};
+  ST_FORM.forEach(f=>{vals[f.key]=document.getElementById('stf-'+f.key).value;});
+  if(document.getElementById('stf-managerId-q').value.trim()&&!vals.managerId) vals.managerId=s.detail.managerId;  // keep previous when text not picked
+  const errs=stValidate(vals);
+  document.querySelectorAll('#st-modal-body .st-f[data-key]').forEach(el=>{
+    const e=errs[el.dataset.key];el.classList.toggle('err',!!e);el.querySelector('.st-err').textContent=e||'';
+  });
+  if(Object.keys(errs).length){showToast('Store','Please check the highlighted fields.','error');return;}
+  const apiErr=stApiValidate(vals);
+  if(apiErr){showToast('Store',apiErr,'error');return;}
+  const before={...s.detail,zoneId:s.zoneId};
+  // First save of contact / receipt info (row insert) is not recorded in Edit History (backend behavior)
+  const CONTACT=['managerId','email','contact1','contact2','fax'],RECEIPT=['storeReceiptInfo','giftReceiptInfo'];
+  const changed=Object.keys(vals).filter(k=>String(before[k]??'')!==String(vals[k]??''))
+    .filter(k=>!(CONTACT.includes(k)&&!s.hasContact)&&!(RECEIPT.includes(k)&&!s.hasReceipt));
+  s.hasContact=true;s.hasReceipt=true;
+  s.zoneId=vals.zoneId;
+  ST_FORM.forEach(f=>{s.detail[f.key]=vals[f.key];});
+  if(changed.length){
+    const d=new Date(),pad=n=>String(n).padStart(2,'0');
+    STORE_HISTORY.unshift({modifiedAt:d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate())+' '+pad(d.getHours())+':'+pad(d.getMinutes())+':'+pad(d.getSeconds()),tz:'KST',storeCode:s.storeCode,fields:changed,by:'monster1437'});
+    sthRendered=false;
+  }
+  closeStoreModal();
+  if(stRendered) renderStorePage();
+  showToast('The save has been completed.','Processed successfully.');
+}
+// Excel export: all rows of the last search (list) / history result
+function exportStore(kind){
+  if(typeof XLSX==='undefined'){showToast('Excel Export','Excel library failed to load. Check network and reload.','error');return;}
+  const list=kind==='list',rows=list?stSortedRows():sthLastRows;
+  if(!rows.length){showToast('Excel Export','No data to export.','error');return;}
+  const aoa=list
+    ?[['Brand (Code / Name)','BP Information (Code / Name)','Store Information (Code / Name)','Country','VAT (%)','Currency (Transaction Currency)','Currency (Purchase Currency)','Store TimeZone']]
+      .concat(rows.map(s=>{const tz=stTz(s.zoneId);return [s.brandCode+' / '+ST_BRANDS[s.brandCode],s.branchCode+' / '+ST_BPS[s.branchCode],s.storeCode+' / '+s.storeName,s.countryCode,s.vat??'',s.transactionCurrency,s.purchaseCurrency,tz.name+' ('+tz.zoneId+','+tz.offset+')'];}))
+    :[['Edit Date','Store Information (Code / Name)','Edit Contents','Process Account (Account ID)']]
+      .concat(rows.map(h=>[h.modifiedAt+' ('+h.tz+')',stStoreText(h.storeCode),h.fields.map(f=>ST_FIELD_LABELS[f]).join(', '),h.by]));
+  const ws=XLSX.utils.aoa_to_sheet(aoa),wb=XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(wb,ws,list?'Store List':'Store Edit History');
+  const d=new Date(),fileName=(list?'store_list_':'store_history_')+d.getFullYear()+'_'+(d.getMonth()+1)+'_'+d.getDate()+'.xlsx';
+  XLSX.writeFile(wb,fileName);
+  showToast('Excel Export',fileName+' — '+rows.length+' rows');
+}
+initStoreFilters();
 
 // ===== Supply Price (Master > Price) =====
 // Supply prices by BP (values from production Supply Price list, C1002)
@@ -5747,6 +6239,7 @@ function genReqNo(){return 'RQ'+String(nextReqNo++).padStart(6,'0');}
 // Home: screens built in this prototype (shortcut cards)
 const HOME_LINKS=[
   {menu:'Inventory',title:'Outbound List',desc:'Outbound / Outbound Request list, detail, registration (Outbound Order Tag)',path:'/inventory/outbound'},
+  {menu:'Master Information',title:'Store',desc:'Store master list (SAP) and store detail / edit history',path:'/master/store'},
   {menu:'Master Information › Price',title:'Store Customer Price',desc:'Store price by Brand > Store (SAP), used before sales price at POS',path:'/master/price/store-customer-price'},
   {menu:'Master Information › Price',title:'Supply Price',desc:'Supply price by Brand > BP',path:'/master/price/supply-price'},
   {menu:'Sales',title:'Daily Record View',desc:'Daily receipts with Total Sum (sales / return)',path:'/sales/daily-record-view'},
@@ -5761,7 +6254,7 @@ const OUTBOUND_PAGE={bc:['Inventory'],title:'Outbound List',open:['inv'],menu:'/
 // Menus not built in this prototype -> placeholder page
 const MENU_PAGES={
   '/':{bc:[],title:'Main',open:[],view:'home-view',onEnter:renderHomeCards},
-  '/master/store':{bc:['Master Information'],title:'Store',open:['master']},
+  '/master/store':{bc:['Master Information'],title:'Store',open:['master'],view:'st-view',onEnter:storeEnter},
   '/master/product/product-list':{bc:['Master Information','Product'],title:'Product List',open:['master','mst-product']},
   '/master/product/rx-product-list':{bc:['Master Information','Product'],title:'RX Product List',open:['master','mst-product']},
   '/master/package/bp-package':{bc:['Master Information','Package'],title:'BP Package',open:['master','mst-package']},

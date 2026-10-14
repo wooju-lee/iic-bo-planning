@@ -18,6 +18,7 @@ BO 신규/변경 기능의 기획 검토용 UI 프로토타입입니다. 여러 
 | Inventory > Outbound Request List | `#/inventory/outbound?tab=request` |
 | Outbound Detail | `#/inventory/outbound/{I/V No.}` |
 | Outbound Request Detail | `#/inventory/outbound-request/{Request No.}` |
+| Master Information > Store (Store List / Edit History) | `#/master/store`, `#/master/store?tab=history` |
 | Master Information > Price > Discount Price | `#/master/price/discount-price` |
 | Sales > Daily Record View | `#/sales/daily-record-view` |
 | Inventory > Monitoring > Inventory List | `#/inventory/monitoring/inventory-list` |
@@ -59,6 +60,14 @@ BO 신규/변경 기능의 기획 검토용 UI 프로토타입입니다. 여러 
 - **상태 변경 이력**: Label Registered (Carrier / Service Type) / Label Received (TMS) / Label Printed
 - **라벨 서비스명**: Ground → `FEDEX GROUND` / `UPS GROUND`, Express → `FEDEX 2DAY` / `UPS 2ND DAY AIR` (더미)
 - 라벨의 스토어 주소, 2D 코드, 바코드는 더미 데이터 (실제 운영 시 TMS에서 PDF 라벨 수신)
+
+### Master Information > Store
+실제 코드 기준 재현 (iic-bo-frontend `features/(master)/store`, iic-bo `master/store`, 2026-10-14 기준)
+- **Store List 탭**: 검색 Brand / BP / Store(멀티, BP 연동) / Country → 컬럼 Brand, BP Information, Store Information(클릭 시 상세 모달), Country, VAT (%), Currency (Transaction / Purchase), Store TimeZone(enum 이름 + zoneId, offset). 정렬은 BP / Store만 가능, 미정렬 시 BP 내림차순(API 기본). Excel Export
+- **상세 모달**: Basic Information은 SAP 수신 값이라 읽기 전용(Store TimeZone만 수정), Additional Basic Information(주소 / 담당자·연락처), Store Management Info, Receipt Entry Info 수정 후 Save
+  - 프론트 검증(필수: Address 1~4, ZIP / Floor·Capacity 1~999 / Open Date < Closed Date)을 먼저 하고, 통과하면 백엔드 검증(State·City·Zone 30자, ZIP 형식, Email 형식, Contact 숫자만, Max ≥ Min)을 API 에러 토스트로 표시
+- **Edit History 탭**: 검색 BP / Store / Edit Date(필수, 기본 오늘-30일 ~ 오늘) → Edit Date(수정자 타임존), Store, Edit Contents(변경 필드명), Process Account. Save 시 변경된 필드만 1행 기록, 연락처·영수 정보를 처음 저장할 때는 기록 안 됨(백엔드 동작), SAP 수신 시 주소 변경은 `SAP` 계정으로 기록
+- 스토어 목록은 C1002(US) 스토어 + AU1001 더미, 상세 정보 값은 더미
 
 ### Master Information > Price > Discount Price
 - SAP에서 설정한 브랜드 > 스토어별 할인 가격 조회 (POS 매출 시 판매가보다 우선 적용되는 마스터)
