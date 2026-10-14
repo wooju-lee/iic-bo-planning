@@ -1832,7 +1832,7 @@ table.grid th.ol-sort.asc .arr{transform:rotate(180deg);}
       </div>
       <div class="grid-wrap"><table class="grid"><thead>
         <tr class="hdr">
-          <th>BP Information<br><span class="sub">(Code / Name)</span></th><th class="tl">Store Information<br><span class="sub">(Code / Name)</span></th>
+          <th class="tl">BP Information<br><span class="sub">(Code / Name)</span></th><th class="tl">Store Information<br><span class="sub">(Code / Name)</span></th>
           <th class="tl">Location Information<br><span class="sub">(Code / Name)</span></th><th class="tl">Product Info<br><span class="sub">(Code / Name / Barcode)</span></th>
           <th class="tl">Product Category<br><span class="sub">(Category 1 › Category 2)</span></th><th>Collection</th>
           <th class="tr qty il-first">On-hand Qty</th><th class="tr qty">Outbound Pending Qty</th><th class="tr qty">Adjustment Pending Qty</th><th class="tr qty il-avail">Available Qty</th><th class="tr qty">Pending Inbound</th>
@@ -1903,8 +1903,8 @@ table.grid th.ol-sort.asc .arr{transform:rotate(180deg);}
         <table class="grid">
           <thead>
             <tr class="hdr">
-              <th>Brand</th>
-              <th>Store<br><span style="font-size:10px;font-weight:400;opacity:.85;">(Code / Name)</span></th>
+              <th class="tl">Brand</th>
+              <th class="tl">Store<br><span style="font-size:10px;font-weight:400;opacity:.85;">(Code / Name)</span></th>
               <th style="width:110px;">Product<br>Category 1</th>
               <th style="width:110px;">Product<br>Category 2</th>
               <th>Product Info<br><span style="font-size:10px;font-weight:400;opacity:.85;">(Code / Name)</span></th>
@@ -1979,9 +1979,9 @@ table.grid th.ol-sort.asc .arr{transform:rotate(180deg);}
           <table class="grid">
             <thead>
               <tr class="hdr">
-                <th>Brand<br><span class="st-sub">(Code / Name)</span></th>
-                <th class="st-sort" data-sort="branchCode" onclick="stSort('branchCode')">BP Information<br><span class="st-sub">(Code / Name)</span><span class="st-sort-ico"></span></th>
-                <th class="st-sort" data-sort="storeCode" onclick="stSort('storeCode')">Store Information<br><span class="st-sub">(Code / Name)</span><span class="st-sort-ico"></span></th>
+                <th class="tl">Brand<br><span class="st-sub">(Code / Name)</span></th>
+                <th class="st-sort tl" data-sort="branchCode" onclick="stSort('branchCode')">BP Information<br><span class="st-sub">(Code / Name)</span><span class="st-sort-ico"></span></th>
+                <th class="st-sort tl" data-sort="storeCode" onclick="stSort('storeCode')">Store Information<br><span class="st-sub">(Code / Name)</span><span class="st-sort-ico"></span></th>
                 <th>Country</th>
                 <th>VAT<br><span class="st-sub">(%)</span></th>
                 <th>Currency<br><span class="st-sub">(Transaction Currency)</span></th>
@@ -2049,7 +2049,7 @@ table.grid th.ol-sort.asc .arr{transform:rotate(180deg);}
             <thead>
               <tr class="hdr">
                 <th style="width:220px;">Edit Date</th>
-                <th>Store Information<br><span class="st-sub">(Code / Name)</span></th>
+                <th class="tl">Store Information<br><span class="st-sub">(Code / Name)</span></th>
                 <th>Edit Contents</th>
                 <th style="width:160px;">Process Account<br><span class="st-sub">(Account ID)</span></th>
               </tr>
@@ -2125,8 +2125,8 @@ table.grid th.ol-sort.asc .arr{transform:rotate(180deg);}
         <table class="grid">
           <thead>
             <tr class="hdr">
-              <th>Brand</th>
-              <th>BP Information<br><span style="font-size:10px;font-weight:400;opacity:.85;">(Code / Name)</span></th>
+              <th class="tl">Brand</th>
+              <th class="tl">BP Information<br><span style="font-size:10px;font-weight:400;opacity:.85;">(Code / Name)</span></th>
               <th>Product Info<br><span style="font-size:10px;font-weight:400;opacity:.85;">(Code / Name / Barcode)</span></th>
               <th>Currency<br><span style="font-size:10px;font-weight:400;opacity:.85;">(Transaction Currency)</span></th>
               <th>Supply Price</th>
@@ -2181,7 +2181,7 @@ table.grid th.ol-sort.asc .arr{transform:rotate(180deg);}
         <div class="table-toolbar-right"><button class="btn-action btn-outline" onclick="exportProductSales()"><svg width="14" height="14" viewBox="0 0 24 24" fill="#555"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>Excel Export</button></div>
       </div>
       <div class="grid-wrap"><table class="grid">
-        <thead><tr class="hdr"><th>Brand</th><th class="tl">Sales Date</th><th class="tl">Store Information<br><span style="font-size:10px;font-weight:400;opacity:.85;">(Code / Name)</span></th><th class="tl">Product Info<br><span style="font-size:10px;font-weight:400;opacity:.85;">(Code / Name / Barcode)</span></th><th>Product Category 1</th><th>Product Category 2</th><th>Currency</th><th>Sales Type</th><th class="tr">Total Qty</th><th class="tr">Total</th><th class="tr">Net</th><th class="tr">VAT</th></tr></thead>
+        <thead><tr class="hdr"><th class="tl">Brand</th><th class="tl">Sales Date</th><th class="tl">Store Information<br><span style="font-size:10px;font-weight:400;opacity:.85;">(Code / Name)</span></th><th class="tl">Product Info<br><span style="font-size:10px;font-weight:400;opacity:.85;">(Code / Name / Barcode)</span></th><th>Product Category 1</th><th>Product Category 2</th><th>Currency</th><th>Sales Type</th><th class="tr">Total Qty</th><th class="tr">Total</th><th class="tr">Net</th><th class="tr">VAT</th></tr></thead>
         <tbody id="prsv-body"></tbody>
       </table></div>
       <div class="pg-bar">
@@ -2793,11 +2793,11 @@ function renderList(){
       <th style="min-width:80px;">Type</th>
       <th style="min-width:140px;">Outbound Tag</th>
       <th style="min-width:160px;">I/V No.</th>
-      <th style="min-width:200px;">BP Information<br><span style="font-weight:400;font-size:11px;">(Code / Name)</span></th>
-      <th style="min-width:200px;">From Store Location<br><span style="font-weight:400;font-size:11px;">(Code / Name)</span></th>
-      <th style="min-width:180px;">From Location Info<br><span style="font-weight:400;font-size:11px;">(Code / Name)</span></th>
-      <th style="min-width:200px;">To Store Location<br><span style="font-weight:400;font-size:11px;">(Code / Name)</span></th>
-      <th style="min-width:180px;">To Location Info<br><span style="font-weight:400;font-size:11px;">(Code / Name)</span></th>
+      <th class="tl" style="min-width:200px;">BP Information<br><span style="font-weight:400;font-size:11px;">(Code / Name)</span></th>
+      <th class="tl" style="min-width:200px;">From Store Location<br><span style="font-weight:400;font-size:11px;">(Code / Name)</span></th>
+      <th class="tl" style="min-width:180px;">From Location Info<br><span style="font-weight:400;font-size:11px;">(Code / Name)</span></th>
+      <th class="tl" style="min-width:200px;">To Store Location<br><span style="font-weight:400;font-size:11px;">(Code / Name)</span></th>
+      <th class="tl" style="min-width:180px;">To Location Info<br><span style="font-weight:400;font-size:11px;">(Code / Name)</span></th>
       <th style="min-width:180px;">Outbound Request Date</th>
       <th style="min-width:120px;">Created By</th>
     </tr>`;
@@ -2816,11 +2816,11 @@ function renderList(){
       <th style="min-width:170px;">Registration Date</th>
       <th style="min-width:120px;">Request Status</th>
       <th style="min-width:80px;">Type</th>
-      <th style="min-width:200px;">BP Information<br><span style="font-weight:400;font-size:11px;">(Code / Name)</span></th>
-      <th style="min-width:200px;">From Store Location<br><span style="font-weight:400;font-size:11px;">(Code / Name)</span></th>
-      <th style="min-width:180px;">From Location Info<br><span style="font-weight:400;font-size:11px;">(Code / Name)</span></th>
-      <th style="min-width:200px;">To Store Location<br><span style="font-weight:400;font-size:11px;">(Code / Name)</span></th>
-      <th style="min-width:180px;">To Location Info<br><span style="font-weight:400;font-size:11px;">(Code / Name)</span></th>
+      <th class="tl" style="min-width:200px;">BP Information<br><span style="font-weight:400;font-size:11px;">(Code / Name)</span></th>
+      <th class="tl" style="min-width:200px;">From Store Location<br><span style="font-weight:400;font-size:11px;">(Code / Name)</span></th>
+      <th class="tl" style="min-width:180px;">From Location Info<br><span style="font-weight:400;font-size:11px;">(Code / Name)</span></th>
+      <th class="tl" style="min-width:200px;">To Store Location<br><span style="font-weight:400;font-size:11px;">(Code / Name)</span></th>
+      <th class="tl" style="min-width:180px;">To Location Info<br><span style="font-weight:400;font-size:11px;">(Code / Name)</span></th>
       <th style="min-width:180px;">Outbound Request Date</th>
       <th style="min-width:130px;">Request Account</th>
       <th style="min-width:170px;">Approval Date</th>
@@ -3969,7 +3969,7 @@ function renderDpPage(){
   const size=+document.getElementById('dp-rpp').value||30;
   const start=(dpPage-1)*size,end=Math.min(start+size,total);
   document.getElementById('dp-body').innerHTML=total?rows.slice(start,end).map(r=>`<tr>
-    <td>${dpBrandText(r.brand)}</td><td class="tl">${r.store}</td><td>${r.cat1}</td><td>${r.cat2}</td>
+    <td class="tl">${dpBrandText(r.brand)}</td><td class="tl">${r.store}</td><td>${r.cat1}</td><td>${r.cat2}</td>
     <td class="tl">${r.code} / ${r.name}</td><td>${r.currency}</td><td>${r.price.toLocaleString('en-US')}</td><td>${r.updatedAt}</td></tr>`).join('')
     :'<tr><td colspan="8" class="dp-empty">No data found.</td></tr>';
   document.getElementById('dp-range').textContent=(total?start+1:0)+'–'+end+' of '+total;
@@ -4152,9 +4152,9 @@ function renderStorePage(){
   const start=(stPage-1)*size,end=Math.min(start+size,total);
   document.querySelectorAll('#st-view th.st-sort').forEach(th=>{if(th.dataset.sort===stSortKey) th.dataset.dir=stSortDir; else delete th.dataset.dir;});
   document.getElementById('st-body').innerHTML=total?rows.slice(start,end).map(s=>{const tz=stTz(s.zoneId);return `<tr>
-    <td>${s.brandCode} / ${ST_BRANDS[s.brandCode]}</td>
-    <td>${s.branchCode} / ${ST_BPS[s.branchCode]}</td>
-    <td><button class="st-link" onclick="openStoreModal('${s.storeCode}')">${s.storeCode} / ${stEsc(s.storeName)}</button></td>
+    <td class="tl">${s.brandCode} / ${ST_BRANDS[s.brandCode]}</td>
+    <td class="tl">${s.branchCode} / ${ST_BPS[s.branchCode]}</td>
+    <td class="tl"><button class="st-link" onclick="openStoreModal('${s.storeCode}')">${s.storeCode} / ${stEsc(s.storeName)}</button></td>
     <td>${s.countryCode||'-'}</td><td>${s.vat||'-'}</td><td>${s.transactionCurrency||'-'}</td><td>${s.purchaseCurrency||'-'}</td>
     <td class="st-tz">${tz.name}<small>(${tz.zoneId},${tz.offset})</small></td></tr>`;}).join('')
     :'<tr><td colspan="8" class="dp-empty">No data found.</td></tr>';
@@ -4180,7 +4180,7 @@ function searchStoreHistory(){
   sthRendered=true;
   document.getElementById('sth-total').textContent=sthLastRows.length;
   document.getElementById('sth-body').innerHTML=sthLastRows.length?sthLastRows.map(h=>`<tr>
-    <td>${h.modifiedAt} (${h.tz})</td><td>${stEsc(stStoreText(h.storeCode))}</td>
+    <td>${h.modifiedAt} (${h.tz})</td><td class="tl">${stEsc(stStoreText(h.storeCode))}</td>
     <td class="st-hist-fields">${h.fields.map(f=>'<div>'+ST_FIELD_LABELS[f]+'</div>').join('')}</td><td>${h.by}</td></tr>`).join('')
     :'<tr><td colspan="4" class="dp-empty">No data found.</td></tr>';
 }
@@ -4368,7 +4368,7 @@ function spRowCells(r){return [dpBrandText(r.brand),r.bp+' / '+getMasterBPs()[r.
 function renderSpPage(){
   const rows=spLastRows,[s,e]=pgRange('sp',rows.length);
   document.getElementById('sp-body').innerHTML=rows.length?rows.slice(s,e).map(r=>{const c=spRowCells(r);return `<tr>
-    <td>${c[0]}</td><td class="tl">${c[1]}</td><td class="tl">${c[2]}</td><td>${c[3]}</td><td>${fmtAmt(c[4])}</td></tr>`;}).join('')
+    <td class="tl">${c[0]}</td><td class="tl">${c[1]}</td><td class="tl">${c[2]}</td><td>${c[3]}</td><td>${fmtAmt(c[4])}</td></tr>`;}).join('')
     :'<tr><td colspan="5" class="dp-empty">No data found.</td></tr>';
 }
 function resetSupplyPrice(){
@@ -4615,7 +4615,7 @@ function psvApplyTab(tab){
   ['psv-from','psv-to'].forEach((id,i)=>{const el=document.getElementById(id);el.type=type;el.value=i?t:f;});
   const hr=tab==='hourly'?'<th class="tl">Sales Date</th><th class="tl">Time Slot</th>':'';
   const mix=tab==='daily',rs=mix?' rowspan="2"':'';
-  const lead=tab==='hourly'?hr:`<th${rs}>Brand</th><th${rs} class="tl">Sales Date</th>`;
+  const lead=tab==='hourly'?hr:`<th${rs} class="tl">Brand</th><th${rs} class="tl">Sales Date</th>`;
   const base=`${lead}<th${rs} class="tl">Store Information<br><span style="font-size:10px;font-weight:400;opacity:.85;">(Code / Name)</span></th><th${rs}>Currency</th><th${rs}>Sales Type</th><th${rs} class="tr">Transaction Count</th><th${rs} class="tr">Total Qty</th><th${rs} class="tr">Average Unit</th><th${rs} class="tr">Total Sales Amount</th><th${rs} class="tr">Total Refund Amount</th><th${rs} class="tr">Net Qty</th><th${rs} class="tr">Net Amount</th>`;
   document.getElementById('psv-head').innerHTML=mix
     ?`<tr class="hdr">${base}<th colspan="${PSV_CTYPES.length}" class="drv-cust-group">Customer Type</th><th colspan="${PSV_CONTS.length}" class="drv-cust-group">Continent</th></tr>
@@ -4671,7 +4671,7 @@ function renderPsvPage(){
   const neg=n=>n<0?' style="color:#C62828"':'';
   const col=(ls,f)=>'<div class="psv-lines">'+ls.map(l=>'<div'+neg(f(l))+'>'+fmtAmt2(f(l))+'</div>').join('')+'</div>';
   document.getElementById('psv-body').innerHTML=rows.length?rows.slice(s,e).map(g=>{const ls=psvLines(g),nq=g.NORMAL.qty+g.REFUND.qty,na=Math.round((g.NORMAL.amt+g.REFUND.amt)*100)/100;
-    return `<tr>${hr?'<td class="tl">'+g.period+'</td><td class="tl">'+g.slot+'</td>':'<td>'+dpBrandText('GENTLE_MONSTER')+'</td><td class="tl">'+g.period+'</td>'}<td class="tl">${g.store}</td><td>${g.currency}</td>
+    return `<tr>${hr?'<td class="tl">'+g.period+'</td><td class="tl">'+g.slot+'</td>':'<td class="tl">'+dpBrandText('GENTLE_MONSTER')+'</td><td class="tl">'+g.period+'</td>'}<td class="tl">${g.store}</td><td>${g.currency}</td>
       <td><div class="psv-lines">${ls.map(l=>'<div>'+salesTypeTag(l.type)+'</div>').join('')}</div></td>
       <td class="tr num">${col(ls,l=>l.cnt)}</td><td class="tr num">${col(ls,l=>l.qty)}</td><td class="tr num">${col(ls,l=>psvAvg(l))}</td>
       <td class="tr num">${col(ls,l=>l.sales)}</td><td class="tr num">${col(ls,l=>l.ret)}</td>
@@ -4759,7 +4759,7 @@ function searchProductSales(){
 }
 function renderPrsvPage(){
   const rows=prsvLastRows,[s,e]=pgRange('prsv',rows.length),neg=n=>n<0?' style="color:#C62828"':'';
-  document.getElementById('prsv-body').innerHTML=rows.length?rows.slice(s,e).map(g=>`<tr><td>${dpBrandText('GENTLE_MONSTER')}</td><td class="tl">${g.date}</td><td class="tl">${g.store}</td>
+  document.getElementById('prsv-body').innerHTML=rows.length?rows.slice(s,e).map(g=>`<tr><td class="tl">${dpBrandText('GENTLE_MONSTER')}</td><td class="tl">${g.date}</td><td class="tl">${g.store}</td>
     <td class="tl">${g.code} / ${g.name} / ${g.barcode}</td><td>${g.cat1}</td><td>${g.cat2}</td><td>${g.currency}</td><td>${salesTypeTag(g.type)}</td>
     <td class="tr num"${neg(g.qty)}>${g.qty}</td><td class="tr num"${neg(g.total)}>${fmtAmt2(g.total)}</td><td class="tr num"${neg(g.net)}>${fmtAmt2(g.net)}</td><td class="tr num"${neg(g.vat)}>${fmtAmt2(g.vat)}</td></tr>`).join('')
     :'<tr><td colspan="11" class="dp-empty">No data found.</td></tr>';
@@ -5952,7 +5952,7 @@ function olSearch(p){
 }
 function olRenderHead(p){
   const st=OL_STATE[p],h=OL_CFG[p].head;
-  document.getElementById(p+'-head').innerHTML='<tr class="hdr">'+h.map((t,i)=>i===0?`<th class="ol-sort${st.asc?' asc':''}" style="min-width:180px;" onclick="OL_STATE['${p}'].asc=!OL_STATE['${p}'].asc;olRenderHead('${p}');olRenderPage('${p}')">${t}<span class="arr">↓</span></th>`:`<th>${t}</th>`).join('')+'</tr>';
+  document.getElementById(p+'-head').innerHTML='<tr class="hdr">'+h.map((t,i)=>i===0?`<th class="ol-sort${st.asc?' asc':''}" style="min-width:180px;" onclick="OL_STATE['${p}'].asc=!OL_STATE['${p}'].asc;olRenderHead('${p}');olRenderPage('${p}')">${t}<span class="arr">↓</span></th>`:`<th${t.startsWith('Store')?' class="tl"':''}>${t}</th>`).join('')+'</tr>';
 }
 function olRenderPage(p){
   const st=OL_STATE[p],rows=[...st.rows].sort((a,b)=>(st.asc?1:-1)*((a.date+a.dateTime.slice(11,16)).localeCompare(b.date+b.dateTime.slice(11,16))));
@@ -5963,7 +5963,7 @@ function olRenderPage(p){
     const noCell=p==='ol'?`<div class="ol-no" onclick="olOpen('ol',${idx})">${r.no}</div><div class="ol-no-sub">(${r.no})</div>`
       :`<div class="ol-no" onclick="olOpen('rl',${idx})">${r.orderNo}</div><div class="ol-no-sub">(${r.no})</div>`;
     return `<tr onclick="olOpen('${p}',${idx})"><td>${r.dateTime}</td><td><span class="ol-pill ${r[OL_CFG[p].statusKey]}">${olPillLabel(r[OL_CFG[p].statusKey])}</span></td>
-      <td onclick="event.stopPropagation()">${noCell}</td>${p==='rl'?`<td>${r.orderNo}</td>`:''}<td>${store}</td><td>${r.loc}</td><td>${r.store.cur}</td><td>${olQty(r)}</td><td>${fmtAmt2(olTotal(r))}</td></tr>`;
+      <td onclick="event.stopPropagation()">${noCell}</td>${p==='rl'?`<td>${r.orderNo}</td>`:''}<td class="tl">${store}</td><td>${r.loc}</td><td>${r.store.cur}</td><td>${olQty(r)}</td><td>${fmtAmt2(olTotal(r))}</td></tr>`;
   }).join(''):`<tr><td colspan="${n}" class="dp-empty">No data found.</td></tr>`;
 }
 // ----- Detail modal -----
@@ -5979,14 +5979,14 @@ function olOpen(p,idx){
   const prod=it=>`<div class="c">${it.code}</div><div class="n">${it.name}</div>${o?'':`<div class="b">${it.barcode}</div>`}`;
   const rows=r.items.map(it=>{const l=olLine(it);
     return o?`<tr><td class="l">${prod(it)}</td><td>${it.qty}</td><td>${it.cancelQty?'-'+it.cancelQty:'-'}</td><td>${fmtAmt2(l.unit)}</td><td>${fmtAmt2(l.net)}</td><td>${fmtAmt2(l.vat)}</td><td>${fmtAmt2(l.total)}</td></tr>`
-      :`<tr><td class="l">${prod(it)}</td><td>${it.store.code} /<br>${it.store.name}</td><td>${it.loc}</td><td>${it.qty}</td><td>${fmtAmt2(l.unit)}</td><td>${fmtAmt2(l.net)}</td><td>${fmtAmt2(l.vat)}</td><td>${fmtAmt2(l.total)}</td></tr>`;}).join('');
+      :`<tr><td class="l">${prod(it)}</td><td class="l">${it.store.code} /<br>${it.store.name}</td><td>${it.loc}</td><td>${it.qty}</td><td>${fmtAmt2(l.unit)}</td><td>${fmtAmt2(l.net)}</td><td>${fmtAmt2(l.vat)}</td><td>${fmtAmt2(l.total)}</td></tr>`;}).join('');
   const tot=o?`<tr class="tot"><td>Total</td><td>${olQty(r)}</td><td>${cancel?'-'+cancel:'-'}</td><td>-</td><td>${fmtAmt2(olR2(sum.net))}</td><td>${fmtAmt2(olR2(sum.vat))}</td><td>${fmtAmt2(sum.total)}</td></tr>`
     :`<tr class="tot"><td colspan="3">Total</td><td>${olQty(r)}</td><td>-</td><td>${fmtAmt2(olR2(sum.net))}</td><td>${fmtAmt2(olR2(sum.vat))}</td><td>${fmtAmt2(sum.total)}</td></tr>`;
   document.getElementById('ol-modal-body').innerHTML=`
     <div class="ol-sec">${OL_ICON_INFO}${o?'Order':'Refund'} Information</div>
     <div class="ol-info">${info.map(([k,v])=>`<div><div class="k">${k}</div><div class="v">${v}</div></div>`).join('')}</div>
     <div class="ol-sec">${OL_ICON_BAG}${o?'Product List':'Refund Products'}</div>
-    <table class="ol-ptbl"><thead><tr>${(o?['Product Info','Qty','Cancel Qty','Unit','Net','VAT','Total']:['Product Info','Store','Location Information','Qty','Unit','Net','VAT','Total Price']).map((h,i)=>`<th${i===0?' class="l"':''}>${h}</th>`).join('')}</tr></thead>
+    <table class="ol-ptbl"><thead><tr>${(o?['Product Info','Qty','Cancel Qty','Unit','Net','VAT','Total']:['Product Info','Store','Location Information','Qty','Unit','Net','VAT','Total Price']).map((h,i)=>`<th${i===0||h==='Store'?' class="l"':''}>${h}</th>`).join('')}</tr></thead>
       <tbody>${rows}${tot}</tbody></table>
     <div class="ol-note">${o?'Total quantity excludes package items.':'Store / Location: where the refunded items were received (inbound). Total quantity excludes package items.'}</div>`;
   document.getElementById('ol-modal').classList.add('show');
@@ -6099,7 +6099,7 @@ const LG_COLS=[['at','Transaction Date Time',1],['bp','BP Information<br><span c
   ['loc','Location Information<br><span class="sub">(Code / Name)</span>',0],['product','Product Info<br><span class="sub">(Code / Name / Barcode)</span>',1],['op','Inventory Transaction Type',0],
   ['before','Before Qty',1],['q','Transaction Qty',1],['after','After Qty',1],['inv','Invoice No.',0]];
 // Left-aligned columns (text values) / right-aligned columns (quantities)
-const LG_LEFT=['store','loc','product'],LG_RIGHT=['before','q','after'];
+const LG_LEFT=['bp','store','loc','product'],LG_RIGHT=['before','q','after'];
 function lgEnter(){
   if(lgInited) return;
   document.getElementById('lg-bp').innerHTML='<option value="">All</option>'+Object.entries(LG_BPS).map(([c,n])=>`<option value="${c}">${n}</option>`).join('');
@@ -6144,7 +6144,7 @@ function lgRenderPage(){
   document.getElementById('lg-total').textContent=rows.length;
   const [s,e]=pgRange('lg',rows.length),n=v=>v.toLocaleString('en-US');
   document.getElementById('lg-body').innerHTML=rows.length?rows.slice(s,e).map(r=>{const o=LG_OPS[r.op];
-    return `<tr><td>${r.at} (${r.store.tz})</td><td>${LG_BPS[r.store.bp]}</td><td class="tl">${r.store.code} / ${r.store.name}</td><td class="tl">${r.loc.code} / ${r.loc.name}</td>
+    return `<tr><td>${r.at} (${r.store.tz})</td><td class="tl">${LG_BPS[r.store.bp]}</td><td class="tl">${r.store.code} / ${r.store.name}</td><td class="tl">${r.loc.code} / ${r.loc.name}</td>
       <td class="tl">${r.product.code} / ${r.product.name} / ${r.product.barcode}</td><td><span class="lg-chip ${o[1]}">${o[0]}</span></td>
       <td class="tr">${n(r.before)}</td><td class="tr${r.q<0?' lg-neg':''}">${n(r.q)}</td><td class="tr">${n(r.after)}</td><td>${r.inv}</td></tr>`;}).join('')
     :`<tr><td colspan="${LG_COLS.length}" class="dp-empty">No data found.</td></tr>`;
@@ -6213,7 +6213,7 @@ function ilRenderPage(){
   document.getElementById('il-total').textContent=ilRows.length;
   const [s,e]=pgRange('il',ilRows.length),q=v=>`<td class="tr qty${v?'':' zero'}">${v.toLocaleString('en-US')}</td>`;
   const two=(c,n)=>`<div class="il-c">${c}</div><div class="il-n">${n}</div>`;
-  document.getElementById('il-body').innerHTML=ilRows.length?ilRows.slice(s,e).map(r=>`<tr><td>${LG_BPS[r.store.bp]}</td>
+  document.getElementById('il-body').innerHTML=ilRows.length?ilRows.slice(s,e).map(r=>`<tr><td class="tl">${LG_BPS[r.store.bp]}</td>
     <td class="tl">${two(r.store.code,r.store.name)}</td><td class="tl">${two(r.loc.code,r.loc.name)}</td>
     <td class="tl"><div class="il-c">${r.product.code} <span class="il-pn">${r.product.name}</span></div><div class="il-n">${r.product.barcode}</div></td>
     <td class="tl">${r.cat1} <span class="il-sep">›</span> ${r.cat2}</td><td>${r.collection}</td>

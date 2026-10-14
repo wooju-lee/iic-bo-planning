@@ -32,6 +32,11 @@ BO 신규/변경 기능의 기획 검토용 UI 프로토타입입니다. 여러 
 
 그 외 사이드바 메뉴는 "Coming Soon" 화면으로 표시됩니다.
 
+## UI Conventions (전 화면 공통)
+
+- **그리드 컬럼 정렬**: Brand / BP(법인) / Store 컬럼(From·To Store 포함)은 헤더·값 모두 **왼쪽 정렬** (`class="tl"`)
+- 헤더 정렬은 해당 컬럼 값 정렬과 맞춘다
+
 ## Features
 
 ### Inventory > Outbound
