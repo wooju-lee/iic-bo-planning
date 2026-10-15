@@ -1602,7 +1602,7 @@ a.ib-trk:hover{border-color:#ff6b35;color:#ff6b35;}
 .rxw-dt-btns .rxw-tg{gap:6px;}
 .rxw-dt-btns .btn-action{background:#e0e0e0;color:#222;font-size:10px;height:28px;}
 /* Work Status Management Save: same size as the header Label Print button */
-#rxw-ws-save{height:28px;font-size:10px;min-width:95px;}
+#rxw-ws-save,.rxw-claim-btn{height:28px;font-size:10px;min-width:95px;}
 .rxw-dt-btns .btn-action:hover:not(:disabled){background:#d5d5d5;}
 .rxw-dt-cols{display:flex;gap:20px;align-items:flex-start;}
 .rxw-dt-l{flex:1;min-width:0;display:flex;flex-direction:column;gap:20px;}
@@ -13540,8 +13540,8 @@ function rxwHistoryBox(r){
 function rxwClaimButtons(r){
   const cancelable=['PENDING','INBOUND_INSPECTION','IN_PROGRESS','OUTBOUND_INSPECTION'].includes(r.status),refundable=r.status==='FINALIZED';
   if(r.claim) return '';
-  return `<div class="rxw-claim-btns">${cancelable?'<button class="btn-action btn-outline" style="height:32px;" onclick="rxwOpenReason(\'cancel\')">Cancel Work</button>':''}
-    ${refundable?'<button class="btn-action btn-outline" style="height:32px;" onclick="rxwOpenReason(\'refund\')">Refund</button>':''}</div>`;
+  return `<div class="rxw-claim-btns">${cancelable?'<button class="btn-action btn-outline rxw-claim-btn" onclick="rxwOpenReason(\'cancel\')">Cancel Work</button>':''}
+    ${refundable?'<button class="btn-action btn-outline rxw-claim-btn" onclick="rxwOpenReason(\'refund\')">Refund</button>':''}</div>`;
 }
 function rxwOpenReason(mode){
   rxwDs.claimMode=mode;
