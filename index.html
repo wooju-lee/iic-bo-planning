@@ -1534,6 +1534,40 @@ a.ib-trk:hover{border-color:#ff6b35;color:#ff6b35;}
 .rxw-seg button{min-width:250px;padding:12px 24px;border:none;border-bottom:2px solid transparent;margin-bottom:-1px;background:transparent;font-size:13px;font-weight:600;color:#888;cursor:pointer;white-space:nowrap;transition:all .15s;}
 .rxw-seg button:hover{color:#555;}
 .rxw-seg button.on{color:#ff6b35;border-bottom-color:#ff6b35;}
+/* IE serial (prototype addition): list badge, detail box, scan modal */
+.rxw-sn-b{display:inline-flex;align-items:center;gap:4px;margin-top:3px;font-size:10px;font-weight:600;}
+.rxw-sn-b .ie{background:#111;color:#fff;border-radius:3px;padding:0 4px;font-size:9px;letter-spacing:.3px;}
+.rxw-sn-b.need{color:#d32f2f;}.rxw-sn-b.ok{color:#2e7d32;}.rxw-sn-b.off{color:#999;}
+.rxw-ie-chip{display:inline-block;margin-left:6px;background:#111;color:#fff;border-radius:3px;padding:0 4px;font-size:9px;font-weight:700;letter-spacing:.3px;vertical-align:1px;}
+.rxw-box.sn-need{border-color:#ef9a9a;box-shadow:inset 3px 0 0 #d32f2f;}
+.rxw-sn-st{font-size:10px;font-weight:700;border-radius:999px;padding:2px 8px;border:1px solid;}
+.rxw-sn-st.need{color:#d32f2f;background:#fdecea;border-color:#f5b5b0;}
+.rxw-sn-st.wait{color:#777;background:#f4f4f5;border-color:#ddd;}
+.rxw-sn-st.scan{color:#1565c0;background:#e8f1fc;border-color:#9ec5f0;}
+.rxw-sn-st.act{color:#2e7d32;background:#ecf8ee;border-color:#a5d6a7;}
+.rxw-sn-st.ret{color:#5d4037;background:#f3ece9;border-color:#d7c3bb;}
+.rxw-sn-grid{display:grid;grid-template-columns:140px 1fr;gap:8px 12px;font-size:12px;margin-bottom:12px;}
+.rxw-sn-grid .k{color:#777;}.rxw-sn-grid .v{font-weight:600;color:#222;font-variant-numeric:tabular-nums;}
+.rxw-sn-note{font-size:11px;color:#777;background:#fafafa;border-radius:6px;padding:10px 12px;line-height:1.5;}
+.rxw-sn-alert{display:flex;gap:8px;align-items:flex-start;background:#fdecea;color:#b71c1c;border-radius:6px;padding:10px 12px;font-size:12px;line-height:1.5;margin-bottom:12px;}
+.rxw-sn-list{border:1px solid #e5e5e5;border-radius:6px;max-height:380px;overflow-y:auto;}
+.rxw-sn-row{display:grid;grid-template-columns:200px 1fr 22px;gap:12px;align-items:center;padding:10px 14px;border-bottom:1px solid #f0f0f0;}
+.rxw-sn-row:last-child{border-bottom:none;}
+.rxw-sn-row.cur{background:#fff8f3;}
+.rxw-sn-row .o b{display:block;font-size:12px;}.rxw-sn-row .o small{display:block;font-size:10px;color:#888;}
+.rxw-sn-row .in{display:flex;gap:6px;flex-direction:column;}
+.rxw-sn-row .in>div{display:flex;gap:6px;}
+.rxw-sn-row input{flex:1;height:32px;border:1px solid #d5d5d5;border-radius:4px;padding:0 10px;font-size:12px;font-family:inherit;text-transform:uppercase;outline:none;}
+.rxw-sn-row input::placeholder{text-transform:none;}
+.rxw-sn-row input:focus{border-color:#ff6b35;box-shadow:0 0 0 2px rgba(255,107,53,.12);}
+.rxw-sn-row.err input{border-color:#d32f2f;}
+.rxw-sn-row.ok input{border-color:#81c784;background:#f6fbf6;}
+.rxw-sn-row .em{font-size:11px;color:#d32f2f;}
+.rxw-sn-row .ck{width:20px;height:20px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:11px;color:#fff;background:#e0e0e0;}
+.rxw-sn-row.ok .ck{background:#2e7d32;}
+.rxw-sn-sim{height:32px;padding:0 10px;border:1px dashed #bbb;border-radius:4px;background:#fff;font-size:11px;color:#666;cursor:pointer;white-space:nowrap;}
+.rxw-sn-prog{font-size:12px;color:#555;}.rxw-sn-prog b{color:#ff6b35;}
+.rxw-sn-proto{font-size:10px;color:#aaa;margin-top:8px;}
 /* Toolbar button groups with a vertical divider between groups */
 .rxw-tbar{display:flex;align-items:center;}
 .rxw-tg{display:inline-flex;align-items:center;gap:8px;}
@@ -4372,8 +4406,17 @@ table.grid th.dt-l,table.grid td.dt-l{text-align:left!important;}
       <div class="modal-body rxw-mbody">
         <div class="field-inline"><select id="rxw-rs-r1" style="width:100%;" onchange="rxwReasonChange()"></select></div>
         <div class="field-inline" id="rxw-rs-r2-wrap" hidden><select id="rxw-rs-r2" style="width:100%;" onchange="rxwReasonSync()"></select></div>
+        <div id="rxw-rs-sn"></div>
         <div class="rxw-mfoot" style="border-top:1px solid #e0e0e0;padding-top:16px;"><button class="btn-action" id="rxw-rs-ok" style="background:#d32f2f;color:#fff;" onclick="rxwReasonSubmit()"></button></div>
       </div>
+    </div>
+  </div>
+
+  <!-- RXW: IE Serial Scan modal (prototype addition) — To Customer IE orders, before Outbound Inspection / label registration -->
+  <div class="modal-overlay" id="rxw-sn-modal" onclick="if(event.target===this)rxwSnClose();">
+    <div class="modal-box" style="width:640px;max-width:94vw;">
+      <div class="modal-header"><span class="modal-title">IE Serial Scan</span><button class="modal-close" onclick="rxwSnClose()">&times;</button></div>
+      <div class="modal-body rxw-mbody" id="rxw-sn-body"></div>
     </div>
   </div>
 
@@ -12706,7 +12749,7 @@ function rxwGenData(){
 
 // ----- entry / init -----
 function rxwEnter(){
-  if(!rxwInited){rxwInited=true;RXW_DATA=rxwGenData();rxwInitFilters();rxwSearch();}
+  if(!rxwInited){rxwInited=true;RXW_DATA=rxwGenData();rxwIeSeed();rxwInitFilters();rxwSearch();}
   else rxwRunQuery();
   rxwShowPane('list');   // route-driven: the detail route calls rxwOpenDetail() right after
 }
@@ -12833,7 +12876,7 @@ function rxwRenderPage(){
       <td>${rxwChip(r.status)}</td>
       <td>${rxwChannel(r.channel)}</td>
       <td>${r.tags.length?r.tags.map(t=>`<span class="rxw-tag">${rxwEsc(t)}</span>`).join(' '):'<span class="rxw-tag n">normal</span>'}</td>
-      <td class="tl"><span class="rxw-ono">${rxwEsc(r.ssid||'-')}</span><span class="rxw-ono-sub">(${rxwEsc(r.orderNo||'-')})</span></td>
+      <td class="tl"><span class="rxw-ono">${rxwEsc(r.ssid||'-')}</span><span class="rxw-ono-sub">(${rxwEsc(r.orderNo||'-')})</span>${rxwSnBadge(r)}</td>
       <td>${rxwEsc(r.invoiceNo||'-')}</td>
       <td class="tl">${r.storeCode} / ${rxwEsc(r.storeName)}</td>
       <td>${r.claim?rxwChip(r.claim):'-'}</td>
@@ -12911,8 +12954,15 @@ function rxwChangeStatusConfirm(){
     if(r.claim) return rxwToast(`Cannot modify claimed work. (claimStatus: ${r.claim})`,'','error');
     if(RXW_CS_EXCLUDED.includes(r.status)) return rxwToast(`Cannot modify in current work status. (current: ${r.status})`,'','error');
   }
-  orders.forEach(r=>{if(r.status!==target){rxwAddHistory(r,[['WORK_PROGRESS_STATUS',r.status,target]]);r.status=target;}});
-  rxwCloseModal('cs');rxwSel.clear();
+  // IE serial gate 1: To Customer IE orders cannot move to Outbound Inspection without a scanned serial
+  const need=target==='OUTBOUND_INSPECTION'?orders.filter(r=>r.status!==target&&rxwSnRequired(r)&&!r.serial):[];
+  rxwCloseModal('cs');
+  if(need.length) return rxwSnOpen('cs',need.map(r=>r.id),()=>rxwApplyStatus(target,ids));
+  rxwApplyStatus(target,ids);
+}
+function rxwApplyStatus(target,ids){
+  ids.map(rxwById).forEach(r=>{if(r.status!==target){rxwAddHistory(r,[['WORK_PROGRESS_STATUS',r.status,target]]);r.status=target;}});
+  rxwSel.clear();
   rxwToast(`${ids.length} order(s) status changed to "${target}".`,'');
   rxwAfterChange();
 }
@@ -12922,6 +12972,9 @@ function rxwChangeStatusConfirm(){
 function rxwOpenLabelReg(id){
   const single=!!id,rows=single?[rxwById(id)]:rxwSelPageRows();
   if(!rows.length) return;
+  // IE serial gate 2: missing serials are scanned here before the label request can be sent
+  const miss=rows.filter(r=>r.status==='OUTBOUND_INSPECTION'&&rxwSnRequired(r)&&!r.serial);
+  if(miss.length) return rxwSnOpen('lr',miss.map(r=>r.id),()=>rxwOpenLabelReg(id));
   rxwModal={type:'lr',single,ids:rows.map(r=>r.id)};
   const opts=single?rxwCarrierOptions([rows[0].storeCode]):rxwCarrierOptions(rows.map(r=>r.storeCode));
   const s=document.getElementById('rxw-lr-carrier');
@@ -12942,6 +12995,7 @@ function rxwLabelRegValidate(rows,carrier){
     if(r.status!=='OUTBOUND_INSPECTION') return `Label registration requires OUTBOUND_INSPECTION status. (current: ${r.status})`;
     if(!r.labIn) return `B2B outbound to Lab is not completed. Order: ${r.orderNo}`;
     if(r.step!=='LABEL_REGISTRABLE') return `Label registration is not available. Order ${r.orderNo} shippingStep: ${r.step}`;
+    if(rxwSnRequired(r)&&!r.serial) return `IE serial is required before label registration. Order: ${r.orderNo}`;
   }
   const cs=[...new Set(rows.map(r=>rxwCountry(r.storeCode)))];
   if(cs.length>1) return `All orders in a bulk label registration must have the same country. found: [${cs.join(', ')}]`;
@@ -12959,8 +13013,11 @@ function rxwLabelRegConfirm(){
     r.status='COMPLETED';r.completedAt=now;r.step='LABEL_PRINTABLE';
     r.trackings=r.trackings.filter(t=>t.dir!=='OUTBOUND').concat([{dir:'OUTBOUND',carrier,no:carrier==='UPS'?'1Z'+String(Date.now()).slice(-14):String(Date.now()).slice(-12)}]);
   });
+  // IE serial: after the label is issued (COMPLETED) BO sends serial + order mapping to SPM -> serial activated
+  const sent=rows.filter(r=>r.serial&&r.serial.spm==='PENDING');
+  sent.forEach(r=>{r.serial.spm='ACTIVATED';r.serial.spmAt=now;rxwAddHistory(r,[['SPM_SERIAL_STATUS','PENDING','ACTIVATED']],'system');});
   rxwCloseModal('lr');if(!m.single) rxwSel.clear();
-  rxwToast('Label registration has been sent to TMS successfully.','');
+  rxwToast('Label registration has been sent to TMS successfully.',sent.length?`IE serial sent to SPM and activated: ${sent.length} order(s)`:'');
   rxwAfterChange();
 }
 
@@ -13028,7 +13085,7 @@ function rxwFlatRows(items){
   items.forEach(it=>walk(it,null));
   return out;
 }
-function rxwTypeCell(it){const lens=it.leafCode==='111010',pkg=/PACKAGE/.test(it.leafName);return `<span class="rxw-type ${lens?'lens':pkg?'pkg':''}"><i></i>${rxwEsc((it.leafName||'-').toUpperCase())}</span>`;}
+function rxwTypeCell(it){const lens=it.leafCode==='111010',pkg=/PACKAGE/.test(it.leafName);return `<span class="rxw-type ${lens?'lens':pkg?'pkg':''}"><i></i>${rxwEsc((it.leafName||'-').toUpperCase())}</span>${it.ie?'<span class="rxw-ie-chip">IE</span>':''}`;}
 function rxwPicking(ids){
   ids=ids||[...rxwSel];if(!ids.length) return;
   const rows=ids.map(rxwById);
@@ -13093,7 +13150,7 @@ function rxwDetailState(){
 function rxwRenderDetail(){
   const r=rxwCur;if(!r) return;
   document.getElementById('rxw-dt-head').innerHTML=rxwDetailHead(r);
-  document.getElementById('rxw-dt-left').innerHTML=rxwMemberBox(r)+rxwOrderBox(r)+rxwRxBox(r)+rxwCustomerBox(r)+(r.channel!=='ONLINE'?rxwPolicyBox(r):'')+rxwCommentBox(r);
+  document.getElementById('rxw-dt-left').innerHTML=rxwMemberBox(r)+rxwOrderBox(r)+rxwSerialBox(r)+rxwRxBox(r)+rxwCustomerBox(r)+(r.channel!=='ONLINE'?rxwPolicyBox(r):'')+rxwCommentBox(r);
   document.getElementById('rxw-dt-right').innerHTML=rxwStatusBox(r)+rxwTrackingBox(r)+rxwHistoryBox(r)+rxwClaimButtons(r);
   rxwCs(document.getElementById('rxw-detail-pane'));
   rxwWsRefresh();
@@ -13360,6 +13417,8 @@ function rxwWsSave(){
   // "Please make a selection." sends "" once a value existed -> enum parse error on BE
   if(f.exec===''&&r.exec) return rxwToast('Invalid work execution type: ','','error');
   if(f.dur===''&&r.dur) return rxwToast('Invalid expected working duration: ','','error');
+  // IE serial gate 1 (detail): scan first, then the same save continues
+  if(f.status==='OUTBOUND_INSPECTION'&&r.status!=='OUTBOUND_INSPECTION'&&rxwSnRequired(r)&&!r.serial) return rxwSnOpen('cs',[r.id],()=>rxwWsSave());
   const exec=f.exec||null,dur=f.dur||null,worker=f.worker||null,eta=f.eta||null,items=[];
   let newEta=r.eta;
   if(eta){
@@ -13429,6 +13488,7 @@ function rxwOpenReason(mode){
   document.getElementById('rxw-rs-ok').textContent=mode==='refund'?'Refund':'Reject';
   const r1=document.getElementById('rxw-rs-r1');
   r1.innerHTML='<option value="">Select Reason.</option>'+RXW_REASONS.map(v=>`<option value="${rxwEsc(v)}">${rxwEsc(v)}</option>`).join('');r1.value='';
+  rxwDs.retSn='';rxwDs.retErr='';rxwRetRender();
   rxwReasonChange();rxwCs(document.getElementById('rxw-rs-modal'));rxwOpenModal('rs');
 }
 function rxwReasonChange(){
@@ -13439,7 +13499,7 @@ function rxwReasonChange(){
 }
 function rxwReasonSync(){
   const v=document.getElementById('rxw-rs-r1').value,sub=document.getElementById('rxw-rs-r2').value;
-  document.getElementById('rxw-rs-ok').disabled=!v||(!!RXW_SUB_REASONS[v]&&!sub);
+  document.getElementById('rxw-rs-ok').disabled=!v||(!!RXW_SUB_REASONS[v]&&!sub)||(rxwRetNeeded()&&rxwDs.retSn!==rxwCur.serial.no);
 }
 // RxWorkCancelFacade channel / fulfillment checks (simplified to the dummy flags)
 function rxwCancelErr(r){
@@ -13459,11 +13519,153 @@ function rxwReasonSubmit(){
     rxwToast('Work canceled successfully.','Work canceled.');
   }else{
     if(r.status!=='FINALIZED') return rxwToast(`Order must be COMPLETED to refund: orderNo=${r.orderNo}, currentStatus=${r.status}`,'','error');
+    if(rxwRetNeeded()&&rxwDs.retSn!==r.serial.no) return rxwToast('Scan the returned IE serial first.','','error');
     r.claim='REFUNDED';
     rxwAddHistory(r,[['CLAIM_STATUS',null,'REFUNDED'],['REFUND_REASON',null,reason]].concat(sub?[['REFUND_SUB_REASON',null,sub]]:[]));
-    rxwToast('rx_work_refund_success','');   // lokalise key missing in en -> shown as-is
+    // IE serial: return serial sent to SPM (deactivate) together with the refund
+    const ret=rxwRetNeeded();
+    if(ret){r.serial.spm='RETURNED';r.serial.retAt=rxwFmt(new Date());rxwAddHistory(r,[['SPM_SERIAL_STATUS','ACTIVATED','RETURNED']],'system');}
+    rxwToast('rx_work_refund_success',ret?'Return serial sent to SPM.':'');   // lokalise key missing in en -> shown as-is
   }
   rxwCloseModal('rs');rxwAfterChange();
+}
+// ===== IE serial (prototype addition, 2026-10-15 planning) =====
+// Scope: To Customer (B2C_DELIVERY) RX orders that include an IE frame. Ship to Store serials are handled in POS RX Operation at pickup.
+// Gate 1: moving to Outbound Inspection (Change Status / detail Save) opens the scan modal. Gate 2: Label Registration blocks missing serials.
+// SPM: serial + order mapping is sent after the TMS label is issued (COMPLETED). Re Do keeps the serial (rework, same frame).
+// Refund (Finalized): the returned item's serial must match the shipped serial, then the return serial is sent to SPM.
+// TBD: BO keeps the order-serial mapping (needed for refund) / IE product identification / serial format / SPM validation API.
+const RXW_SN_RE=/^[A-Z0-9]{8,30}$/;
+let rxwSn=null;
+function rxwSnRequired(r){return !!r.ie&&r.recv==='B2C_DELIVERY'&&!r.claim;}
+function rxwSnGen(seed){const A='0123456789ABCDEFGHJKLMNPQRSTUVWXYZ';let x=seed>>>0||7,o='';for(let k=0;k<10;k++){x=(x*1103515245+12345)>>>0;o+=A[x%A.length];}return 'GMIE'+o;}
+function rxwIeSeed(){
+  let oiScanned=0;
+  RXW_DATA.forEach((r,i)=>{
+    const oi=r.recv==='B2C_DELIVERY'&&r.status==='OUTBOUND_INSPECTION';
+    if(!r.storeCode.startsWith('US')||(i%3===1&&!oi)) return;   // IE launch: US (all To Customer Outbound Inspection orders are IE for the demo)
+    if(r.items[0].cof) return;   // C.O.F = customer's own frame: no IE frame sold in this order
+    r.ie=true;r.items[0].ie=true;
+    if(r.recv!=='B2C_DELIVERY'||r.claim==='CANCELED') return;
+    const at=r.completedAt||r.confirmAt;
+    if(['COMPLETED','FINALIZED'].includes(r.status)) r.serial={no:rxwSnGen(i*7919),at,by:r.worker||'monster1437',spm:r.claim==='REFUNDED'?'RETURNED':'ACTIVATED',spmAt:r.completedAt};
+    else if(r.status==='OUTBOUND_INSPECTION'&&oiScanned++===0) r.serial={no:rxwSnGen(i*7919),at,by:r.worker||'monster1437',spm:'PENDING'};
+  });
+}
+function rxwSnState(r){
+  if(!r.ie) return null;
+  if(r.recv!=='B2C_DELIVERY') return ['wait','Processed in POS'];
+  if(r.serial) return r.serial.spm==='ACTIVATED'?['act','SPM Activated']:r.serial.spm==='RETURNED'?['ret','SPM Returned']:['scan','Scanned'];
+  if(r.claim) return ['wait','Not Scanned'];
+  return r.status==='OUTBOUND_INSPECTION'?['need','Scan Required']:['wait','Not Scanned'];
+}
+function rxwSnBadge(r){
+  const s=rxwSnState(r);if(!s) return '';
+  const cls=s[0]==='need'?'need':['scan','act','ret'].includes(s[0])?'ok':'off';
+  return `<span class="rxw-sn-b ${cls}" style="display:flex;"><span class="ie">IE</span>${s[0]==='need'?'S/N Required':cls==='ok'?'S/N &#10003;':s[0]==='wait'&&r.recv!=='B2C_DELIVERY'?'S/N at POS':'S/N -'}</span>`;
+}
+function rxwSerialBox(r){
+  if(!r.ie) return '';
+  const s=rxwSnState(r),sn=r.serial,b2c=r.recv==='B2C_DELIVERY';
+  const canScan=b2c&&!r.claim&&!sn&&r.status==='OUTBOUND_INSPECTION',canRe=b2c&&!r.claim&&sn&&sn.spm==='PENDING';
+  const fr=rxwFlatRows(r.items).map(x=>x.it).find(it=>it.ie);
+  return `<div class="rxw-box${s[0]==='need'?' sn-need':''}"><h3 class="rxw-ttl">IE Serial<span class="rxw-sn-st ${s[0]}">${s[1]}</span>
+      <span class="rxw-ttl-sfx">${canScan?`<button class="btn-action btn-primary" style="height:28px;" onclick="rxwSnOpen('edit',['${r.id}'])">Scan Serial</button>`:canRe?`<button class="btn-action btn-outline" style="height:28px;" onclick="rxwSnOpen('edit',['${r.id}'])">Rescan</button>`:''}</span></h3>
+    ${s[0]==='need'?`<div class="rxw-sn-alert">&#9888;<span>Scan the IE serial before label registration. Label Registration is blocked until the serial is saved.</span></div>`:''}
+    <div class="rxw-sn-grid">
+      <span class="k">IE Product</span><span class="v">${fr?rxwEsc(fr.code+' / '+fr.name):'-'}</span>
+      <span class="k">Serial No.</span><span class="v">${sn?rxwEsc(sn.no):'-'}</span>
+      <span class="k">Scanned</span><span class="v">${sn?`${sn.at} (${r.tz}) · ${rxwEsc(sn.by)}`:'-'}</span>
+      <span class="k">SPM</span><span class="v">${!sn?'-':sn.spm==='PENDING'?'Not sent (sent after label registration)':sn.spm==='ACTIVATED'?`Activated${sn.spmAt?' · '+sn.spmAt+' ('+r.tz+')':''}`:`Returned${sn.retAt?' · '+sn.retAt+' ('+r.tz+')':''}`}</span>
+    </div>
+    <div class="rxw-sn-note">${b2c?'Scan at Outbound Inspection → sent to SPM (order mapping + activation) once the TMS label is issued. Re Do keeps the serial. Refund requires scanning the returned item serial.'
+      :'Ship to Store: the serial is scanned in POS RX Operation when the customer picks up the order.'}</div>
+  </div>`;
+}
+// ----- scan modal -----
+function rxwSnOpen(mode,ids,then){
+  rxwSn={mode,ids,then:then||null,vals:{},errs:{},ok:{}};
+  ids.forEach(id=>{const r=rxwById(id);if(mode==='edit'&&r.serial){rxwSn.vals[id]=r.serial.no;rxwSn.ok[id]=true;}});
+  rxwSnRender();rxwOpenModal('sn');rxwSnFocus();
+}
+function rxwSnClose(){rxwCloseModal('sn');rxwSn=null;}
+function rxwSnFocus(){
+  if(!rxwSn) return;
+  const next=rxwSn.ids.find(id=>!rxwSn.ok[id])||rxwSn.ids[0];
+  const el=document.getElementById('rxw-sn-in-'+next);if(el){el.focus();el.select();}
+}
+function rxwSnRender(){
+  const m=rxwSn,done=m.ids.filter(id=>m.ok[id]).length,cur=m.ids.find(id=>!m.ok[id]);
+  const head={cs:'IE orders require a serial scan before moving to <b>Outbound Inspection</b>. The status changes after all serials are scanned.',
+    lr:'Serial scan is required before <b>Label Registration</b>. Scan the orders below to continue.',
+    edit:'Scan the IE serial attached to the frame.'}[m.mode];
+  const ok={cs:'Save &amp; Change Status',lr:'Save &amp; Continue',edit:'Save'}[m.mode];
+  document.getElementById('rxw-sn-body').innerHTML=`
+    <div class="rxw-sn-alert" style="background:#fff4e5;color:#8a4b00;">&#9888;<span>${head}</span></div>
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;"><span class="rxw-sn-prog">Scanned <b>${done}</b> / ${m.ids.length}</span><span style="font-size:11px;color:#888;">Scan with the barcode scanner (Enter = next)</span></div>
+    <div class="rxw-sn-list">${m.ids.map(id=>{const r=rxwById(id),fr=rxwFlatRows(r.items).map(x=>x.it).find(it=>it.ie),e=m.errs[id];
+      return `<div class="rxw-sn-row${m.ok[id]?' ok':e?' err':''}${id===cur?' cur':''}">
+        <div class="o"><b>${rxwEsc(r.ssid)}</b><small>${rxwEsc(r.orderNo)}</small><small>${fr?rxwEsc(fr.code+' / '+fr.name):''}</small></div>
+        <div class="in"><div><input id="rxw-sn-in-${id}" value="${rxwEsc(m.vals[id]||'')}" placeholder="Scan IE serial" autocomplete="off"
+            oninput="rxwSn.vals['${id}']=this.value.toUpperCase().trim();rxwSn.ok['${id}']=false;"
+            onkeydown="if(event.key==='Enter'){event.preventDefault();rxwSnCommit('${id}');}">
+          <button class="rxw-sn-sim" title="Prototype only" onclick="rxwSnSim('${id}')">Simulate Scan</button></div>
+          ${e?`<span class="em">${rxwEsc(e)}</span>`:''}</div>
+        <span class="ck">${m.ok[id]?'&#10003;':''}</span></div>`;}).join('')}</div>
+    <div class="rxw-sn-proto">Prototype: serial format A–Z / 0–9, 8–30 chars. A serial ending in 0000 simulates "not registered in SPM".</div>
+    <div class="rxw-mfoot" style="gap:8px;">
+      <button class="btn-action btn-outline" onclick="rxwSnClose()">Cancel</button>
+      <button class="btn-action btn-primary" ${done===m.ids.length?'':'disabled'} onclick="rxwSnConfirm()">${ok}</button></div>`;
+}
+function rxwSnCheck(id,v){
+  if(!v) return 'Please scan the serial.';
+  if(!RXW_SN_RE.test(v)) return 'Invalid serial format.';
+  const other=RXW_DATA.find(x=>x.id!==id&&x.serial&&x.serial.no===v&&x.serial.spm!=='RETURNED');
+  if(other) return `This serial is already mapped to order ${other.ssid}.`;
+  if(rxwSn.ids.some(x=>x!==id&&rxwSn.ok[x]&&rxwSn.vals[x]===v)) return 'Duplicate serial in this list.';
+  if(/0000$/.test(v)) return 'Serial not registered in SPM.';
+  return null;
+}
+function rxwSnCommit(id){
+  const m=rxwSn,v=(m.vals[id]||'').toUpperCase().trim();m.vals[id]=v;
+  const e=rxwSnCheck(id,v);
+  if(e){m.errs[id]=e;m.ok[id]=false;}else{delete m.errs[id];m.ok[id]=true;}
+  rxwSnRender();
+  if(e){const el=document.getElementById('rxw-sn-in-'+id);if(el){el.focus();el.select();}}else rxwSnFocus();
+}
+function rxwSnSim(id){rxwSn.vals[id]=rxwSnGen(Date.now()+id.length*31+Math.floor(Math.random()*1e6));rxwSnCommit(id);}
+function rxwSnConfirm(){
+  const m=rxwSn;if(!m) return;
+  for(const id of m.ids){const e=rxwSnCheck(id,m.vals[id]);if(e){m.errs[id]=e;m.ok[id]=false;rxwSnRender();return;}}
+  const now=rxwFmt(new Date());
+  m.ids.forEach(id=>{const r=rxwById(id),old=r.serial?r.serial.no:null,v=m.vals[id];
+    if(old===v) return;
+    r.serial={no:v,at:now,by:'monster1437',spm:'PENDING'};rxwAddHistory(r,[['IE_SERIAL',old,v]]);});
+  const then=m.then;rxwSnClose();
+  if(then) then();
+  else{rxwToast('IE serial has been saved.','');rxwAfterChange();}
+}
+// ----- refund: returned item serial must match the shipped serial -----
+function rxwRetNeeded(){const r=rxwCur;return !!(r&&rxwDs.claimMode==='refund'&&r.ie&&r.serial&&r.serial.spm==='ACTIVATED');}
+function rxwRetRender(){
+  const el=document.getElementById('rxw-rs-sn');if(!el) return;
+  if(!rxwRetNeeded()){el.innerHTML='';return;}
+  const r=rxwCur,ok=rxwDs.retSn===r.serial.no;
+  el.innerHTML=`<div style="border:1px solid #e5e5e5;border-radius:6px;padding:12px 14px;display:flex;flex-direction:column;gap:8px;">
+    <div style="font-size:12px;font-weight:700;">Returned IE Serial <span class="rxw-req">*</span></div>
+    <div style="font-size:11px;color:#777;">Shipped serial: <b style="color:#222;">${rxwEsc(r.serial.no)}</b></div>
+    <div class="rxw-sn-row${ok?' ok':rxwDs.retErr?' err':''}" style="grid-template-columns:1fr 22px;padding:0;border:none;">
+      <div class="in"><div><input id="rxw-rs-sn-in" value="${rxwEsc(rxwDs.retSn)}" placeholder="Scan the returned item serial" autocomplete="off"
+          onkeydown="if(event.key==='Enter'){event.preventDefault();rxwRetCommit(this.value);}">
+        <button class="rxw-sn-sim" onclick="rxwRetCommit(rxwCur.serial.no)">Simulate Scan</button></div>
+        ${rxwDs.retErr?`<span class="em">${rxwEsc(rxwDs.retErr)}</span>`:''}</div>
+      <span class="ck">${ok?'&#10003;':''}</span></div>
+    <div style="font-size:11px;color:#777;">On Refund, the return serial is sent to SPM (deactivation).</div></div>`;
+}
+function rxwRetCommit(v){
+  v=String(v||'').toUpperCase().trim();if(v===rxwDs.retSn&&!rxwDs.retErr) return;
+  rxwDs.retSn=v;rxwDs.retErr=!v?'':v!==rxwCur.serial.no?'The returned serial does not match the shipped serial.':'';
+  rxwRetRender();rxwReasonSync();
 }
 // ===== RX menus: search filter Reset (prototype addition; real frontend has no Reset) =====
 // Clears every select / text / multi-select in the search box; each screen then restores its defaults and searches again
