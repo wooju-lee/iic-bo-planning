@@ -972,6 +972,8 @@ table.grid th.ol-sort.asc .arr{transform:rotate(180deg);}
 .ol-ptbl td .n{font-size:11px;color:#777;margin-top:2px;}
 .ol-ptbl td .b{font-size:11px;color:#999;margin-top:2px;}
 .ol-ptbl tr.tot td{background:#ececec;font-weight:700;border-top:2px solid #ddd;border-bottom:none;}
+/* Amount columns (Unit / Net / VAT / Total) are always the last 4 columns: right aligned */
+.ol-ptbl tr>:nth-last-child(-n+4){text-align:right;padding-right:16px;font-variant-numeric:tabular-nums;}
 .ol-note{font-size:11px;color:#999;margin-top:8px;}
 /* ===== Inventory Ledger (read only) ===== */
 .lg-noti{font-size:12px;color:#555;margin:-14px 0 18px;}
@@ -2066,7 +2068,7 @@ a.ib-trk:hover{border-color:#ff6b35;color:#ff6b35;}
               <th style="width:110px;">Product<br>Category 2</th>
               <th>Product Info<br><span style="font-size:10px;font-weight:400;opacity:.85;">(Code / Name)</span></th>
               <th>Currency</th>
-              <th>Price</th>
+              <th class="tr">Price</th>
               <th>Update Date</th>
             </tr>
           </thead>
@@ -2473,7 +2475,7 @@ a.ib-trk:hover{border-color:#ff6b35;color:#ff6b35;}
               <th class="tl">Brand</th>
               <th class="tl cp-sort" data-sort="productCode" onclick="cpSortBy('productCode')">Product Info<br><span class="cp-sub">Product Info (Code / Name), Barcode</span><span class="cp-sort-ico"></span></th>
               <th class="cp-sort" data-sort="currency" onclick="cpSortBy('currency')">Currency<br><span class="cp-sub">(Purchase Currency)</span><span class="cp-sort-ico"></span></th>
-              <th class="cp-sort" data-sort="price" onclick="cpSortBy('price')">Sales Price<span class="cp-sort-ico"></span></th>
+              <th class="cp-sort tr" data-sort="price" onclick="cpSortBy('price')">Sales Price<span class="cp-sort-ico"></span></th>
             </tr>
           </thead>
           <tbody id="cp-body"></tbody>
@@ -2923,7 +2925,7 @@ a.ib-trk:hover{border-color:#ff6b35;color:#ff6b35;}
               <th class="tl">BP Information<br><span style="font-size:10px;font-weight:400;opacity:.85;">(Code / Name)</span></th>
               <th>Product Info<br><span style="font-size:10px;font-weight:400;opacity:.85;">(Code / Name / Barcode)</span></th>
               <th>Currency<br><span style="font-size:10px;font-weight:400;opacity:.85;">(Transaction Currency)</span></th>
-              <th>Supply Price</th>
+              <th class="tr">Supply Price</th>
             </tr>
           </thead>
           <tbody id="sp-body"></tbody>
@@ -4766,7 +4768,7 @@ function renderDpPage(){
   const start=(dpPage-1)*size,end=Math.min(start+size,total);
   document.getElementById('dp-body').innerHTML=total?rows.slice(start,end).map(r=>`<tr>
     <td class="tl">${dpBrandText(r.brand)}</td><td class="tl">${r.store}</td><td>${r.cat1}</td><td>${r.cat2}</td>
-    <td class="tl">${r.code} / ${r.name}</td><td>${r.currency}</td><td>${r.price.toLocaleString('en-US')}</td><td>${r.updatedAt}</td></tr>`).join('')
+    <td class="tl">${r.code} / ${r.name}</td><td>${r.currency}</td><td class="tr num">${r.price.toLocaleString('en-US')}</td><td>${r.updatedAt}</td></tr>`).join('')
     :'<tr><td colspan="8" class="dp-empty">No data found.</td></tr>';
   document.getElementById('dp-range').textContent=(total?start+1:0)+'–'+end+' of '+total;
   document.getElementById('dp-prev').disabled=dpPage<=1;
@@ -5164,7 +5166,7 @@ function spRowCells(r){return [dpBrandText(r.brand),r.bp+' / '+getMasterBPs()[r.
 function renderSpPage(){
   const rows=spLastRows,[s,e]=pgRange('sp',rows.length);
   document.getElementById('sp-body').innerHTML=rows.length?rows.slice(s,e).map(r=>{const c=spRowCells(r);return `<tr>
-    <td class="tl">${c[0]}</td><td class="tl">${c[1]}</td><td class="tl">${c[2]}</td><td>${c[3]}</td><td>${fmtAmt(c[4])}</td></tr>`;}).join('')
+    <td class="tl">${c[0]}</td><td class="tl">${c[1]}</td><td class="tl">${c[2]}</td><td>${c[3]}</td><td class="tr num">${fmtAmt(c[4])}</td></tr>`;}).join('')
     :'<tr><td colspan="5" class="dp-empty">No data found.</td></tr>';
 }
 function resetSupplyPrice(){
@@ -6748,7 +6750,7 @@ function olSearch(p){
 }
 function olRenderHead(p){
   const st=OL_STATE[p],h=OL_CFG[p].head;
-  document.getElementById(p+'-head').innerHTML='<tr class="hdr">'+h.map((t,i)=>i===0?`<th class="ol-sort${st.asc?' asc':''}" style="min-width:180px;" onclick="OL_STATE['${p}'].asc=!OL_STATE['${p}'].asc;olRenderHead('${p}');olRenderPage('${p}')">${t}<span class="arr">↓</span></th>`:`<th${/^(Store|Order No|Refund No|Original Order No)/.test(t)?' class="tl"':''}>${t}</th>`).join('')+'</tr>';
+  document.getElementById(p+'-head').innerHTML='<tr class="hdr">'+h.map((t,i)=>i===0?`<th class="ol-sort${st.asc?' asc':''}" style="min-width:180px;" onclick="OL_STATE['${p}'].asc=!OL_STATE['${p}'].asc;olRenderHead('${p}');olRenderPage('${p}')">${t}<span class="arr">↓</span></th>`:`<th${/^(Store|Order No|Refund No|Original Order No)/.test(t)?' class="tl"':t==='Total'?' class="tr"':''}>${t}</th>`).join('')+'</tr>';
 }
 function olRenderPage(p){
   const st=OL_STATE[p],rows=[...st.rows].sort((a,b)=>(st.asc?1:-1)*((a.date+a.dateTime.slice(11,16)).localeCompare(b.date+b.dateTime.slice(11,16))));
@@ -6759,7 +6761,7 @@ function olRenderPage(p){
     const noCell=p==='ol'?`<div class="ol-no" onclick="olOpen('ol',${idx})">${r.no}</div><div class="ol-no-sub">(${r.no})</div>`
       :`<div class="ol-no" onclick="olOpen('rl',${idx})">${r.orderNo}</div><div class="ol-no-sub">(${r.no})</div>`;
     return `<tr onclick="olOpen('${p}',${idx})"><td>${r.dateTime}</td><td><span class="ol-pill ${r[OL_CFG[p].statusKey]}">${olPillLabel(r[OL_CFG[p].statusKey])}</span></td>
-      <td class="tl" onclick="event.stopPropagation()">${noCell}</td>${p==='rl'?`<td class="tl">${r.orderNo}</td>`:''}<td class="tl">${store}</td><td>${r.loc}</td><td>${r.store.cur}</td><td>${olQty(r)}</td><td>${fmtAmt2(olTotal(r))}</td></tr>`;
+      <td class="tl" onclick="event.stopPropagation()">${noCell}</td>${p==='rl'?`<td class="tl">${r.orderNo}</td>`:''}<td class="tl">${store}</td><td>${r.loc}</td><td>${r.store.cur}</td><td>${olQty(r)}</td><td class="tr num">${fmtAmt2(olTotal(r))}</td></tr>`;
   }).join(''):`<tr><td colspan="${n}" class="dp-empty">No data found.</td></tr>`;
 }
 // ----- Detail modal -----
@@ -7708,7 +7710,7 @@ function cpRender(){
   document.querySelectorAll('#cp-view th.cp-sort').forEach(th=>{if(th.dataset.sort===cpSortKey) th.dataset.dir=cpSortDir; else delete th.dataset.dir;});
   document.getElementById('cp-body').innerHTML=rows.length?rows.slice(s,e).map(r=>`<tr>
     <td class="tl">${CP_BRANDS[r.brandCode]}</td><td class="tl">${r.code} / ${r.name} / ${r.barcode}</td>
-    <td>${r.currency}</td><td>${cpFmt(r.price)}</td></tr>`).join('')
+    <td>${r.currency}</td><td class="tr num">${cpFmt(r.price)}</td></tr>`).join('')
     :'<tr><td colspan="4" class="dp-empty">No data found.</td></tr>';
 }
 // Excel export (GET /api/v1/customer-prices/excel): backend columns, no sort order, category filters ignored
