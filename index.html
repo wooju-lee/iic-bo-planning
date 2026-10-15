@@ -1549,16 +1549,9 @@ a.ib-trk:hover{border-color:#ff6b35;color:#ff6b35;}
 .rxw-sn-st.ret{color:#5d4037;background:#f3ece9;border-color:#d7c3bb;}
 .rxw-sn-grid{display:grid;grid-template-columns:max-content 1fr;gap:8px 20px;font-size:12px;margin-bottom:12px;}
 .rxw-sn-grid .k{color:#777;}.rxw-sn-grid .v{font-weight:600;color:#222;font-variant-numeric:tabular-nums;}
-.rxw-sn-tip{position:relative;display:inline-flex;cursor:help;}
-.rxw-sn-tip .ico{color:#9e9e9e;transition:color .15s;}
-.rxw-sn-tip:hover .ico{color:#555;}
-.rxw-sn-tip .box::after{content:'';position:absolute;left:12px;top:-5px;border:5px solid transparent;border-top:0;border-bottom-color:#222;}
-.rxw-sn-tip .box{display:none;position:absolute;left:-8px;top:calc(100% + 8px);z-index:20;width:360px;flex-direction:column;gap:6px;background:#222;color:#fff;border-radius:6px;padding:10px 12px;font-size:11px;font-weight:400;line-height:1.5;box-shadow:0 4px 14px rgba(0,0,0,.18);}
-.rxw-sn-tip .box span{display:block;padding-left:10px;position:relative;}
-.rxw-sn-tip .box span::before{content:'•';position:absolute;left:0;}
-.rxw-sn-tip:hover .box{display:flex;}
-.rxw-sn-tip .box.one span{padding-left:0;}.rxw-sn-tip .box.one span::before{content:none;}
-.rxw-sn-tip.narrow .box{width:220px;}
+.rxw-ttip{margin-left:0;}
+.rxw-ttip .wms-tooltip{white-space:normal;width:360px;line-height:1.6;left:calc(100% + 8px);top:-6px;}   /* beside the title, not over it */
+.rxw-ttip.narrow .wms-tooltip{width:220px;left:0;top:calc(100% + 6px);}   /* right column is narrow -> below the title */
 .rxw-sn-grid{margin-bottom:0;}
 .rxw-sn-note{font-size:11px;color:#777;background:#fafafa;border-radius:6px;padding:10px 12px;line-height:1.5;}
 .rxw-sn-alert{display:flex;gap:8px;align-items:flex-start;background:#fdecea;color:#b71c1c;border-radius:6px;padding:10px 12px;font-size:12px;line-height:1.5;margin-bottom:12px;}
@@ -13471,7 +13464,7 @@ function rxwTrackingBox(r){
       <div class="rxw-trk-r"><b>Shipment Label No.</b><span>${rxwEsc(trk)}</span></div><div class="rxw-trk-r"><b>Carrier</b><span>${rxwEsc(car)}</span></div>
       ${list.filter(t=>RXW_TRACK_URL[t.carrier]).map(t=>`<a class="rxw-trk-a" href="${RXW_TRACK_URL[t.carrier](t.no)}" target="_blank" rel="noopener noreferrer"><em>${t.carrier==='FEDEX'?'FedEx':t.carrier}</em><span>${rxwEsc(t.no)}</span>${RXW_ICON.ext}</a>`).join('')}`;
   };
-  return `<div class="rxw-box"><h3 class="rxw-ttl" style="margin-bottom:16px;">Delivery Tracking ${rxwTip(['This is information regarding the shipments received by the lab.'],'narrow')}</h3>
+  return `<div class="rxw-box"><h3 class="rxw-ttl" style="margin-bottom:16px;">${rxwTip('Delivery Tracking',['This is information regarding the shipments received by the lab.'],'narrow')}</h3>
     ${sec('INBOUND','Inbound List','<svg width="14" height="14" viewBox="0 0 24 24" fill="#7c86ff"><path d="M20 2H4c-1 0-2 .9-2 2v3.01c0 .72.43 1.34 1 1.69V20c0 1.1 1.1 2 2 2h14c.9 0 2-.9 2-2V8.7c.57-.35 1-.97 1-1.69V4c0-1.1-1-2-2-2zm-1 18H5V9h14v11zm1-13H4V4h16v3zM9 12h6v2H9z"/></svg>')}
     <div class="rxw-sep" style="margin:16px 0;"></div>
     ${sec('OUTBOUND','Outbound List','<svg width="14" height="14" viewBox="0 0 24 24" fill="#7c86ff"><path d="M20 8h-3V4H3c-1.1 0-2 .9-2 2v11h2c0 1.66 1.34 3 3 3s3-1.34 3-3h6c0 1.66 1.34 3 3 3s3-1.34 3-3h2v-5l-3-4z"/></svg>')}
@@ -13562,9 +13555,10 @@ function rxwPurchaserSeed(){
     else r.purchaser={name:rc.name||'',phone:rc.phone||'',email:rc.email||''};
   });
 }
-// Detail info tooltip (outlined i icon + hover box). lines > 1 -> bulleted
-function rxwTip(lines,cls){
-  return `<span class="rxw-sn-tip ${cls||''}"><svg class="ico" viewBox="0 0 24 24" width="16" height="16"><circle cx="12" cy="12" r="9.25" fill="none" stroke="currentColor" stroke-width="1.6"/><rect x="11.1" y="10.4" width="1.8" height="6.6" rx=".9" fill="currentColor"/><circle cx="12" cy="7.6" r="1.15" fill="currentColor"/></svg><span class="box${lines.length>1?'':' one'}">${lines.map(t=>`<span>${t}</span>`).join('')}</span></span>`;
+// Detail title tooltip — same pattern as Outbound Information (dashed-underlined title + .wms-tooltip)
+function rxwTip(label,lines,cls){
+  return `<span class="wms-tooltip-wrap rxw-ttip ${cls||''}"><span style="border-bottom:1px dashed #aaa;cursor:help;">${label}</span>
+    <span class="wms-tooltip">${lines.length>1?lines.map(t=>'&bull; '+t).join('<br>'):lines[0]}</span></span>`;
 }
 function rxwPurchaserBox(r){
   const p=r.purchaser||{};
@@ -13614,7 +13608,7 @@ function rxwSerialBox(r){
   const canScan=b2c&&!r.claim&&!sn&&r.status==='OUTBOUND_INSPECTION',canRe=b2c&&!r.claim&&sn&&sn.spm==='PENDING';
   const tip=b2c?['Scan the serial at Outbound Inspection (required).','Sent to SPM automatically after the TMS label is issued (order mapping + activation).','Re Do keeps the serial.','Refund: scan the returned item serial → return sent to SPM.']
     :['Ship to Store: the serial is scanned in POS RX Operation when the customer picks up the order.'];
-  return `<div class="rxw-box${s[0]==='need'?' sn-need':''}"><h3 class="rxw-ttl">IE Serial${rxwTip(tip)}
+  return `<div class="rxw-box${s[0]==='need'?' sn-need':''}"><h3 class="rxw-ttl">${rxwTip('IE Serial',tip)}
       <span class="rxw-ttl-sfx" style="display:flex;align-items:center;gap:10px;"><span class="rxw-sn-st ${s[0]}">${s[1]}</span>${canScan?`<button class="btn-action btn-primary" style="height:28px;" onclick="rxwSnOpen('edit',['${r.id}'])">Scan Serial</button>`:canRe?`<button class="btn-action btn-outline" style="height:28px;" onclick="rxwSnOpen('edit',['${r.id}'])">Rescan</button>`:''}</span></h3>
     ${s[0]==='need'?`<div class="rxw-sn-alert">&#9888;<span>Scan the IE serial before label registration. Label Registration is blocked until the serial is saved.</span></div>`:''}
     ${b2c?`<div class="rxw-sn-grid">
