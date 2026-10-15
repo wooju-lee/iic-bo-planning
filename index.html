@@ -1528,13 +1528,12 @@ a.ib-trk:hover{border-color:#ff6b35;color:#ff6b35;}
 .rxw-err-txt{color:#d32f2f;font-size:12px;margin-top:4px;}
 .rxw-dbtn{height:34px!important;min-width:84px;}
 .multi-select-dropdown .rxw-dd-grp{padding:6px 12px;font-size:11px;font-weight:700;color:#999;background:#fafafa;cursor:default;white-space:nowrap;}
-/* Statistics (processing period cards) */
-.rxw-bar{display:flex;align-items:center;border:1px solid #e5e5e5;border-radius:8px;background:#fff;padding:12px 16px;margin-bottom:16px;}
-/* To Customer / To Store switch: compact pill segment */
-.rxw-seg{display:inline-flex;flex-shrink:0;gap:2px;padding:3px;height:34px;box-sizing:border-box;background:#f2f2f2;border-radius:8px;}
-.rxw-seg button{min-width:112px;padding:0 14px;border:none;border-radius:6px;background:transparent;font-size:12px;font-weight:600;color:#777;cursor:pointer;}
-.rxw-seg button:hover{color:#333;}
-.rxw-seg button.on{background:#fff;color:#ed6c02;box-shadow:0 1px 3px rgba(0,0,0,.12);}
+/* To Customer / To Store: underline tabs (same look as .psv-tabs; own classes so other screens' tab handlers don't touch them) */
+.rxw-bar{display:flex;border-bottom:1px solid #e8e8e8;margin-bottom:16px;}
+.rxw-seg{display:flex;}
+.rxw-seg button{padding:12px 24px;border:none;border-bottom:2px solid transparent;margin-bottom:-1px;background:transparent;font-size:13px;font-weight:600;color:#888;cursor:pointer;white-space:nowrap;transition:all .15s;}
+.rxw-seg button:hover{color:#555;}
+.rxw-seg button.on{color:#ff6b35;border-bottom-color:#ff6b35;}
 /* List grid */
 #rxw-view table.grid th.rxw-sort{cursor:pointer;user-select:none;}
 .rxw-sort-ico{display:inline-block;width:10px;margin-left:4px;font-size:10px;}
