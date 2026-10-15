@@ -1592,6 +1592,7 @@ a.ib-trk:hover{border-color:#ff6b35;color:#ff6b35;}
 .rxw-info{display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;border-radius:50%;background:rgba(255,255,255,.9);color:#ff6b35;font-size:10px;font-weight:700;font-style:italic;font-family:Georgia,serif;margin-left:4px;cursor:help;vertical-align:middle;}
 .rxw-chip{display:inline-flex;align-items:center;justify-content:center;min-width:120px;height:24px;padding:0 8px;border-radius:12px;font-size:11px;color:#fff;white-space:nowrap;box-sizing:border-box;}
 .rxw-chip.sm{min-width:0;height:22px;}
+.rxw-chip.claim{min-width:0;padding:0 10px;}   /* Cancel / Refund: fits the text */
 .rxw-chip.ol{background:#fff!important;border:1px solid;font-weight:600;min-width:0;height:22px;}
 .rxw-tag{display:inline-flex;align-items:center;height:22px;padding:0 8px;border-radius:11px;font-size:11px;background:#777;color:#fff;}
 .rxw-tag.n{background:#dcdcdc;color:#232323;}
@@ -12915,7 +12916,7 @@ function rxwRenderPage(){
       <td>${r.confirmAt?r.confirmAt+' ('+r.tz+')':'-'}</td>
       <td>${r.eta||'-'}</td>
       <td>${rxwChip(r.status)}</td>
-      <td>${r.claim?rxwChip(r.claim):'-'}</td>
+      <td>${r.claim?rxwChip(r.claim,'claim'):'-'}</td>
       <td>${rxwChannel(r.channel)}</td>
       <td>${r.tags.length?r.tags.map(t=>`<span class="rxw-tag">${rxwEsc(t)}</span>`).join(' '):'<span class="rxw-tag n">NORMAL</span>'}</td>
       <td class="tl"><span class="rxw-ono">${rxwEsc(r.ssid||'-')}</span><span class="rxw-ono-sub">(${rxwEsc(r.orderNo||'-')})</span>${rxwSnBadge(r)}</td>
