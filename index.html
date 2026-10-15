@@ -1062,6 +1062,110 @@ table.grid th.ol-sort.asc .arr{transform:rotate(180deg);}
 .grid th.cp-sort[data-dir="asc"] .cp-sort-ico::after{content:'▲';}
 .grid th.cp-sort[data-dir="desc"] .cp-sort-ico::after{content:'▼';}
 .cp-err{color:#d32f2f;font-size:12px;margin-top:6px;}
+/* ===== Inbound List (Inventory > Inbound List) — prefix ib ===== */
+.ib-sub{font-size:10px;font-weight:400;opacity:.85;}
+.ib-noti{font-size:12px;color:#000;font-weight:400;}
+.ib-err-txt{color:#d32f2f;font-size:12px;margin-top:4px;}
+#ib-view .search-table th{white-space:normal;line-height:1.4;}
+#ib-view table.grid th.ib-sort{cursor:pointer;user-select:none;}
+.ib-sort-ico{display:inline-block;width:10px;margin-left:4px;font-size:10px;}
+#ib-view table.grid th.ib-sort[data-dir="asc"] .ib-sort-ico::after{content:'▲';}
+#ib-view table.grid th.ib-sort[data-dir="desc"] .ib-sort-ico::after{content:'▼';}
+.ib-info{display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;border-radius:50%;background:rgba(255,255,255,.9);color:#ff6b35;font-size:10px;font-weight:700;font-style:italic;font-family:Georgia,serif;margin-left:4px;cursor:help;vertical-align:middle;}
+.ib-chk-col{width:44px;min-width:44px;}
+.multi-select-dropdown .ib-dd-grp{padding:6px 12px;font-size:11px;font-weight:700;color:#999;background:#fafafa;cursor:default;white-space:nowrap;}
+#ib-view table.grid td.ib-chk-col{cursor:default;}
+.ib-chip{display:inline-flex;align-items:center;padding:3px 10px;border-radius:12px;font-size:11px;font-weight:400;white-space:nowrap;}
+.ib-chip.b{font-weight:700;}
+.ib-chip.ch{color:#1B5E20;background:#E8F5E9;}
+.ib-sub-err{color:#d32f2f;}
+#ib-view table.grid td.ib-err-row{padding:40px 0!important;color:#C62828!important;}
+/* Selection bar (bulk confirm) */
+.ib-fbar{position:fixed;bottom:-90px;left:calc(50% + 120px);transform:translateX(-50%);width:435px;display:flex;align-items:center;gap:10px;padding:10px;background:#FFFBF3;border:1px solid #e5e5e5;border-radius:12px;box-shadow:0 4px 20px rgba(0,0,0,.12);z-index:1300;font-size:12px;transition:bottom .3s ease;}
+.ib-fbar.show{bottom:50px;}
+.ib-fbar-info{flex:1;text-align:center;}
+.ib-fbar-confirm{flex:1;min-width:180px;height:34px;border:1px solid #737373;background:#fff;border-radius:8px;font-size:12px;cursor:pointer;}
+.ib-fbar-confirm:hover:not(:disabled){background:#ff6b35;border-color:#c2410c;color:#fff;}
+.ib-fbar-confirm:disabled{opacity:.5;cursor:not-allowed;}
+.ib-fbar-clear{flex:0 0 90px;border:none;background:none;color:#737373;text-decoration:underline;font-size:12px;cursor:pointer;}
+.ib-fbar-clear:hover{color:#ff6b35;}
+.ib-btn:disabled{opacity:.45;cursor:not-allowed;}
+/* Detail */
+.ib-dt-head{display:flex;align-items:center;gap:8px;margin-bottom:16px;}
+.ib-back{width:30px;height:30px;border:none;background:none;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;color:#333;}
+.ib-back:hover{background:rgba(0,0,0,.06);}
+.ib-dt-title{font-size:18px;font-weight:700;color:#222;margin-right:10px;}
+#ib-dt-info .detail-info-table{margin-bottom:0;}
+#ib-dt-info .detail-info-table th{width:180px;}
+.ib-ob-sec{margin-top:20px;margin-bottom:0!important;}
+.ib-ob-sec .ob-info-divider span.ib-sec-ttl{text-transform:uppercase;letter-spacing:.04em;font-size:12px;font-weight:600;color:#777;}
+.ib-wms-box{flex:1;min-height:34px;display:flex;flex-wrap:wrap;align-items:center;gap:6px;padding:6px 12px;border:1px solid #e5e5e5;border-radius:4px;background:#fafafa;font-size:12px;color:#222;}
+.ib-wms-box .ib-wait{color:#aaa;}
+.ib-trk{display:inline-flex;align-items:center;gap:3px;padding:2px 8px;border:1px solid #e5e5e5;border-radius:12px;background:#fff;font-size:11px;color:#222;text-decoration:none;}
+a.ib-trk:hover{border-color:#ff6b35;color:#ff6b35;}
+.ib-trk-cnt{font-size:11px;color:#777;}
+.ib-trk-all{margin-left:auto;font-size:11px;color:#1976d2;white-space:nowrap;}
+.ib-dt-grid{max-height:70vh;overflow:auto;}
+#ib-dt-body tr{cursor:default;}
+.ib-qty{width:150px;height:30px;border:1px solid #d5d5d5;border-radius:4px;padding:0 10px;font-size:12px;outline:none;}
+.ib-qty:focus{border-color:#ff6b35;box-shadow:0 0 0 2px rgba(255,107,53,.12);}
+.ib-qty:disabled{background:#f5f5f5;color:#999;border-color:#eee;cursor:not-allowed;}
+.ib-qty.err{border-color:#d32f2f;}
+.ib-qty-err{color:#d32f2f;font-size:11px;margin-top:3px;white-space:normal;}
+.ib-pa small{display:block;color:#888;}
+/* Excel modal */
+.ib-xl-body{padding:20px!important;}
+.ib-xl-radios{display:flex;justify-content:center;gap:20px;font-size:13px;}
+.ib-xl-radios label{display:flex;align-items:center;gap:6px;cursor:pointer;}
+.ib-xl-radios input{accent-color:#ff6b35;}
+.ib-xl-note{font-size:10px;color:#a3a3a3;margin:16px 0;}
+/* Registration modal */
+.modal-box.ib-reg-box{width:60%;min-width:900px;max-width:96vw;max-height:92vh;display:flex;flex-direction:column;}
+.modal-box.ib-reg-box .modal-body.ib-reg-body{padding:24px 40px 0;max-height:none;flex:1;overflow-y:auto;}
+.ib-reg-actions{display:flex;align-items:center;gap:10px;padding:16px 0 20px;background:#fff;position:sticky;bottom:0;}
+.ib-tmpl-link{font-size:12px;color:#737373;text-decoration:underline;cursor:pointer;}
+.ib-drop{margin-top:6px;border:1px dashed #d5d5d5;border-radius:8px;padding:26px 20px;display:flex;align-items:center;gap:10px;cursor:pointer;transition:all .15s;}
+.ib-drop:hover,.ib-drop.over{border-color:#ff6b35;background:#fff8f4;}
+.ib-drop-txt{font-size:13px;color:#ff6b35;text-decoration:underline;}
+.ib-file{display:flex;align-items:center;justify-content:space-between;margin-top:8px;padding:8px 12px;border:1px solid #eee;border-radius:6px;font-size:12px;color:#333;}
+.ib-file button{border:none;background:none;color:#999;cursor:pointer;font-size:16px;}
+.ib-fmt-err{margin-top:12px;padding:16px;border-radius:8px;background:#fef2f2;text-align:center;}
+.ib-fmt-err h4{font-size:14px;color:#991b1b;margin:0 0 6px;}
+.ib-fmt-err p{font-size:12px;color:#b91c1c;margin:0;font-weight:700;}
+.ib-blk-err{margin-top:12px;}
+.ib-blk-err .ib-e{color:#ef4444;white-space:normal;}
+#ib-reg-modal table.grid tbody tr{cursor:default;}
+#ib-reg-modal table.grid td{padding:10px 12px;}
+.ib-steps{display:flex;align-items:flex-start;justify-content:center;max-width:760px;margin:24px auto 28px;}
+.ib-step{display:flex;flex-direction:column;align-items:center;min-width:150px;gap:6px;}
+.ib-step-num{width:24px;height:24px;border-radius:50%;background:#bdbdbd;color:#fff;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;}
+.ib-step-label{font-size:13px;font-weight:500;color:#888;}
+.ib-step.active .ib-step-num,.ib-step.done .ib-step-num{background:#1976d2;}
+.ib-step.active .ib-step-label{color:#222;font-weight:600;}
+.ib-step-line{flex:1;height:1px;background:#bdbdbd;margin:12px -40px 0;}
+.ib-box{border:1px solid #e5e5e5;border-radius:8px;padding:20px;background:#fff;}
+.ib-box+.ib-box{margin-top:10px;}
+.ib-box-ttl{font-size:12px;font-weight:700;margin-bottom:10px;display:block;}
+.ib-sel-row{display:flex;flex-wrap:wrap;gap:10px;align-items:flex-end;}
+.ib-sel-row .ib-f{display:flex;flex-direction:column;gap:5px;}
+.ib-sel-row .ib-f>span{font-size:11px;}
+.ib-sel-row select,.ib-sel-row input[type=text],.ib-sel-row input[type=date]{height:34px;min-width:180px;border:1px solid #d5d5d5;border-radius:4px;padding:0 10px;font-size:12px;background:#fff;outline:none;}
+.ib-summary{display:flex;gap:40px;font-size:11px;}
+.ib-summary>div{flex:1;display:flex;gap:10px;}
+.ib-summary strong{min-width:50px;}
+.ib-summary.hl{background:#FFFBF3;}
+.ib-f3{display:flex;gap:40px;}
+.ib-f3>div{flex:1;display:flex;flex-direction:column;gap:5px;font-size:12px;}
+.ib-f3 input{height:34px;border:1px solid #d5d5d5;border-radius:4px;padding:0 10px;font-size:12px;outline:none;}
+.ib-f3 input.err{border-color:#d32f2f;}
+.ib-req{color:#d32f2f;margin-left:2px;}
+.ib-x{width:24px;height:24px;border:none;border-radius:50%;background:#f5f5f5;cursor:pointer;font-size:13px;color:#555;margin-left:6px;}
+.ib-x:hover{background:#e0e0e0;}
+.ib-cfm-title{font-size:15px;font-weight:700;color:#222;margin-bottom:8px;}
+.ib-cfm-sub{font-size:13px;color:#555;}
+.ib-blk-err table.grid th{min-width:110px;}
+.ib-blk-err table.grid th:first-child{min-width:40px;}
+.ib-blk-err table.grid td{white-space:normal;}
 </style>
 <!-- SheetJS: client-side Excel (.xlsx) export -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
@@ -2390,6 +2494,237 @@ table.grid th.ol-sort.asc .arr{transform:rotate(180deg);}
     </div>
   </div>
 
+  <!-- ===== INBOUND LIST VIEW (Inventory > Inbound List) — prefix ib ===== -->
+  <div class="detail-view" id="ib-view">
+    <!-- Pane 1: Inbound List -->
+    <div id="ib-list-pane">
+      <div class="search-box">
+        <table class="search-table">
+          <tr>
+            <th>BP</th>
+            <td><div class="field-row"><div class="field-inline"><select id="ib-bp" style="min-width:360px;max-width:700px;" onchange="ibBpChange()"><option value="">All</option></select></div></div></td>
+          </tr>
+          <tr>
+            <th>From Store</th>
+            <td><div class="field-row"><div class="multi-select-wrap">
+              <div class="multi-select-trigger" id="ibFrom-trigger" onclick="toggleMulti('ibFrom')" style="min-width:360px;">From Store (All)</div>
+              <div class="multi-select-dropdown hidden" id="ibFrom-dropdown"></div>
+            </div></div></td>
+          </tr>
+          <tr>
+            <th>To Store</th>
+            <td><div class="field-row"><div class="multi-select-wrap">
+              <div class="multi-select-trigger" id="ibTo-trigger" onclick="toggleMulti('ibTo')" style="min-width:360px;">To Store (All)</div>
+              <div class="multi-select-dropdown hidden" id="ibTo-dropdown"></div>
+            </div></div></td>
+          </tr>
+          <tr>
+            <th>Type / Channel</th>
+            <td><div class="field-row">
+              <div class="multi-select-wrap">
+                <div class="multi-select-trigger" id="ibType-trigger" onclick="toggleMulti('ibType')" style="min-width:240px;">Type (All)</div>
+                <div class="multi-select-dropdown hidden" id="ibType-dropdown"></div>
+              </div>
+              <div class="multi-select-wrap">
+                <div class="multi-select-trigger" id="ibChannel-trigger" onclick="toggleMulti('ibChannel')" style="min-width:240px;">Channel (All)</div>
+                <div class="multi-select-dropdown hidden" id="ibChannel-dropdown"></div>
+              </div>
+            </div></td>
+          </tr>
+          <tr>
+            <th>Inbound Status</th>
+            <td><div class="field-row"><div class="multi-select-wrap">
+              <div class="multi-select-trigger" id="ibStatus-trigger" onclick="toggleMulti('ibStatus')" style="min-width:360px;">Inbound Status (All)</div>
+              <div class="multi-select-dropdown hidden" id="ibStatus-dropdown"></div>
+            </div></div></td>
+          </tr>
+          <tr>
+            <th>Search Period</th>
+            <td><div class="field-row">
+              <div class="field-inline"><select id="ib-dtype" style="min-width:170px;"><option value="REGISTERED">Registration Date</option><option value="CONFIRMED">Confirm Date</option></select></div>
+              <div class="field-inline"><input type="date" lang="en" id="ib-from" style="min-width:170px;"></div>
+              <span style="color:#999;font-size:13px;">~</span>
+              <div class="field-inline"><input type="date" lang="en" id="ib-to" style="min-width:170px;"></div>
+            </div></td>
+          </tr>
+          <tr>
+            <th>B/L No, I/V No, Product Code, Product Name</th>
+            <td><div class="field-row"><div class="field-inline" style="flex:1;max-width:700px;">
+              <input type="text" id="ib-kw" placeholder="Please enter at least 2 characters." style="width:100%;" onkeydown="if(event.key==='Enter')ibSearch()">
+              <div class="ib-err-txt" id="ib-kw-err" hidden>Please enter at least 2 characters.</div>
+            </div></div></td>
+          </tr>
+        </table>
+        <div class="search-action">
+          <button class="btn-reset" onclick="ibReset()"><svg width="14" height="14" viewBox="0 0 24 24" fill="#555"><path d="M17.65 6.35C16.2 4.9 14.21 4 12 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08c-.82 2.33-3.04 4-5.65 4-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"/></svg>Reset</button>
+          <button class="btn-search" onclick="ibSearch()"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><use href="#i-search"/></svg>Search</button>
+        </div>
+      </div>
+      <div class="table-box">
+        <div class="table-toolbar">
+          <div class="table-toolbar-left ib-noti">*Channel - SAP data is retrieved in real time.</div>
+          <div class="table-toolbar-right">
+            <button class="btn-action btn-outline" id="ib-reg-btn" onclick="ibOpenReg()">Inbound Registration</button>
+            <button class="btn-action btn-outline" onclick="ibOpenExcel()">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="#555"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
+              Excel Export
+            </button>
+          </div>
+        </div>
+        <div class="grid-wrap">
+          <table class="grid">
+            <thead>
+              <tr class="hdr">
+                <th class="ib-chk-col" id="ib-chk-th"><input type="checkbox" id="ib-chk-all" onclick="event.stopPropagation()" onchange="ibToggleAll(this.checked)"></th>
+                <th class="ib-sort" data-sort="convertedRegisteredAt" onclick="ibSort('convertedRegisteredAt')" style="min-width:130px;">Registration Date<span class="ib-sort-ico"></span></th>
+                <th style="min-width:140px;">Inbound Status</th>
+                <th style="min-width:90px;">Type <span class="ib-info" title="&bull; C2C : Corporation → Corporation&#10;&bull; S2S : Store → Store&#10;&bull; L2S : Logistics → Store&#10;&bull; S2L : Store → Logistics">i</span></th>
+                <th style="min-width:110px;">Channel <span class="ib-info" title="&bull; SAP : C2C Auto Created&#10;&bull; MANUAL : C2C Manual Creation&#10;&bull; TO_INBOUND : Inbound by Outbound Registration">i</span></th>
+                <th class="ib-sort" data-sort="blNo" onclick="ibSort('blNo')" style="min-width:150px;">B/L No.<span class="ib-sort-ico"></span></th>
+                <th class="ib-sort" data-sort="ivNo" onclick="ibSort('ivNo')" style="min-width:150px;">I/V No.<span class="ib-sort-ico"></span></th>
+                <th class="tl" style="min-width:110px;">Order No.</th>
+                <th class="tl" style="min-width:220px;">From Store Location<br><span class="ib-sub">(Code / Name)</span></th>
+                <th style="min-width:170px;">From Location Information<br><span class="ib-sub">(Code / Name)</span></th>
+                <th class="tl" style="min-width:220px;">To Store Location<br><span class="ib-sub">(Code / Name)</span></th>
+                <th style="min-width:170px;">To Location Information<br><span class="ib-sub">(Code / Name)</span></th>
+                <th class="tr ib-sort" data-sort="inboundExpectedQuantity" onclick="ibSort('inboundExpectedQuantity')" style="min-width:120px;">Expected Inbound Qty<span class="ib-sort-ico"></span></th>
+                <th class="tr ib-sort" data-sort="inboundConfirmedQuantity" onclick="ibSort('inboundConfirmedQuantity')" style="min-width:120px;">Confirmed Inbound Qty<span class="ib-sort-ico"></span></th>
+                <th class="ib-sort" data-sort="inboundExpectedDate" onclick="ibSort('inboundExpectedDate')" style="min-width:130px;">Expected Inbound Date<span class="ib-sort-ico"></span></th>
+                <th class="ib-sort" data-sort="convertedInboundConfirmedAt" onclick="ibSort('convertedInboundConfirmedAt')" style="min-width:140px;">Confirmed Inbound Date<span class="ib-sort-ico"></span></th>
+              </tr>
+            </thead>
+            <tbody id="ib-body"></tbody>
+          </table>
+        </div>
+        <div class="pg-bar">
+          <div class="rpp"><span>Rows per page:</span>
+            <select id="ib-rpp" style="width:72px;" onchange="ibPage=1;ibClearSel();ibRenderPage();">
+              <option value="10">10</option><option value="30" selected>30</option><option value="50">50</option><option value="100">100</option><option value="300">300</option>
+            </select>
+          </div>
+          <span id="ib-range">0–0 of 0</span>
+          <div class="pg-nav">
+            <button class="pg-btn" id="ib-prev" onclick="ibGo(-1)"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg></button>
+            <button class="pg-btn" id="ib-next" onclick="ibGo(1)"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg></button>
+          </div>
+        </div>
+      </div>
+      <!-- Selection bar (bulk Inbound Confirmed) -->
+      <div class="ib-fbar" id="ib-fbar">
+        <strong class="ib-fbar-info">Total <span id="ib-fbar-cnt">0</span> Count</strong>
+        <button class="ib-fbar-confirm" id="ib-fbar-confirm" onclick="ibBulkConfirm()">Inbound Confirmed</button>
+        <button class="ib-fbar-clear" onclick="ibClearSel();ibRenderPage();">Unselect All</button>
+      </div>
+    </div>
+
+    <!-- Pane 2: Inbound Detail (route #/inventory/inbound/{inboundId}) -->
+    <div id="ib-detail-pane" hidden>
+      <div class="ib-dt-head">
+        <button class="ib-back" onclick="ibCloseDetail()" title="Inbound List"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg></button>
+        <span class="ib-dt-title" id="ib-dt-title"></span>
+        <span id="ib-dt-chip"></span>
+      </div>
+      <div id="ib-dt-info"></div>
+      <div id="ib-dt-ob"></div>
+      <div class="table-box" style="margin-top:20px;">
+        <div class="table-toolbar">
+          <div class="table-toolbar-left">Total <b id="ib-dt-total">0</b> Count</div>
+          <div class="table-toolbar-right">
+            <button class="btn-action btn-outline ib-btn" id="ib-dt-confirm" onclick="ibDetailConfirmClick()">Inbound Confirmed</button>
+            <button class="btn-action btn-outline" onclick="ibExportDetail()">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="#555"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
+              Excel Export
+            </button>
+          </div>
+        </div>
+        <div class="grid-wrap ib-dt-grid">
+          <table class="grid">
+            <thead>
+              <tr class="hdr">
+                <th style="min-width:280px;">Product Info<br><span class="ib-sub">(Code / Name / Barcode)</span></th>
+                <th style="min-width:130px;">Product Category</th>
+                <th style="min-width:150px;">Product Subcategory</th>
+                <th class="tr" style="min-width:120px;">Expected Inbound Qty</th>
+                <th style="min-width:170px;">Actual Inbound Qty</th>
+                <th class="tr" style="min-width:110px;">Supply Price<br><span class="ib-sub">(Unit)</span></th>
+                <th class="tr" style="min-width:110px;">Supply Price<br><span class="ib-sub">(Total Amount)</span></th>
+                <th style="min-width:130px;">Currency<br><span class="ib-sub">(Transaction Currency)</span></th>
+                <th style="min-width:130px;">Expected Inbound Date</th>
+                <th style="min-width:140px;">Confirmed Inbound Date</th>
+                <th style="min-width:130px;">Process Account<br><span class="ib-sub">(*MANUAL)</span></th>
+              </tr>
+            </thead>
+            <tbody id="ib-dt-body"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- INBOUND: Excel Export modal (List Download / Detail Download) -->
+  <div class="modal-overlay" id="ib-excel-modal" onclick="if(event.target===this)ibCloseExcel();">
+    <div class="modal-box" style="width:330px;">
+      <div class="modal-header"><span class="modal-title">Excel Export</span><button class="modal-close" onclick="ibCloseExcel()">&times;</button></div>
+      <div class="modal-body ib-xl-body">
+        <div class="ib-xl-radios">
+          <label><input type="radio" name="ib-xl-type" value="list" checked> List Download</label>
+          <label><input type="radio" name="ib-xl-type" value="detail"> Detail Download</label>
+        </div>
+        <p class="ib-xl-note">*The download will be based on the displayed list.</p>
+        <div style="display:flex;justify-content:center;"><button class="btn-action btn-primary" style="height:34px;padding:0 24px;" onclick="ibExportList()">Download</button></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- INBOUND: Inbound Registration modal (Bulk Registration / Single Registration) -->
+  <div class="modal-overlay" id="ib-reg-modal" onclick="if(event.target===this)ibCloseReg();">
+    <div class="modal-box ib-reg-box">
+      <div class="modal-header"><span class="modal-title">Inbound Registration</span><button class="modal-close" onclick="ibCloseReg()">&times;</button></div>
+      <div class="modal-body ib-reg-body">
+        <div class="psv-tabs">
+          <div class="psv-tab active" data-tab="bulk" onclick="ibRegTab('bulk')">Bulk Registration</div>
+          <div class="psv-tab" data-tab="single" onclick="ibRegTab('single')">Single Registration</div>
+        </div>
+        <!-- Bulk Registration -->
+        <div id="ib-bulk-pane">
+          <div style="text-align:right;"><a class="ib-tmpl-link" onclick="ibDownloadTemplate()">Download Upload Template</a></div>
+          <div class="ib-drop" id="ib-drop" onclick="document.getElementById('ib-bulk-file').click()" ondragover="event.preventDefault();this.classList.add('over')" ondragleave="this.classList.remove('over')" ondrop="ibBulkDrop(event)">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="#ff6b35"><path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6zm4 18H6V4h7v5h5v11zM8 15.01l1.41 1.41L11 14.84V19h2v-4.16l1.59 1.59L16 15.01 12.01 11z"/></svg>
+            <span class="ib-drop-txt">File Upload</span>
+            <input type="file" id="ib-bulk-file" accept=".csv,.xls,.xlsx" hidden onchange="ibBulkPick(this.files)">
+          </div>
+          <div id="ib-bulk-file-row"></div>
+          <div id="ib-bulk-err"></div>
+          <div class="ib-reg-actions" style="justify-content:center;"><button class="btn-action btn-primary ib-btn" id="ib-bulk-submit" style="height:36px;padding:0 28px;" onclick="ibBulkSubmit()">Inbound Registration</button></div>
+        </div>
+        <!-- Single Registration (3 steps) -->
+        <div id="ib-single-pane" hidden>
+          <div class="ib-steps" id="ib-steps"></div>
+          <div id="ib-step-body"></div>
+          <div class="ib-reg-actions">
+            <button class="btn-action btn-outline" id="ib-step-prev" onclick="ibStepPrev()">Previous</button>
+            <span style="flex:1;"></span>
+            <button class="btn-action btn-primary ib-btn" id="ib-step-next" onclick="ibStepNext()">Next</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- INBOUND: Detail confirm dialog -->
+  <div class="modal-overlay" id="ib-cfm-modal" onclick="if(event.target===this)ibCloseCfm();">
+    <div class="modal-box" style="width:400px;">
+      <div class="modal-body" style="padding:28px 24px 8px;text-align:center;">
+        <div class="ib-cfm-title">Do you want to confirm the inbound?</div>
+        <div class="ib-cfm-sub">Inventory will be updated.</div>
+      </div>
+      <div class="ib-reg-actions" style="justify-content:center;padding:16px 24px 24px;">
+        <button class="btn-action btn-outline" style="height:34px;padding:0 24px;" onclick="ibCloseCfm()">Cancel</button>
+        <button class="btn-action btn-primary" style="height:34px;padding:0 24px;" onclick="ibDetailConfirm()">Confirm</button>
+      </div>
+    </div>
+  </div>
+
   <!-- ===== STORE VIEW (Master Information > Store) ===== -->
   <div class="detail-view" id="st-view">
     <div class="psv-tabs">
@@ -3057,7 +3392,7 @@ function selectMulti(id,el){
   el.classList.toggle('selected');
   const sel=[...document.querySelectorAll('#'+id+'-dropdown .dd-item.selected')];
   const t=document.getElementById(id+'-trigger');
-  const labels={ilStore:'Store',ilLoc:'Location',lgStore:'Store',lgLoc:'Location',lgType:'Inventory Transaction Type',olBp:'BP',olStore:'Store',olStatus:'Order Status',rlBp:'BP',rlStore:'Store',rlStatus:'Refund Type',bp:'BP',fromStore:'From Store',toStore:'To Store',dpCat2:'Product Category 2',dpStore:'Store',stStore:'Store',sthStore:'Store',drvBp:'BP',drvStore:'Store',psvBp:'BP',psvStore:'Store',prsvBp:'BP',prsvStore:'Store'};
+  const labels={ilStore:'Store',ilLoc:'Location',lgStore:'Store',lgLoc:'Location',lgType:'Inventory Transaction Type',olBp:'BP',olStore:'Store',olStatus:'Order Status',rlBp:'BP',rlStore:'Store',rlStatus:'Refund Type',bp:'BP',fromStore:'From Store',toStore:'To Store',dpCat2:'Product Category 2',dpStore:'Store',stStore:'Store',sthStore:'Store',ibFrom:'From Store',ibTo:'To Store',ibType:'Type',ibChannel:'Channel',ibStatus:'Inbound Status',drvBp:'BP',drvStore:'Store',psvBp:'BP',psvStore:'Store',prsvBp:'BP',prsvStore:'Store'};
   if(!sel.length) t.textContent=labels[id]+' (All)';
   else if(sel.length===1) t.textContent=sel[0].textContent.replace('✓','').trim();
   else t.textContent=sel[0].textContent.replace('✓','').trim()+' +'+(sel.length-1);
@@ -3838,7 +4173,7 @@ function csRefresh(sel){
   trg.classList.toggle('disabled',sel.disabled);
 }
 function csSyncModal(){
-  document.querySelectorAll('#ob-reg-modal select, #dp-view select, #sp-view select, #drv-view select, #psv-view select, #prsv-view select, #label-modal select, #st-view select, #st-modal select, #bpk-view select, #cp-view select, .pg-bar select').forEach(s=>{csBuild(s);csRefresh(s);});
+  document.querySelectorAll('#ob-reg-modal select, #dp-view select, #sp-view select, #drv-view select, #psv-view select, #prsv-view select, #label-modal select, #st-view select, #st-modal select, #bpk-view select, #cp-view select, #ib-view select, #ib-reg-modal select, .pg-bar select').forEach(s=>{csBuild(s);csRefresh(s);});
 }
 // Re-sync whenever step content / options / disabled state change (ignore the custom UI's own mutations)
 new MutationObserver(muts=>{
@@ -7389,6 +7724,732 @@ function cpExport(){
   XLSX.writeFile(wb,fileName);
   showToast('Excel Export',fileName+' — '+rows.length+' rows');
 }
+// ===== Inventory > Inbound List (prefix ib) =====
+// Source: iic-bo-frontend features/(inventory)/inbound (list / detail / register modal)
+//       + iic-bo logistic/inbound (InboundList/Detail/Confirm/Create controllers, DTOs, services, enums)
+// List = GET /api/v1/inbounds, detail = GET /api/v1/inbounds/{inboundId}, route key = inbound id.
+const IB_TYPES=[['C2C','Corporation to Corporation'],['S2S','Store to Store'],['L2S','Logistics to Store'],['S2L','Store to Logistics']];
+const IB_CHANNELS=[['SAP','HQ to Corporation'],['MANUAL','Manual HQ to Corporation'],['TO_INBOUND','from Outbound']];
+// inboundStatusConfig.ts: label / color / background (COMPLETED shown bold)
+const IB_STATUS={READY:['Pending Inbound','#E65100','#FFF3E0'],COMPLETED:['Inbound Confirmed','#1B5E20','#C8E6C9'],CANCELED:['Inbound Canceled','#C62828','#FFEBEE']};
+const IB_DISPATCH={PACKAGE:'Package',DIRECT:'Direct Delivery',QUICK:'Quick Delivery'};  // ETC shown as-is
+const IB_UPLOAD_MSG={val_upload_1:'[Error] Duplicate data exists.',val_upload_2:'[Error] Please check the registered data again.',val_upload_3:'[Error] Please check the master information again.'};
+const IB_UPLOAD_HEADERS=['No.','B/L No.','I/V No.','BP Code','Store Code','Location Code','Product Code','Expected Inbound Qty','Expected Inbound Date'];
+const IB_STEPS=['Select Inbound Store','Select Inbound Product','Enter Inbound Information'];
+const IB_ME='monster1437';
+// Permissions (INVENTORY_INBOUND): WRITE = Inbound Registration, APPROVAL = checkbox / Inbound Confirmed / Actual Qty input
+const IB_CAN_WRITE=true,IB_CAN_APPROVAL=true;
+let ibInited=false,IB_DATA=[],ibApplied=null,ibRows=[],ibErr=null,ibPage=1,ibSortKey=null,ibSortDir=null,ibSel=new Set(),ibCur=null,ibSeq=0,ibReg=null;
+
+// ----- helpers -----
+const ibEsc=v=>String(v??'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+const ibPad=n=>String(n).padStart(2,'0');
+const ibIso=d=>d.getFullYear()+'-'+ibPad(d.getMonth()+1)+'-'+ibPad(d.getDate());
+const ibDt=d=>ibIso(d)+' '+ibPad(d.getHours())+':'+ibPad(d.getMinutes());
+const ibNum=v=>v==null||v===''?'-':Number(v).toLocaleString('ko-KR');
+const ibYmd=d=>String(d.getFullYear()).slice(2)+ibPad(d.getMonth()+1)+ibPad(d.getDate());
+function ibToast(title,sub,type){if(typeof showToast==='function') showToast(title,sub,type);}
+function ibCs(){if(typeof csSyncModal==='function') csSyncModal();}
+// Store master = REG_DATA (same source as the outbound registration / Store screen)
+function ibStoreList(){
+  const out=[];
+  Object.entries(REG_DATA).forEach(([brand,b])=>Object.entries(b.companies).forEach(([bp,c])=>Object.entries(c.stores).forEach(([code,s])=>
+    out.push({brand,bp,bpName:c.name,code,name:s.name,wh:s.storeType==='WH',locs:s.locations||{}}))));
+  return out;
+}
+const ibStore=code=>ibStoreList().find(s=>s.code===code);
+// Store time zone (Store master); converted dates are shown in the inbound store's time zone
+function ibTzOf(code){
+  try{const s=STORE_MASTER.find(x=>x.storeCode===code),t=s&&ST_TIMEZONES.find(z=>z.zoneId===s.zoneId);if(t) return {name:t.name,zoneId:t.zoneId};}catch(e){}
+  return {name:'PST',zoneId:'America/Los_Angeles'};
+}
+function ibSupplyPrice(bp,code){
+  try{const p=SUPPLY_PRICE_DATA.find(x=>x.bp===bp&&x.code===code);if(p) return p.price;}catch(e){}
+  return null;
+}
+function ibChip(s){const c=IB_STATUS[s];return c?`<span class="ib-chip${s==='COMPLETED'?' b':''}" style="color:${c[1]};background:${c[2]};">${c[0]}</span>`:ibEsc(s||'-');}
+function ibRnd(seed){let s=seed;return ()=>{s=(s*16807)%2147483647;return (s-1)/2147483646;};}
+
+// ----- dummy data (C1002 stores from REG_DATA, products / supply price from PRODUCT_MASTER / SUPPLY_PRICE_DATA) -----
+function ibGenData(){
+  const rnd=ibRnd(20261015),ri=(a,b)=>a+Math.floor(rnd()*(b-a+1)),pick=a=>a[Math.floor(rnd()*a.length)];
+  const stores=ibStoreList(),retail=stores.filter(s=>/_(FS|MALL|SS|PU)_/.test(s.name)),wh=stores.filter(s=>s.wh),mainWh=wh.find(s=>s.code==='US1006')||wh[0];
+  const users=['monster1437','jane.park','alex.kim','chris.lee'],now=new Date();
+  const side=(s,loc)=>({code:s.code,name:s.name,loc,locName:s.locs[loc]||''});
+  // [channel, days ago, status, type for TO_INBOUND]
+  const PLAN=[['SAP',0,'READY'],['TO_INBOUND',1,'READY','L2S'],['MANUAL',2,'READY'],['TO_INBOUND',2,'READY','S2S'],['SAP',3,'READY'],['TO_INBOUND',3,'COMPLETED','S2L'],
+    ['MANUAL',4,'COMPLETED'],['TO_INBOUND',5,'CANCELED','S2S'],['SAP',6,'COMPLETED'],['TO_INBOUND',6,'COMPLETED','L2S'],['SAP',7,'READY'],['MANUAL',8,'READY'],
+    ['TO_INBOUND',9,'READY','S2S'],['SAP',10,'COMPLETED'],['TO_INBOUND',11,'COMPLETED','S2S'],['MANUAL',12,'COMPLETED'],['SAP',13,'COMPLETED'],['TO_INBOUND',14,'COMPLETED','L2S'],
+    ['SAP',15,'COMPLETED'],['MANUAL',17,'COMPLETED'],['TO_INBOUND',18,'COMPLETED','S2L'],['SAP',19,'COMPLETED'],['TO_INBOUND',21,'CANCELED','L2S'],['MANUAL',22,'COMPLETED'],
+    ['SAP',24,'COMPLETED'],['TO_INBOUND',25,'COMPLETED','S2S'],['SAP',27,'COMPLETED'],['MANUAL',29,'COMPLETED'],['TO_INBOUND',33,'COMPLETED','L2S'],['SAP',36,'COMPLETED'],
+    ['MANUAL',40,'COMPLETED'],['SAP',44,'COMPLETED'],['TO_INBOUND',48,'COMPLETED','S2S'],['SAP',52,'COMPLETED']];
+  return PLAN.map(([channel,ago,status,obType],i)=>{
+    const reg=new Date(now.getTime()-ago*864e5);reg.setHours(ago?ri(8,19):Math.min(now.getHours(),9),ri(0,59));
+    if(reg>now) reg.setTime(now.getTime()-60e3);
+    const type=channel==='TO_INBOUND'?obType:'C2C';
+    let from=null,to;
+    if(type==='C2C') to=channel==='SAP'&&rnd()<0.6?side(mainWh,'1110'):side(pick(retail),'1000');
+    else if(type==='S2S'){const a=pick(retail);let b=pick(retail);if(b.code===a.code) b=retail[(retail.indexOf(a)+1)%retail.length];from=side(a,'1000');to=side(b,'1000');}
+    else if(type==='L2S'){from=side(pick(wh),'1110');to=side(pick(retail),'1000');}
+    else {from=side(pick(retail),'1000');to=side(mainWh,'1110');}
+    const ymd=ibYmd(reg);
+    const ivNo=channel==='SAP'?'80'+(12034000+i*173):channel==='MANUAL'?'IV'+ymd+ibPad(ri(1,99)):'STM'+ymd+String(ri(1,9999)).padStart(4,'0');
+    const blNo=channel==='SAP'?'CAKR'+ymd.slice(0,4)+ri(1000,9999):channel==='MANUAL'?'BL'+ymd+ri(100,999):null;
+    // Order No. = NetSuite PO (created asynchronously after inbound creation); none for TO_INBOUND
+    const orderNo=channel!=='TO_INBOUND'&&ago>0?'PO'+(184000+i*7):null;
+    const prods=[...PRODUCT_MASTER].sort(()=>rnd()-0.5).slice(0,channel==='SAP'?ri(2,5):ri(1,4));
+    const items=prods.map((p,n)=>{
+      const exp=channel==='SAP'?ri(10,60):channel==='MANUAL'?ri(2,20):ri(1,6),price=ibSupplyPrice('C1002',p.code)??0;
+      return {id:'7461820173839'+String(i*10+n).padStart(5,'0'),code:p.code,name:p.name,barcode:p.barcode,cat1:p.cat1,cat2:p.cat2,exp,rec:null,price};
+    });
+    // Same product split into two rows by unit price (same invoice) — happens for SAP invoices
+    if(i===8){const p=items[0];items.push({...p,id:p.id.slice(0,-1)+'9',exp:ri(5,15),price:Math.round(p.price*0.95*100)/100});}
+    items.forEach(it=>{it.total=Math.round(it.price*it.exp*100)/100;});
+    const tz=ibTzOf(to.code),exp=new Date(reg.getTime()+ri(channel==='TO_INBOUND'?1:2,channel==='TO_INBOUND'?4:10)*864e5);
+    const createdBy=channel==='SAP'?'SAP':pick(users);
+    const r={id:'7461820173837'+String(20400+i).padStart(5,'0'),regAt:ibDt(reg),tz:tz.name,zoneId:tz.zoneId,status,type,channel,blNo,ivNo,orderNo,bp:'C1002',from,to,
+      expQty:items.reduce((s,it)=>s+it.exp,0),confQty:channel==='TO_INBOUND'?0:null,expDate:ibIso(exp),confAt:null,createdBy,confirmedBy:null,currency:'USD',items,outbound:null};
+    if(status==='COMPLETED'){
+      const c=new Date(reg.getTime()+ri(1,5)*864e5+ri(1,8)*36e5);if(c>now) c.setTime(now.getTime()-30*60e3);
+      r.confAt=ibDt(c);
+      // S2L is auto-confirmed when the outbound completes; SAP to WH is confirmed by the WMS webhook
+      r.confirmedBy=type==='S2L'||(channel==='SAP'&&to.code===mainWh.code)?'SYSTEM':pick(users);
+      items.forEach(it=>{it.rec=it.exp;});
+      if(i===13) items[0].rec=Math.max(0,items[0].exp-2);   // C2C confirmed with a shortage (adjustment)
+      r.confQty=items.reduce((s,it)=>s+it.rec,0);
+    } else if(status==='CANCELED'){
+      r.confAt=ibDt(new Date(reg.getTime()+ri(2,20)*36e5));r.confQty=0;r.confirmedBy=pick(users);
+    }
+    if(channel==='TO_INBOUND'){
+      const m=pick(['PACKAGE','PACKAGE','DIRECT','QUICK','ETC',null]);
+      const carrier=type==='L2S'&&status==='COMPLETED'?pick(['UPS','FEDEX','DHL','OnTrac']):null;
+      const trk=carrier?Array.from({length:i%3===0?3:1},()=>carrier==='UPS'?'1Z999AA1'+ri(10000000,99999999):String(ri(100000000,999999999))+ri(100,999)).join(','):null;
+      const o={dispatchMethod:m,dispatchMemo:m==='PACKAGE'?'UPS / 1Z84X9'+ri(1000000,9999999):m==='ETC'?'Hand carry by store staff':null,wmsShippingCarrier:carrier,wmsTrackNo:trk};
+      r.outbound=Object.values(o).some(v=>v!=null)?o:null;   // backend returns null when all four are null
+    }
+    return r;
+  });
+}
+
+// ----- entry / init -----
+function ibEnter(){
+  if(!ibInited){ibInited=true;IB_DATA=ibGenData();ibInitFilters();ibSearch();}
+  ibShowPane('list');
+}
+function ibInitFilters(){
+  const bps={};ibStoreList().forEach(s=>{bps[s.bp]=s.bpName;});
+  document.getElementById('ib-bp').innerHTML='<option value="">All</option>'+Object.entries(bps).map(([c,n])=>`<option value="${c}">${c} / ${ibEsc(n)}</option>`).join('');
+  const fill=(id,list)=>{document.getElementById(id+'-dropdown').innerHTML=list.map(([v,t])=>`<div class="dd-item" onclick="selectMulti('${id}',this)" data-val="${v}"><span class="check-ico">✓</span>${t}</div>`).join('');};
+  fill('ibType',IB_TYPES);fill('ibChannel',IB_CHANNELS);fill('ibStatus',Object.entries(IB_STATUS).map(([k,v])=>[k,v[0]]));
+  ibFillStores();ibDefaultDates();
+  document.getElementById('ib-reg-btn').style.display=IB_CAN_WRITE?'':'none';
+  ibCs();
+}
+// Default period: today-30 ~ today (Registration Date)
+function ibDefaultDates(){
+  document.getElementById('ib-from').value=ibIso(new Date(Date.now()-30*864e5));
+  document.getElementById('ib-to').value=ibIso(new Date());
+}
+// From Store / To Store share one store list (grouped by BP; filtered by the selected BP)
+function ibFillStores(){
+  const bp=document.getElementById('ib-bp').value,groups={};
+  ibStoreList().filter(s=>!bp||s.bp===bp).forEach(s=>{(groups[s.bp]=groups[s.bp]||{name:s.bpName,stores:[]}).stores.push(s);});
+  [['ibFrom','From Store'],['ibTo','To Store']].forEach(([id,label])=>{
+    document.getElementById(id+'-dropdown').innerHTML=Object.entries(groups).map(([c,g])=>`<div class="ib-dd-grp">${c} / ${ibEsc(g.name)}</div>`+
+      g.stores.map(s=>`<div class="dd-item" onclick="selectMulti('${id}',this)" data-val="${s.code}"><span class="check-ico">✓</span>${s.code} / ${ibEsc(s.name)}</div>`).join('')).join('');
+    document.getElementById(id+'-trigger').textContent=label+' (All)';
+  });
+}
+function ibBpChange(){ibFillStores();}   // BP change resets From / To Store
+function ibClearMulti(id,label){
+  document.querySelectorAll('#'+id+'-dropdown .dd-item.selected').forEach(e=>e.classList.remove('selected'));
+  document.getElementById(id+'-trigger').textContent=label+' (All)';
+}
+function ibShowPane(p){
+  document.getElementById('ib-list-pane').hidden=p!=='list';
+  document.getElementById('ib-detail-pane').hidden=p!=='detail';
+  if(p==='list') ibCur=null;
+}
+
+// ----- search -----
+function ibForm(){
+  const v=id=>document.getElementById(id).value,ms=id=>[...document.querySelectorAll('#'+id+'-dropdown .dd-item.selected')].map(e=>e.dataset.val);
+  return {branchCode:v('ib-bp'),fromStoreCodes:ms('ibFrom'),toStoreCodes:ms('ibTo'),inboundTypeCode:ms('ibType'),inboundChannelCode:ms('ibChannel'),
+    inboundStatusCode:ms('ibStatus'),inboundDateTypeCode:v('ib-dtype'),startDate:v('ib-from'),endDate:v('ib-to'),query:v('ib-kw')};
+}
+function ibSearch(){
+  const f=ibForm(),err=document.getElementById('ib-kw-err');
+  if(f.query&&f.query.length<2){err.hidden=false;return;}   // inline error, no API call
+  err.hidden=true;
+  // New search: first page + default sort (registration date desc)
+  ibApplied=f;ibSortKey=null;ibSortDir=null;ibPage=1;ibClearSel();
+  ibRunQuery();
+}
+function ibReset(){
+  document.getElementById('ib-bp').value='';ibFillStores();
+  ibClearMulti('ibType','Type');ibClearMulti('ibChannel','Channel');ibClearMulti('ibStatus','Inbound Status');
+  document.getElementById('ib-dtype').value='REGISTERED';ibDefaultDates();
+  document.getElementById('ib-kw').value='';document.getElementById('ib-kw-err').hidden=true;
+  ['ib-bp','ib-dtype'].forEach(id=>{if(typeof csRefresh==='function') csRefresh(document.getElementById(id));});
+}
+// Backend request validation (InboundListRequest): both dates required, start <= end
+function ibApiValidate(p){
+  if(!p.startDate||!p.endDate) return '기간 시작 및 종료 날짜는 필수입니다.';
+  if(p.startDate>p.endDate) return 'Start date must not be after end date';
+  return null;
+}
+function ibFilter(p){
+  const q=(p.query||'').trim().toLowerCase(),inR=d=>!!d&&d.slice(0,10)>=p.startDate&&d.slice(0,10)<=p.endDate;
+  return IB_DATA.filter(r=>(!p.branchCode||r.bp===p.branchCode)
+    &&(!p.fromStoreCodes.length||(!!r.from&&p.fromStoreCodes.includes(r.from.code)))
+    &&(!p.toStoreCodes.length||p.toStoreCodes.includes(r.to.code))
+    &&(!p.inboundTypeCode.length||p.inboundTypeCode.includes(r.type))
+    &&(!p.inboundChannelCode.length||p.inboundChannelCode.includes(r.channel))
+    &&(!p.inboundStatusCode.length||p.inboundStatusCode.includes(r.status))
+    &&inR(p.inboundDateTypeCode==='CONFIRMED'?r.confAt:r.regAt)
+    &&(!q||[r.blNo,r.ivNo].some(x=>x&&x.toLowerCase().includes(q))||r.items.some(it=>it.code.toLowerCase().includes(q)||it.name.toLowerCase().includes(q))));
+}
+// Re-run the applied search (keeps page / sort) — used after confirm / registration
+function ibRunQuery(){
+  if(!ibApplied) return;
+  ibErr=ibApiValidate(ibApplied);
+  ibRows=ibErr?[]:ibFilter(ibApplied);
+  ibRenderPage();
+}
+const IB_SORT_VAL={convertedRegisteredAt:r=>r.regAt,blNo:r=>r.blNo,ivNo:r=>r.ivNo,inboundExpectedQuantity:r=>r.expQty,inboundConfirmedQuantity:r=>r.confQty,inboundExpectedDate:r=>r.expDate,convertedInboundConfirmedAt:r=>r.confAt};
+function ibCmp(a,b){return a==null&&b==null?0:a==null?-1:b==null?1:typeof a==='number'&&typeof b==='number'?a-b:String(a).localeCompare(String(b));}
+function ibSorted(){
+  if(!ibSortKey) return [...ibRows].sort((a,b)=>ibCmp(b.regAt,a.regAt)||ibCmp(b.id,a.id));   // API default
+  const f=IB_SORT_VAL[ibSortKey],d=ibSortDir==='asc'?1:-1;
+  return [...ibRows].sort((a,b)=>ibCmp(f(a),f(b))*d||(ibSortKey==='convertedRegisteredAt'?ibCmp(a.id,b.id)*d:0));
+}
+// Server-side sort: asc -> desc -> none; sort change goes back to page 1
+function ibSort(key){
+  if(ibSortKey!==key){ibSortKey=key;ibSortDir='asc';}
+  else if(ibSortDir==='asc') ibSortDir='desc';
+  else {ibSortKey=null;ibSortDir=null;}
+  ibPage=1;ibClearSel();ibRenderPage();
+}
+function ibSlice(){
+  const rows=ibSorted(),total=rows.length,size=+document.getElementById('ib-rpp').value||30;
+  ibPage=Math.min(Math.max(1,ibPage),Math.max(1,Math.ceil(total/size)));
+  const start=(ibPage-1)*size,end=Math.min(start+size,total);
+  return {rows:rows.slice(start,end),start,end,total};
+}
+function ibGo(delta){ibPage+=delta;ibClearSel();ibRenderPage();}
+const ibSelectable=r=>r.status!=='COMPLETED'&&r.status!=='CANCELED';
+function ibRenderPage(){
+  const {rows,start,end,total}=ibSlice(),ap=IB_CAN_APPROVAL,cols=ap?16:15;
+  document.getElementById('ib-chk-th').style.display=ap?'':'none';
+  document.querySelectorAll('#ib-view th.ib-sort').forEach(th=>{if(th.dataset.sort===ibSortKey) th.dataset.dir=ibSortDir; else delete th.dataset.dir;});
+  const loc=s=>s&&s.loc?s.loc+' / '+ibEsc(s.locName):'-';
+  document.getElementById('ib-body').innerHTML=ibErr?`<tr><td colspan="${cols}" class="ib-err-row">${ibEsc(ibErr)}</td></tr>`
+    :total?rows.map(r=>`<tr onclick="ibOpenDetail('${r.id}')">
+      ${ap?`<td class="ib-chk-col" onclick="event.stopPropagation()"><input type="checkbox"${ibSelectable(r)?'':' disabled'}${ibSel.has(r.id)?' checked':''} onchange="ibToggle('${r.id}',this.checked)"></td>`:''}
+      <td>${r.regAt||'-'}</td><td>${ibChip(r.status)}</td><td>${r.type||'-'}</td><td>${r.channel||'-'}</td>
+      <td>${ibEsc(r.blNo)||'-'}</td><td>${ibEsc(r.ivNo)||'-'}</td><td class="tl">${ibEsc(r.orderNo)||'-'}</td>
+      <td class="tl">${r.from&&r.from.code?r.from.code+' / '+ibEsc(r.from.name):'-'}</td><td>${loc(r.from)}</td>
+      <td class="tl">${r.to.code?r.to.code+' / '+ibEsc(r.to.name):'-'}</td><td>${loc(r.to)}</td>
+      <td class="tr num">${ibNum(r.expQty)}</td><td class="tr num">${ibNum(r.confQty)}</td>
+      <td>${r.expDate||'-'}</td><td>${r.confAt||'-'}</td></tr>`).join('')
+    :`<tr><td colspan="${cols}" class="dp-empty">No data found.</td></tr>`;
+  const sel=rows.filter(ibSelectable),all=document.getElementById('ib-chk-all');
+  all.checked=sel.length>0&&sel.every(r=>ibSel.has(r.id));all.disabled=!sel.length;
+  document.getElementById('ib-range').textContent=(total?start+1:0)+'–'+end+' of '+total;
+  document.getElementById('ib-prev').disabled=ibPage<=1;
+  document.getElementById('ib-next').disabled=end>=total;
+  ibSyncBar();
+}
+
+// ----- row selection + bulk Inbound Confirmed (PUT /api/v1/inbounds/confirm) -----
+function ibToggle(id,on){on?ibSel.add(id):ibSel.delete(id);ibRenderPage();}
+function ibToggleAll(on){ibSlice().rows.filter(ibSelectable).forEach(r=>on?ibSel.add(r.id):ibSel.delete(r.id));ibRenderPage();}
+function ibClearSel(){ibSel.clear();ibSyncBar();}
+function ibSyncBar(){
+  document.getElementById('ib-fbar-cnt').textContent=ibSel.size;
+  document.getElementById('ib-fbar').classList.toggle('show',ibSel.size>0);
+}
+// Confirm with expected quantity (all items received = expected), confirmed by the login user
+function ibConfirmExpected(r,by){
+  r.status='COMPLETED';r.confAt=ibDt(new Date());r.confQty=r.expQty;r.confirmedBy=by||IB_ME;
+  r.items.forEach(it=>{it.rec=it.exp;});
+}
+// Each inbound is confirmed independently; any failure -> error message with failed / succeeded I/V No.
+function ibBulkConfirm(){
+  if(!ibSel.size) return;
+  const ok=[],fail=[];
+  [...ibSel].forEach(id=>{
+    const r=IB_DATA.find(x=>x.id===id);
+    if(!r){fail.push(id+'(Not Found Inbound)');return;}
+    if(r.status==='COMPLETED'){fail.push(r.ivNo+'(Already Completed Inbound)');return;}
+    ibConfirmExpected(r);ok.push(r.ivNo);
+  });
+  if(fail.length){
+    ibToast('Inbound Confirmed','Inbound confirmation failed for '+fail.length+' item(s) ['+fail.join(', ')+'] / succeeded for '+ok.length+' item(s) ['+(ok.join(', ')||'none')+']','error');
+    return;
+  }
+  ibClearSel();ibRunQuery();
+  ibToast('The save has been completed.','Processed successfully.');
+}
+
+// ----- detail (GET /api/v1/inbounds/{inboundId}) -----
+// Returns false when the id is unknown (the router should then go back to the list)
+function ibOpenDetail(id){
+  const r=IB_DATA.find(x=>x.id===String(id));
+  if(!r) return false;
+  ibCur=r;
+  if(typeof setRoute==='function') setRoute('#/inventory/inbound/'+r.id);
+  ibShowPane('detail');
+  ibRenderDetail();
+  window.scrollTo(0,0);
+  return true;
+}
+function ibCloseDetail(){
+  if(typeof setRoute==='function') setRoute('#/inventory/inbound');
+  ibShowPane('list');ibRenderPage();
+}
+function ibCarrierKey(c){
+  const u=String(c||'').toUpperCase().replace(/[\s\-_]/g,'');
+  return u.includes('FEDEX')||u.includes('FDX')?'FEDEX':u.includes('UPS')?'UPS':u.includes('DHL')?'DHL':u.includes('USPS')?'USPS':null;
+}
+const IB_TRACK_URL={FEDEX:n=>'https://www.fedex.com/fedextrack/?trknbr='+n,UPS:n=>'https://www.ups.com/track?tracknum='+n,
+  DHL:n=>'https://www.dhl.com/us-en/home/tracking/tracking-parcel.html?submit=1&tracking-id='+n,USPS:n=>'https://tools.usps.com/go/TrackConfirmAction?tLabels='+n};
+// OUTBOUND INFORMATION (read-only) — only for TO_INBOUND; empty values when outboundInfo is null
+function ibObHtml(o){
+  o=o||{};
+  const m=o.dispatchMethod?(IB_DISPATCH[o.dispatchMethod]||o.dispatchMethod):'';
+  const memo=o.dispatchMemo&&o.dispatchMemo.trim()?ibEsc(o.dispatchMemo):'— / —';
+  const carrier=o.wmsShippingCarrier||'',key=ibCarrierKey(carrier);
+  const trks=String(o.wmsTrackNo||'').split(',').map(s=>s.trim()).filter(Boolean);
+  const enc=encodeURIComponent,wait='<span class="ib-wait">Waiting for WMS</span>';
+  const allUrl=key&&trks.length?(key==='FEDEX'?IB_TRACK_URL.FEDEX(trks.map(enc).join(',')):IB_TRACK_URL[key](enc(trks[0]))):null;
+  const chips=trks.map(t=>key?`<a class="ib-trk" href="${IB_TRACK_URL[key](enc(t))}" target="_blank" rel="noopener noreferrer">↗ ${ibEsc(t)}</a>`:`<span class="ib-trk">${ibEsc(t)}</span>`).join('')
+    +(trks.length>1?`<span class="ib-trk-cnt">Tracking No. ${trks.length}</span>`:'')
+    +(allUrl?`<a class="ib-trk-all" href="${allUrl}" target="_blank" rel="noopener noreferrer">Tracking No. ↗</a>`:'');
+  const sec=(t,tip)=>`<div class="ob-info-divider" style="border-top:none;"><span class="wms-tooltip-wrap" style="margin-left:0;"><span class="ib-sec-ttl" style="border-bottom:1px dashed #aaa;">${t}</span><span class="wms-tooltip">${tip}</span></span></div>`;
+  return `<div class="ob-info-section ib-ob-sec">
+    ${sec('Outbound Information','Outbound delivery information linked to this inbound entry (read-only).')}
+    <div class="section-row"><div class="s-label">Outbound Method</div><div class="s-value">${m||'-'}</div></div>
+    <div class="section-row"><div class="s-label">Carrier / Tracking No.</div><div class="s-value">${memo}</div></div>
+    ${sec('WMS DELIVERY — Auto-filled','Carrier and tracking number are automatically synced when outbound is completed via WMS.')}
+    <div class="section-row"><div class="s-label">Carrier / Tracking No. (WMS)</div><div class="s-value" style="gap:8px;">
+      <div class="ib-wms-box">${carrier?ibEsc(carrier):wait}</div><div class="ib-wms-box" style="flex:2;">${trks.length?chips:wait}</div></div></div>
+  </div>`;
+}
+function ibRenderDetail(){
+  const r=ibCur;if(!r) return;
+  document.getElementById('ib-dt-title').textContent='['+r.type+'] '+(r.ivNo||'');
+  document.getElementById('ib-dt-chip').innerHTML=ibChip(r.status);
+  // Basic info: codes only (detail API returns codes, no names)
+  document.getElementById('ib-dt-info').innerHTML=`<table class="detail-info-table">
+    <tr><th>I/V No.</th><td>${ibEsc(r.ivNo)||'-'}</td><th>Type</th><td>${r.type||'-'}</td></tr>
+    <tr><th>BP Information</th><td>${r.bp||'-'}</td><th>Channel</th><td>${r.channel?`<span class="ib-chip ch">${r.channel}</span>`:'-'}</td></tr>
+    <tr><th>B/L No.</th><td>${ibEsc(r.blNo)||'-'}</td><th>Order No.</th><td>${ibEsc(r.orderNo)||'-'}</td></tr>
+    <tr><th>From Store</th><td>${r.from?r.from.code:'-'}</td><th>From Location</th><td>${r.from?r.from.loc:'-'}</td></tr>
+    <tr><th>To Store</th><td>${r.to.code||'-'}</td><th>To Location</th><td>${r.to.loc||'-'}</td></tr>
+    <tr><th>Registration Date</th><td>${r.regAt?r.regAt+(r.tz?' ('+r.tz+')':''):'-'}</td><th>Created By</th><td>${ibEsc(r.createdBy)||'-'}</td></tr>
+  </table>`;
+  document.getElementById('ib-dt-ob').innerHTML=r.channel==='TO_INBOUND'?ibObHtml(r.outbound):'';
+  // Inbound Confirmed: APPROVAL only, hidden for CANCELED, disabled for COMPLETED
+  const btn=document.getElementById('ib-dt-confirm');
+  btn.style.display=IB_CAN_APPROVAL&&r.status!=='CANCELED'?'':'none';
+  btn.disabled=r.status==='COMPLETED';
+  const items=[...r.items].sort((a,b)=>a.code.localeCompare(b.code));   // API order: product code asc
+  document.getElementById('ib-dt-total').textContent=items.length;
+  const lock=r.status==='COMPLETED'||r.status==='CANCELED'||r.type!=='C2C';
+  document.getElementById('ib-dt-body').innerHTML=items.length?items.map(it=>`<tr>
+    <td>${it.code} / ${ibEsc(it.name)} / ${it.barcode||''}</td><td>${it.cat1||'-'}</td><td>${it.cat2||'-'}</td>
+    <td class="tr num">${ibNum(it.exp)}</td>
+    <td>${IB_CAN_APPROVAL?`<input type="number" class="ib-qty" data-id="${it.id}" min="0" max="${it.exp}" placeholder="Please enter a Qty." value="${it.rec??it.exp??0}"${lock?' disabled':''} onkeydown="if(event.key==='+'||event.key==='-')event.preventDefault()"><div class="ib-qty-err" hidden></div>`:ibNum(it.rec)}</td>
+    <td class="tr num">${ibNum(it.price)}</td><td class="tr num">${ibNum(it.total)}</td>
+    <td>${r.currency||'-'}</td><td>${r.expDate||'-'}</td><td>${r.confAt||'-'}</td>
+    <td class="ib-pa">${ibEsc(r.confirmedBy)||'-'}<small>(${r.channel==='MANUAL'?ibEsc(r.createdBy)||'-':'-'})</small></td></tr>`).join('')
+    :'<tr><td colspan="11" class="dp-empty">No data found.</td></tr>';
+}
+// Form rules on Actual Inbound Qty (enabled inputs only): min 0, max = expected
+function ibDetailConfirmClick(){
+  const r=ibCur;if(!r) return;
+  let bad=false;
+  document.querySelectorAll('#ib-dt-body .ib-qty').forEach(inp=>{
+    const it=r.items.find(x=>x.id===inp.dataset.id),msgEl=inp.nextElementSibling;let msg='';
+    if(!inp.disabled&&inp.value!==''){
+      const n=Number(inp.value);
+      if(n<0) msg='Please enter a value of 0 or greater';
+      else if(n>it.exp) msg='Cannot exceed expected quantity ('+it.exp+')';
+    }
+    inp.classList.toggle('err',!!msg);msgEl.textContent=msg;msgEl.hidden=!msg;if(msg) bad=true;
+  });
+  if(bad) return;
+  document.getElementById('ib-cfm-modal').classList.add('show');
+}
+function ibCloseCfm(){document.getElementById('ib-cfm-modal').classList.remove('show');}
+// PUT /api/v1/inbounds/confirm/{inboundId}: payload = every item (empty input -> 0, disabled input -> saved received ?? expected)
+// C2C: confirmed with actual qty (shortage -> inventory adjustment); S2S/L2S/S2L: body ignored, confirmed with expected qty
+function ibDetailConfirm(){
+  const r=ibCur;ibCloseCfm();if(!r) return;
+  if(r.status==='COMPLETED'){ibToast('Inbound Confirmed','Already Completed Inbound','error');return;}
+  if(r.type==='C2C'){
+    const vals={};
+    r.items.forEach(it=>{
+      const inp=document.querySelector('#ib-dt-body .ib-qty[data-id="'+it.id+'"]'),raw=inp&&!inp.disabled?inp.value:undefined;
+      vals[it.id]=Number(raw??it.rec??it.exp??0);
+    });
+    if(r.items.some(it=>vals[it.id]>it.exp)){ibToast('Inbound Confirmed','Inbound Quantity Exceeded','error');return;}
+    r.items.forEach(it=>{it.rec=vals[it.id];});
+    r.status='COMPLETED';r.confAt=ibDt(new Date());r.confQty=r.items.reduce((s,it)=>s+it.rec,0);r.confirmedBy=IB_ME;
+  } else ibConfirmExpected(r);
+  ibRenderDetail();ibRunQuery();
+  ibToast('The save has been completed.','Processed successfully.');
+}
+
+// ----- Excel -----
+function ibXlsxOk(){if(typeof XLSX==='undefined'){ibToast('Excel Export','Excel library failed to load. Check network and reload.','error');return false;}return true;}
+function ibFileDate(){const d=new Date();return d.getFullYear()+'_'+(d.getMonth()+1)+'_'+d.getDate();}
+const IB_DETAIL_XL_HEAD=['Inbound Type','I/V No.','Product Code','Product Name','Barcode','Product Category_1','Product Category_2','Expected Inbound Qty','Received Qty',
+  'Supply Price (Unit)','Supply Price (Total)','Currency','Expected Inbound Date','Timezone Code','Confirmed Inbound Date','Timezone Code','Updated By (+ MANUAL)'];
+const ibDetailXlRows=r=>r.items.map(it=>[r.type,r.ivNo,it.code,it.name,it.barcode,it.cat1,it.cat2,it.exp,it.rec??'',+(+it.price).toFixed(2),+(+it.total).toFixed(2),r.currency,
+  r.expDate||'',r.zoneId,r.confAt||'',r.zoneId,(r.confirmedBy||'-')+' ('+(r.channel==='MANUAL'?r.createdBy||'-':'-')+')']);
+function ibOpenExcel(){
+  document.querySelector('input[name="ib-xl-type"][value="list"]').checked=true;
+  document.getElementById('ib-excel-modal').classList.add('show');
+}
+function ibCloseExcel(){document.getElementById('ib-excel-modal').classList.remove('show');}
+// GET /api/v1/inbounds/excel (list) or /details/excel (one row per item) with the applied search conditions (no sort)
+function ibExportList(){
+  const p=ibApplied;if(!p||!ibXlsxOk()) return;
+  const type=document.querySelector('input[name="ib-xl-type"]:checked').value;
+  const rows=ibApiValidate(p)?null:ibFilter(p).sort((a,b)=>ibCmp(b.regAt,a.regAt));
+  // Any API error shows the generic Excel download snackbar text
+  if(!rows||rows.length>10000){ibToast('Excel Export','(Code / Name / Barcode)<br>Please reduce the range to a maximum of 200 and try again.','error');return;}
+  let aoa,sheet;
+  if(type==='list'){
+    sheet='Inbound List';
+    aoa=[['Created Date','Inbound Status','Inbound Type','Inbound Channel','B/L No.','I/V No.','Order No.','BP Code','BP Name','Outbound Store Code','Outbound Store Name',
+      'Outbound Location Code','Outbound Location Name','Inbound Store Code','Inbound Store Name','Inbound Location Code','Inbound Location Name','Expected Inbound Qty',
+      'Confirmed Inbound Qty','Expected Inbound Date','Timezone Code','Confirmed Inbound Date','Timezone Code']].concat(rows.map(r=>{const st=ibStore(r.to.code)||{};return [
+      r.regAt,r.status,r.type,r.channel,r.blNo||'',r.ivNo,r.orderNo||'',r.bp,st.bpName||'',r.from?r.from.code:'',r.from?r.from.name:'',r.from?r.from.loc:'',r.from?r.from.locName:'',
+      r.to.code,r.to.name,r.to.loc,r.to.locName,r.expQty,r.confQty??'',r.expDate||'',r.zoneId,r.confAt||'',r.zoneId];}));
+  } else {
+    sheet='Inbound(Detail) List';
+    aoa=[IB_DETAIL_XL_HEAD].concat(...rows.map(ibDetailXlRows));
+  }
+  const ws=XLSX.utils.aoa_to_sheet(aoa),wb=XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(wb,ws,sheet);
+  const fileName='inbound_list_'+ibFileDate()+'.xlsx';   // FE uses this name for both List and Detail download
+  XLSX.writeFile(wb,fileName);
+  ibCloseExcel();
+  ibToast('Excel Export',fileName+' — '+(aoa.length-1)+' rows');
+}
+// GET /api/v1/inbounds/{inboundId}/excel
+function ibExportDetail(){
+  const r=ibCur;if(!r||!ibXlsxOk()) return;
+  const aoa=[IB_DETAIL_XL_HEAD].concat(ibDetailXlRows({...r,items:[...r.items].sort((a,b)=>a.code.localeCompare(b.code))}));
+  const ws=XLSX.utils.aoa_to_sheet(aoa),wb=XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(wb,ws,'Inbound Detail');
+  const fileName='inbound_detail_'+ibFileDate()+'.xlsx';
+  XLSX.writeFile(wb,fileName);
+  ibToast('Excel Export',fileName+' — '+(aoa.length-1)+' rows');
+}
+
+// ----- Inbound Registration modal -----
+function ibNewReg(){
+  return {file:null,bulkErr:null,fmtErr:false,step:0,brand:'',bp:'',store:'',loc:'',
+    sp:{brand:'',cat1:'',cat2:'',q:'',qErr:false,applied:null,page:1,size:30},sel:new Map(),bl:'',iv:'',date:'',qty:{},f3Err:{}};
+}
+function ibOpenReg(){
+  ibReg=ibNewReg();
+  document.getElementById('ib-reg-modal').classList.add('show');
+  ibRegTab('bulk');
+}
+function ibCloseReg(){document.getElementById('ib-reg-modal').classList.remove('show');ibReg=null;}
+// Switching tabs unmounts the other tab, so its state starts fresh
+function ibRegTab(t){
+  ibReg=ibNewReg();
+  document.querySelectorAll('#ib-reg-modal .psv-tab').forEach(x=>x.classList.toggle('active',x.dataset.tab===t));
+  document.getElementById('ib-bulk-pane').hidden=t!=='bulk';
+  document.getElementById('ib-single-pane').hidden=t!=='single';
+  if(t==='bulk') ibRenderBulk(); else ibRenderStep();
+}
+function ibRegSuccess(t1,t2){ibCloseReg();ibRunQuery();ibToast(t1,t2);}
+function ibRegApiError(msg){ibToast('Inbound Registration',msg,'error');}
+
+// Bulk Registration: POST /api/v1/inbounds/upload-excel (validate all rows; save only when every row is valid)
+function ibDownloadTemplate(){
+  if(!ibXlsxOk()) return;
+  // Real template is served from the resource server (excel-upload-form/Inbound_upload_form.xlsx); the sample row is prototype-only
+  const ws=XLSX.utils.aoa_to_sheet([IB_UPLOAD_HEADERS,[1,'BL'+ibYmd(new Date())+'001','IV'+ibYmd(new Date())+'01','C1002','US1001','1000','11000000',10,ibIso(new Date())]]);
+  const wb=XLSX.utils.book_new();XLSX.utils.book_append_sheet(wb,ws,'Sheet1');
+  XLSX.writeFile(wb,'Inbound_upload_form.xlsx');
+}
+function ibBulkPick(files){
+  const f=files&&files[0];if(!f||!ibReg) return;
+  if(!/\.(csv|xls|xlsx)$/i.test(f.name)){ibToast('File Upload','The upload format is invalid.','error');return;}
+  if(f.size>5*1024*1024){ibToast('File Upload','The upload format is invalid. (5MB)','error');return;}
+  ibReg.file=f;ibReg.bulkErr=null;ibReg.fmtErr=false;
+  document.getElementById('ib-bulk-file').value='';
+  ibRenderBulk();
+}
+function ibBulkDrop(e){e.preventDefault();document.getElementById('ib-drop').classList.remove('over');ibBulkPick(e.dataTransfer.files);}
+function ibBulkRemove(){if(!ibReg) return;ibReg.file=null;ibReg.bulkErr=null;ibReg.fmtErr=false;ibRenderBulk();}
+function ibRenderBulk(){
+  const st=ibReg;if(!st) return;
+  document.getElementById('ib-bulk-file-row').innerHTML=st.file?`<div class="ib-file"><span>${ibEsc(st.file.name)}</span><button onclick="ibBulkRemove()" title="Remove">&times;</button></div>`:'';
+  const e=document.getElementById('ib-bulk-err');
+  if(st.fmtErr){e.innerHTML='<div class="ib-fmt-err"><h4>The upload format is invalid.</h4><p>Please try again using the specified format.</p></div>';return;}
+  if(!st.bulkErr){e.innerHTML='';return;}
+  const cell=(err,val)=>err?`<span class="ib-e">${IB_UPLOAD_MSG[err]||ibEsc(err)}</span>`:val;
+  const info=(o,a,b,c)=>o?[o[a],o[b],c?o[c]:null].filter(x=>x!=null).join(' / '):'-';
+  e.innerHTML=`<div class="ib-blk-err grid-wrap"><table class="grid"><thead><tr class="hdr">
+    <th>#</th><th>B/L No.</th><th>I/V No.</th><th class="tl">BP Information<br><span class="ib-sub">(Code / Name)</span></th><th class="tl">Store Information<br><span class="ib-sub">(Code / Name)</span></th>
+    <th>Location Information<br><span class="ib-sub">(Code / Name)</span></th><th>Product Info<br><span class="ib-sub">(Code / Name / Barcode)</span></th><th>Expected Inbound Qty</th><th>Expected Inbound Date</th>
+  </tr></thead><tbody>${st.bulkErr.map(r=>`<tr>
+    <td>${r.index}</td><td>${cell(r.blNoError||r.duplicateError,ibEsc(r.blNo))}</td><td>${cell(r.invoiceNoError||r.duplicateError,ibEsc(r.invoiceNo))}</td>
+    <td class="tl">${cell(r.branchCodeError,ibEsc(info(r.branchInfo,'branchCode','branchName')))}</td><td class="tl">${cell(r.storeCodeError,ibEsc(info(r.storeInfo,'storeCode','storeName')))}</td>
+    <td>${cell(r.locationCodeError,ibEsc(info(r.locationInfo,'locationCode','locationName')))}</td><td>${cell(r.productCodeError,ibEsc(info(r.productInfo,'productCode','productName','barcode')))}</td>
+    <td>${cell(r.expectedQuantityError,r.expectedQuantity??'')}</td><td>${cell(r.expectedDateError,r.expectedDate??'')}</td></tr>`).join('')}</tbody></table></div>`;
+}
+function ibBulkSubmit(){
+  const st=ibReg;if(!st) return;
+  const fail=msg=>{st.fmtErr=true;st.bulkErr=null;ibRenderBulk();if(msg) ibRegApiError(msg);};
+  if(!st.file){ibRegApiError("Required part 'file' is not present.");return;}   // FE sends the request without a file
+  if(st.file.size===0) return fail('The file is empty.');
+  if(!/\.(xlsx|xls)$/i.test(st.file.name)) return fail('Only Excel files can be uploaded.');
+  if(!ibXlsxOk()) return;
+  const btn=document.getElementById('ib-bulk-submit');btn.disabled=true;
+  const fr=new FileReader();
+  fr.onload=()=>{
+    btn.disabled=false;
+    let aoa;
+    try{const wb=XLSX.read(new Uint8Array(fr.result),{type:'array',cellDates:true});aoa=XLSX.utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]],{header:1,raw:true,defval:null});}
+    catch(e){return fail('');}
+    const norm=s=>String(s??'').replace(/\*/g,'').replace(/\s+/g,' ').trim(),hdr=aoa[0]||[];
+    if(!aoa.length||IB_UPLOAD_HEADERS.some((h,i)=>norm(hdr[i])!==norm(h))) return fail('');   // header check -> format error box
+    const data=aoa.slice(1).filter(r=>r&&r.some(c=>c!=null&&String(c).trim()!=='')).map(ibParseUploadRow);
+    ibBulkValidateSave(data);
+  };
+  fr.onerror=()=>{btn.disabled=false;fail('The file is empty.');};
+  fr.readAsArrayBuffer(st.file);
+}
+function ibParseUploadRow(c){
+  const str=v=>v==null?null:v instanceof Date?ibIso(v):String(v).trim();
+  const code=v=>v==null?null:typeof v==='number'?String(Math.trunc(v)):String(v).trim();
+  const int=v=>{if(v==null||v==='') return null;const n=Number(v);return Number.isFinite(n)?Math.trunc(n):null;};
+  const date=v=>v instanceof Date?ibIso(v):typeof v==='string'&&/^\d{4}-\d{2}-\d{2}$/.test(v.trim())?v.trim():null;
+  return {no:int(c[0]),blNo:str(c[1]),invoiceNo:str(c[2]),branchCode:str(c[3]),storeCode:str(c[4]),locationCode:code(c[5]),productCode:code(c[6]),qty:int(c[7]),date:date(c[8])};
+}
+// Mirrors InboundUploadFacade.validateSingleRow (error keys = lokalise keys val_upload_1/2/3)
+function ibBulkValidateSave(data){
+  const st=ibReg;if(!st) return;
+  const stores=ibStoreList(),bps={};stores.forEach(s=>{bps[s.bp]=s.bpName;});
+  const blank=v=>v==null||String(v).trim()==='';
+  const rows=data.map((r,idx)=>{
+    const e={};
+    if(blank(r.blNo)||r.blNo.length>50) e.blNo='val_upload_2';
+    if(blank(r.invoiceNo)||r.invoiceNo.length>50) e.invoiceNo='val_upload_2';
+    if(blank(r.branchCode)) e.branchCode='val_upload_2';
+    if(blank(r.storeCode)) e.storeCode='val_upload_2';
+    if(blank(r.locationCode)) e.locationCode='val_upload_2';
+    if(blank(r.productCode)) e.productCode='val_upload_2';
+    if(!blank(r.blNo)&&!blank(r.invoiceNo)&&IB_DATA.some(x=>x.ivNo===r.invoiceNo&&x.blNo===r.blNo)) e.duplicate='val_upload_1';
+    const branchInfo=blank(r.branchCode)?null:bps[r.branchCode]!=null?{branchCode:r.branchCode,branchName:bps[r.branchCode]}:(e.branchCode='val_upload_3',null);
+    const s=blank(r.storeCode)?null:stores.find(x=>x.code===r.storeCode);
+    const storeInfo=blank(r.storeCode)?null:s?{storeCode:s.code,storeName:s.name}:(e.storeCode='val_upload_3',null);
+    const locationInfo=blank(r.storeCode)||blank(r.locationCode)?null:s&&s.locs[r.locationCode]?{locationCode:r.locationCode,locationName:s.locs[r.locationCode]}:(e.locationCode='val_upload_3',null);
+    const p=blank(r.productCode)?null:PRODUCT_MASTER.find(x=>x.code===r.productCode);
+    const productInfo=blank(r.productCode)?null:p?{productCode:p.code,productName:p.name,barcode:p.barcode}:(e.productCode='val_upload_3',null);
+    if(branchInfo&&productInfo&&r.date&&ibSupplyPrice(r.branchCode,r.productCode)==null) e.productCode='val_upload_3';
+    if(r.qty==null||r.qty<=0) e.expectedQuantity='val_upload_2';
+    if(!r.date) e.expectedDate='val_upload_2';
+    return {index:r.no??idx+1,blNo:r.blNo,invoiceNo:r.invoiceNo,branchInfo,storeInfo,locationInfo,productInfo,expectedQuantity:r.qty,expectedDate:r.date,isValid:!Object.keys(e).length,
+      blNoError:e.blNo,invoiceNoError:e.invoiceNo,branchCodeError:e.branchCode,storeCodeError:e.storeCode,locationCodeError:e.locationCode,productCodeError:e.productCode,
+      expectedQuantityError:e.expectedQuantity,expectedDateError:e.expectedDate,duplicateError:e.duplicate,_src:r};
+  });
+  if(rows.some(r=>!r.isValid)){
+    st.bulkErr=rows.filter(r=>!r.isValid);st.fmtErr=false;ibRenderBulk();   // 400 with invalid rows only -> error table
+    return;
+  }
+  // One inbound per (B/L No., I/V No.); store / location / expected date come from the group's first row
+  const groups=new Map();
+  rows.forEach(r=>{const k=r.blNo+'\u0000'+r.invoiceNo;if(!groups.has(k)) groups.set(k,[]);groups.get(k).push(r._src);});
+  groups.forEach(g=>{const f=g[0];ibCreateInbound({bp:f.branchCode,store:f.storeCode,loc:f.locationCode,blNo:f.blNo,ivNo:f.invoiceNo,expDate:f.date,
+    lines:g.map(x=>({code:x.productCode,qty:x.qty,bp:x.branchCode}))});});
+  ibRegSuccess('The save has been completed.','Processed successfully.');
+}
+// Inbound.createByManual: C2C / MANUAL / READY, expected incoming inventory increased, ERP PO requested asynchronously
+function ibCreateInbound(o){
+  const s=ibStore(o.store),tz=ibTzOf(o.store),seq=++ibSeq;
+  const items=o.lines.map((l,n)=>{const p=PRODUCT_MASTER.find(x=>x.code===l.code)||{},price=ibSupplyPrice(l.bp||o.bp,l.code)??0;
+    return {id:'7461820173849'+String(seq*100+n).padStart(5,'0'),code:l.code,name:p.name||'',barcode:p.barcode||'',cat1:p.cat1||'',cat2:p.cat2||'',exp:l.qty,rec:null,price,total:Math.round(price*l.qty*100)/100};});
+  IB_DATA.push({id:'7461820173847'+String(seq).padStart(5,'0'),regAt:ibDt(new Date()),tz:tz.name,zoneId:tz.zoneId,status:'READY',type:'C2C',channel:'MANUAL',
+    blNo:o.blNo,ivNo:o.ivNo,orderNo:null,bp:s?s.bp:o.bp,from:null,to:{code:o.store,name:s?s.name:'',loc:o.loc,locName:s?s.locs[o.loc]||'':''},
+    expQty:items.reduce((t,it)=>t+it.exp,0),confQty:null,expDate:o.expDate,confAt:null,createdBy:IB_ME,confirmedBy:null,currency:'USD',items,outbound:null});
+}
+
+// Single Registration (3 steps) -> POST /api/v1/inbounds
+function ibRenderStep(){
+  const st=ibReg;if(!st) return;
+  document.getElementById('ib-steps').innerHTML=IB_STEPS.map((l,i)=>(i?'<div class="ib-step-line"></div>':'')+
+    `<div class="ib-step${i===st.step?' active':i<st.step?' done':''}"><span class="ib-step-num">${i<st.step?'✓':i+1}</span><span class="ib-step-label">${l}</span></div>`).join('');
+  const body=document.getElementById('ib-step-body');
+  body.innerHTML=st.step===0?ibStep1Html():st.step===1?ibStep2Html():ibStep3Html();
+  document.getElementById('ib-step-prev').style.visibility=st.step>0?'visible':'hidden';
+  const next=document.getElementById('ib-step-next');
+  next.textContent=st.step===2?'Register':'Next';
+  next.disabled=(st.step===0&&!(st.bp&&st.store&&st.loc))||(st.step===1&&!st.sel.size);
+  ibCs();
+}
+function ibSummaryHtml(hl){
+  const st=ibReg,s=st.store?ibStore(st.store):null;
+  const bp=st.bp&&s?st.bp+' / '+s.bpName:'',store=s?s.code+' / '+s.name:'',loc=s&&st.loc?st.loc+' / '+(s.locs[st.loc]||''):'';
+  return `<div class="ib-box ib-summary${hl?' hl':''}"><div><strong>BP</strong><span>${ibEsc(bp)||'-'}</span></div><div><strong>Store</strong><span>${ibEsc(store)||'-'}</span></div><div><strong>Location</strong><span>${ibEsc(loc)||'-'}</span></div></div>`;
+}
+function ibOpts(list,val){return '<option value="">All</option>'+list.map(([v,t])=>`<option value="${ibEsc(v)}"${v===val?' selected':''}>${ibEsc(t)}</option>`).join('');}
+function ibStep1Html(){
+  const st=ibReg,stores=ibStoreList(),bps={};
+  stores.filter(s=>s.brand===st.brand).forEach(s=>{bps[s.bp]=s.bpName;});
+  const brands=[...new Set(stores.map(s=>s.brand))].map(b=>[b,b.replace(/_/g,' ')]);
+  const sl=stores.filter(s=>s.bp===st.bp).map(s=>[s.code,s.code+' / '+s.name]);
+  const s=st.store?ibStore(st.store):null,ll=s?Object.entries(s.locs).map(([c,n])=>[c,c+' / '+n]):[];
+  const sel=(id,label,list,val,key)=>`<div class="ib-f"><span>${label}</span><select id="${id}" onchange="ibS1('${key}',this.value)"${list.length?'':' disabled'}>${ibOpts(list,val)}</select></div>`;
+  return `<div class="ib-box"><strong class="ib-box-ttl">Select Inbound Store</strong><div class="ib-sel-row">
+    ${sel('ib-s1-brand','Brand',brands,st.brand,'brand')}${sel('ib-s1-bp','BP',st.brand?Object.entries(bps).map(([c,n])=>[c,c+' / '+n]):[],st.bp,'bp')}
+    ${sel('ib-s1-store','Store',sl,st.store,'store')}${sel('ib-s1-loc','Location',ll,st.loc,'loc')}</div></div>${ibSummaryHtml(false)}`;
+}
+// Cascading reset: Brand -> BP / Store / Location, BP -> Store / Location, Store -> Location
+function ibS1(key,v){
+  const st=ibReg;if(!st) return;
+  st[key]=v;
+  if(key==='brand'){st.bp='';st.store='';st.loc='';}
+  if(key==='bp'){st.store='';st.loc='';}
+  if(key==='store') st.loc='';
+  ibRenderStep();
+}
+function ibCatOpts(){
+  const st=ibReg,pool=PRODUCT_MASTER.filter(p=>!st.sp.brand||p.brand===st.sp.brand);
+  const c1=[...new Set(pool.map(p=>p.cat1))].filter(Boolean).sort(),c2=st.sp.cat1?[...new Set(pool.filter(p=>p.cat1===st.sp.cat1).map(p=>p.cat2))].filter(Boolean).sort():[];
+  return {c1,c2};
+}
+function ibStep2Html(){
+  const st=ibReg,sp=st.sp,{c1,c2}=ibCatOpts();
+  const brands=[...new Set(PRODUCT_MASTER.map(p=>p.brand))].map(b=>[b,b.replace(/_/g,' ')]);
+  return `<div class="ib-box" style="display:flex;align-items:flex-end;justify-content:space-between;gap:20px;flex-wrap:wrap;">
+      <div><strong class="ib-box-ttl">Select Inbound Product</strong>
+        <div class="ib-sel-row">
+          <div class="ib-f"><span>Brand</span><select id="ib-s2-brand" onchange="ibS2('brand',this.value)">${ibOpts(brands,sp.brand)}</select></div>
+          <div class="ib-f"><span>Product Category 1</span><select id="ib-s2-cat1" onchange="ibS2('cat1',this.value)"${c1.length?'':' disabled'}>${ibOpts(c1.map(c=>[c,c]),sp.cat1)}</select></div>
+          <div class="ib-f"><span>Product Category 2</span><select id="ib-s2-cat2" onchange="ibS2('cat2',this.value)"${c2.length&&sp.cat1?'':' disabled'}>${ibOpts(c2.map(c=>[c,c]),sp.cat2)}</select></div>
+        </div>
+        <div class="ib-sel-row" style="margin-top:10px;"><div class="ib-f" style="min-width:300px;"><span style="font-size:13px;">Product Info (Code / Name), Barcode</span>
+          <input type="text" id="ib-s2-q" value="${ibEsc(sp.q)}" placeholder="Please enter at least 2 characters." oninput="ibReg.sp.q=this.value" onkeydown="if(event.key==='Enter')ibS2Search()">
+          <div class="ib-err-txt"${sp.qErr?'':' hidden'}>Please enter at least 2 characters.</div></div></div>
+      </div>
+      <button class="btn-search" onclick="ibS2Search()"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><use href="#i-search"/></svg>Search</button>
+    </div>${ibSummaryHtml(false)}
+    <div class="ib-box" style="margin-top:10px;margin-bottom:20px;"><div id="ib-s2-table">${ibS2TableHtml()}</div></div>`;
+}
+// Brand -> Category 1 / 2 reset, Category 1 -> Category 2 reset (no search until Search)
+function ibS2(key,v){
+  const sp=ibReg.sp;sp[key]=v;
+  if(key==='brand'){sp.cat1='';sp.cat2='';}
+  if(key==='cat1') sp.cat2='';
+  ibRenderStep();
+}
+// GET /api/v1/inbounds/products (brand / category 1 / category 2 / query on code, name, barcode; product code asc)
+function ibS2Search(){
+  const sp=ibReg.sp;
+  if(sp.q&&sp.q.length<2){sp.qErr=true;ibRenderStep();return;}
+  sp.qErr=false;sp.applied={brand:sp.brand,cat1:sp.cat1,cat2:sp.cat2,q:(sp.q||'').trim().toLowerCase()};sp.page=1;
+  ibRenderStep();
+}
+function ibS2Rows(){
+  const a=ibReg.sp.applied;if(!a) return [];
+  return PRODUCT_MASTER.filter(p=>(!a.brand||p.brand===a.brand)&&(!a.cat1||p.cat1===a.cat1)&&(!a.cat2||p.cat2===a.cat2)
+    &&(!a.q||[p.code,p.name,p.barcode].some(x=>String(x||'').toLowerCase().includes(a.q)))).sort((x,y)=>x.code.localeCompare(y.code));
+}
+function ibS2TableHtml(){
+  const sp=ibReg.sp,rows=ibS2Rows(),total=rows.length,last=Math.max(1,Math.ceil(total/sp.size));
+  sp.page=Math.min(Math.max(1,sp.page),last);
+  const start=(sp.page-1)*sp.size,end=Math.min(start+sp.size,total),pg=rows.slice(start,end),allOn=pg.length&&pg.every(p=>ibReg.sel.has(p.code));
+  return `<div class="table-toolbar"><div class="table-toolbar-left">Total <b>${total}</b> Count</div></div>
+    <div class="grid-wrap"><table class="grid"><thead><tr class="hdr">
+      <th class="ib-chk-col"><input type="checkbox"${allOn?' checked':''}${pg.length?'':' disabled'} onchange="ibS2All(this.checked)"></th>
+      <th class="tl">Brand</th><th>Product Info<br><span class="ib-sub">(Code / Name / Barcode)</span></th><th>Product Category 1</th><th>Product Category 2</th>
+    </tr></thead><tbody>${pg.length?pg.map(p=>`<tr><td class="ib-chk-col"><input type="checkbox"${ibReg.sel.has(p.code)?' checked':''} onchange="ibS2Pick('${p.code}',this.checked)"></td>
+      <td class="tl">${p.brand.replace(/_/g,' ')}</td><td>${p.code} / ${ibEsc(p.name)} / ${p.barcode}</td><td>${p.cat1}</td><td>${p.cat2}</td></tr>`).join('')
+      :'<tr><td colspan="5" class="dp-empty">No data found.</td></tr>'}</tbody></table></div>
+    <div class="pg-bar"><div class="rpp"><span>Rows per page:</span><select style="width:72px;" onchange="ibReg.sp.size=+this.value;ibReg.sp.page=1;ibRenderStep();">
+      ${[10,30,50,100,300].map(n=>`<option value="${n}"${n===sp.size?' selected':''}>${n}</option>`).join('')}</select></div>
+      <span>${total?start+1:0}–${end} of ${total}</span>
+      <div class="pg-nav"><button class="pg-btn"${sp.page<=1?' disabled':''} onclick="ibReg.sp.page--;ibRenderStep();"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg></button>
+      <button class="pg-btn"${end>=total?' disabled':''} onclick="ibReg.sp.page++;ibRenderStep();"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg></button></div></div>`;
+}
+// Selection is kept across pages / searches
+function ibS2Pick(code,on){const p=PRODUCT_MASTER.find(x=>x.code===code);if(on&&p) ibReg.sel.set(code,p); else ibReg.sel.delete(code);ibRenderStep();}
+function ibS2All(on){
+  const sp=ibReg.sp,rows=ibS2Rows(),start=(sp.page-1)*sp.size;
+  rows.slice(start,start+sp.size).forEach(p=>on?ibReg.sel.set(p.code,p):ibReg.sel.delete(p.code));
+  ibRenderStep();
+}
+function ibStep3Html(){
+  const st=ibReg,e=st.f3Err,rows=[...st.sel.values()],multi=rows.length>1;
+  const f=(id,label,key,type,max)=>`<div><span>${label}<span class="ib-req">*</span></span><input type="${type}" id="${id}"${type==='date'?' lang="en"':''} value="${ibEsc(st[key])}"${max?` maxlength="${max}" placeholder="Please enter a value."`:''} class="${e[key]?'err':''}" oninput="ibReg.${key}=this.value"><div class="ib-err-txt"${e[key]?'':' hidden'}>${e[key]||''}</div></div>`;
+  return `<div class="ib-box"><div class="ib-f3">${f('ib-s3-bl','B/L No.','bl','text',30)}${f('ib-s3-iv','I/V No.','iv','text',30)}${f('ib-s3-date','Expected Inbound Date','date','date',0)}</div></div>
+    ${ibSummaryHtml(true)}
+    <div class="ib-box" style="margin-top:10px;margin-bottom:20px;"><div class="grid-wrap"><table class="grid"><thead><tr class="hdr">
+      <th>#</th><th class="tl">Brand</th><th>Product Info<br><span class="ib-sub">(Code / Name / Barcode)</span></th><th>Expected Inbound Qty</th>
+    </tr></thead><tbody>${rows.map((p,i)=>`<tr><td>${i+1}</td><td class="tl">${p.brand.replace(/_/g,' ')}</td><td>${p.code} / ${ibEsc(p.name)} / ${p.barcode}</td>
+      <td><div style="display:flex;align-items:center;justify-content:center;"><input type="number" class="ib-qty${e['q_'+p.code]?' err':''}" min="1" step="1" placeholder="Please enter a Qty." value="${ibEsc(st.qty[p.code]??'')}"
+        onkeydown="ibQtyKey(event)" oninput="ibQtyInput(this,'${p.code}')">${multi?`<button class="ib-x" title="Remove" onclick="ibS3Remove('${p.code}')">&times;</button>`:''}</div>
+        <div class="ib-qty-err"${e['q_'+p.code]?'':' hidden'}>${e['q_'+p.code]||''}</div></td></tr>`).join('')}</tbody></table></div></div>`;
+}
+// Qty: digits only, no leading 0, values <= 0 become 1, decimals floored
+function ibQtyKey(ev){
+  const ok=['Backspace','Delete','Tab','ArrowLeft','ArrowRight','ArrowUp','ArrowDown','Home','End'];
+  if((ev.ctrlKey||ev.metaKey)&&['a','c','v','x'].includes(ev.key.toLowerCase())) return;
+  if(ok.includes(ev.key)) return;
+  if(!/^[0-9]$/.test(ev.key)||(ev.key==='0'&&(ev.target.value===''||ev.target.value==='0'))) ev.preventDefault();
+}
+function ibQtyInput(el,code){
+  let v=el.value;
+  if(v!==''){const n=Number(v);if(!Number.isFinite(n)||n<=0) v='1';else if(!Number.isInteger(n)) v=String(Math.max(1,Math.floor(n)));}
+  if(el.value!==v) el.value=v;
+  ibReg.qty[code]=v;
+}
+function ibS3Remove(code){ibReg.sel.delete(code);delete ibReg.qty[code];delete ibReg.f3Err['q_'+code];ibRenderStep();}
+function ibStepPrev(){
+  const st=ibReg;if(!st||!st.step) return;
+  // Leaving a step resets that step's inputs
+  if(st.step===1){st.sp={...st.sp,cat1:'',cat2:'',q:'',qErr:false,applied:null,page:1};st.sel=new Map();}
+  if(st.step===2){st.bl='';st.iv='';st.date='';st.qty={};st.f3Err={};}
+  st.step--;ibRenderStep();
+}
+function ibStepNext(){
+  const st=ibReg;if(!st) return;
+  if(st.step===0){
+    if(!(st.brand&&st.bp&&st.store&&st.loc)) return;
+    st.step=1;st.sp.brand=st.brand;
+    ibRenderStep();ibS2Search();   // Step 2 searches once on entry with the Step 1 brand
+    return;
+  }
+  if(st.step===1){if(!st.sel.size) return;st.step=2;ibRenderStep();return;}
+  ibS3Register();
+}
+function ibS3Register(){
+  const st=ibReg,e={};
+  if(!st.bl) e.bl='This field is required and must be unique.';
+  if(!st.iv) e.iv='This field is required and must be unique.';
+  if(!st.date) e.date='This field is required.';
+  [...st.sel.keys()].forEach(c=>{const v=st.qty[c];if(v==null||v===''||Number(v)<1) e['q_'+c]='수량을 입력해주세요';});
+  st.f3Err=e;
+  if(Object.keys(e).length){ibRenderStep();return;}
+  // Backend (IndividualInboundCreateRequest + InboundSaveFacade)
+  if(st.bl.length<2) return ibRegApiError('B/L No는 최소 2글자 이상이어야 합니다.');
+  if(st.iv.length<2) return ibRegApiError('I/V No는 최소 2글자 이상이어야 합니다.');
+  if(IB_DATA.some(x=>x.ivNo===st.iv&&x.blNo===st.bl)) return ibRegApiError('Already Exist Inbound');
+  if([...st.sel.keys()].some(c=>ibSupplyPrice(st.bp,c)==null)) return ibRegApiError('Not Found Valid Supply Price');
+  ibCreateInbound({bp:st.bp,store:st.store,loc:st.loc,blNo:st.bl,ivNo:st.iv,expDate:st.date,lines:[...st.sel.keys()].map(c=>({code:c,qty:Number(st.qty[c])}))});
+  ibRegSuccess('Registration has been completed.','check the details in the list.');
+}
 const HOME_LINKS=[
   {menu:'Inventory',title:'Outbound List',desc:'Outbound / Outbound Request list, detail, registration (Outbound Order Tag)',path:'/inventory/outbound'},
   {menu:'Master Information',title:'Store',desc:'Store master list (SAP) and store detail / edit history',path:'/master/store'},
@@ -7421,7 +8482,7 @@ const MENU_PAGES={
   '/order/refund-list':{bc:['Order'],title:'Refund List',open:['order'],view:'rl-view',onEnter:()=>olEnter('rl')},
   '/rx/prescription-review':{bc:['RX (Lens)'],title:'Rx Prescription Review',open:['rx']},
   '/rx/work-management':{bc:['RX (Lens)'],title:'Rx Work Management',open:['rx']},
-  '/inventory/inbound':{bc:['Inventory'],title:'Inbound List',open:['inv']},
+  '/inventory/inbound':{bc:['Inventory'],title:'Inbound List',open:['inv'],view:'ib-view',onEnter:()=>ibEnter()},
   '/inventory/outbound-order':{bc:['Inventory'],title:'Outbound Order List',open:['inv']},
   '/inventory/movement':{bc:['Inventory'],title:'Inventory Movement',open:['inv']},
   '/inventory/monitoring/inventory-list':{bc:['Inventory','Monitoring'],title:'Inventory List',open:['inv','inv-mon'],view:'il-view',onEnter:()=>ilEnter()},
@@ -7499,6 +8560,10 @@ function route(){
     }else if(/^\/master\/package\/bp-package\/[^/]+$/.test(path)){
       const pg=MENU_PAGES['/master/package/bp-package'];
       setPageHeader({...pg,menu:'/master/package/bp-package'});showPlaceholder(pg);
+    }else if((m=path.match(/^\/inventory\/inbound\/([^/]+)$/))){
+      const pg=MENU_PAGES['/inventory/inbound'];
+      setPageHeader({...pg,menu:'/inventory/inbound'});showPlaceholder(pg);
+      if(!ibOpenDetail(m[1])) return redirect('#/inventory/inbound');
     }else if(ROUTE_ALIASES[path]){
       return redirect('#'+ROUTE_ALIASES[path]);
     }else if(MENU_PAGES[path]){
