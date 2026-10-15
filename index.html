@@ -4371,12 +4371,13 @@ table.grid th.dt-l,table.grid td.dt-l{text-align:left!important;}
                 <th class="rxw-sort" data-sort="convertedConfirmDecidedAt" onclick="rxwSort('convertedConfirmDecidedAt')" style="min-width:170px;">Approval Date<span class="rxw-sort-ico"></span></th>
                 <th class="rxw-sort" data-sort="expectedCompleteDate" onclick="rxwSort('expectedCompleteDate')" style="min-width:110px;">Work ETA<span class="rxw-sort-ico"></span></th>
                 <th class="rxw-sort" data-sort="workProgressStatus" onclick="rxwSort('workProgressStatus')" style="min-width:150px;">Work Status<span class="rxw-sort-ico"></span></th>
+                <!-- Prototype change: Cancel / Refund moved next to Work Status (dev request) -->
+                <th style="min-width:140px;">Cancel / Refund</th>
                 <th style="min-width:100px;">Channel</th>
                 <th style="min-width:100px;">Order Type</th>
                 <th class="tl" style="min-width:230px;">Order ID #<br><span class="rxw-sub">(Number #)</span></th>
                 <th style="min-width:140px;">Invoice No. #</th>
                 <th class="tl rxw-sort" data-sort="storeCode" onclick="rxwSort('storeCode')" style="min-width:260px;">Store Info<br><span class="rxw-sub">(Code / Name)</span><span class="rxw-sort-ico"></span></th>
-                <th style="min-width:140px;">Cancel / Refund</th>
                 <th style="min-width:100px;">Work Type</th>
                 <th class="rxw-sort" data-sort="expectedWorkingDuration" onclick="rxwSort('expectedWorkingDuration')" style="min-width:170px;">Processing Period<span class="rxw-sort-ico"></span></th>
                 <th style="min-width:100px;">Worker</th>
@@ -12914,12 +12915,12 @@ function rxwRenderPage(){
       <td>${r.confirmAt?r.confirmAt+' ('+r.tz+')':'-'}</td>
       <td>${r.eta||'-'}</td>
       <td>${rxwChip(r.status)}</td>
+      <td>${r.claim?rxwChip(r.claim):'-'}</td>
       <td>${rxwChannel(r.channel)}</td>
       <td>${r.tags.length?r.tags.map(t=>`<span class="rxw-tag">${rxwEsc(t)}</span>`).join(' '):'<span class="rxw-tag n">NORMAL</span>'}</td>
       <td class="tl"><span class="rxw-ono">${rxwEsc(r.ssid||'-')}</span><span class="rxw-ono-sub">(${rxwEsc(r.orderNo||'-')})</span>${rxwSnBadge(r)}</td>
       <td>${rxwEsc(r.invoiceNo||'-')}</td>
       <td class="tl">${r.storeCode} / ${rxwEsc(r.storeName)}</td>
-      <td>${r.claim?rxwChip(r.claim):'-'}</td>
       <td>${r.exec||'-'}</td>
       <td>${r.dur||'-'}</td>
       <td>${rxwEsc(r.worker||'-')}</td>
@@ -12959,8 +12960,8 @@ function rxwExportExcel(){
   if(rxwErr) return rxwToast('(Code / Name / Barcode)','Please reduce the range to a maximum of 200 and try again.','error');
   const list=[...rxwRows].sort((a,b)=>rxwCmp(b.orderedAt,a.orderedAt));
   if(list.length>10000) return rxwToast('(Code / Name / Barcode)','Please reduce the range to a maximum of 200 and try again.','error');
-  const head=['Order Date','Approve Date','Order No.','Number.','Channel','Store Code','Store Name','Status','Work Type','Processing Period','Worker','Lead Time','Completed Date'];
-  const aoa=[head].concat(list.map(r=>[r.orderedAt,r.confirmAt||'',r.orderNo,r.ssid||'',r.channel,r.storeCode,r.storeName,r.status,r.exec||'',r.dur||'',r.worker||'',String(rxwLeadDays(r)),r.completedAt||'']));
+  const head=['Order Date','Approve Date','Order No.','Number.','Channel','Store Code','Store Name','Status','Cancel / Refund','Work Type','Processing Period','Worker','Lead Time','Completed Date'];
+  const aoa=[head].concat(list.map(r=>[r.orderedAt,r.confirmAt||'',r.orderNo,r.ssid||'',r.channel,r.storeCode,r.storeName,r.status,r.claim||'',r.exec||'',r.dur||'',r.worker||'',String(rxwLeadDays(r)),r.completedAt||'']));
   const wb=XLSX.utils.book_new();XLSX.utils.book_append_sheet(wb,XLSX.utils.aoa_to_sheet(aoa),'RX Work Management');
   const d=new Date();XLSX.writeFile(wb,'rx_work_management_'+d.getFullYear()+'_'+(d.getMonth()+1)+'_'+d.getDate()+'.xlsx');
 }
