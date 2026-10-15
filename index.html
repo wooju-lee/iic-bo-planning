@@ -11992,7 +11992,23 @@ function rxpRenderPage(){
   document.getElementById('rxp-range').textContent=(total?start+1:0)+'–'+end+' of '+total;
   document.getElementById('rxp-prev').disabled=rxpPage<=1;
   document.getElementById('rxp-next').disabled=end>=total;
+  rxpFitCols();
 }
+// Halve the column gaps on wide screens: the last column (Reject Reason) takes half of the spare width
+function rxpFitCols(){
+  const t=document.querySelector('#rxp-view table.grid');
+  if(!t||!t.offsetParent) return;
+  const ths=[...t.querySelectorAll('thead th')];
+  ths.forEach(th=>th.style.width='');t.style.tableLayout='';t.style.width='auto';
+  const nat=ths.map(th=>th.getBoundingClientRect().width),natSum=nat.reduce((a,b)=>a+b,0);
+  t.style.width='';
+  const extra=t.getBoundingClientRect().width-natSum;
+  if(extra<=0) return;
+  // Other columns get half of the spare width (proportional), the last column takes the rest
+  const w=nat.map(n=>n+extra/2*n/natSum);w[w.length-1]+=extra/2;
+  t.style.tableLayout='fixed';ths.forEach((th,k)=>th.style.width=w[k].toFixed(1)+'px');
+}
+window.addEventListener('resize',()=>{if(document.getElementById('rxp-view').classList.contains('active')) rxpFitCols();});
 function rxpGo(delta){rxpPage+=delta;rxpRenderPage();}
 // Excel: item-level rows of the applied search (API sort fixed: orderedAt desc, productCode asc; max 10,000 rows)
 function rxpExport(){
