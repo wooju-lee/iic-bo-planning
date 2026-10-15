@@ -1623,7 +1623,6 @@ a.ib-trk:hover{border-color:#ff6b35;color:#ff6b35;}
 .rxw-dt-btns .rxw-tg{gap:6px;}
 .rxw-dt-btns .btn-action{background:#e0e0e0;color:#222;font-size:10px;height:28px;}
 /* Work Status Management Save: same size as the header Label Print button */
-.rxw-claim-val{display:flex;align-items:center;height:36px;padding:0 10px;border:1px solid #e5e5e5;border-radius:4px;background:#f5f5f5;}
 #rxw-ws-save,.rxw-claim-btn{height:28px;font-size:10px;min-width:95px;}
 .rxw-dt-btns .btn-action:hover:not(:disabled){background:#d5d5d5;}
 .rxw-dt-cols{display:flex;gap:20px;align-items:flex-start;}
@@ -13492,7 +13491,6 @@ function rxwStatusBox(r){
   return `<div class="rxw-box"><h3 class="rxw-ttl">Work Status Management</h3>
     <label class="rxw-fld"><span>Worker</span><select id="rxw-ws-worker" ${lock} onchange="rxwWsChange()">${f.worker?'':'<option value="" selected></option>'}${workers.map(w=>`<option value="${w}" ${w===f.worker?'selected':''}>${w}</option>`).join('')}</select></label>
     <label class="rxw-fld"><span>Work Status</span><select id="rxw-ws-status" ${lock} onchange="rxwWsChange()">${RXW_PROGRESS.map(s=>`<option value="${s}" ${s===f.status?'selected':''} ${['COMPLETED','FINALIZED','CANCELED'].includes(s)?'disabled':''}>${rxwStatusLabel(s)}</option>`).join('')}</select></label>
-    <div class="rxw-fld"><span>Cancel / Refund Status</span><div class="rxw-claim-val">${r.claim?rxwChip(r.claim,'sm'):'<span style="color:#999;">-</span>'}</div></div>
     <label class="rxw-fld"><span>Work Type</span><select id="rxw-ws-exec" ${lock} onchange="rxwWsChange()"><option value="">Please make a selection.</option>${RXW_EXEC.map(v=>`<option value="${v}" ${v===f.exec?'selected':''}>${v}</option>`).join('')}</select></label>
     <label class="rxw-fld"><span>Processing Period</span><select id="rxw-ws-dur" ${lock} onchange="rxwWsChange()"><option value="">Please make a selection.</option>${Object.entries(RXW_DUR).map(([k,m])=>`<option value="${k}" ${k===f.dur?'selected':''}>${m[1]}</option>`).join('')}</select></label>
     <label class="rxw-fld"><span>Work ETA</span><input type="date" lang="en" id="rxw-ws-eta" ${lock} value="${f.eta}" onchange="rxwWsChange()"></label>
