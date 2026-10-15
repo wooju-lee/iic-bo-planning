@@ -1696,6 +1696,12 @@ table.rxw-tbl .tl{text-align:left;}
 .rxw-g3{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;}
 .rxw-g3 label{display:flex;flex-direction:column;gap:3px;font-size:11px;color:#777;}
 .rxw-addr{position:relative;}
+.rxw-addr-ro{display:flex;flex-direction:column;gap:12px;margin-top:16px;}
+.rxw-g2a{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;}
+.rxw-g2a>.rxw-af:first-child{grid-column:span 2;}
+.rxw-af{display:flex;flex-direction:column;gap:4px;min-width:0;}
+.rxw-af span{font-size:11px;font-weight:600;color:#888;}
+.rxw-af b{font-size:13px;font-weight:500;color:#222;word-break:break-word;}
 .rxw-addr-dd{position:absolute;left:0;right:0;top:36px;z-index:60;background:#fff;border:1px solid #ddd;border-radius:4px;box-shadow:0 4px 12px rgba(0,0,0,.1);}
 .rxw-addr-dd div{padding:10px;font-size:11px;cursor:pointer;}
 .rxw-addr-dd div:hover{background:#f5f5f5;}
@@ -13285,10 +13291,12 @@ function rxwCustomerBox(r){
       </div>`:''}
       <div style="display:flex;justify-content:flex-end;margin-top:12px;"><button class="btn-action btn-primary" ${rxwAddrModified(r)?'':'disabled'} onclick="rxwAddrSave()">Save</button></div>`;
   }else{
+    // Read-only address: City / State / ZIP, then Line 1 / Line 2 (same label style for all address fields)
+    const f=(l,v)=>`<div class="rxw-af"><span>${l}</span><b>${rxwEsc(v||'—')}</b></div>`;
     addrHtml=`<div><span class="rxw-rmc ${r.recv==='B2C_DELIVERY'?'on':''}">Ship to Address</span><span class="rxw-rmc ${r.recv==='STORE_PICKUP'?'on':''}">Ship to Store</span></div>
-      <p style="white-space:pre-line;font-size:13px;color:#777;">${rxwEsc([rcA.line1,rcA.line2].filter(Boolean).join('\n')||'—')}</p>
-      <div class="rxw-g3"><div><b>CITY</b><br>${rxwEsc(rcA.city||'—')}</div><div><b>STATE</b><br>${rxwEsc(rcA.state||'—')}</div><div><b>ZIP</b><br>${rxwEsc(rcA.zip||'—')}</div></div>
-      ${rcA.countryCode?`<p style="font-size:12px;color:#777;">${rcA.countryCode}</p>`:''}`;
+      ${r.recv==='B2C_DELIVERY'?`<div class="rxw-addr-ro">
+        <div class="rxw-g3">${f('City',rcA.city)}${f('State',rcA.state)}${f('ZIP',rcA.zip)}</div>
+        <div class="rxw-g2a">${f('Address Line 1',rcA.line1)}${f('Address Line 2',rcA.line2)}</div></div>`:''}`;
   }
   return `<div class="rxw-box"><h3 class="rxw-ttl">Customer Info</h3>
     <div class="rxw-info-row"><label>Name</label><div>${rxwEsc(rc.name||'—')}</div></div>
