@@ -1540,15 +1540,17 @@ a.ib-trk:hover{border-color:#ff6b35;color:#ff6b35;}
 .rxw-sn-b.need{color:#d32f2f;}.rxw-sn-b.ok{color:#2e7d32;}.rxw-sn-b.off{color:#999;}
 .rxw-ie-chip{display:inline-flex;align-items:center;height:18px;margin-left:8px;background:#111;color:#fff;border-radius:4px;padding:0 7px;font-size:11px;font-weight:700;letter-spacing:.4px;vertical-align:middle;}
 .rxw-box.sn-need{border-color:#ef9a9a;box-shadow:inset 3px 0 0 #d32f2f;}
-.rxw-sn-st{font-size:10px;font-weight:700;border-radius:999px;padding:2px 8px;border:1px solid;}
+.rxw-sn-st{display:inline-flex;align-items:center;gap:6px;height:28px;font-size:12px;font-weight:700;border-radius:999px;padding:0 14px;border:1px solid;}
+.rxw-sn-st::before{content:'';width:7px;height:7px;border-radius:50%;background:currentColor;}
 .rxw-sn-st.need{color:#d32f2f;background:#fdecea;border-color:#f5b5b0;}
 .rxw-sn-st.wait{color:#777;background:#f4f4f5;border-color:#ddd;}
 .rxw-sn-st.scan{color:#1565c0;background:#e8f1fc;border-color:#9ec5f0;}
 .rxw-sn-st.act{color:#2e7d32;background:#ecf8ee;border-color:#a5d6a7;}
 .rxw-sn-st.ret{color:#5d4037;background:#f3ece9;border-color:#d7c3bb;}
-.rxw-sn-grid{display:grid;grid-template-columns:140px 1fr;gap:8px 12px;font-size:12px;margin-bottom:12px;}
+.rxw-sn-grid{display:grid;grid-template-columns:max-content 1fr;gap:8px 20px;font-size:12px;margin-bottom:12px;}
 .rxw-sn-grid .k{color:#777;}.rxw-sn-grid .v{font-weight:600;color:#222;font-variant-numeric:tabular-nums;}
 .rxw-sn-tip{position:relative;display:inline-flex;cursor:help;}
+.rxw-sn-tip .rxw-info{width:20px;height:20px;font-size:12px;}
 .rxw-sn-tip .box{display:none;position:absolute;left:-8px;top:calc(100% + 8px);z-index:20;width:360px;flex-direction:column;gap:6px;background:#222;color:#fff;border-radius:6px;padding:10px 12px;font-size:11px;font-weight:400;line-height:1.5;box-shadow:0 4px 14px rgba(0,0,0,.18);}
 .rxw-sn-tip .box span{display:block;padding-left:10px;position:relative;}
 .rxw-sn-tip .box span::before{content:'•';position:absolute;left:0;}
@@ -13576,8 +13578,8 @@ function rxwSerialBox(r){
   const canScan=b2c&&!r.claim&&!sn&&r.status==='OUTBOUND_INSPECTION',canRe=b2c&&!r.claim&&sn&&sn.spm==='PENDING';
   const tip=b2c?['Scan the serial at Outbound Inspection (required).','Sent to SPM automatically after the TMS label is issued (order mapping + activation).','Re Do keeps the serial.','Refund: scan the returned item serial → return sent to SPM.']
     :['Ship to Store: the serial is scanned in POS RX Operation when the customer picks up the order.'];
-  return `<div class="rxw-box${s[0]==='need'?' sn-need':''}"><h3 class="rxw-ttl">IE Serial<span class="rxw-sn-tip"><span class="rxw-info" style="background:#eee;">i</span><span class="box">${tip.map(t=>`<span>${t}</span>`).join('')}</span></span><span class="rxw-sn-st ${s[0]}">${s[1]}</span>
-      <span class="rxw-ttl-sfx">${canScan?`<button class="btn-action btn-primary" style="height:28px;" onclick="rxwSnOpen('edit',['${r.id}'])">Scan Serial</button>`:canRe?`<button class="btn-action btn-outline" style="height:28px;" onclick="rxwSnOpen('edit',['${r.id}'])">Rescan</button>`:''}</span></h3>
+  return `<div class="rxw-box${s[0]==='need'?' sn-need':''}"><h3 class="rxw-ttl">IE Serial<span class="rxw-sn-tip"><span class="rxw-info" style="background:#eee;">i</span><span class="box">${tip.map(t=>`<span>${t}</span>`).join('')}</span></span>
+      <span class="rxw-ttl-sfx" style="display:flex;align-items:center;gap:10px;"><span class="rxw-sn-st ${s[0]}">${s[1]}</span>${canScan?`<button class="btn-action btn-primary" style="height:28px;" onclick="rxwSnOpen('edit',['${r.id}'])">Scan Serial</button>`:canRe?`<button class="btn-action btn-outline" style="height:28px;" onclick="rxwSnOpen('edit',['${r.id}'])">Rescan</button>`:''}</span></h3>
     ${s[0]==='need'?`<div class="rxw-sn-alert">&#9888;<span>Scan the IE serial before label registration. Label Registration is blocked until the serial is saved.</span></div>`:''}
     ${b2c?`<div class="rxw-sn-grid">
       <span class="k">Sent to SPM</span><span class="v">${sn&&sn.spmAt?`${sn.spmAt} (${r.tz}) · ${rxwEsc(sn.spmBy||'-')}`
