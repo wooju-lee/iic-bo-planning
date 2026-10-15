@@ -12766,7 +12766,7 @@ function rxwGenData(){
 
 // ----- entry / init -----
 function rxwEnter(){
-  if(!rxwInited){rxwInited=true;RXW_DATA=rxwGenData();rxwIeSeed();rxwInitFilters();rxwSearch();}
+  if(!rxwInited){rxwInited=true;RXW_DATA=rxwGenData();rxwPurchaserSeed();rxwIeSeed();rxwInitFilters();rxwSearch();}
   else rxwRunQuery();
   rxwShowPane('list');   // route-driven: the detail route calls rxwOpenDetail() right after
 }
@@ -12847,7 +12847,8 @@ function rxwFilter(p,recv){
     const dv=(p.dateSearchType==='APPROVAL_DATE'?r.confirmAt:p.dateSearchType==='COMPLETION_DATE'?r.completedAt:r.orderedAt);
     if(!dv||dv.slice(0,10)<start||dv.slice(0,10)>end) return false;
     if(q){
-      const hay=[r.orderNo,r.ssid,r.storeCode,r.storeName,r.recipient&&r.recipient.name,r.recipient&&r.recipient.email,r.recipient&&r.recipient.phone];
+      const hay=[r.orderNo,r.ssid,r.storeCode,r.storeName,r.recipient&&r.recipient.name,r.recipient&&r.recipient.email,r.recipient&&r.recipient.phone,
+        r.purchaser&&r.purchaser.name,r.purchaser&&r.purchaser.email,r.purchaser&&r.purchaser.phone];   // purchaser + patient
       if(!hay.some(x=>x&&String(x).toLowerCase().includes(q))) return false;
     }
     return true;
@@ -13166,7 +13167,7 @@ function rxwDetailState(){
 function rxwRenderDetail(){
   const r=rxwCur;if(!r) return;
   document.getElementById('rxw-dt-head').innerHTML=rxwDetailHead(r);
-  document.getElementById('rxw-dt-left').innerHTML=rxwMemberBox(r)+rxwOrderBox(r)+rxwSerialBox(r)+rxwRxBox(r)+rxwCustomerBox(r)+(r.channel!=='ONLINE'?rxwPolicyBox(r):'')+rxwCommentBox(r);
+  document.getElementById('rxw-dt-left').innerHTML=rxwMemberBox(r)+rxwOrderBox(r)+rxwSerialBox(r)+rxwRxBox(r)+rxwPurchaserBox(r)+rxwCustomerBox(r)+(r.channel!=='ONLINE'?rxwPolicyBox(r):'')+rxwCommentBox(r);
   document.getElementById('rxw-dt-right').innerHTML=rxwStatusBox(r)+rxwTrackingBox(r)+rxwHistoryBox(r)+rxwClaimButtons(r);
   rxwCs(document.getElementById('rxw-detail-pane'));
   rxwWsRefresh();
@@ -13298,8 +13299,8 @@ function rxwCustomerBox(r){
         <div class="rxw-g3">${f('City',rcA.city)}${f('State',rcA.state)}${f('ZIP',rcA.zip)}</div>
         <div class="rxw-g2a">${f('Address Line 1',rcA.line1)}${f('Address Line 2',rcA.line2)}</div></div>`:''}`;
   }
-  return `<div class="rxw-box"><h3 class="rxw-ttl">Customer Info</h3>
-    <div class="rxw-info-row"><label>Name</label><div>${rxwEsc(rc.name||'—')}</div></div>
+  return `<div class="rxw-box"><h3 class="rxw-ttl">Patient &amp; Shipping Info</h3>
+    <div class="rxw-info-row"><label>Patient Name</label><div>${rxwEsc(rc.name||'—')}</div></div>
     <div class="rxw-info-row"><label>Phone</label><div>${rxwEsc(rc.phone||'—')}</div></div>
     <div class="rxw-info-row"><label>Email</label><div>${rxwEsc(rc.email||'—')}</div></div>
     <div class="rxw-info-row"><label>Address</label><div>${addrHtml}</div></div></div>`;
@@ -13546,6 +13547,22 @@ function rxwReasonSubmit(){
     rxwToast('rx_work_refund_success',ret?'Return serial sent to SPM.':'');   // lokalise key missing in en -> shown as-is
   }
   rxwCloseModal('rs');rxwAfterChange();
+}
+// Purchaser (orderer) vs Patient (wearer / shipping recipient) — same split as Rx Prescription Review. Dummy: some orders bought for a family member.
+function rxwPurchaserSeed(){
+  const P=[['Hannah Lee','hannah.lee@gmail.com'],['David Park','david.park@outlook.com'],['Sarah Kim','sarah.kim@gmail.com'],['Kevin Choi','kevin.choi@gmail.com']];
+  RXW_DATA.forEach((r,i)=>{
+    const rc=r.recipient||{};
+    if(i%4===2){const p=P[i%P.length];r.purchaser={name:p[0],email:p[1],phone:'+1 '+(300+i*7%600)+'-'+(200+i*13%700)+'-'+String(1000+i*97%9000)};}
+    else r.purchaser={name:rc.name||'',phone:rc.phone||'',email:rc.email||''};
+  });
+}
+function rxwPurchaserBox(r){
+  const p=r.purchaser||{};
+  return `<div class="rxw-box"><h3 class="rxw-ttl">Purchaser Info</h3>
+    <div class="rxw-info-row"><label>Name</label><div>${rxwEsc(p.name||'—')}</div></div>
+    <div class="rxw-info-row"><label>Phone</label><div>${rxwEsc(p.phone||'—')}</div></div>
+    <div class="rxw-info-row"><label>Email</label><div>${rxwEsc(p.email||'—')}</div></div></div>`;
 }
 // ===== IE serial (prototype addition, 2026-10-15 planning) =====
 // Scope: To Customer (B2C_DELIVERY) RX orders that include an IE frame. Ship to Store serials are handled in POS RX Operation at pickup.
