@@ -3024,6 +3024,8 @@ function showListView(){
   document.getElementById('sp-view').classList.remove('active');
   document.getElementById('home-view').classList.remove('active');
   ['ol-view','rl-view','lg-view','il-view'].forEach(id=>document.getElementById(id).classList.remove('active'));
+  // Menu screens added from code: close any other active page view (prevents stacking with Coming Soon)
+  document.querySelectorAll('.detail-view.active').forEach(v=>v.classList.remove('active'));
   document.getElementById('list-view').classList.remove('hidden');
   document.getElementById('detail-view').classList.remove('active');
   document.getElementById('ob-detail-view').classList.remove('active');
