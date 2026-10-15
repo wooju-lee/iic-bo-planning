@@ -1405,6 +1405,18 @@ a.ib-trk:hover{border-color:#ff6b35;color:#ff6b35;}
 .rxp-sec{background:#fff;border:1px solid #e8e8e8;border-radius:8px;padding:20px 24px;scroll-margin-top:20px;}
 .rxp-sec-t{font-size:14px;font-weight:700;color:#222;margin:0 0 14px;display:flex;align-items:center;gap:6px;}
 .rxp-sec-t .cnt{border-radius:999px;background:#ffedd5;color:#f97316;font-size:10px;font-weight:600;padding:1px 6px;}
+/* Section separation: numbered titles + active accent (scroll-spy) + review-required emphasis */
+.rxp-d-main{counter-reset:rxpsec;}
+.rxp-sec{counter-increment:rxpsec;position:relative;transition:border-color .15s,box-shadow .15s;}
+.rxp-sec>.rxp-sec-t{padding-bottom:12px;border-bottom:1px solid #f0f0f0;}
+.rxp-sec>.rxp-sec-t::before{content:counter(rxpsec,decimal-leading-zero);display:inline-flex;align-items:center;justify-content:center;min-width:24px;height:20px;padding:0 4px;border-radius:4px;background:#f0f0f0;color:#888;font-size:11px;font-weight:700;margin-right:4px;transition:background .15s,color .15s;}
+.rxp-sec.active{border-color:#ffc9b3;box-shadow:inset 3px 0 0 #ff6b35;}
+.rxp-sec.active>.rxp-sec-t::before{background:#ff6b35;color:#fff;}
+.rxp-sec.rv-need{border-color:#fdba74;background:linear-gradient(#fffaf5,#fff 80px);}
+.rxp-sec.rv-need.active{box-shadow:inset 3px 0 0 #ff6b35,0 0 0 3px rgba(255,107,53,.08);}
+.rxp-rv{font-size:10px;font-weight:600;border-radius:999px;padding:2px 8px;margin-left:auto;}
+.rxp-rv.need{background:#fff1e8;color:#ea580c;border:1px solid #fdba74;}
+.rxp-rv.done{background:#ecfdf3;color:#16a34a;border:1px solid #bbf7d0;}
 .rxp-req{color:#ff6b35;margin-left:2px;}
 .rxp-step{display:flex;align-items:center;gap:8px;font-size:12px;font-weight:600;color:#333;margin-bottom:8px;}
 .rxp-step .no{width:18px;height:18px;border-radius:50%;background:#ff6b35;color:#fff;font-size:10px;display:inline-flex;align-items:center;justify-content:center;}
@@ -1490,6 +1502,9 @@ a.ib-trk:hover{border-color:#ff6b35;color:#ff6b35;}
 .rxp-index ul{list-style:none;margin:0;padding:4px 0;}
 .rxp-index li{display:flex;align-items:center;gap:8px;padding:8px 12px;font-size:12px;color:#333;cursor:pointer;}
 .rxp-index li:hover{background:#fff3ee;}
+.rxp-index li{border-left:3px solid transparent;}
+.rxp-index li.active{background:#fff3ee;border-left-color:#ff6b35;color:#ff6b35;font-weight:700;}
+.rxp-index li .rv{margin-left:auto;font-size:9px;font-weight:700;color:#ea580c;background:#fff1e8;border-radius:999px;padding:1px 6px;}
 .rxp-index .ck{width:16px;height:16px;border:2px solid #d4d4d4;border-radius:3px;box-sizing:border-box;display:inline-flex;align-items:center;justify-content:center;color:#fff;font-size:11px;}
 .rxp-index .ck.on{background:#22c55e;border-color:#22c55e;}
 .rxp-index .msg{border-top:1px solid #e5e5e5;padding:10px 12px;text-align:center;font-size:11px;color:#777;}
@@ -1518,18 +1533,23 @@ a.ib-trk:hover{border-color:#ff6b35;color:#ff6b35;}
 .rxw-dbtn{height:34px!important;min-width:84px;}
 .multi-select-dropdown .rxw-dd-grp{padding:6px 12px;font-size:11px;font-weight:700;color:#999;background:#fafafa;cursor:default;white-space:nowrap;}
 /* Statistics (processing period cards) */
-.rxw-stats{display:flex;flex-wrap:wrap;gap:16px;border:1px solid #e5e5e5;border-radius:8px;background:#fff;padding:16px;margin-bottom:16px;}
-.rxw-stat{flex:1 1 calc(33% - 16px);display:flex;flex-direction:column;gap:6px;padding:12px 16px;border:1px solid #e5e5e5;border-left:4px solid #F9C56D;border-radius:4px;}
-.rxw-stat.tint{border-left-color:#4ED17E;}
-.rxw-stat b{font-size:18px;font-weight:700;color:#222;}
-.rxw-stat strong{font-size:13px;color:#222;}
-.rxw-stat span{font-size:11px;color:#555;}
-/* To Customer / To Store switch */
-.rxw-seg-box{border:1px solid #e5e5e5;border-radius:8px;background:#fff;padding:20px;margin-bottom:16px;}
-.rxw-seg{display:flex;width:100%;height:38px;border:1px solid #e5e5e5;border-radius:8px;overflow:hidden;}
-.rxw-seg button{flex:1;border:none;background:#fff;font-size:12px;font-weight:600;color:#555;cursor:pointer;}
-.rxw-seg button+button{border-left:1px solid #e5e5e5;}
-.rxw-seg button.on{color:#ed6c02;background:#FFF7F0;}
+/* Tab + Processing Period count: one compact bar (no cards) */
+.rxw-bar{display:flex;align-items:center;flex-wrap:wrap;gap:12px 20px;border:1px solid #e5e5e5;border-radius:8px;background:#fff;padding:12px 16px;margin-bottom:16px;}
+.rxw-stats{display:flex;flex-direction:column;gap:6px;font-size:12px;color:#555;}
+.rxw-stats .grp{display:flex;align-items:center;flex-wrap:wrap;gap:4px 14px;}
+.rxw-stats .gl{width:34px;font-size:11px;font-weight:700;color:#888;}
+.rxw-stats .it{display:inline-flex;align-items:center;gap:5px;white-space:nowrap;}
+.rxw-stats .it i{width:6px;height:6px;border-radius:50%;background:#F9C56D;}
+.rxw-stats .grp.tint .it i{background:#4ED17E;}
+.rxw-stats .it b{color:#222;font-weight:700;font-variant-numeric:tabular-nums;}
+.rxw-stats .it small{color:#aaa;font-size:10px;}
+.rxw-stats .it.zero b{color:#bbb;}
+/* To Customer / To Store switch: compact pill segment */
+.rxw-seg{display:inline-flex;flex-shrink:0;gap:2px;padding:3px;height:34px;box-sizing:border-box;background:#f2f2f2;border-radius:8px;}
+.rxw-seg button{min-width:112px;padding:0 14px;border:none;border-radius:6px;background:transparent;font-size:12px;font-weight:600;color:#777;cursor:pointer;}
+.rxw-seg button:hover{color:#333;}
+.rxw-seg button.on{background:#fff;color:#ed6c02;box-shadow:0 1px 3px rgba(0,0,0,.12);}
+.rxw-bar .sep{width:1px;align-self:stretch;background:#ececec;}
 /* List grid */
 #rxw-view table.grid th.rxw-sort{cursor:pointer;user-select:none;}
 .rxw-sort-ico{display:inline-block;width:10px;margin-left:4px;font-size:10px;}
@@ -4208,15 +4228,14 @@ table.rxw-tbl .tl{text-align:left;}
         </div>
       </div>
 
-      <!-- Statistics: order count by Processing Period (same conditions as the list) -->
-      <div class="rxw-stats" id="rxw-stats"></div>
-
-      <!-- receivingMethod switch -->
-      <div class="rxw-seg-box">
+      <!-- receivingMethod switch + Statistics (order count by Processing Period, same conditions as the list) -->
+      <div class="rxw-bar">
         <div class="rxw-seg">
           <button id="rxw-tab-B2C_DELIVERY" class="on" onclick="rxwSetRecv('B2C_DELIVERY')">To Customer</button>
           <button id="rxw-tab-STORE_PICKUP" onclick="rxwSetRecv('STORE_PICKUP')">To Store</button>
         </div>
+        <span class="sep"></span>
+        <div class="rxw-stats" id="rxw-stats"></div>
       </div>
 
       <div class="table-box">
@@ -12035,7 +12054,7 @@ function rxpOpenDetail(id){
   const r=RXP_DATA.find(x=>x.id===String(id));
   // Detail API excludes UNREADY orders (404)
   if(!r||rxpStatus(r)==='UNREADY') return false;
-  rxpCur=r;rxpErrors={};rxpOcrFields=[];rxpOcrBusy=false;rxpEditCmt=null;
+  rxpCur=r;rxpErrors={};rxpOcrFields=[];rxpOcrBusy=false;rxpEditCmt=null;rxpActiveSec='';
   rxpLoadDraft();
   if(typeof setRoute==='function') setRoute('#/rx/prescription-review/'+r.id);
   rxpShowPane('detail');rxpRenderDetail();window.scrollTo(0,0);
@@ -12193,7 +12212,7 @@ function rxpRenderDetail(){
       </div>
 
       <div class="rxp-sec" id="rxp-sec-prescription">
-        <div class="rxp-sec-t">Prescription</div>
+        <div class="rxp-sec-t">Prescription<span class="rxp-rv" id="rxp-rv-tag" hidden></span></div>
         <div id="rxp-sec-documents" style="scroll-margin-top:20px;">
           <div class="rxp-step"><span class="no">1</span>Scan Prescription</div>
           ${rxpOcrBusy?`<div class="rxp-upload busy"><div class="rxp-spin"></div><div><div class="t">Upload Prescription</div><div class="s">JPG, PNG, PDF (max 10MB, 1 page) · OCR auto-filling supported</div></div></div>`
@@ -12283,15 +12302,50 @@ function rxpRenderSide(){
     ['Delivery','rxp-sec-delivery',[d.rcvName,d.rcvPhone,d.rcvEmail].every(f)&&(d.receive==='STORE_PICKUP'||[d.address,d.city,d.state,d.zip].every(f))]]
     .concat(on?[]:[['Policy Agreements','rxp-sec-policy',d.rxTerms&&d.hipaa&&d.signature]])
     .concat([['Comment','rxp-sec-comment',r.d.comments.length>0]]);
+  // Review-required sections (Prescription + Documents): emphasized while the order is editable and not yet complete
+  const docOk=f(d.expiryDate)&&d.files.length>0,rvDone=pres&&docOk,rvSec=document.getElementById('rxp-sec-prescription'),rvTag=document.getElementById('rxp-rv-tag');
+  const RV=['rxp-sec-prescription','rxp-sec-documents'];
+  if(rvSec){rvSec.classList.toggle('rv-need',ed&&!rvDone);}
+  if(rvTag){rvTag.hidden=!ed;rvTag.className='rxp-rv '+(rvDone?'done':'need');rvTag.textContent=rvDone?'Review Ready':'Review Required';}
   const idx=document.getElementById('rxp-index');
-  if(idx) idx.innerHTML=`<div class="hd">Index</div><ul>${secs.map(([l,a,ok])=>`<li onclick="document.getElementById('${a}').scrollIntoView({behavior:'smooth',block:'start'})"><span class="ck${ok?' on':''}">${ok?'✓':''}</span>${l}</li>`).join('')}</ul>
+  if(idx) idx.innerHTML=`<div class="hd">Index</div><ul>${secs.map(([l,a,ok])=>`<li data-a="${a}" onclick="rxpGoSec('${a}')"><span class="ck${ok?' on':''}">${ok?'✓':''}</span>${l}${ed&&!ok&&RV.includes(a)?'<span class="rv">Review</span>':''}</li>`).join('')}</ul>
     ${st==='CONFIRMED'?'<div class="msg">This order has been confirmed.</div>':''}`;
+  if(rxpActiveSec) rxpSetActive(rxpActiveSec); else requestAnimationFrame(()=>rxpSpy());
   const ready=rxpFormReady(),dec=!RXP_CAN_APPROVAL||!ready||st!=='REQUESTED';
   document.getElementById('rxp-actbar').innerHTML=`<div class="grp">
       <button class="rxp-act rej" ${dec?'disabled':''} onclick="rxpOpenReject()">&#8856; Reject</button>
       <button class="rxp-act cfm" ${dec?'disabled':''} onclick="rxpOpenDlg('confirm')">&#10003; Confirm</button></div>
     <button class="rxp-act save" ${!RXP_CAN_WRITE||!ed||rxpOcrBusy?'disabled':''} onclick="rxpOpenDlg('save')">Save</button>`;
 }
+// Scroll-spy: highlight the index item / section currently in view
+let rxpActiveSec='',rxpSpyLock=0;
+function rxpGoSec(a){
+  const el=document.getElementById(a);if(!el) return;
+  rxpSetActive(a);rxpSpyLock=Date.now()+700;
+  el.scrollIntoView({behavior:'smooth',block:'start'});
+}
+function rxpSetActive(a){
+  rxpActiveSec=a;
+  document.querySelectorAll('#rxp-index li').forEach(li=>li.classList.toggle('active',li.dataset.a===a));
+  const sec=a&&document.getElementById(a);const box=sec&&(sec.classList.contains('rxp-sec')?sec:sec.closest('.rxp-sec'));
+  document.querySelectorAll('#rxp-detail .rxp-sec').forEach(s=>s.classList.toggle('active',s===box));
+}
+function rxpSpy(e){
+  const pane=document.getElementById('rxp-detail-pane');
+  if(!rxpCur||!pane||pane.hidden||Date.now()<rxpSpyLock) return;
+  const ids=[...document.querySelectorAll('#rxp-index li')].map(li=>li.dataset.a);
+  const els=ids.map(a=>[a,document.getElementById(a)]).filter(x=>x[1]).sort((x,y)=>x[1].getBoundingClientRect().top-y[1].getBoundingClientRect().top);
+  if(!els.length) return;
+  const sc=e&&e.target&&e.target.scrollHeight?e.target:document.scrollingElement;
+  const atEnd=sc&&sc.scrollTop+sc.clientHeight>=sc.scrollHeight-4;
+  const th=Math.min(window.innerHeight*0.35,260);
+  let cur='';els.forEach(([a,el])=>{if(el.getBoundingClientRect().top<=th) cur=a;});
+  if(atEnd) cur=els[els.length-1][0];
+  if(!cur) cur=els[0][0];
+  if(cur!==rxpActiveSec||!document.querySelector('#rxp-index li.active')) rxpSetActive(cur);
+}
+document.addEventListener('scroll',rxpSpy,true);
+window.addEventListener('resize',()=>rxpSpy());
 function rxpCopy(no){try{navigator.clipboard.writeText(no).catch(()=>{});}catch(e){}}
 function rxpPdType(t){
   if(t==='SINGLE'){rxpDraft.rx.osPd='';}
@@ -12749,7 +12803,10 @@ function rxwRunQuery(){
 function rxwRenderStats(){
   const el=document.getElementById('rxw-stats');
   if(rxwErr){el.innerHTML=`<span style="color:#C62828;font-size:12px;">${rxwEsc(rxwErr)}</span>`;return;}
-  el.innerHTML=Object.entries(RXW_DUR).map(([k,m])=>`<div class="rxw-stat ${k.startsWith('BASIC')?'':'tint'}"><b>${rxwRows.filter(r=>r.dur===k).length}</b><div><strong>${m[0]}</strong><br><span>${m[1]}</span></div></div>`).join('');
+  const grp=(pre,cls,lbl)=>`<div class="grp ${cls}"><span class="gl">${lbl}</span>${Object.entries(RXW_DUR).filter(([k])=>k.startsWith(pre)).map(([k,m])=>{
+    const n=rxwRows.filter(r=>r.dur===k).length;
+    return `<span class="it${n?'':' zero'}" title="${m[0]} · ${m[1]}"><i></i>${m[0].replace(/^\(\w+\)\s*/,'')} <b>${n}</b><small>${m[1].replace(/^\D+/,'')}</small></span>`;}).join('')}</div>`;
+  el.innerHTML=grp('BASIC','','Basic')+grp('TINT','tint','Tint');
 }
 // Server-side sort (RX_WORK_MANAGEMENT_SORT_FIELD_MAP). Default (no sort) = orderedAt desc. asc -> desc -> none.
 const RXW_SORT_VAL={orderedAt:r=>r.orderedAt,convertedConfirmDecidedAt:r=>r.confirmAt,expectedCompleteDate:r=>r.eta,workProgressStatus:r=>r.status,
