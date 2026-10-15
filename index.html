@@ -1537,7 +1537,13 @@ a.ib-trk:hover{border-color:#ff6b35;color:#ff6b35;}
 .rxw-ttip{margin-left:0;}
 .rxw-ttip .wms-tooltip{white-space:normal;width:360px;line-height:1.6;left:calc(100% + 8px);top:-6px;}   /* beside the title, not over it */
 .rxw-ttip.narrow .wms-tooltip{width:220px;left:0;top:calc(100% + 6px);}   /* right column is narrow -> below the title */
-.rxw-sn-grid{margin-bottom:0;}
+.rxw-sn-grid{margin-bottom:0;align-items:center;}
+.rxw-sn-pend{display:inline-flex;align-items:center;gap:6px;height:28px;padding:0 12px;border-radius:6px;background:#fff4e5;border:1px solid #ffcc80;color:#b45309;font-size:12px;}
+.rxw-sn-pend b{font-weight:700;}
+.rxw-sn-pend span{color:#8a5a00;font-weight:500;}
+.rxw-sn-pend span::before{content:'·';margin-right:6px;}
+.rxw-sn-pend.need{background:#fdecea;border-color:#f5b5b0;color:#c62828;}.rxw-sn-pend.need span{color:#b71c1c;}
+.rxw-sn-pend.off{background:#f4f4f5;border-color:#ddd;color:#666;}
 .rxw-sn-note{font-size:11px;color:#777;background:#fafafa;border-radius:6px;padding:10px 12px;line-height:1.5;}
 .rxw-sn-alert{display:flex;gap:8px;align-items:flex-start;background:#fdecea;color:#b71c1c;border-radius:6px;padding:10px 12px;font-size:12px;line-height:1.5;margin-bottom:12px;}
 .rxw-sn-list{border:1px solid #e5e5e5;border-radius:6px;max-height:380px;overflow-y:auto;}
@@ -1755,6 +1761,60 @@ table.rxw-tbl .tl{text-align:left;}
 .rxw-pill.st{border-color:#93c5fd;background:#eff6ff;color:#1d4ed8;font-weight:600;}
 .modal-box.rxw-wide{width:1100px;max-width:94vw;max-height:90vh;display:flex;flex-direction:column;}
 .modal-box.rxw-wide .modal-body{max-height:none;flex:1;overflow-y:auto;background:#f5f5f5;}
+/* Picking List (reference: production preview) */
+#rxw-pk-body{background:#fff!important;}
+.rxw-pk-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:0;}
+.rxw-pk-grid>.rxw-pk:nth-child(odd){border-right:1px dashed #ddd;}
+.rxw-pk{margin:0 16px 16px 0;padding:24px 22px 16px;border:1px solid #e0e0e0;border-radius:4px;font-size:11px;color:#222;background:#fff;}
+.rxw-pk-grid>.rxw-pk:nth-child(even){margin:0 0 16px 16px;}
+.rxw-pk-head{display:flex;justify-content:space-between;align-items:flex-start;padding-bottom:12px;border-bottom:2px solid #111;}
+.rxw-pk-head .l{display:flex;gap:10px;align-items:flex-start;}
+.rxw-pk-head .t{font-size:14px;font-weight:700;letter-spacing:.4px;margin-bottom:6px;}
+.rxw-pk-head .r{text-align:right;}
+.rxw-pk-head .no{font-size:13px;font-weight:700;color:#1565c0;}
+.rxw-pk-head .dt{font-size:11px;color:#444;margin:4px 0 6px;}
+.rxw-pk-head .bc{display:inline-flex;flex-direction:column;align-items:center;gap:2px;}.rxw-pk-head .bc span{font-size:9px;letter-spacing:.3px;}
+.rxw-pk-pill{display:inline-flex;align-items:center;gap:4px;height:20px;padding:0 9px;border-radius:999px;background:#e8f1fc;color:#1565c0;border:1px solid #bcd6f5;font-size:10px;font-weight:600;}
+.rxw-pk-pill svg{width:12px;height:12px;fill:currentColor;}
+.rxw-pk .sec{font-size:10px;font-weight:700;letter-spacing:1px;color:#333;margin:18px 0 10px;}
+.rxw-pk .kv{display:flex;gap:10px;margin-bottom:7px;}
+.rxw-pk .kv>span:first-child{width:96px;flex-shrink:0;color:#555;}
+.rxw-pk .kv b{font-weight:500;}
+.rxw-pk .addr{margin-top:8px;line-height:1.7;}.rxw-pk .addr small{display:block;color:#555;font-size:10px;}
+.rxw-pk table{width:100%;border-collapse:separate;border-spacing:0;border:1px solid #ddd;border-radius:4px;}
+.rxw-pk th,.rxw-pk td{padding:8px;font-size:10px;text-align:left;border-bottom:1px solid #eee;}
+.rxw-pk tr:last-child td{border-bottom:none;}
+.rxw-pk th{font-weight:600;color:#333;background:#fafafa;}
+.rxw-pk .c{text-align:center;}.rxw-pk td.m{color:#777;}
+.rxw-pk-type{display:inline-block;padding:1px 8px;border-radius:999px;background:#ecf8ee;color:#2e7d32;border:1px solid #a5d6a7;font-weight:600;}
+.rxw-pk .cmts{color:#444;padding-bottom:16px;border-bottom:1px dashed #ccc;}
+.rxw-pk .sign{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:36px;}
+.rxw-pk .sign div{border-top:1px solid #bbb;padding-top:6px;font-size:9px;color:#666;}
+.rxw-pk .foot{text-align:right;font-size:9px;color:#666;margin-top:14px;}
+/* Invoice (reference: production preview) */
+.rxw-iv{background:#fff;padding:40px 44px 36px;margin-bottom:16px;font-size:12px;color:#222;}
+.rxw-iv .logo,.rxw-iv .brand{font-family:'Times New Roman',Georgia,serif!important;font-weight:700;letter-spacing:.5px;}
+.rxw-iv .logo{text-align:center;font-size:34px;margin-bottom:28px;}
+.rxw-iv .no{text-align:center;font-size:17px;margin-bottom:28px;}
+.rxw-iv .date{font-size:13px;margin-bottom:28px;}
+.rxw-iv .h{font-size:12px;margin-bottom:12px;}
+.rxw-iv .cust{display:grid;grid-template-columns:1fr 1fr;margin-bottom:36px;}
+.rxw-iv .cust b{display:block;font-weight:500;font-size:12px;margin-bottom:2px;}.rxw-iv .cust small{display:block;font-size:10px;line-height:1.6;}
+.rxw-iv table{width:100%;border-collapse:collapse;}
+.rxw-iv th{font-weight:400;font-size:12px;text-align:left;padding:0 0 18px;}
+.rxw-iv td{padding:10px 0 14px;vertical-align:middle;font-size:12px;}
+.rxw-iv td small{display:block;font-size:10px;margin-bottom:12px;}
+.rxw-iv td:first-child{font-size:10px;}
+.rxw-iv .c{text-align:center;}.rxw-iv .tr{text-align:right;}
+.rxw-iv .tot{border-top:1px solid #e5e5e5;margin-top:16px;padding-top:44px;display:flex;flex-direction:column;gap:8px;}
+.rxw-iv .tot>div{display:flex;justify-content:space-between;}
+.rxw-iv .tot .grand{margin-top:14px;align-items:flex-start;}
+.rxw-iv .tot .grand>span:last-child{text-align:right;}.rxw-iv .tot .grand b{display:block;font-size:17px;}
+.rxw-iv .tot .grand small{display:block;font-size:9px;color:#777;margin-top:6px;}
+.rxw-iv .thx{margin-top:64px;margin-bottom:14px;}
+.rxw-iv .brand{font-size:13px;margin-bottom:6px;}
+.rxw-iv .sa{line-height:1.6;}
+.rxw-printbtn{height:36px!important;padding:0 18px!important;font-size:13px!important;gap:6px;}
 .rxw-sheet{background:#fff;border:1px solid #e0e0e0;border-radius:4px;padding:20px 24px;margin-bottom:16px;font-size:11px;color:#222;}
 .rxw-sheet h4{margin:0;font-size:14px;font-weight:800;letter-spacing:.5px;}
 .rxw-sheet .sec{font-size:10px;font-weight:700;letter-spacing:1px;color:#888;margin:16px 0 8px;}
@@ -4378,16 +4438,16 @@ table.grid th.dt-l,table.grid td.dt-l{text-align:left!important;}
     <div class="modal-box rxw-wide">
       <div class="modal-header"><span class="modal-title" id="rxw-pk-title">Picking List Preview</span><button class="modal-close" onclick="rxwCloseModal('pk')">&times;</button></div>
       <div class="modal-body" id="rxw-pk-body" style="padding:20px;"></div>
-      <div class="rxw-mfoot" style="padding:12px 20px;border-top:1px solid #eee;"><button class="btn-action btn-primary" onclick="window.print()">Print Picking List</button></div>
+      <div class="rxw-mfoot" style="padding:14px 20px;border-top:1px solid #eee;background:#fff;"><button class="btn-action btn-primary rxw-printbtn" onclick="window.print()"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M19 8H5c-1.66 0-3 1.34-3 3v6h4v4h12v-4h4v-6c0-1.66-1.34-3-3-3zm-3 11H8v-5h8v5zm3-7c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1zm-1-9H6v4h12V3z"/></svg>Print Picking List</button></div>
     </div>
   </div>
 
   <!-- RXW: Invoice Preview -->
   <div class="modal-overlay" id="rxw-iv-modal" onclick="if(event.target===this)rxwCloseModal('iv');">
-    <div class="modal-box rxw-wide" style="width:820px;">
+    <div class="modal-box rxw-wide" style="width:860px;">
       <div class="modal-header"><span class="modal-title">Invoice Preview</span><button class="modal-close" onclick="rxwCloseModal('iv')">&times;</button></div>
       <div class="modal-body" id="rxw-iv-body" style="padding:20px;"></div>
-      <div class="rxw-mfoot" style="padding:12px 20px;border-top:1px solid #eee;"><button class="btn-action btn-primary" onclick="window.print()">Print Invoice</button></div>
+      <div class="rxw-mfoot" style="padding:14px 20px;border-top:1px solid #eee;background:#fff;"><button class="btn-action btn-primary rxw-printbtn" onclick="window.print()"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M19 8H5c-1.66 0-3 1.34-3 3v6h4v4h12v-4h4v-6c0-1.66-1.34-3-3-3zm-3 11H8v-5h8v5zm3-7c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1zm-1-9H6v4h12V3z"/></svg>Print Invoice</button></div>
     </div>
   </div>
 
@@ -13051,42 +13111,76 @@ function rxwFlatRows(items){
   return out;
 }
 function rxwTypeCell(it){const lens=it.leafCode==='111010',pkg=/PACKAGE/.test(it.leafName);return `<span class="rxw-type ${lens?'lens':pkg?'pkg':''}"><i></i>${rxwEsc((it.leafName||'-').toUpperCase())}</span>${it.ie?'<span class="rxw-ie-chip">IE</span>':''}`;}
+// Barcode graphic (visual only, deterministic from the text)
+function rxwBarcode(text,w,h){
+  let x=0,bars='',seed=0;for(const c of String(text)) seed=(seed*31+c.charCodeAt(0))>>>0;
+  const rnd=()=>{seed=(seed*1103515245+12345)>>>0;return seed/4294967296;};
+  while(x<w-4){const bw=1+Math.floor(rnd()*3),gap=1+Math.floor(rnd()*2);bars+=`<rect x="${x}" y="0" width="${bw}" height="${h}"/>`;x+=bw+gap;}
+  return `<svg width="${w}" height="${h}" viewBox="0 0 ${w} ${h}" fill="#111">${bars}</svg>`;
+}
+const RXW_PRINT_ICO='<svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M19 8H5c-1.66 0-3 1.34-3 3v6h4v4h12v-4h4v-6c0-1.66-1.34-3-3-3zm-3 11H8v-5h8v5zm3-7c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1zm-1-9H6v4h12V3z"/></svg>';
+const rxwTypeName=it=>it.leafCode==='111010'?'Lens':/PACKAGE/.test(it.leafName||'')?'Package':'Frame';
+const rxwCodeName=v=>{if(!v||v==='-') return '—';const p=String(v).split(' / ');return rxwEsc(p[0]+(p[1]?' | '+p[1]:''));};
+// ----- Picking List (one sheet per order, 2 per row) -----
 function rxwPicking(ids){
   ids=ids||[...rxwSel];if(!ids.length) return;
   const rows=ids.map(rxwById);
   document.getElementById('rxw-pk-title').textContent=`Picking List Preview (${rows.length} order${rows.length===1?'':'s'})`;
-  document.getElementById('rxw-pk-body').innerHTML=rows.map((r,i)=>{
-    const a=r.recipient&&r.recipient.address,eye=(l,e)=>`<tr><td>${l}</td><td class="c">${rxwFormatDiopter(e.sph)}</td><td class="c">${rxwFormatDiopter(e.cyl)}</td><td class="c">${e.axis}</td><td class="c">${e.pd.toFixed(1)}</td><td class="c">${e.oc??'-'}</td></tr>`;
-    return `<div class="rxw-sheet"><div style="display:flex;justify-content:space-between;align-items:flex-start;"><div><h4>PICKING LIST</h4><div style="font-size:13px;font-weight:700;color:#1565c0;margin-top:4px;">#${rxwEsc(r.orderNo)}</div>
-      <div style="color:#888;">Order Date: ${r.orderedAt} (${r.tz})</div></div><div style="text-align:right;"><span class="rxw-bc">|| ||| | |||| || |||</span><div style="font-size:9px;">${rxwEsc(r.orderNo)}</div>
-      <div style="margin-top:4px;">${rxwChannel(r.channel==='ONLINE'?'Online':'Offline')}</div></div></div>
-      <div class="sec">CUSTOMER INFORMATION ${r.tags.map(t=>`<span class="rxw-tag" style="margin-left:6px;">${t}</span>`).join('')}</div>
-      ${r.tags.includes('PREORDER')?`<div class="kv"><span>Launch Date</span><span>${r.launchedAt||'—'}</span></div>`:''}
-      <div class="kv"><span>Customer Name</span><b>${rxwEsc(r.recipient?r.recipient.name:'—')}</b></div><div class="kv"><span>Email</span><span>${rxwEsc(r.recipient?r.recipient.email:'—')}</span></div>
-      <div class="kv"><span>Phone</span><span>${rxwEsc(r.recipient?r.recipient.phone:'—')}</span></div>
-      <div class="kv"><span>Shipping Address</span><span><span class="rxw-pill st">${r.recv==='B2C_DELIVERY'?'Ship to Address':'Ship to Store'}</span><br>${a?rxwEsc([a.line1,a.line2].filter(Boolean).join(', '))+'<br>'+rxwEsc(a.city)+' · '+rxwEsc(a.state)+' · '+rxwEsc(a.zip):'—<br>— · — · —'}</span></div>
-      <div class="sec">ORDER ITEMS</div><table><thead><tr><th>Type</th><th>Product Info</th><th>Mapped Product</th><th class="c">Qty</th><th class="tr">Total Price</th><th class="c">C.O.F</th></tr></thead>
-      <tbody>${rxwFlatRows(r.items).map(x=>`<tr><td>${rxwTypeCell(x.it)}</td><td>${rxwEsc(rxwProductLine(x.it))}</td><td>${rxwEsc(x.mapped||'-')}</td><td class="c">${x.it.qty}</td><td class="tr">${rxwAmt(x.it.amount)}</td><td class="c">${x.it.cof?'✓':''}</td></tr>`).join('')}</tbody></table>
-      <div class="sec">PRESCRIPTION</div><table><thead><tr><th>Eye</th><th class="c">SPH</th><th class="c">CYL</th><th class="c">AXIS</th><th class="c">PD</th><th class="c">OC</th></tr></thead><tbody>${eye('OD (Right)',r.rx.od)}${eye('OS (Left)',r.rx.os)}</tbody></table>
-      <div class="sec">COMMENTS</div>${r.comments.slice(0,2).map(c=>`<div style="margin-bottom:6px;"><div style="color:#888;font-size:10px;">${c.createdAt} (${c.tz}) · ${rxwEsc(c.createdBy)}</div><div>${rxwEsc(c.content)}</div></div>`).join('')||'<div style="color:#888;">—</div>'}
-      <div class="sign"><div>Picked by</div><div>Checked by</div><div>Packed by</div></div><div style="text-align:right;font-size:9px;color:#888;margin-top:10px;">${i+1} / ${rows.length}</div></div>`;
-  }).join('');
+  document.getElementById('rxw-pk-body').innerHTML=`<div class="rxw-pk-grid">${rows.map((r,i)=>{
+    const a=r.recipient&&r.recipient.address,p=r.purchaser||r.recipient||{},num=v=>Number.isInteger(v)?v:Number(v).toFixed(1).replace(/\.0$/,'');
+    const eye=(l,e)=>`<tr><td>${l}</td><td class="c">${Number(e.sph).toFixed(2)}</td><td class="c">${Number(e.cyl).toFixed(2)}</td><td class="c">${e.axis}</td><td class="c">${num(e.pd)}</td><td class="c">${e.oc??'—'}</td></tr>`;
+    return `<div class="rxw-pk">
+      <div class="rxw-pk-head">
+        <div class="l"><svg width="26" height="26" viewBox="0 0 24 24" fill="#333"><path d="M19 3h-4.18C14.4 1.84 13.3 1 12 1s-2.4.84-2.82 2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 0c.55 0 1 .45 1 1s-.45 1-1 1-1-.45-1-1 .45-1 1-1zm7 16H5V5h2v3h10V5h2v14zM7 10h10v2H7zm0 4h7v2H7z"/></svg>
+          <div><div class="t">PICKING LIST</div><span class="rxw-pk-pill">${r.channel==='ONLINE'?'Online':'Offline'}</span></div></div>
+        <div class="r"><div class="no">#${rxwEsc(r.orderNo)}</div><div class="dt">Order Date: ${r.orderedAt.slice(0,10)}</div>
+          <div class="bc">${rxwBarcode(r.orderNo,240,26)}<span>${rxwEsc(r.orderNo)}</span></div></div>
+      </div>
+      <div class="sec">CUSTOMER INFORMATION</div>
+      <div class="kv"><span>Customer Name</span><b>${rxwEsc(p.name||'—')}</b></div>
+      <div class="kv"><span>Email</span><b>${rxwEsc(p.email||'—')}</b></div>
+      <div class="kv"><span>Phone</span><b>${rxwEsc(p.phone||'—')}</b></div>
+      <div class="kv" style="align-items:center;margin-top:8px;"><span>Shipping Address</span><span class="rxw-pk-pill ship">${r.recv==='B2C_DELIVERY'?RXW_ICON.ship+'Ship to Address':RXW_ICON.store+'Ship to Store'}</span></div>
+      <div class="addr">${a?`${rxwEsc([a.line1,a.line2].filter(Boolean).join(', ').toUpperCase())}<small>${rxwEsc([a.city,a.state,a.zip].filter(Boolean).join(' · ').toUpperCase())}</small>`:`${rxwEsc(r.storeCode+' / '+r.storeName)}`}</div>
+      <div class="sec">ORDER ITEMS</div>
+      <table><thead><tr><th>Type</th><th>Product Info</th><th>Mapped Product</th><th class="c">Qty</th><th class="c">Total Price</th><th class="c">C.O.F</th></tr></thead>
+      <tbody>${rxwFlatRows(r.items).map(x=>`<tr><td><span class="rxw-pk-type">${rxwTypeName(x.it)}</span></td><td>${rxwEsc(x.it.code+' | '+x.it.name)}</td><td class="m">${rxwCodeName(x.mapped)}</td><td class="c">${x.it.qty}</td><td class="c">—</td><td class="c">${x.it.cof?'✓':'—'}</td></tr>`).join('')}</tbody></table>
+      <div class="sec">PRESCRIPTION VALUES</div>
+      <table><thead><tr><th>Eye</th><th class="c">SPH</th><th class="c">CYL</th><th class="c">AXIS</th><th class="c">PD</th><th class="c">OC</th></tr></thead><tbody>${eye('OD (Right)',r.rx.od)}${eye('OS (Left)',r.rx.os)}</tbody></table>
+      <div class="sec">COMMENTS</div>
+      <div class="cmts">${r.comments.length?r.comments.map(c=>`<div>${rxwEsc(c.content)}</div>`).join(''):'—'}</div>
+      <div class="sign"><div>Picked by</div><div>Checked by</div><div>Packed by</div></div>
+      <div class="foot">IIC BO — Picking List | ${i+1} / ${rows.length}</div>
+    </div>`;}).join('')}</div>`;
   rxwOpenModal('pk');
 }
+// ----- Invoice (one page per order) -----
+// Store footer address: known for AU online only in the reference capture; others show the store name only
+const RXW_STORE_ADDR={AU1003:'Castlereagh St, Level 7/122, Sydney, NSW, 2000, AU'};
 function rxwInvoice(ids){
   ids=ids||[...rxwSel];if(!ids.length) return;
   const rows=ids.map(rxwById);
   document.getElementById('rxw-iv-body').innerHTML=rows.map(r=>{
-    const rate=r.currency==='AUD'?0.1:0.0825,lines=r.items.flatMap(it=>[it].concat(it.cof?[]:it.components));
-    const sub=lines.reduce((s,x)=>s+x.amount,0),tax=Math.round(sub*rate*100)/100,a=r.recipient&&r.recipient.address;
+    const au=r.currency==='AUD',rate=au?0:0.0825,cur=v=>(au?'AU$':'$')+Number(v||0).toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
+    const lines=r.items.flatMap(it=>[it].concat(it.cof?[]:it.components));
+    const sub=lines.reduce((s,x)=>s+x.amount,0),tax=Math.round(sub*rate*100)/100,a=r.recipient&&r.recipient.address,rc=r.recipient||{},p=r.purchaser||rc;
     const sublabel=x=>x.leafCode==='111010'?'Prescription Lenses':/PACKAGE/.test(x.leafName)?'Package':'Frame Used for Prescription Lenses';
-    return `<div class="rxw-sheet rxw-inv"><h3>INVOICE #${rxwEsc(r.orderNo)}</h3><div style="color:#888;margin-bottom:12px;">${r.orderedAt} (${r.tz})</div>
-      <div class="sec">CUSTOMER INFORMATION</div><div style="display:flex;gap:40px;margin-bottom:12px;"><div><b>Shipping Address</b><br>${rxwEsc(r.recipient?r.recipient.name:'')}<br>${a?rxwEsc([a.line1,a.line2].filter(Boolean).join(', ')+', '+a.city+', '+a.state+' '+a.zip):rxwEsc(r.storeName)}<br>${rxwEsc(r.recipient?r.recipient.phone:'')}</div>
-      <div><b>Customer</b><br>${rxwEsc(r.recipient?r.recipient.name:'')}<br>${rxwEsc(r.recipient?r.recipient.phone:'')}<br>${rxwEsc(r.recipient?r.recipient.email:'')}</div></div>
+    const d=rxwParse(r.orderedAt),date=d.toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'});
+    return `<div class="rxw-iv">
+      <div class="logo">GENTLE MONSTER</div>
+      <div class="no">INVOICE #${rxwEsc(r.orderNo)}</div>
+      <div class="date">${date}</div>
+      <div class="h">CUSTOMER INFORMATION</div>
+      <div class="cust"><div><b>Shipping Address</b><small>${rxwEsc(rc.name||'')}</small><small>${a?rxwEsc([a.line1,a.line2].filter(Boolean).join(', ').toUpperCase()):rxwEsc(r.storeName)}</small><small>${rxwEsc(rc.phone||'')}</small></div>
+        <div><b>Customer</b><small>${rxwEsc(p.name||'')}</small><small>${rxwEsc(p.phone||'')}</small></div></div>
       <table><thead><tr><th>ORDER SUMMARY</th><th class="c">QUANTITY</th><th class="tr">PRICE</th><th class="tr">TAX</th><th class="tr">TOTAL</th></tr></thead>
-      <tbody>${lines.map(x=>{const t=Math.round(x.amount*rate*100)/100;return `<tr><td>${rxwEsc(x.name)}<br><span style="font-size:10px;color:#888;">${sublabel(x)}</span></td><td class="c">${x.qty}</td><td class="tr">${rxwMoney(x.amount,r.currency)}</td><td class="tr">${rxwMoney(t,r.currency)}</td><td class="tr">${rxwMoney(x.amount+t,r.currency)}</td></tr>`;}).join('')}</tbody></table>
-      <div class="tot"><div><span>Subtotal</span><span>${rxwMoney(sub,r.currency)}</span></div><div><span>Discount</span><span>${rxwMoney(0,r.currency)}</span></div><div><span>Tax</span><span>${rxwMoney(tax,r.currency)}</span></div><div><b>Total</b><b>${rxwMoney(sub+tax,r.currency)}</b></div></div>
-      <div style="margin-top:16px;font-size:12px;">GENTLE MONSTER</div></div>`;
+      <tbody>${lines.map(x=>{const t=Math.round(x.amount*rate*100)/100;return `<tr><td><small>${sublabel(x)}</small>${rxwEsc(x.name)}</td><td class="c">${x.qty}</td><td class="tr">${cur(x.amount)}</td><td class="tr">${cur(t)}</td><td class="tr">${cur(x.amount+t)}</td></tr>`;}).join('')}</tbody></table>
+      <div class="tot"><div><span>Subtotal</span><span>${cur(sub)}</span></div><div><span>Discount</span><span>${cur(0)}</span></div><div><span>Tax</span><span>${cur(tax)}</span></div>
+        <div class="grand"><span>Total</span><span><b>${cur(sub+tax)}</b>${au?'<small>Taxes and duties included</small>':''}</span></div></div>
+      <div class="thx">Thank you for shopping with us!</div>
+      <div class="brand">GENTLE MONSTER</div>
+      ${RXW_STORE_ADDR[r.storeCode]?`<div class="sa">${RXW_STORE_ADDR[r.storeCode]}</div>`:''}<div class="sa">${rxwEsc(r.storeName)}</div>
+    </div>`;
   }).join('');
   rxwOpenModal('iv');
 }
@@ -13524,6 +13618,7 @@ function rxwPurchaserBox(r){
 // Refund (Finalized): the returned item's serial must match the shipped serial, then the return serial is sent to SPM.
 // TBD: BO keeps the order-serial mapping (needed for refund) / IE product identification / serial format / SPM validation API.
 let rxwSn=null;
+const RXW_CLOCK='<svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm0 18a8 8 0 1 1 0-16 8 8 0 0 1 0 16zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/></svg>';
 function rxwSnRequired(r){return !!r.ie&&r.recv==='B2C_DELIVERY'&&!r.claim;}
 function rxwSnGen(seed){const A='0123456789ABCDEFGHJKLMNPQRSTUVWXYZ';let x=seed>>>0||7,o='';for(let k=0;k<10;k++){x=(x*1103515245+12345)>>>0;o+=A[x%A.length];}return 'GMIE'+o;}
 function rxwIeSeed(){
@@ -13563,7 +13658,9 @@ function rxwSerialBox(r){
     ${s[0]==='need'?`<div class="rxw-sn-alert">&#9888;<span>Scan the IE serial before label registration. Label Registration is blocked until the serial is saved.</span></div>`:''}
     ${b2c?`<div class="rxw-sn-grid">
       <span class="k">Sent to SPM</span><span class="v">${sn&&sn.spmAt?`${sn.spmAt} (${r.tz}) · ${rxwEsc(sn.spmBy||'-')}`
-        :`<span style="font-weight:400;color:#888;">${sn?'Not sent yet — sent automatically after Label Registration':r.status==='OUTBOUND_INSPECTION'&&!r.claim?'Not sent yet — scan the serial first':'Not sent yet'}</span>`}</span>
+        :sn?`<span class="rxw-sn-pend">${RXW_CLOCK}<b>Not sent yet</b><span>Sent automatically after Label Registration</span></span>`
+          :r.status==='OUTBOUND_INSPECTION'&&!r.claim?`<span class="rxw-sn-pend need">${RXW_CLOCK}<b>Not sent yet</b><span>Scan the serial first</span></span>`
+          :`<span class="rxw-sn-pend off">${RXW_CLOCK}<b>Not sent yet</b></span>`}</span>
       ${sn&&sn.spm==='RETURNED'?`<span class="k">Return Sent to SPM</span><span class="v">${sn.retAt?sn.retAt+' ('+r.tz+')':'-'} · ${rxwEsc(sn.retBy||'-')}</span>`:''}
     </div>`:''}
     ${b2c?'':'<div class="rxw-sn-note">Processed in POS RX Operation at customer pickup.</div>'}
