@@ -13000,8 +13000,7 @@ function rxwLabelRegValidate(rows,carrier){
     if(r.recv!=='B2C_DELIVERY') return `Label registration is only available for B2C_DELIVERY orders. Order ${r.orderNo} receivingMethod: ${r.recv}`;
     if(r.claim) return `Cannot register label for claimed work. (claimStatus: ${r.claim})`;
     if(r.status!=='OUTBOUND_INSPECTION') return `Label registration requires OUTBOUND_INSPECTION status. (current: ${r.status})`;
-    if(!r.labIn) return `B2B outbound to Lab is not completed. Order: ${r.orderNo}`;
-    if(r.step!=='LABEL_REGISTRABLE') return `Label registration is not available. Order ${r.orderNo} shippingStep: ${r.step}`;
+    // Prototype: code preconditions (B2B outbound to Lab completed / shippingStep LABEL_REGISTRABLE) are skipped
     if(rxwSnRequired(r)&&!r.serial) return `IE serial is required before label registration. Order: ${r.orderNo}`;
   }
   const cs=[...new Set(rows.map(r=>rxwCountry(r.storeCode)))];
@@ -13177,7 +13176,7 @@ function rxwDetailHead(r){
       <span class="rxw-tg"><button class="btn-action" onclick="rxwSerialPrint()">${RXW_ICON.card}Serial Print</button></span>
       <span class="rxw-tg sep"><button class="btn-action" onclick="rxwPicking(['${r.id}'])">${RXW_ICON.print}Print Picking List</button>
         <button class="btn-action" onclick="rxwInvoice(['${r.id}'])">${RXW_ICON.invoice}Invoice Print</button></span>
-      ${b2c?`<span class="rxw-tg sep"><button class="btn-action" ${dis(r.step!=='LABEL_REGISTRABLE'||r.status!=='OUTBOUND_INSPECTION')} onclick="rxwOpenLabelReg('${r.id}')">${RXW_ICON.truck}Label Registration</button>
+      ${b2c?`<span class="rxw-tg sep"><button class="btn-action" ${dis(r.status!=='OUTBOUND_INSPECTION'||!!r.claim)} onclick="rxwOpenLabelReg('${r.id}')">${RXW_ICON.truck}Label Registration</button>
         <button class="btn-action" ${dis(r.status!=='COMPLETED')} onclick="rxwLabelPrint('${r.id}')">${RXW_ICON.print}Label Print</button></span>`:''}
       ${r.recv==='STORE_PICKUP'?`<span class="rxw-tg sep"><button class="btn-action" ${dis(r.step!=='OUTBOUND_NOT_REGISTERED'||r.status!=='OUTBOUND_INSPECTION')} onclick="rxwOpenOutbound('${r.id}')">${RXW_ICON.truck}Outbound Registration</button></span>`:''}
     </div>`;
