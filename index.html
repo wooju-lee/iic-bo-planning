@@ -981,6 +981,9 @@ table.grid th.ol-sort.asc .arr{transform:rotate(180deg);}
 .lg-chk input{width:16px;height:16px;accent-color:#ff6b35;}
 #lg-view table.grid tbody tr{cursor:default;}
 #lg-view table.grid th.lg-sort{cursor:pointer;user-select:none;}
+#dp-view table.grid th.dp-sort{cursor:pointer;user-select:none;}
+#dp-view table.grid th.dp-sort .arr{margin-left:6px;opacity:.5;}
+#dp-view table.grid th.dp-sort.on .arr{opacity:1;}
 #lg-view table.grid th.lg-sort .arr{margin-left:6px;opacity:.5;}
 #lg-view table.grid th.lg-sort.on .arr{opacity:1;}
 .lg-chip{display:inline-block;padding:3px 10px;border-radius:999px;font-size:11px;font-weight:700;white-space:nowrap;}
@@ -2695,7 +2698,7 @@ table.grid th.dt-l,table.grid td.dt-l{text-align:left!important;}
       <table class="search-table">
         <tr>
           <th>Brand</th>
-          <td><div class="field-row"><div class="field-inline"><select id="dp-brand" style="min-width:360px;"><option value="">All</option></select></div></div></td>
+          <td><div class="field-row"><div class="field-inline"><select id="dp-brand" style="min-width:360px;"><option value="">Brand (All)</option></select></div></div></td>
         </tr>
         <tr>
           <th>Store</th>
@@ -2711,7 +2714,7 @@ table.grid th.dt-l,table.grid td.dt-l{text-align:left!important;}
         <tr>
           <th>Product Category 2</th>
           <td><div class="field-row"><div class="multi-select-wrap">
-            <div class="multi-select-trigger" id="dpCat2-trigger" onclick="toggleMulti('dpCat2')" style="min-width:360px;">Product Category 2 (All)</div>
+            <div class="multi-select-trigger" id="dpCat2-trigger" onclick="toggleMulti('dpCat2')" style="min-width:360px;">All</div>
             <div class="multi-select-dropdown hidden" id="dpCat2-dropdown"></div>
           </div></div></td>
         </tr>
@@ -2720,7 +2723,7 @@ table.grid th.dt-l,table.grid td.dt-l{text-align:left!important;}
           <td><div class="field-row"><div class="field-inline"><select id="dp-currency" style="min-width:360px;"><option value="">All</option></select></div></div></td>
         </tr>
         <tr>
-          <th>Keyword<br><span style="font-weight:400;font-size:10px;color:#999;">Product Code, Product Name,<br>Price</span></th>
+          <th>Keyword<br><span style="font-weight:400;font-size:10px;color:#999;">Product Code / Name,<br>Store Customer Price</span></th>
           <td><div class="field-row"><div class="field-inline" style="flex:1;max-width:360px;">
             <input type="text" id="dp-keyword" placeholder="Please enter at least 2 characters" style="width:100%;" onkeydown="if(event.key==='Enter')searchDiscountPrice()">
           </div></div></td>
@@ -2743,18 +2746,7 @@ table.grid th.dt-l,table.grid td.dt-l{text-align:left!important;}
       </div>
       <div class="grid-wrap">
         <table class="grid">
-          <thead>
-            <tr class="hdr">
-              <th class="tl">Brand</th>
-              <th class="tl">Store<br><span style="font-size:10px;font-weight:400;opacity:.85;">(Code / Name)</span></th>
-              <th style="width:110px;">Product<br>Category 1</th>
-              <th style="width:110px;">Product<br>Category 2</th>
-              <th>Product Info<br><span style="font-size:10px;font-weight:400;opacity:.85;">(Code / Name)</span></th>
-              <th>Currency</th>
-              <th class="tr">Price</th>
-              <th>Update Date</th>
-            </tr>
-          </thead>
+          <thead id="dp-head"></thead>
           <tbody id="dp-body"></tbody>
         </table>
       </div>
@@ -5175,7 +5167,7 @@ function selectMulti(id,el){
   const sel=[...document.querySelectorAll('#'+id+'-dropdown .dd-item.selected')];
   const t=document.getElementById(id+'-trigger');
   const labels={ilStore:'Store',ilLoc:'Location',lgStore:'Store',lgLoc:'Location',lgType:'Inventory Transaction Type',olBp:'BP',olStore:'Store',olStatus:'Order Status',rlBp:'BP',rlStore:'Store',rlStatus:'Refund Type',bp:'BP',fromStore:'From Store',toStore:'To Store',dpCat2:'Product Category 2',dpStore:'Store',stStore:'Store',sthStore:'Store',ibFrom:'From Store',ibTo:'To Store',ibType:'Type',ibChannel:'Channel',ibStatus:'Inbound Status',ooStore:'Store',ooStatus:'Outbound Status',ooType:'Type',mvStore:'Store',snStore:'Store',snLoc:'Location',rxsStore:'Store',rxpStore:'Store',rxpStatus:'Review status',rxwStore:'Store',rxwDur:'Processing Period',drvBp:'BP',drvStore:'Store',psvBp:'BP',psvStore:'Store',prsvBp:'BP',prsvStore:'Store'};
-  if(!sel.length) t.textContent=labels[id]+' (All)';
+  if(!sel.length) t.textContent=id==='dpCat2'?'All':labels[id]+' (All)';
   else if(sel.length===1) t.textContent=sel[0].textContent.replace('✓','').trim();
   else t.textContent=sel[0].textContent.replace('✓','').trim()+' +'+(sel.length-1);
   if(id==='bp') refreshStoreDropdowns();
@@ -6497,7 +6489,8 @@ function submitOutbound(){
 const DP_STORES=[{code:'AU1001',name:'GM_Sydney_DFS_AirportT1',currency:'AUD'}];
 const DISCOUNT_PRICE_DATA=[];
 PRODUCT_DATA.forEach((p,pi)=>{
-  const price=300+(pi*37%20)*10;
+  // Some prices are not integers (displayed up to 2 decimals)
+  const price=300+(pi*37%20)*10+(pi%4===1?0.5:pi%4===3?0.55:0);
   // Update Date: SAP batch receive time (same for all rows)
   const updatedAt='2026-09-29 17:00';
   DP_STORES.forEach(s=>{
@@ -6513,7 +6506,7 @@ function initDiscountPriceFilters(){
   const fillMulti=(id,items)=>{document.getElementById(id+'-dropdown').innerHTML=items.map(([v,t])=>
     `<div class="dd-item" onclick="selectMulti('${id}',this)" data-val="${v}"><span class="check-ico">✓</span>${t}</div>`).join('');};
   // Brand (single select): options follow the registration modal brand master
-  document.getElementById('dp-brand').innerHTML='<option value="">All</option>'+[...document.querySelectorAll('#reg-brand option')].filter(o=>o.value).map(o=>'<option value="'+o.value+'">'+o.text+'</option>').join('');
+  document.getElementById('dp-brand').innerHTML='<option value="">Brand (All)</option>'+[...document.querySelectorAll('#reg-brand option')].filter(o=>o.value).map(o=>'<option value="'+o.value+'">'+o.text+'</option>').join('');
   fillMulti('dpStore',DP_STORES.map(s=>[s.code,s.code+' / '+s.name]));
   fill('dp-cat1',uniq('cat1'));
   // Product Category 2: multi select
@@ -6527,28 +6520,54 @@ function searchDiscountPrice(){
   const kw=v('dp-keyword').trim().toLowerCase();
   if(kw&&kw.length<2){showToast('Search','Please enter at least 2 characters.','error');return;}
   const brand=v('dp-brand'),stores=multi('dpStore'),cat2s=multi('dpCat2');
-  const kwNum=kw.replace(/,/g,'');
   const rows=DISCOUNT_PRICE_DATA.filter(r=>
     (!brand||r.brand===brand)&&
     (!stores.length||stores.includes(r.storeCode))&&
     (!v('dp-cat1')||r.cat1===v('dp-cat1'))&&
     (!cat2s.length||cat2s.includes(r.cat2))&&
     (!v('dp-currency')||r.currency===v('dp-currency'))&&
-    (!kw||r.code.toLowerCase().includes(kw)||r.name.toLowerCase().includes(kw)||String(r.price).includes(kwNum)));
+    (!kw||r.code.toLowerCase().includes(kw)||r.name.toLowerCase().includes(kw)||String(r.price).includes(kw)));
   dpLastRows=rows;
+  dpSort=null;
   dpPage=1;
   document.getElementById('dp-total').textContent=rows.length;
   renderDpPage();
   dpRendered=true;
 }
 // Pagination: current page of dpLastRows (Excel export always uses all dpLastRows)
+// Sort: header click asc -> desc -> default (brand > store > product asc), same as BO DataGrid
+const DP_COLS=[['brand','Brand',true],['store','Store Info','(Code / Name)',true],['cat1','Product Category 1'],['cat2','Product Category 2'],['product','Product Info','(Code / Name)',true],['currency','Currency'],['price','Store Customer Price',true],['updatedAt','Update Date']];
+const DP_LEFT=['brand','store','product'],DP_RIGHT=['price'];   // grid rules: Brand/Store left, amount right
+let dpSort=null;
+function dpSortBy(f){
+  dpSort=!dpSort||dpSort.field!==f?{field:f,asc:true}:dpSort.asc?{field:f,asc:false}:null;
+  dpPage=1;renderDpPage();
+}
+function dpRenderHead(){
+  document.getElementById('dp-head').innerHTML='<tr class="hdr">'+DP_COLS.map(c=>{
+    const [f,t]=c,sub=typeof c[2]==='string'?c[2]:'',sortable=c[c.length-1]===true,tl=DP_LEFT.includes(f)?' tl':DP_RIGHT.includes(f)?' tr':'';
+    const title=t+(sub?'<br><span style="font-size:10px;font-weight:400;opacity:.85;">'+sub+'</span>':'');
+    const on=dpSort&&dpSort.field===f;
+    return sortable?`<th class="dp-sort${tl}${on?' on':''}" onclick="dpSortBy('${f}')">${title}<span class="arr">${on?(dpSort.asc?'↑':'↓'):'↕'}</span></th>`:`<th class="${tl.trim()}">${title}</th>`;
+  }).join('')+'</tr>';
+}
+const dpKey={brand:r=>r.brand,store:r=>r.storeCode,product:r=>r.code,price:r=>r.price};
+function dpSorted(rows){
+  const cmp=(a,b)=>a<b?-1:a>b?1:0;
+  const base=(a,b)=>cmp(a.brand,b.brand)||cmp(a.storeCode,b.storeCode)||cmp(a.code,b.code);
+  if(!dpSort) return [...rows].sort(base);
+  const k=dpKey[dpSort.field];
+  return [...rows].sort((a,b)=>(dpSort.asc?1:-1)*cmp(k(a),k(b))||base(a,b));
+}
+const dpPrice=p=>p.toLocaleString('en-US',{maximumFractionDigits:2});
 function renderDpPage(){
-  const rows=dpLastRows,total=rows.length;
+  dpRenderHead();
+  const rows=dpSorted(dpLastRows),total=rows.length;
   const size=+document.getElementById('dp-rpp').value||30;
   const start=(dpPage-1)*size,end=Math.min(start+size,total);
   document.getElementById('dp-body').innerHTML=total?rows.slice(start,end).map(r=>`<tr>
     <td class="tl">${dpBrandText(r.brand)}</td><td class="tl">${r.store}</td><td>${r.cat1}</td><td>${r.cat2}</td>
-    <td class="tl">${r.code} / ${r.name}</td><td>${r.currency}</td><td class="tr num">${r.price.toLocaleString('en-US')}</td><td>${r.updatedAt}</td></tr>`).join('')
+    <td class="tl">${r.code} / ${r.name}</td><td>${r.currency}</td><td class="tr num">${dpPrice(r.price)}</td><td>${r.updatedAt} (KST)</td></tr>`).join('')
     :'<tr><td colspan="8" class="dp-empty">No data found.</td></tr>';
   document.getElementById('dp-range').textContent=(total?start+1:0)+'–'+end+' of '+total;
   document.getElementById('dp-prev').disabled=dpPage<=1;
@@ -6561,12 +6580,13 @@ function dpGo(delta){
   renderDpPage();
 }
 // Excel export: all rows of the last search result (not limited by pagination), same columns as the list
-const DP_EXPORT_HEADERS=['Brand','Store (Code / Name)','Product Category 1','Product Category 2','Product Info (Code / Name)','Currency','Price','Update Date'];
+const DP_EXPORT_HEADERS=['Brand','Store','Product Category 1','Product Category 2','Product Info','Currency','Store Customer Price','Update Date'];
+const DP_EXPORT_MAX=10000;
 function buildDiscountPriceWorkbook(rows){
   const aoa=[DP_EXPORT_HEADERS].concat(rows.map(r=>[dpBrandText(r.brand),r.store,r.cat1,r.cat2,r.code+' / '+r.name,r.currency,r.price,r.updatedAt]));
   const ws=XLSX.utils.aoa_to_sheet(aoa);
   // Price: numeric cell with thousand separator (same as list display)
-  for(let i=1;i<aoa.length;i++){const c=ws[XLSX.utils.encode_cell({r:i,c:6})];if(c) c.z='#,##0';}
+  for(let i=1;i<aoa.length;i++){const c=ws[XLSX.utils.encode_cell({r:i,c:6})];if(c) c.z=Number.isInteger(c.v)?'#,##0':'#,##0.##';}
   ws['!cols']=[{wch:24},{wch:36},{wch:18},{wch:20},{wch:34},{wch:10},{wch:14},{wch:18}];
   const wb=XLSX.utils.book_new();
   XLSX.utils.book_append_sheet(wb,ws,'Store Customer Price');
@@ -6575,15 +6595,16 @@ function buildDiscountPriceWorkbook(rows){
 function exportDiscountPrice(){
   if(typeof XLSX==='undefined'){showToast('Excel Export','Excel library failed to load. Check network and reload.','error');return;}
   if(!dpLastRows.length){showToast('Excel Export','No data to export.','error');return;}
+  if(dpLastRows.length>DP_EXPORT_MAX){showToast('Excel Export','Excel downloads are limited to a maximum of '+DP_EXPORT_MAX+' records.','error');return;}
   const d=new Date(),pad=n=>String(n).padStart(2,'0');
   const fileName='Store_Customer_Price_'+d.getFullYear()+pad(d.getMonth()+1)+pad(d.getDate())+'_'+pad(d.getHours())+pad(d.getMinutes())+'.xlsx';
-  XLSX.writeFile(buildDiscountPriceWorkbook(dpLastRows),fileName);
+  XLSX.writeFile(buildDiscountPriceWorkbook(dpSorted(dpLastRows)),fileName);
   showToast('Excel Export',fileName+' — '+dpLastRows.length+' rows');
 }
 function resetDiscountPrice(){
   ['dpStore','dpCat2'].forEach(id=>{
     document.querySelectorAll('#'+id+'-dropdown .dd-item.selected').forEach(el=>el.classList.remove('selected'));
-    document.getElementById(id+'-trigger').textContent=id==='dpStore'?'Store (All)':'Product Category 2 (All)';
+    document.getElementById(id+'-trigger').textContent=id==='dpStore'?'Store (All)':'All';
   });
   ['dp-brand','dp-cat1','dp-currency'].forEach(id=>{const s=document.getElementById(id);s.selectedIndex=0;csRefresh(s);});
   document.getElementById('dp-keyword').value='';
