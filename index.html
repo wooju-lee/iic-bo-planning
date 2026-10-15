@@ -12875,7 +12875,7 @@ function rxwRenderPage(){
       <td>${r.eta||'-'}</td>
       <td>${rxwChip(r.status)}</td>
       <td>${rxwChannel(r.channel)}</td>
-      <td>${r.tags.length?r.tags.map(t=>`<span class="rxw-tag">${rxwEsc(t)}</span>`).join(' '):'<span class="rxw-tag n">normal</span>'}</td>
+      <td>${r.tags.length?r.tags.map(t=>`<span class="rxw-tag">${rxwEsc(t)}</span>`).join(' '):'<span class="rxw-tag n">NORMAL</span>'}</td>
       <td class="tl"><span class="rxw-ono">${rxwEsc(r.ssid||'-')}</span><span class="rxw-ono-sub">(${rxwEsc(r.orderNo||'-')})</span>${rxwSnBadge(r)}</td>
       <td>${rxwEsc(r.invoiceNo||'-')}</td>
       <td class="tl">${r.storeCode} / ${rxwEsc(r.storeName)}</td>
