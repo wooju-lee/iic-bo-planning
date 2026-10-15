@@ -1355,6 +1355,162 @@ a.ib-trk:hover{border-color:#ff6b35;color:#ff6b35;}
 .rxs-err{padding:40px 0!important;text-align:center!important;}
 .rxs-err-t{color:#ef4444;font-size:13px;margin-bottom:8px;}
 .rxs-err-m{color:#6b7280;font-size:12px;margin-bottom:16px;white-space:normal;}
+/* ===== Rx Prescription Review (RX (Lens) > Rx Prescription Review) ===== */
+.rxp-sub{font-size:10px;font-weight:400;opacity:.85;}
+.grid th.rxp-sort{cursor:pointer;user-select:none;}
+.rxp-sort-ico{display:inline-block;width:10px;margin-left:4px;font-size:10px;}
+.grid th.rxp-sort[data-dir="asc"] .rxp-sort-ico::after{content:'▲';}
+.grid th.rxp-sort[data-dir="desc"] .rxp-sort-ico::after{content:'▼';}
+.rxp-ms-dis{opacity:.5;pointer-events:none;}
+.rxp-q-th{white-space:normal!important;line-height:1.35;max-width:180px;}
+.rxp-q-wrap{flex-direction:column;align-items:flex-start!important;gap:4px;}
+.rxp-q-err{color:#d32f2f;font-size:12px;}
+.rxp-grid tbody tr{cursor:pointer;}
+.rxp-grid tbody tr:hover td{background:#fff8f5;}
+.rxp-grid td.rxp-wrap{white-space:normal;}
+.rxp-ono b{display:block;font-size:12px;font-weight:700;color:#f97316;}
+.rxp-ono small{font-size:11px;color:#555;}
+.rxp-ch{display:inline-flex;align-items:center;gap:5px;font-size:12px;}
+.rxp-ch i{width:5px;height:5px;border-radius:50%;background:#777;display:inline-block;}
+.rxp-ch.on i{background:#20c997;}
+.rxp-chip{display:inline-flex;align-items:center;justify-content:center;min-width:96px;height:24px;padding:0 10px;border-radius:12px;font-size:11px;color:#fff;background:#9d9d9d;}
+.rxp-chip.sm{min-width:0;height:20px;font-size:10px;padding:0 8px;}
+/* status statistics cards */
+.rxp-stats{display:flex;flex-wrap:wrap;gap:16px;background:#fff;border:1px solid #e8e8e8;border-radius:8px;padding:16px;margin:0 0 16px;}
+.rxp-stat{flex:1 1 0;min-width:160px;border:1px solid #e0e0e0;border-left:4px solid #9d9d9d;border-radius:4px;padding:12px 16px;display:flex;flex-direction:column;gap:10px;}
+.rxp-stat-top{display:flex;align-items:center;justify-content:space-between;gap:5px;}
+.rxp-stat-lbl{font-size:12px;color:#666;}
+.rxp-stat-cnt{font-size:18px;font-weight:700;color:#222;margin-top:5px;}
+.rxp-stat-ico{width:24px;height:24px;}
+.rxp-stat-desc{font-size:12px;color:#888;line-height:1.4;}
+.rxp-stats-empty{font-size:12px;color:#888;}
+/* detail */
+#rxp-detail-pane{background:#f6f6f6;margin:-4px -4px 0;padding:0;}
+.rxp-d{padding:28px 32px 20px;display:flex;flex-direction:column;gap:20px;}
+.rxp-d-head{display:flex;align-items:center;flex-wrap:wrap;gap:10px;}
+.rxp-back{width:28px;height:28px;border-radius:50%;border:none;background:transparent;display:flex;align-items:center;justify-content:center;cursor:pointer;color:#333;}
+.rxp-back:hover{background:#ededed;}
+.rxp-back svg{width:16px;height:16px;fill:currentColor;}
+.rxp-d-id{font-size:20px;font-weight:700;color:#111;}
+.rxp-d-no{font-size:12px;color:#777;background:none;border:none;cursor:pointer;padding:0;}
+.rxp-d-no:hover{text-decoration:underline;}
+.rxp-d-body{display:flex;align-items:flex-start;gap:20px;}
+.rxp-d-main{flex:1;min-width:0;display:flex;flex-direction:column;gap:20px;}
+.rxp-d-side{width:200px;flex-shrink:0;position:sticky;top:20px;}
+.rxp-info{display:flex;gap:8px;align-items:flex-start;border-radius:8px;padding:20px;border:1px solid #e8e8e8;}
+.rxp-info svg{width:24px;height:24px;fill:#ff6b35;flex-shrink:0;}
+.rxp-info h3{font-size:14px;font-weight:700;margin:0;color:#222;}
+.rxp-info p{font-size:12px;color:#777;margin:8px 0 0;}
+.rxp-info.REQUESTED{background:#EFF6FF;}.rxp-info.CONFIRMED{background:#F2FDF5;}.rxp-info.REJECTED{background:#FEF2F2;}.rxp-info.CANCELED{background:#F5F5F5;}
+.rxp-sec{background:#fff;border:1px solid #e8e8e8;border-radius:8px;padding:20px 24px;scroll-margin-top:20px;}
+.rxp-sec-t{font-size:14px;font-weight:700;color:#222;margin:0 0 14px;display:flex;align-items:center;gap:6px;}
+.rxp-sec-t .cnt{border-radius:999px;background:#ffedd5;color:#f97316;font-size:10px;font-weight:600;padding:1px 6px;}
+.rxp-req{color:#ff6b35;margin-left:2px;}
+.rxp-step{display:flex;align-items:center;gap:8px;font-size:12px;font-weight:600;color:#333;margin-bottom:8px;}
+.rxp-step .no{width:18px;height:18px;border-radius:50%;background:#ff6b35;color:#fff;font-size:10px;display:inline-flex;align-items:center;justify-content:center;}
+.rxp-divider{height:1px;background:#ededed;margin:20px 0;}
+.rxp-sublbl{font-size:11px;font-weight:700;color:#888;text-transform:uppercase;letter-spacing:.3px;margin:6px 0 8px;}
+.rxp-meta{display:flex;flex-wrap:wrap;gap:6px 24px;margin-bottom:12px;font-size:12px;color:#333;}
+.rxp-meta b{color:#888;font-weight:500;margin-right:8px;}
+.rxp-tbl{width:100%;border-collapse:collapse;border:1px solid #e5e5e5;border-radius:6px;font-size:12px;}
+.rxp-tbl th{background:#fafafa;font-weight:600;color:#333;padding:10px 12px;border-bottom:1px solid #e5e5e5;text-align:center;}
+.rxp-tbl td{padding:10px 12px;border-bottom:1px solid #f0f0f0;color:#555;text-align:center;vertical-align:middle;}
+.rxp-tbl tr:last-child td{border-bottom:none;}
+.rxp-tbl .tl{text-align:left;}
+.rxp-tbl .tr{text-align:right;}
+.rxp-type{display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:500;color:#333;}
+.rxp-type i{width:6px;height:6px;border-radius:50%;display:inline-block;}
+.rxp-cof{display:inline-flex;align-items:center;justify-content:center;width:18px;height:18px;border:1px solid #ccc;border-radius:3px;font-size:11px;color:#fff;}
+.rxp-cof.on{background:#2e7d32;border-color:#2e7d32;}
+.rxp-g2{display:grid;grid-template-columns:1fr 1fr;gap:12px 16px;}
+.rxp-g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px 16px;}
+.rxp-box{border:1px solid #eee;border-radius:8px;padding:12px 14px;display:flex;flex-direction:column;gap:10px;}
+.rxp-f label{display:block;font-size:11px;font-weight:600;color:#555;margin-bottom:4px;}
+.rxp-in{width:100%;height:32px;border:1px solid #d5d5d5;border-radius:4px;padding:0 10px;font-size:12px;background:#fff;box-sizing:border-box;font-family:inherit;outline:none;}
+.rxp-in:focus{border-color:#ff6b35;box-shadow:0 0 0 2px rgba(255,107,53,.12);}
+.rxp-in:disabled{background:#f5f5f5;color:#888;}
+.rxp-in.err{border-color:#d32f2f;}
+.rxp-in.ocr{background:#f0f9ff;}
+.rxp-err{color:#d32f2f;font-size:11px;margin-top:4px;}
+.rxp-yn{display:inline-flex;gap:6px;}
+.rxp-yn button{height:28px;min-width:36px;border:1px solid #d5d5d5;background:#fff;border-radius:4px;font-size:11px;cursor:pointer;}
+.rxp-yn button.on{background:#ff6b35;border-color:#ff6b35;color:#fff;}
+.rxp-yn button:disabled{cursor:default;opacity:.6;}
+.rxp-vtbl td{padding:6px 8px;}
+.rxp-vtbl th.eye{text-align:left;width:120px;}
+.rxp-vtbl .rxp-in{height:30px;text-align:center;}
+.rxp-upload{display:flex;align-items:center;gap:12px;height:88px;border:1px dashed #ff9a6e;border-radius:8px;background:#fff7f3;padding:0 20px;cursor:pointer;box-sizing:border-box;}
+.rxp-upload svg{width:26px;height:26px;fill:none;stroke:#ff6b35;stroke-width:2;}
+.rxp-upload .t{font-size:13px;font-weight:600;color:#333;}
+.rxp-upload .s{font-size:11px;color:#888;margin-top:2px;}
+.rxp-upload.dis{opacity:.5;cursor:not-allowed;}
+.rxp-upload.busy{cursor:progress;}
+.rxp-spin{width:20px;height:20px;border:2px solid #ffd2bf;border-top-color:#ff6b35;border-radius:50%;animation:rxpSpin 0.8s linear infinite;}
+@keyframes rxpSpin{to{transform:rotate(360deg);}}
+.rxp-file{display:flex;align-items:center;justify-content:space-between;border:1px solid #eee;border-radius:6px;padding:6px 10px;font-size:12px;color:#1976d2;margin-top:6px;}
+.rxp-file button{border:none;background:none;color:#e53935;cursor:pointer;font-size:12px;}
+.rxp-badge-ocr{border-radius:999px;background:#e0f2fe;color:#0369a1;font-size:10px;font-weight:600;padding:2px 8px;}
+.rxp-seg{display:inline-flex;border:1px solid #d5d5d5;border-radius:4px;overflow:hidden;margin-top:4px;}
+.rxp-seg button{border:none;background:#fff;font-size:10px;padding:2px 8px;cursor:pointer;}
+.rxp-seg button.on{background:#ff6b35;color:#fff;}
+.rxp-seg button:disabled{cursor:default;}
+.rxp-member{border:1px solid #eee;border-radius:6px;padding:10px 12px;font-size:12px;color:#333;}
+.rxp-member small{display:block;color:#888;font-size:11px;margin-top:2px;}
+.rxp-ship{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;}
+.rxp-ship-card{display:flex;gap:10px;align-items:center;border:1px solid #e0e0e0;border-radius:8px;padding:12px 14px;cursor:pointer;}
+.rxp-ship-card.on{border-color:#ff6b35;background:#fff7f3;}
+.rxp-ship-card.dis{cursor:default;opacity:.7;}
+.rxp-ship-card .t{font-size:12px;font-weight:600;color:#333;}
+.rxp-ship-card .d{font-size:11px;color:#888;}
+.rxp-agree{display:flex;align-items:flex-start;gap:8px;font-size:12px;color:#333;margin-bottom:8px;}
+.rxp-sig{height:120px;border:1px solid #e5e5e5;border-radius:6px;background:#fafafa;display:flex;align-items:center;justify-content:center;color:#bbb;font-size:12px;}
+.rxp-sig svg{width:220px;height:70px;stroke:#333;stroke-width:2;fill:none;}
+.rxp-cmt-in{display:flex;gap:8px;align-items:flex-start;margin-bottom:12px;}
+.rxp-cmt-in select{height:30px;border:1px solid #d4d4d4;border-radius:4px;font-size:12px;padding:0 8px;}
+.rxp-cmt-in textarea{flex:1;width:100%;height:30px;min-height:30px;border:1px solid #d4d4d4;border-radius:4px;font-size:12px;padding:6px 10px;resize:vertical;font-family:inherit;box-sizing:border-box;}
+.rxp-cnt{font-size:10px;color:#aaa;text-align:right;margin-top:2px;}
+.rxp-cmt{border:1px solid #eee;border-radius:6px;padding:10px 12px;margin-bottom:8px;}
+.rxp-cmt-h{display:flex;align-items:center;gap:8px;font-size:11px;margin-bottom:6px;}
+.rxp-cmt-h .who{font-weight:600;color:#333;}
+.rxp-cmt-h .when{color:#bbb;margin-left:auto;font-size:10px;}
+.rxp-cmt-h button{border:none;background:none;font-size:11px;cursor:pointer;padding:0 2px;}
+.rxp-ctype{border:1px solid #e5e5e5;background:#f5f5f5;color:#555;border-radius:4px;font-size:10px;font-weight:600;padding:1px 6px;}
+.rxp-ctype.GENERAL{border-color:#bbf7d0;background:#f0fdf4;color:#15803d;}
+.rxp-ctype.PRESCRIPTION{border-color:#bfdbfe;background:#eff6ff;color:#1d4ed8;}
+.rxp-ctype.LENS{border-color:#fed7aa;background:#fff7ed;color:#c2410c;}
+.rxp-ctype.FRAME{border-color:#e9d5ff;background:#faf5ff;color:#7e22ce;}
+.rxp-ctype.DELIVERY{border-color:#99f6e4;background:#f0fdfa;color:#0f766e;}
+.rxp-cmt-txt{font-size:12px;color:#555;line-height:1.6;white-space:pre-wrap;}
+.rxp-empty-sm{font-size:12px;color:#999;padding:8px 0;}
+.rxp-btn-sm{height:30px;padding:0 14px;border-radius:4px;border:1px solid #ff6b35;background:#ff6b35;color:#fff;font-size:12px;cursor:pointer;}
+.rxp-btn-sm.ghost{background:#fff;color:#555;border-color:#d4d4d4;}
+.rxp-btn-sm:disabled{opacity:.5;cursor:default;}
+.rxp-index{border:1px solid #e5e5e5;border-radius:8px;background:#fff;overflow:hidden;}
+.rxp-index .hd{background:#ff6b35;color:#fff;font-size:12px;font-weight:700;padding:10px 12px;}
+.rxp-index ul{list-style:none;margin:0;padding:4px 0;}
+.rxp-index li{display:flex;align-items:center;gap:8px;padding:8px 12px;font-size:12px;color:#333;cursor:pointer;}
+.rxp-index li:hover{background:#fff3ee;}
+.rxp-index .ck{width:16px;height:16px;border:2px solid #d4d4d4;border-radius:3px;box-sizing:border-box;display:inline-flex;align-items:center;justify-content:center;color:#fff;font-size:11px;}
+.rxp-index .ck.on{background:#22c55e;border-color:#22c55e;}
+.rxp-index .msg{border-top:1px solid #e5e5e5;padding:10px 12px;text-align:center;font-size:11px;color:#777;}
+.rxp-actbar{position:sticky;bottom:0;z-index:10;display:flex;justify-content:flex-end;align-items:center;gap:8px;background:#fff;border-top:1px solid #e5e5e5;box-shadow:0 -2px 8px rgba(0,0,0,.06);padding:16px 24px;}
+.rxp-actbar .grp{display:flex;gap:8px;margin-right:20px;}
+.rxp-act{height:34px;padding:0 16px;border-radius:4px;font-size:12px;font-weight:500;cursor:pointer;display:inline-flex;align-items:center;gap:4px;border:1px solid transparent;}
+.rxp-act:disabled{opacity:.4;cursor:default;}
+.rxp-act.rej{background:#fff;color:#d32f2f;border-color:#d32f2f;}
+.rxp-act.cfm{background:#2e7d32;color:#fff;}
+.rxp-act.save{background:#ed6c02;color:#fff;}
+/* dialogs */
+.modal-box.rxp-dlg-box{width:440px;max-width:92vw;}
+.rxp-dlg-text{font-size:14px;color:#333;padding:20px 8px 4px;line-height:1.5;}
+.rxp-dlg-foot{display:flex;justify-content:flex-end;gap:8px;padding:12px 20px 18px;}
+.btn-action.rxp-btn-ok{background:#2e7d32;color:#fff;border:none;}
+.modal-box.rxp-rej-box{width:480px;max-width:92vw;}
+.rxp-rej-body{display:flex;flex-direction:column;gap:16px;padding:24px!important;}
+.rxp-rej-body select{width:100%;height:42px;border:1px solid #d5d5d5;border-radius:8px;font-size:13px;padding:0 10px;}
+.rxp-rej-foot{display:flex;justify-content:flex-end;padding-top:16px;border-top:1px solid #e0e0e0;}
+.btn-action.rxp-btn-reject{background:#d32f2f;color:#fff;border:none;}
+.btn-action.rxp-btn-reject:disabled{opacity:.4;cursor:default;}
 </style>
 <!-- SheetJS: client-side Excel (.xlsx) export -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
@@ -3643,6 +3799,130 @@ a.ib-trk:hover{border-color:#ff6b35;color:#ff6b35;}
     </div>
   </div>
 
+  <!-- ===== RX PRESCRIPTION REVIEW VIEW (RX (Lens) > Rx Prescription Review) ===== -->
+  <div class="detail-view" id="rxp-view">
+    <!-- List -->
+    <div id="rxp-list-pane">
+      <div class="search-box">
+        <table class="search-table">
+          <tr>
+            <th>BP</th>
+            <td><div class="field-row"><div class="field-inline"><select id="rxp-bp" style="min-width:360px;" onchange="rxpBpChange()"><option value="">All</option></select></div></div></td>
+          </tr>
+          <tr>
+            <th>Store</th>
+            <td><div class="field-row"><div class="multi-select-wrap rxp-ms-dis" id="rxpStore-wrap">
+              <div class="multi-select-trigger" id="rxpStore-trigger" onclick="toggleMulti('rxpStore')" style="min-width:360px;">Store (All)</div>
+              <div class="multi-select-dropdown hidden" id="rxpStore-dropdown"></div>
+            </div></div></td>
+          </tr>
+          <tr>
+            <th>Channel</th>
+            <td><div class="field-row"><div class="field-inline"><select id="rxp-channel" style="min-width:200px;">
+              <option value="">All</option><option value="ONLINE">ONLINE</option><option value="OFFLINE">OFFLINE</option>
+            </select></div></div></td>
+          </tr>
+          <tr>
+            <th>Review status</th>
+            <td><div class="field-row"><div class="multi-select-wrap">
+              <div class="multi-select-trigger" id="rxpStatus-trigger" onclick="toggleMulti('rxpStatus')" style="min-width:200px;">Review status (All)</div>
+              <div class="multi-select-dropdown hidden" id="rxpStatus-dropdown"></div>
+            </div></div></td>
+          </tr>
+          <tr>
+            <th>Search Period</th>
+            <td><div class="field-row">
+              <div class="field-inline"><select id="rxp-datetype" style="min-width:150px;"><option value="ORDER_DATE">Order Date</option><option value="CONFIRM_DATE">Approval Date</option></select></div>
+              <div class="field-inline"><input type="date" lang="en" id="rxp-from" style="min-width:170px;"></div>
+              <span style="color:#999;">~</span>
+              <div class="field-inline"><input type="date" lang="en" id="rxp-to" style="min-width:170px;"></div>
+            </div></td>
+          </tr>
+          <tr>
+            <th class="rxp-q-th">Order No, Store Code, Store Name, Customer Name, Phone, Email</th>
+            <td><div class="field-row"><div class="field-inline rxp-q-wrap">
+              <input type="text" id="rxp-q" style="min-width:520px;" placeholder="Please enter at least 2 characters." onkeydown="if(event.key==='Enter')rxpSearch()">
+              <div class="rxp-q-err" id="rxp-q-err" hidden>Please enter at least 2 characters.</div>
+            </div></div></td>
+          </tr>
+        </table>
+        <div class="search-action">
+          <button class="btn-search" onclick="rxpSearch()"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><use href="#i-search"/></svg>Search</button>
+        </div>
+      </div>
+      <!-- Review status statistics (GET /api/v1/orders/rx/review/confirm-status/statistics) -->
+      <div class="rxp-stats" id="rxp-stats"></div>
+      <div class="table-box">
+        <div class="table-toolbar">
+          <div class="table-toolbar-left">Total <b id="rxp-total">0</b> Count</div>
+          <div class="table-toolbar-right">
+            <button class="btn-action btn-outline" onclick="rxpExport()">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="#555"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
+              Excel Export
+            </button>
+          </div>
+        </div>
+        <div class="grid-wrap">
+          <table class="grid rxp-grid">
+            <thead>
+              <tr class="hdr">
+                <th class="rxp-sort" data-sort="orderedAt" onclick="rxpSort('orderedAt')" style="width:170px;">Order Date<span class="rxp-sort-ico"></span></th>
+                <th class="tl" style="width:230px;">Order No. #</th>
+                <th style="width:110px;">Channel</th>
+                <th class="tl rxp-sort" data-sort="storeCode" onclick="rxpSort('storeCode')">Store Information<br><span class="rxp-sub">(Code / Name)</span><span class="rxp-sort-ico"></span></th>
+                <th style="width:120px;">Review status</th>
+                <th class="rxp-sort" data-sort="confirmDecidedAt" onclick="rxpSort('confirmDecidedAt')" style="width:170px;">Approval Date<span class="rxp-sort-ico"></span></th>
+                <th style="width:130px;">Approved account</th>
+                <th style="width:260px;">Reject Reason</th>
+              </tr>
+            </thead>
+            <tbody id="rxp-body"></tbody>
+          </table>
+        </div>
+        <div class="pg-bar">
+          <div class="rpp"><span>Rows per page:</span>
+            <select id="rxp-rpp" style="width:72px;" onchange="rxpPage=1;rxpRenderPage();">
+              <option value="10">10</option><option value="30" selected>30</option><option value="50">50</option><option value="100">100</option><option value="300">300</option>
+            </select>
+          </div>
+          <span id="rxp-range">0–0 of 0</span>
+          <div class="pg-nav">
+            <button class="pg-btn" id="rxp-prev" onclick="rxpGo(-1)"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg></button>
+            <button class="pg-btn" id="rxp-next" onclick="rxpGo(1)"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg></button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Detail (route #/rx/prescription-review/{id}) — rendered by rxpRenderDetail() -->
+    <div id="rxp-detail-pane" hidden>
+      <div id="rxp-detail"></div>
+      <div class="rxp-actbar" id="rxp-actbar"></div>
+    </div>
+  </div>
+
+  <!-- RX PRESCRIPTION REVIEW: confirm / save / comment delete dialog -->
+  <div class="modal-overlay" id="rxp-dlg" onclick="if(event.target===this)rxpCloseDlg();">
+    <div class="modal-box rxp-dlg-box">
+      <div class="modal-body"><div class="rxp-dlg-text" id="rxp-dlg-text"></div></div>
+      <div class="rxp-dlg-foot">
+        <button class="btn-action btn-outline" onclick="rxpCloseDlg()">Cancel</button>
+        <button class="btn-action rxp-btn-ok" id="rxp-dlg-ok" onclick="rxpDlgOk()">OK</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- RX PRESCRIPTION REVIEW: reject reason modal (lmsRxRejectReasonModal) -->
+  <div class="modal-overlay" id="rxp-rej-modal" onclick="if(event.target===this)rxpCloseReject();">
+    <div class="modal-box rxp-rej-box">
+      <div class="modal-header"><span class="modal-title">Please select a reason for Reject.</span><button class="modal-close" onclick="rxpCloseReject()">&times;</button></div>
+      <div class="modal-body rxp-rej-body">
+        <select id="rxp-rej-reason" onchange="rxpRejReasonChange()"></select>
+        <div id="rxp-rej-sub-wrap" hidden><select id="rxp-rej-sub" onchange="rxpRejValidate()"></select></div>
+        <div class="rxp-rej-foot"><button class="btn-action rxp-btn-reject" id="rxp-rej-ok" disabled onclick="rxpSubmitReject()">Reject</button></div>
+      </div>
+    </div>
+  </div>
+
   <!-- ===== STORE VIEW (Master Information > Store) ===== -->
   <div class="detail-view" id="st-view">
     <div class="psv-tabs">
@@ -4310,7 +4590,7 @@ function selectMulti(id,el){
   el.classList.toggle('selected');
   const sel=[...document.querySelectorAll('#'+id+'-dropdown .dd-item.selected')];
   const t=document.getElementById(id+'-trigger');
-  const labels={ilStore:'Store',ilLoc:'Location',lgStore:'Store',lgLoc:'Location',lgType:'Inventory Transaction Type',olBp:'BP',olStore:'Store',olStatus:'Order Status',rlBp:'BP',rlStore:'Store',rlStatus:'Refund Type',bp:'BP',fromStore:'From Store',toStore:'To Store',dpCat2:'Product Category 2',dpStore:'Store',stStore:'Store',sthStore:'Store',ibFrom:'From Store',ibTo:'To Store',ibType:'Type',ibChannel:'Channel',ibStatus:'Inbound Status',ooStore:'Store',ooStatus:'Outbound Status',ooType:'Type',mvStore:'Store',snStore:'Store',snLoc:'Location',rxsStore:'Store',drvBp:'BP',drvStore:'Store',psvBp:'BP',psvStore:'Store',prsvBp:'BP',prsvStore:'Store'};
+  const labels={ilStore:'Store',ilLoc:'Location',lgStore:'Store',lgLoc:'Location',lgType:'Inventory Transaction Type',olBp:'BP',olStore:'Store',olStatus:'Order Status',rlBp:'BP',rlStore:'Store',rlStatus:'Refund Type',bp:'BP',fromStore:'From Store',toStore:'To Store',dpCat2:'Product Category 2',dpStore:'Store',stStore:'Store',sthStore:'Store',ibFrom:'From Store',ibTo:'To Store',ibType:'Type',ibChannel:'Channel',ibStatus:'Inbound Status',ooStore:'Store',ooStatus:'Outbound Status',ooType:'Type',mvStore:'Store',snStore:'Store',snLoc:'Location',rxsStore:'Store',rxpStore:'Store',rxpStatus:'Review status',drvBp:'BP',drvStore:'Store',psvBp:'BP',psvStore:'Store',prsvBp:'BP',prsvStore:'Store'};
   if(!sel.length) t.textContent=labels[id]+' (All)';
   else if(sel.length===1) t.textContent=sel[0].textContent.replace('✓','').trim();
   else t.textContent=sel[0].textContent.replace('✓','').trim()+' +'+(sel.length-1);
@@ -5091,7 +5371,7 @@ function csRefresh(sel){
   trg.classList.toggle('disabled',sel.disabled);
 }
 function csSyncModal(){
-  document.querySelectorAll('#ob-reg-modal select, #dp-view select, #sp-view select, #drv-view select, #psv-view select, #prsv-view select, #label-modal select, #st-view select, #st-modal select, #bpk-view select, #cp-view select, #ib-view select, #ib-reg-modal select, #sn-view select, #snw-view select, #ioh-view select, #rxs-view select, .pg-bar select').forEach(s=>{csBuild(s);csRefresh(s);});
+  document.querySelectorAll('#ob-reg-modal select, #dp-view select, #sp-view select, #drv-view select, #psv-view select, #prsv-view select, #label-modal select, #st-view select, #st-modal select, #bpk-view select, #cp-view select, #ib-view select, #ib-reg-modal select, #sn-view select, #snw-view select, #ioh-view select, #rxs-view select, #rxp-list-pane select, #rxp-rej-modal select, .pg-bar select').forEach(s=>{csBuild(s);csRefresh(s);});
 }
 // Re-sync whenever step content / options / disabled state change (ignore the custom UI's own mutations)
 new MutationObserver(muts=>{
@@ -10985,6 +11265,681 @@ function rxsExport(){
   const d=new Date();  // frontend file name: rx_sales_YYYY_M_D.xlsx (not zero-padded)
   XLSX.writeFile(wb,'rx_sales_'+d.getFullYear()+'_'+(d.getMonth()+1)+'_'+d.getDate()+'.xlsx');
 }
+// ===== Rx Prescription Review (RX (Lens) > Rx Prescription Review) =====
+// Source: iic-bo-frontend features/(lms)/rxPrescriptionReview, rxPrescriptionReviewDetail, lmsRxRejectReasonModal
+//         (+ shared rxOperation/detail components) / iic-bo RxOrderReviewController, RxOrderReviewDetailController,
+//         RxOrderReviewReadService, RxOrderReviewCommandService, RxOrderReviewDetailUpdateFacade, RxOrderReviewRepositoryImpl, LensWork
+// Orders of store US1007 are the same orders as POS > Rx Operation (RX_ORDERS). Their review status is read from / written back to
+// RX_ORDERS[].approval, so a Confirm / Reject here is visible in the POS list and a POS save (Unready -> Requested) shows up here.
+const RXP_CAN_WRITE=true,RXP_CAN_APPROVAL=true;            // menu LMS_PRESCRIPTION_VIEW: WRITE (Save) / APPROVAL (Confirm, Reject)
+const RXP_ME={username:'monster1437',tz:'KST'};             // login user (approval date is stored in the approver's time zone)
+const RXP_BPS={C1002:'GM_United States',C1012:'GM_Australia'};
+const RXP_AU_STORES={AU1001:'GM_Sydney_DFS_AirportT1',AU1002:'GM_Sydney_MALL_DJ',AU1003:'GM_ONLINE_Australia_DJ',AU1004:'GM_Melbourne_MALL_Chadstone'};
+const RXP_STORE_TZ={US1001:'PST',US1002:'EST',US1003:'PST',US1004:'PST',US1007:'PST',US1008:'EST',AU1002:'AET_SYD',AU1003:'AET_SYD'};
+// LensWorkConfirmStatus (enum order) + chip meta (shared/utils/rxOperationChip.ts)
+const RXP_STATUS_ORDER=['UNREADY','REQUESTED','CONFIRMED','REJECTED','CANCELED'];
+const RXP_STATUS={
+  UNREADY:{label:'UnReady',color:'oklch(0.74 0.13 75)',icon:'M6 2v6h.01L6 8.01 10 12l-4 4 .01.01H6V22h12v-5.99h-.01L18 16l-4-4 4-3.99-.01-.01H18V2H6zm10 14.5V20H8v-3.5l4-4 4 4zm-4-5-4-4V4h8v3.5l-4 4z'},
+  REQUESTED:{label:'Request',color:'oklch(0.60 0.10 245)',icon:'M2.01 21 23 12 2.01 3 2 10l15 2-15 2z',desc:'Approval can be reviewed.',
+    info:['Prescription confirmation has been requested.','The prescription information is awaiting admin review. You may Confirm or Reject this order after verifying the details.']},
+  CONFIRMED:{label:'Confirm',color:'oklch(0.62 0.11 155)',icon:'M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z',
+    desc:'It has been confirmed, so we will proceed with the work.',info:['Confirmed tasks can be managed via the RX task menu.',null]},
+  REJECTED:{label:'Reject',color:'oklch(0.58 0.13 18)',icon:'M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.42 0-8-3.58-8-8 0-1.85.63-3.55 1.69-4.9L16.9 18.31C15.55 19.37 13.85 20 12 20zm6.31-3.1L7.1 5.69C8.45 4.63 10.15 4 12 4c4.42 0 8 3.58 8 8 0 1.85-.63 3.55-1.69 4.9z',
+    desc:'As the order has been declined, we will proceed with its cancellation (refund).',info:['The RX job has been rejected.','Refunds have been processed for both online and offline purchases.']},
+  CANCELED:{label:'Canceled',color:'oklch(0.74 0.01 60)',icon:'M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2zm5 13.59L15.59 17 12 13.41 8.41 17 7 15.59 10.59 12 7 8.41 8.41 7 12 10.59 15.59 7 17 8.41 13.41 12 17 15.59z',
+    desc:'Order has been cancelled.',info:['The online or offline task has been canceled.',null]}
+};
+const RXP_POS_MAP={Unready:'UNREADY',Requested:'REQUESTED',Confirm:'CONFIRMED',Reject:'REJECTED',Canceled:'CANCELED'};
+const RXP_POS_BACK={UNREADY:'Unready',REQUESTED:'Requested',CONFIRMED:'Confirm',REJECTED:'Reject',CANCELED:'Canceled'};
+// Reject reasons (rxPrescriptionReviewDetail/constants/rejectReasons.ts, English labels). The modal sends the translated label.
+const RXP_REJECT_REASONS=['Frame is Out of stock','Do Not Process','Prescription Information Needs Verification','Incompatible Lens-Frame','Do Not Accept P.O box shipping',
+  'Other','Payment Method Change','Purchase a Different Product','Change of Mind','System Error','Policy Violation'];
+const RXP_REJECT_SUBS={'Do Not Process':['Invalid Prescription Types','Out of recommended range','Add power'],
+  'Prescription Information Needs Verification':['Unable to verify the image','Missing prescription information','International prescription']};
+const RXP_COMMENT_TYPES=[['GENERAL','General'],['PRESCRIPTION','Prescription'],['LENS','Lens'],['FRAME','Frame'],['DELIVERY','Delivery']];
+// Products: same frame / lens / package codes as RX_ORDERS (POS Rx Operation)
+const RXP_FRAMES=[['11000000','SMART ALIO-01','8809639024362',295],['11000005','GATTA-01','8809639021927',320],['11000006','HAVANA-01','8809639022009',275],
+  ['11000008','HEY-01 OPT','8809639023815',245],['11000003','DAY-01 OPT','8809639023860',265],['11000014','WESTCOAST-01','8809639021989',310],
+  ['11000010','TOM21-A02','8809639021941',290],['11000016','DAISY-032','8809639023334',255],['11000012','RICK-01','8809639023501',285],['11000018','LUNA-02','8809639024001',310]];
+const RXP_LENSES=[['14000225','POLY-AR',280],['14000220','174-AR',350],['14000223','PL-167-AR',310],['14000226','POLY-BG',280],['14000222','CR39-TINT',190],
+  ['14000227','POLY-PF-AR',340],['14000228','POLY-POL-AR',300],['14000217','167-PF-AR',330],['14000230','CR39-AR',220],['14000231','174-PF-AR',360]];
+const RXP_PKGS=[['15000001','RX PACKAGE-01'],['15000002','RX PACKAGE-02']];
+// Product Search (lens mapping to a frame that is not in this order = C.O.F)
+const RXP_SEARCH_FRAMES=[['11000001','SMART ALIO-02','8809639024379'],['11000002','BOLD-01 OPT','8809639023877'],['11000020','LUNA-05 OPT','8809639024105'],['11000022','MARS-01','8809639024208']];
+const RXP_MEMBERS=[{id:'MBR-001',email:'y7ol****@gmail.com',phone:'010-7211-9843',provider:'GOOGLE'},{id:'MBR-002',email:'mons****@naver.com',phone:'010-5523-4421',provider:'NAVER'},
+  {id:'MBR-003',email:'monster1437@gmail.com',phone:'010-3344-5566',provider:'GOOGLE'}];
+const RXP_PEOPLE=['Emily Carter','Daniel Kim','Sophia Nguyen','Michael Lee','Olivia Park','James Wilson','Grace Choi','Ryan Martinez','Hannah Jung','Chloe Smith','Ethan Brown','Mia Tanaka','Kim Yujin','Park Jihoon','Lee Soyeon'];
+const RXP_PRESCRIBERS=[['Dr. James Smith','OPT-2024-83721','350 5th Ave, New York, NY 10118','212-555-0147'],['Dr. Laura Chen','OD-CA-55120','1200 Wilshire Blvd, Los Angeles, CA 90017','213-555-0182'],
+  ['Dr. Kevin Brooks','OPT-NJ-30418','70 Main St, Hackensack, NJ 07601','201-555-0133'],['Dr. Amelia Ross','OPT-NSW-77210','200 George St, Sydney NSW 2000','02-5550-1190']];
+const RXP_ADDR={US:[['123 Main St','Los Angeles','CA','90012'],['456 New Plaza Dr','Fremont','CA','94538'],['789 Broadway','New York','NY','10003'],['3333 Bristol St','Costa Mesa','CA','92626']],
+  AU:[['88 Pitt St','Sydney','NSW','2000'],['1341 Dandenong Rd','Malvern East','VIC','3145']]};
+const RXP_OCR={patientName:'Kim Yujin',patientDob:'1992-03-15',prescriberName:'Dr. James Smith',license:'OPT-2024-83721',prescriberAddress:'350 5th Ave, New York, NY 10118',
+  prescriberPhone:'212-555-0147',prescriberFax:'212-555-0148',signed:'Y',issueDate:'2026-06-10',expiryDate:'2027-06-10',
+  rx:{odSph:'-2.00',odCyl:'-0.50',odAxis:'125',osSph:'-2.25',osCyl:'-0.75',osAxis:'30',odPd:'63',pdType:'SINGLE'}};
+// LMS-only orders (dated relative to today so the default period shows them)
+// [store, daysAgo, 'HH:mm', status, frameIdx(-1 = lens only / C.O.F), lensIdx, pkgIdx, opts]
+const RXP_EXTRA=[
+  ['US1004',0,'10:12','REQUESTED',2,4,0,{blankRx:true}],
+  ['US1004',1,'19:40','REQUESTED',6,0,1,{}],
+  ['US1004',1,'08:05','REQUESTED',1,3,0,{blankRx:true,noFile:true}],
+  ['US1001',2,'15:22','REQUESTED',0,1,1,{pickup:true}],
+  ['US1002',2,'12:47','REQUESTED',4,7,0,{}],
+  ['US1003',3,'17:09','REQUESTED',-1,5,-1,{cof:true}],
+  ['AU1003',3,'11:30','REQUESTED',8,2,0,{}],
+  ['US1004',4,'09:56','CONFIRMED',3,6,1,{by:'jane.park',tz:'PST'}],
+  ['US1008',5,'14:18','CONFIRMED',5,8,0,{by:'alex.kim',tz:'PST'}],
+  ['US1001',6,'16:02','REJECTED',7,1,1,{by:'monster1437',tz:'KST',reason:'Prescription Information Needs Verification',sub:'Unable to verify the image'}],
+  ['US1004',7,'21:15','CANCELED',9,9,0,{}],
+  ['AU1002',8,'13:44','CONFIRMED',2,0,1,{by:'chris.lee',tz:'AET_SYD'}],
+  ['US1002',9,'11:08','CONFIRMED',1,4,0,{by:'jane.park',tz:'PST',preorder:true}],
+  ['US1004',11,'18:27','REJECTED',0,6,1,{by:'alex.kim',tz:'PST',reason:'Incompatible Lens-Frame'}],
+  ['US1004',13,'07:51','CONFIRMED',6,3,0,{by:'monster1437',tz:'KST'}],
+  ['US1003',15,'15:36','CONFIRMED',4,2,1,{by:'jane.park',tz:'PST'}],
+  ['AU1003',18,'10:03','CANCELED',5,7,0,{}],
+  ['US1004',21,'20:19','CONFIRMED',8,5,1,{by:'alex.kim',tz:'PST'}],
+  ['US1008',25,'13:12','REJECTED',3,0,0,{by:'monster1437',tz:'KST',reason:'Frame is Out of stock'}],
+  ['US1001',28,'12:25','CONFIRMED',9,9,1,{by:'jane.park',tz:'PST'}]
+];
+let RXP_DATA=null,rxpInited=false,rxpApplied=null,rxpLastRows=[],rxpPage=1,rxpSortKey=null,rxpSortDir=null,rxpError='';
+let rxpCur=null,rxpDraft=null,rxpErrors={},rxpOcrBusy=false,rxpOcrFields=[],rxpDlgAction=null,rxpEditCmt=null;
+
+const rxpEsc=v=>String(v??'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+const rxpPad=n=>String(n).padStart(2,'0');
+const rxpYmd=d=>d.getFullYear()+'-'+rxpPad(d.getMonth()+1)+'-'+rxpPad(d.getDate());
+const rxpNow=()=>{const d=new Date();return rxpYmd(d)+' '+rxpPad(d.getHours())+':'+rxpPad(d.getMinutes());};
+const rxpAddDays=(ymdHm,n,hm)=>{const d=new Date(ymdHm.slice(0,10)+'T00:00:00');d.setDate(d.getDate()+n);return rxpYmd(d)+' '+(hm||ymdHm.slice(11,16));};
+const rxpStoreName=code=>{
+  if(RXP_AU_STORES[code]) return RXP_AU_STORES[code];
+  const s=typeof REG_DATA!=='undefined'?REG_DATA.GENTLE_MONSTER.companies.C1002.stores[code]:null;
+  return s?s.name:code;
+};
+const rxpBpOf=code=>code.startsWith('AU')?'C1012':'C1002';
+const rxpStatus=r=>r.pos?(RXP_POS_MAP[r.pos.approval]||'UNREADY'):r.status;
+function rxpSetStatus(r,st){
+  r.status=st;
+  if(r.pos){r.pos.approval=RXP_POS_BACK[st];if(st==='CONFIRMED'&&r.pos.workStatus==='-') r.pos.workStatus='Pending';}
+}
+const rxpChip=(st,sm)=>`<span class="rxp-chip${sm?' sm':''}" style="background:${(RXP_STATUS[st]||{}).color||'#9d9d9d'}">${(RXP_STATUS[st]||{}).label||'Pending'}</span>`;
+const rxpCh=ch=>`<span class="rxp-ch${ch==='ONLINE'?' on':''}"><i></i>${ch}</span>`;
+const rxpAmt=n=>Number(n||0).toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
+
+// ----- Dummy data -----
+function rxpBuildData(){
+  let seed=29;const rnd=()=>(seed=(seed*16807)%2147483647)/2147483647,pick=a=>a[Math.floor(rnd()*a.length)];
+  const A='0123456789ABCDEFGHJKLMNPQRSTUVWXYZ',code=n=>Array.from({length:n},()=>pick(A)).join('');
+  const rows=[];let seq=0;
+  const pk=()=>'7461820173837'+String(20440+(seq++)*37).padStart(5,'0');
+  const signed=v=>(v>0?'+':'')+v.toFixed(2);
+  const genDetail=(r,i,opt)=>{
+    const p=RXP_PEOPLE[i%RXP_PEOPLE.length],au=r.storeCode.startsWith('AU'),pr=au?RXP_PRESCRIBERS[3]:RXP_PRESCRIBERS[i%3];
+    const ad=pick(RXP_ADDR[au?'AU':'US']),mem=i%3===0?RXP_MEMBERS[i%RXP_MEMBERS.length]:null,single=i%2===0;
+    const sph=-0.25*Math.floor(rnd()*16),cyl=-0.25*Math.floor(rnd()*6);
+    const email=p.toLowerCase().replace(/\s+/g,'.')+'@gmail.com',phone=au?'04'+String(10000000+Math.floor(rnd()*89999999)):'+1 '+(200+Math.floor(rnd()*700))+'-555-'+String(1000+Math.floor(rnd()*8999));
+    const issue=rxpAddDays(r.orderedAt,-30-Math.floor(rnd()*200)).slice(0,10);
+    const blank=!!opt.blankRx;
+    const lensSlots=r.items.filter(it=>it.type==='LENS').reduce((n,it)=>n+it.qty,0);
+    const frame=r.items.find(it=>it.type==='FRAME');
+    return {
+      country:mem?(au?'AU':'US'):'',membership:mem?{...mem,country:au?'AU':'US'}:null,
+      rx:blank?{odSph:'',odCyl:'',odAxis:'',odPd:'',odOc:'',osSph:'',osCyl:'',osAxis:'',osPd:'',osOc:'',pdType:'SINGLE'}
+        :{odSph:signed(sph),odCyl:signed(cyl),odAxis:String(5*Math.floor(rnd()*36)),odPd:single?String(60+Math.floor(rnd()*8)):String(31+Math.floor(rnd()*3)),odOc:'',
+          osSph:signed(sph-0.25*Math.floor(rnd()*3)),osCyl:signed(cyl),osAxis:String(5*Math.floor(rnd()*36)),osPd:single?'':String(30+Math.floor(rnd()*3)),osOc:'',pdType:single?'SINGLE':'DUAL'},
+      patientName:blank?'':p,patientDob:blank?'':(1975+i%25)+'-'+rxpPad(1+i%12)+'-'+rxpPad(3+i%25),
+      prescriberName:blank?'':pr[0],license:blank?'':pr[1],signed:blank?'':'Y',prescriberAddress:blank?'':pr[2],prescriberPhone:blank?'':pr[3],prescriberFax:'',
+      issueDate:blank?'':issue,expiryDate:blank?'':(+issue.slice(0,4)+1)+issue.slice(4),
+      files:opt.noFile?[]:['prescription_'+r.orderNo.slice(-6).toLowerCase()+'.jpg'],
+      purchaserName:p,purchaserPhone:phone,purchaserEmail:email,rcvName:p,rcvPhone:phone,rcvEmail:email,
+      receive:opt.pickup?'STORE_PICKUP':'B2C_DELIVERY',address:opt.pickup?'':ad[0],address2:opt.pickup?'':(i%4===0?'Apt '+(100+i):''),city:opt.pickup?'':ad[1],state:opt.pickup?'':ad[2],zip:opt.pickup?'':ad[3],
+      rxTerms:r.channel==='OFFLINE',hipaa:r.channel==='OFFLINE',marketing:r.channel==='OFFLINE'&&i%3===1,signature:r.channel==='OFFLINE',
+      // lens slot -> mapped frame code (C.O.F = frame picked by Product Search)
+      mapped:Array.from({length:lensSlots},()=>opt.cof?RXP_SEARCH_FRAMES[i%RXP_SEARCH_FRAMES.length][0]:(frame?frame.code:'')),
+      comments:i%3===2?[]:[{id:'c'+i+'a',type:'PRESCRIPTION',author:'jane.park',date:rxpAddDays(r.orderedAt,0,'18:20'),text:'Prescription image checked. CYL value confirmed with prescriber.'}]
+        .concat(i%2?[{id:'c'+i+'b',type:'GENERAL',author:'monster1437',date:rxpAddDays(r.orderedAt,1,'09:05'),text:'Please check the frame alignment before processing.'}]:[])
+    };
+  };
+  // 1) POS > Rx Operation orders (US1007 / OFFLINE / BO_POS: Order ID = Order No.)
+  if(typeof RX_ORDERS!=='undefined') RX_ORDERS.forEach((o,i)=>{
+    const m=/^(\d{4}-\d{2}-\d{2} \d{2}:\d{2}) \((\w+)\)/.exec(o.orderDate)||[];
+    const items=o.products.map((p,k)=>({id:pk()+k,type:p.code.startsWith('14')?'LENS':p.code.startsWith('15')?'PACKAGE':'FRAME',code:p.code,name:p.name,barcode:p.barcode,qty:1,amount:p.price}));
+    const r={id:pk(),pos:o,orderNo:o.id,orderId:o.id,channel:'OFFLINE',storeCode:'US1007',orderedAt:m[1]||o.orderDate.slice(0,16),tz:m[2]||'PST',orderType:o.orderType,items,
+      decidedAt:null,decidedTz:null,decidedBy:null,rejectReason:null,rejectSub:null};
+    const st=rxpStatus(r);
+    if(st==='CONFIRMED'||st==='REJECTED'){
+      r.decidedAt=rxpAddDays(r.orderedAt,1,rxpPad(9+i%8)+':'+rxpPad((i*13)%60));r.decidedTz='PST';r.decidedBy=['jane.park','alex.kim'][i%2];
+      if(st==='REJECTED'){r.rejectReason='Prescription Information Needs Verification';r.rejectSub='Missing prescription information';}
+    }
+    r.d=genDetail(r,i,{});
+    rows.push(r);
+  });
+  // 2) LMS-only orders (online US1004 / AU1003 from OMS, offline stores)
+  const today=new Date();today.setHours(0,0,0,0);
+  RXP_EXTRA.forEach(([store,ago,hm,st,fi,li,pi,opt],k)=>{
+    const d=new Date(today);d.setDate(d.getDate()-ago);
+    const ymd=rxpYmd(d),yymmdd=ymd.slice(2).replace(/-/g,''),online=/ONLINE/.test(rxpStoreName(store)),au=store.startsWith('AU');
+    const orderNo=online?yymmdd+'0RS'+code(10):'SL'+store+yymmdd+hm.replace(':','')+rxpPad(Math.floor(rnd()*60))+code(5);
+    const cur=v=>au?Math.round(v*1.5/5)*5:v;
+    const items=[];
+    if(fi>=0){const f=RXP_FRAMES[fi];items.push({id:pk(),type:'FRAME',code:f[0],name:f[1],barcode:f[2],qty:1,amount:cur(f[3])});}
+    const l=RXP_LENSES[li];items.push({id:pk(),type:'LENS',code:l[0],name:l[1],barcode:'-',qty:1,amount:cur(l[2])});
+    if(pi>=0){const g=RXP_PKGS[pi];items.push({id:pk(),type:'PACKAGE',code:g[0],name:g[1],barcode:'-',qty:1,amount:0});}
+    const r={id:pk(),pos:null,status:st,orderNo,orderId:online?yymmdd+'6004'+String(1000000+Math.floor(rnd()*8999999)):orderNo,channel:online?'ONLINE':'OFFLINE',
+      storeCode:store,orderedAt:ymd+' '+hm,tz:RXP_STORE_TZ[store]||'PST',orderType:opt.preorder?'PREORDER':'NORMAL',items,
+      decidedAt:null,decidedTz:null,decidedBy:null,rejectReason:opt.reason||null,rejectSub:opt.sub||null};
+    if(opt.by){r.decidedAt=rxpAddDays(r.orderedAt,ago>1?1:0,rxpPad(9+k%9)+':'+rxpPad((k*17)%60));r.decidedTz=opt.tz;r.decidedBy=opt.by;}
+    r.d=genDetail(r,k+3,opt);
+    rows.push(r);
+  });
+  return rows;
+}
+
+// ----- Search -----
+function rxpEnter(){
+  rxpCur=null;
+  if(!rxpInited){
+    rxpInited=true;RXP_DATA=rxpBuildData();
+    document.getElementById('rxp-bp').innerHTML='<option value="">All</option>'+Object.entries(RXP_BPS).map(([c,n])=>`<option value="${c}">${c} / ${n}</option>`).join('');
+    // UNREADY is excluded from the Review status options (and rejected by the API)
+    document.getElementById('rxpStatus-dropdown').innerHTML=RXP_STATUS_ORDER.filter(s=>s!=='UNREADY').map(s=>
+      `<div class="dd-item" onclick="selectMulti('rxpStatus',this)" data-val="${s}"><span class="check-ico">✓</span>${RXP_STATUS[s].label}</div>`).join('');
+    rxpFillStores();
+    // Search Period default: today-30 ~ today
+    document.getElementById('rxp-from').value=rxpYmd(new Date(Date.now()-30*864e5));
+    document.getElementById('rxp-to').value=rxpYmd(new Date());
+    if(typeof csSyncModal==='function') csSyncModal();
+    rxpSearch();
+  }else if(rxpApplied){rxpRun(false);}
+  rxpShowPane('list');
+}
+function rxpShowPane(p){
+  document.getElementById('rxp-list-pane').hidden=p!=='list';
+  document.getElementById('rxp-detail-pane').hidden=p!=='detail';
+}
+// Store options are loaded only after a BP is selected (store select is disabled while BP = All)
+function rxpFillStores(){
+  const bp=document.getElementById('rxp-bp').value;
+  const stores=!bp?[]:bp==='C1012'?Object.entries(RXP_AU_STORES):
+    Object.entries(typeof REG_DATA!=='undefined'?REG_DATA.GENTLE_MONSTER.companies.C1002.stores:{}).map(([c,s])=>[c,s.name]);
+  document.getElementById('rxpStore-dropdown').innerHTML=stores.map(([c,n])=>
+    `<div class="dd-item" onclick="selectMulti('rxpStore',this)" data-val="${c}"><span class="check-ico">✓</span>${c} / ${rxpEsc(n)}</div>`).join('');
+  document.getElementById('rxpStore-trigger').textContent='Store (All)';
+  document.getElementById('rxpStore-dropdown').classList.add('hidden');
+  document.getElementById('rxpStore-wrap').classList.toggle('rxp-ms-dis',!stores.length);
+}
+function rxpBpChange(){rxpFillStores();}
+function rxpSearch(){
+  const v=id=>document.getElementById(id).value;
+  const q=v('rxp-q').trim();
+  const err=document.getElementById('rxp-q-err');
+  if(v('rxp-q')&&v('rxp-q').length<2){err.hidden=false;return;}
+  err.hidden=true;
+  rxpApplied={bp:v('rxp-bp'),stores:[...document.querySelectorAll('#rxpStore-dropdown .dd-item.selected')].map(e=>e.dataset.val),
+    channel:v('rxp-channel'),statuses:[...document.querySelectorAll('#rxpStatus-dropdown .dd-item.selected')].map(e=>e.dataset.val),
+    dateType:v('rxp-datetype'),from:v('rxp-from'),to:v('rxp-to'),q};
+  // New search resets sort to the default (Order Date desc) and page 1
+  rxpSortKey=null;rxpSortDir=null;
+  rxpRun(true);
+}
+function rxpRun(resetPage){
+  const a=rxpApplied;
+  // API defaults when a date is cleared: startDate = today -1 month, endDate = today
+  const from=a.from||rxpYmd(new Date(new Date().setMonth(new Date().getMonth()-1))),to=a.to||rxpYmd(new Date());
+  rxpError=from>to?'시작 날짜가 종료 날짜보다 클 수 없습니다.':'';
+  if(resetPage) rxpPage=1;
+  const ql=a.q.toLowerCase();
+  rxpLastRows=rxpError?[]:RXP_DATA.filter(r=>{
+    const st=rxpStatus(r);
+    if(a.bp&&rxpBpOf(r.storeCode)!==a.bp) return false;
+    if(a.stores.length&&!a.stores.includes(r.storeCode)) return false;
+    if(a.channel&&r.channel!==a.channel) return false;
+    if(a.statuses.length?!a.statuses.includes(st):st==='UNREADY') return false;
+    const dv=(a.dateType==='CONFIRM_DATE'?(r.decidedAt||''):r.orderedAt).slice(0,10);
+    if(!dv||dv<from||dv>to) return false;
+    if(a.q){
+      const d=r.d;
+      const ci=[r.orderNo,r.orderId,r.storeCode,rxpStoreName(r.storeCode)].some(x=>String(x).toLowerCase().includes(ql));
+      // customer: orderer name / email / phone, recipient name / phone (case-sensitive contains)
+      const cs=[d.purchaserName,d.purchaserEmail,d.purchaserPhone,d.rcvName,d.rcvPhone].some(x=>String(x||'').includes(a.q));
+      if(!ci&&!cs) return false;
+    }
+    return true;
+  });
+  document.getElementById('rxp-total').textContent=rxpLastRows.length;
+  rxpRenderStats();
+  rxpRenderPage();
+}
+function rxpRenderStats(){
+  const el=document.getElementById('rxp-stats');
+  if(rxpError){el.innerHTML='<div class="rxp-stats-empty">'+rxpEsc(rxpError)+'</div>';return;}
+  const cnt={};rxpLastRows.forEach(r=>{const s=rxpStatus(r);cnt[s]=(cnt[s]||0)+1;});
+  // API returns every LensWorkConfirmStatus (incl. UNREADY, always 0)
+  el.innerHTML=RXP_STATUS_ORDER.map(s=>{const m=RXP_STATUS[s];return `<div class="rxp-stat" style="border-left-color:${m.color}">
+    <div class="rxp-stat-top"><div><div class="rxp-stat-lbl">${m.label}</div><div class="rxp-stat-cnt">${cnt[s]||0}</div></div>
+      <svg class="rxp-stat-ico" viewBox="0 0 24 24" fill="${m.color}"><path d="${m.icon}"/></svg></div>
+    ${m.desc?`<div class="rxp-stat-desc">${m.desc}</div>`:''}</div>`;}).join('');
+}
+// Sortable: Order Date / Store Information / Approval Date (asc -> desc -> none). Sorting resets to page 1.
+function rxpSort(key){
+  if(rxpSortKey!==key){rxpSortKey=key;rxpSortDir='asc';}
+  else if(rxpSortDir==='asc') rxpSortDir='desc';
+  else {rxpSortKey=null;rxpSortDir=null;}
+  rxpPage=1;rxpRenderPage();
+}
+function rxpSortedRows(){
+  const val=(r,k)=>k==='storeCode'?r.storeCode:k==='confirmDecidedAt'?(r.decidedAt||''):r.orderedAt;
+  // No sort -> API default: orderedAt desc. confirmDecidedAt sorts by the local (converted) time; NULL is the smallest value.
+  const k=rxpSortKey||'orderedAt',d=rxpSortKey&&rxpSortDir==='asc'?1:-1;
+  return [...rxpLastRows].sort((a,b)=>val(a,k).localeCompare(val(b,k))*d);
+}
+function rxpRenderPage(){
+  const rows=rxpSortedRows(),total=rows.length,size=+document.getElementById('rxp-rpp').value||30;
+  const pages=Math.max(1,Math.ceil(total/size));rxpPage=Math.min(Math.max(1,rxpPage),pages);
+  const start=(rxpPage-1)*size,end=Math.min(start+size,total);
+  document.querySelectorAll('#rxp-view th.rxp-sort').forEach(th=>{if(th.dataset.sort===rxpSortKey) th.dataset.dir=rxpSortDir; else delete th.dataset.dir;});
+  document.getElementById('rxp-body').innerHTML=rxpError?`<tr><td colspan="8" class="dp-empty">${rxpEsc(rxpError)}</td></tr>`
+    :total?rows.slice(start,end).map(r=>{const st=rxpStatus(r);return `<tr onclick="rxpOpenDetail('${r.id}')">
+      <td>${r.orderedAt} (${r.tz})</td>
+      <td class="tl rxp-ono"><b>${r.orderId}</b><small>(${r.orderNo||'-'})</small></td>
+      <td>${rxpCh(r.channel)}</td>
+      <td class="tl">${r.storeCode} / ${rxpEsc(rxpStoreName(r.storeCode))}</td>
+      <td>${rxpChip(st)}</td>
+      <td>${r.decidedAt?r.decidedAt+' ('+r.decidedTz+')':'-'}</td>
+      <td>${r.decidedBy||'-'}</td>
+      <td class="rxp-wrap">${rxpEsc(r.rejectReason)||'-'}</td></tr>`;}).join('')
+    :'<tr><td colspan="8" class="dp-empty">No data found.</td></tr>';
+  document.getElementById('rxp-range').textContent=(total?start+1:0)+'–'+end+' of '+total;
+  document.getElementById('rxp-prev').disabled=rxpPage<=1;
+  document.getElementById('rxp-next').disabled=end>=total;
+}
+function rxpGo(delta){rxpPage+=delta;rxpRenderPage();}
+// Excel: item-level rows of the applied search (API sort fixed: orderedAt desc, productCode asc; max 10,000 rows)
+function rxpExport(){
+  if(typeof XLSX==='undefined'){showToast('Excel Export','Excel library failed to load. Check network and reload.','error');return;}
+  if(rxpError){showToast('Excel Export',rxpError,'error');return;}
+  const orders=[...rxpLastRows].sort((a,b)=>b.orderedAt.localeCompare(a.orderedAt));
+  const aoa=[['Order Date','Order No.','Source System Order ID','Channel','Store Code','Store Name','Status','Approve Date','Approve By','Product Code','Product Name']];
+  orders.forEach(r=>[...r.items].sort((x,y)=>x.code.localeCompare(y.code)).forEach(it=>aoa.push([r.orderedAt,r.orderNo,r.orderId===r.orderNo?'':r.orderId,r.channel,r.storeCode,
+    rxpStoreName(r.storeCode),rxpStatus(r),r.decidedAt||'',r.decidedBy||'',it.code,it.name])));
+  if(aoa.length>10001){showToast('Excel Export','Excel downloads are limited to a maximum of 10000 records.','error');return;}
+  const ws=XLSX.utils.aoa_to_sheet(aoa),wb=XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(wb,ws,'RX Order Review');
+  const d=new Date(),fileName='rx_prescription_review_'+d.getFullYear()+'_'+(d.getMonth()+1)+'_'+d.getDate()+'.xlsx';
+  XLSX.writeFile(wb,fileName);
+  showToast('Excel Export',fileName+' — '+(aoa.length-1)+' rows');
+}
+
+// ----- Detail (#/rx/prescription-review/{id}) -----
+function rxpOpenDetail(id){
+  if(!rxpInited) rxpEnter();
+  const r=RXP_DATA.find(x=>x.id===String(id));
+  // Detail API excludes UNREADY orders (404)
+  if(!r||rxpStatus(r)==='UNREADY') return false;
+  rxpCur=r;rxpErrors={};rxpOcrFields=[];rxpOcrBusy=false;rxpEditCmt=null;
+  rxpLoadDraft();
+  if(typeof setRoute==='function') setRoute('#/rx/prescription-review/'+r.id);
+  rxpShowPane('detail');rxpRenderDetail();window.scrollTo(0,0);
+  return true;
+}
+function rxpCloseDetail(){
+  rxpCur=null;
+  if(typeof setRoute==='function') setRoute('#/rx/prescription-review');
+  rxpShowPane('list');if(rxpApplied) rxpRun(false);
+}
+// Form values = last saved data. For a POS order saved in POS (RD_STATES), the POS input is shown.
+function rxpLoadDraft(){
+  const r=rxpCur;
+  if(r.pos&&typeof RD_STATES!=='undefined'&&RD_STATES[r.pos.id]&&!r.posSynced){
+    const s=RD_STATES[r.pos.id],d=r.d,rv=s.rxv||{};
+    if(s.approval&&s.approval!=='Unready'){
+      const pdSingle=s.pdMode==='single';
+      d.rx={odSph:rv.odSph||'',odCyl:rv.odCyl||'',odAxis:rv.odAxis||'',odPd:rv.odPd||'',odOc:rv.odOc||'',osSph:rv.osSph||'',osCyl:rv.osCyl||'',osAxis:rv.osAxis||'',
+        osPd:pdSingle?'':(rv.osPd||''),osOc:rv.osOc||'',pdType:pdSingle?'SINGLE':'DUAL'};
+      Object.assign(d,{patientName:s.patientName||'',patientDob:s.patientDob||'',prescriberName:s.prescriber||'',license:s.license||'',signed:s.signature?'Y':'N',
+        prescriberAddress:s.rxAddress||'',prescriberPhone:s.rxPhone||'',prescriberFax:s.rxFax||'',issueDate:s.issueDate||'',expiryDate:s.expiryDate||'',files:[...(s.files||[])],
+        purchaserName:s.custName||'',purchaserPhone:s.custPhone||'',purchaserEmail:s.custEmail||'',rcvName:s.rcvName||'',rcvPhone:s.rcvPhone||'',rcvEmail:s.rcvEmail||'',
+        receive:s.dlvType==='store'?'STORE_PICKUP':'B2C_DELIVERY',rxTerms:!!s.chkRx,hipaa:!!s.chkHipaa,marketing:!!s.chkMkt,signature:!!s.sigData});
+      if(s.dlvType!=='store') Object.assign(d,s.dlvMode==='search'?{address:s.dlvSearch||'',address2:s.dlvAddr2S||'',city:s.dlvCityS||'',state:s.dlvStateS||'',zip:s.dlvZipS||''}
+        :{address:s.dlvAddr1||'',address2:s.dlvAddr2||'',city:s.dlvCity||'',state:s.dlvState||'',zip:s.dlvZip||''});
+      d.membership=s.member?{id:s.member.id,email:s.member.email,phone:s.member.phone,provider:s.member.provider,country:'US'}:null;
+      r.posSynced=true;
+    }
+  }
+  const {comments,...rest}=r.d;
+  rxpDraft=JSON.parse(JSON.stringify(rest));
+}
+const rxpEditable=()=>['UNREADY','REQUESTED'].includes(rxpStatus(rxpCur));
+const rxpOnline=()=>rxpCur.channel==='ONLINE';
+const rxpBlank=v=>v===null||v===undefined||String(v).trim()==='';
+const rxpLensSlots=()=>rxpCur.items.filter(it=>it.type==='LENS').reduce((n,it)=>n+it.qty,0);
+const rxpInOrderFrames=()=>rxpCur.items.filter(it=>it.type==='FRAME');
+// Confirm / Reject enable condition (isFormReady) — checks the current form, saved or not
+function rxpFormReady(){
+  if(rxpOcrBusy) return false;
+  const d=rxpDraft,rx=d.rx,off=!rxpOnline(),st=rxpStatus(rxpCur);
+  const req=[rx.osSph,rx.odSph,rx.osCyl,rx.odCyl,rx.osAxis,rx.odAxis,d.expiryDate,rx.odPd,d.purchaserName,d.purchaserPhone,d.purchaserEmail,d.rcvName,d.rcvPhone,d.rcvEmail,
+    d.patientName,d.patientDob,d.prescriberName,d.license,d.prescriberAddress].concat(off?[d.signature?'Y':'']:[]);
+  if(req.some(rxpBlank)) return false;
+  if(off&&(!d.rxTerms||!d.hipaa)) return false;
+  if(rx.pdType==='DUAL'&&rxpBlank(rx.osPd)) return false;
+  if(d.receive==='B2C_DELIVERY'&&[d.address,d.city,d.state,d.zip].some(rxpBlank)) return false;
+  if(['UNREADY','REQUESTED'].includes(st)){
+    if(!d.files.length) return false;
+    if(d.mapped.some(rxpBlank)) return false;
+  }
+  return true;
+}
+// Save validation (rxLmsOperationFormSchema)
+function rxpValidate(){
+  const d=rxpDraft,rx=d.rx,e={},off=!rxpOnline();
+  const req=(k,v)=>{if(rxpBlank(v)) e[k]='Required';};
+  ['osSph','odSph','osCyl','odCyl','osAxis','odAxis'].forEach(k=>req('rx.'+k,rx[k]));
+  req('expiryDate',d.expiryDate);
+  ['patientName','patientDob','prescriberName','license','prescriberAddress'].forEach(k=>req(k,d[k]));
+  // schema compares pdType with lowercase 'dual' -> OS PD is never required on Save
+  if(rx.pdType==='dual') req('rx.osPd',rx.osPd);
+  req('rx.odPd',rx.odPd);
+  ['purchaserName','purchaserPhone','purchaserEmail','rcvName','rcvPhone','rcvEmail'].forEach(k=>{req(k,d[k]);if(!e[k]&&String(d[k]).length>50) e[k]='Up to 50 characters.';});
+  if(off){req('signature',d.signature?'Y':'');if(!d.rxTerms) e.rxTerms='Required';if(!d.hipaa) e.hipaa='Required';}
+  if(d.receive==='B2C_DELIVERY') ['address','city','state','zip'].forEach(k=>req(k,d[k]));
+  if(rxpEditable()){
+    if(!d.files.length) e.files='Please upload at least one prescription file.';
+    d.mapped.forEach((m,i)=>{if(rxpBlank(m)) e['mapped.'+i]='Required';});
+  }
+  const ax=k=>{const n=+rx[k];if(!rxpBlank(rx[k])&&(isNaN(n)||n<0||n>180)) e['rx.'+k]='0 - 180';};
+  ax('odAxis');ax('osAxis');
+  return e;
+}
+function rxpSet(path,v){
+  const [a,b]=path.split('.');
+  if(b!==undefined) rxpDraft[a][b]=v; else rxpDraft[a]=v;
+  if(rxpErrors[path]){delete rxpErrors[path];const el=document.querySelector(`#rxp-detail [data-f="${path}"]`);if(el){el.classList.remove('err');const m=el.parentNode.querySelector('.rxp-err');if(m) m.remove();}}
+  rxpRenderSide();
+}
+function rxpRe(path,v){rxpSet(path,v);rxpRenderDetail();}
+// ----- Detail render -----
+const RXP_ICON={
+  back:'<svg viewBox="0 0 24 24"><path d="M17.77 3.77 16 2 6 12l10 10 1.77-1.77L9.54 12z"/></svg>',
+  info:'<svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>',
+  upload:'<svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M17 8l-5-5-5 5"/><path d="M12 3v12"/></svg>',
+  sig:'<svg viewBox="0 0 220 70"><path d="M10 50 C30 10, 45 10, 50 40 S70 65, 85 30 S110 5, 120 45 S150 60, 165 25 S195 30, 210 40"/></svg>'
+};
+function rxpIn(path,opt={}){
+  const [a,b]=path.split('.'),v=b!==undefined?rxpDraft[a][b]:rxpDraft[a],err=rxpErrors[path];
+  const cls='rxp-in'+(err?' err':'')+(rxpOcrFields.includes(path)?' ocr':'');
+  return `<input class="${cls}" data-f="${path}" type="${opt.type||'text'}" value="${rxpEsc(v)}" placeholder="${opt.ph||''}" ${opt.dis?'disabled':''} ${opt.max?'maxlength="'+opt.max+'"':''}
+    oninput="rxpSet('${path}',this.value)">${err?`<div class="rxp-err">${rxpEsc(err)}</div>`:''}`;
+}
+function rxpSel(path,opts,dis){
+  const [a,b]=path.split('.'),v=b!==undefined?rxpDraft[a][b]:rxpDraft[a],err=rxpErrors[path];
+  return `<select class="rxp-in${err?' err':''}${rxpOcrFields.includes(path)?' ocr':''}" data-f="${path}" ${dis?'disabled':''} onchange="rxpSet('${path}',this.value)">
+    <option value="">—</option>${opts.map(o=>`<option ${o===v?'selected':''}>${o}</option>`).join('')}</select>${err?`<div class="rxp-err">${err}</div>`:''}`;
+}
+const rxpF=(label,html,req)=>`<div class="rxp-f"><label>${label}${req?'<span class="rxp-req">*</span>':''}</label>${html}</div>`;
+const rxpRange=(min,max)=>{const o=[];for(let i=max*4;i>=min*4;i--){const v=i/4;o.push((v>0?'+':'')+v.toFixed(2));}return o;};
+const RXP_SPH=rxpRange(-12,8),RXP_CYL=rxpRange(-6,6);
+function rxpRenderDetail(){
+  const r=rxpCur,d=rxpDraft,st=rxpStatus(r),ed=rxpEditable(),on=rxpOnline(),info=RXP_STATUS[st].info;
+  const rxDis=!ed,custDis=!ed||on,addrDis=!ed||on||d.receive!=='B2C_DELIVERY';
+  const inOrder=rxpInOrderFrames().map(f=>f.code);
+  let slot=0;
+  const itemRows=r.items.map(it=>{
+    const color=it.type==='LENS'?'#3B82F6':it.type==='PACKAGE'?'#8B5CF6':'#ff6b35';
+    let mapped='-',cof='';
+    if(it.type==='LENS'){
+      const sl=[];const cs=[];
+      for(let q=0;q<it.qty;q++,slot++){
+        const v=d.mapped[slot]||'',err=rxpErrors['mapped.'+slot];
+        sl.push(`<select class="rxp-in${err?' err':''}" style="min-width:280px;" ${!ed||on?'disabled':''} onchange="rxpMap(${slot},this.value)"><option value="">Select Mapped Product</option>
+          <optgroup label="In this Order">${rxpInOrderFrames().map(f=>`<option value="${f.code}" ${v===f.code?'selected':''}>${f.code} / ${rxpEsc(f.name)} / ${f.barcode}</option>`).join('')}</optgroup>
+          <optgroup label="Product Search">${RXP_SEARCH_FRAMES.map(f=>`<option value="${f[0]}" ${v===f[0]?'selected':''}>${f[0]} / ${rxpEsc(f[1])} / ${f[2]}</option>`).join('')}</optgroup></select>${err?`<div class="rxp-err">${err}</div>`:''}`);
+        cs.push(`<span class="rxp-cof${v&&!inOrder.includes(v)?' on':''}">${v&&!inOrder.includes(v)?'✓':''}</span>`);
+      }
+      mapped=sl.join('<div style="height:8px"></div>');cof=cs.join('<div style="height:8px"></div>');
+    }
+    return `<tr><td class="tl"><span class="rxp-type"><i style="background:${color}"></i>${it.type}</span></td>
+      <td class="tl">${it.code} / ${rxpEsc(it.name)} / ${it.barcode||'-'}</td><td>${mapped}</td><td class="tr">${it.qty}</td><td class="tr">${rxpAmt(it.amount)}</td><td>${cof}</td></tr>`;
+  }).join('');
+  const m=d.membership;
+  const eye=(e,lbl)=>`<tr><th class="eye">${lbl}</th>
+    <td>${rxpSel('rx.'+e+'Sph',RXP_SPH,rxDis)}</td><td>${rxpSel('rx.'+e+'Cyl',RXP_CYL,rxDis)}</td>
+    <td>${rxpIn('rx.'+e+'Axis',{type:'number',ph:'—',dis:rxDis})}</td>
+    <td>${e==='os'&&d.rx.pdType==='SINGLE'?`<input class="rxp-in" disabled placeholder="Auto">`:rxpIn('rx.'+e+'Pd',{type:'number',ph:'—',dis:rxDis})}</td>
+    <td>${rxpIn('rx.'+e+'Oc',{ph:'—',dis:rxDis})}</td></tr>`;
+  const comments=[...r.d.comments].sort((a,b)=>b.date.localeCompare(a.date));
+  document.getElementById('rxp-detail').innerHTML=`<div class="rxp-d">
+    <div class="rxp-d-head">
+      <button class="rxp-back" title="Back to List" onclick="rxpCloseDetail()">${RXP_ICON.back}</button>
+      <span class="rxp-d-id">${r.orderId}</span>
+      <button class="rxp-d-no" title="Copy" onclick="rxpCopy('${r.orderNo}')">(${r.orderNo})</button>
+      ${rxpChip(st,true)}${rxpCh(r.channel)}
+    </div>
+    <div class="rxp-d-body"><div class="rxp-d-main">
+      <div class="rxp-info ${st}">${RXP_ICON.info}<div><h3>${info[0]}</h3>${info[1]?`<p>${info[1]}</p>`:''}</div></div>
+
+      <div class="rxp-sec" id="rxp-sec-customer">
+        <div class="rxp-sec-t">Customer Membership Info</div>
+        <div class="rxp-g2">
+          ${rxpF('Country',`<input class="rxp-in" value="${d.country}" disabled>`,true)}
+          ${rxpF('Email / Phone / Membership QR',m?`<div class="rxp-member">${rxpEsc(m.email)} / ${rxpEsc(m.phone)}<small>${m.provider} | ${m.id}</small></div>`:`<div class="rxp-member">Non-Member</div>`,true)}
+        </div>
+      </div>
+
+      <div class="rxp-sec" id="rxp-sec-order">
+        <div class="rxp-sec-t">Order Info</div>
+        <div class="rxp-meta"><span><b>Order Date</b>${r.orderedAt}</span></div>
+        <table class="rxp-tbl"><thead><tr><th class="tl">Type</th><th class="tl">Product Info (Code / Name / Barcode)</th><th style="width:320px;">Mapped Product</th><th class="tr">Qty</th><th class="tr">Total Price</th><th>C.O.F</th></tr></thead>
+          <tbody>${itemRows}</tbody></table>
+      </div>
+
+      <div class="rxp-sec" id="rxp-sec-prescription">
+        <div class="rxp-sec-t">Prescription</div>
+        <div id="rxp-sec-documents" style="scroll-margin-top:20px;">
+          <div class="rxp-step"><span class="no">1</span>Scan Prescription</div>
+          ${rxpOcrBusy?`<div class="rxp-upload busy"><div class="rxp-spin"></div><div><div class="t">Upload Prescription</div><div class="s">JPG, PNG, PDF (max 10MB, 1 page) · OCR auto-filling supported</div></div></div>`
+            :`<label class="rxp-upload${!ed||d.files.length>=3?' dis':''}"><input type="file" hidden accept=".jpg,.jpeg,.png,.pdf" ${!ed||d.files.length>=3?'disabled':''} onchange="rxpUpload(this)">${RXP_ICON.upload}
+              <div><div class="t">Upload Prescription</div><div class="s">JPG, PNG, PDF (max 10MB, 1 page) · OCR auto-filling supported</div></div></label>`}
+          ${d.files.map((f,i)=>`<div class="rxp-file"><span>${rxpEsc(f)}</span>${ed&&!rxpOcrBusy?`<button onclick="rxpRemoveFile(${i})">Delete</button>`:''}</div>`).join('')}
+          ${rxpErrors.files?`<div class="rxp-err">${rxpErrors.files}</div>`:''}
+        </div>
+        <div class="rxp-divider"></div>
+        <div style="display:flex;align-items:center;justify-content:space-between;"><div class="rxp-step"><span class="no">2</span>Prescription Values</div>${rxpOcrFields.length?'<span class="rxp-badge-ocr">OCR Auto-filled</span>':''}</div>
+        <div class="rxp-sublbl">Basic Info</div>
+        <div class="rxp-g2" style="margin-bottom:14px;">
+          <div class="rxp-box"><div class="rxp-sublbl" style="margin:0;">Patient</div>
+            ${rxpF('Name',rxpIn('patientName',{dis:rxDis}),true)}${rxpF('Date of Birth',rxpIn('patientDob',{type:'date',dis:rxDis}),true)}</div>
+          <div class="rxp-box"><div class="rxp-sublbl" style="margin:0;">Prescriber</div>
+            ${rxpF('Prescriber',rxpIn('prescriberName',{dis:rxDis}),true)}
+            <div class="rxp-g2">${rxpF('License No.',rxpIn('license',{dis:rxDis}),true)}
+              ${rxpF('Signature',`<div class="rxp-yn"><button ${rxDis?'disabled':''} class="${d.signed==='Y'?'on':''}" onclick="rxpRe('signed','Y')">Y</button><button ${rxDis?'disabled':''} class="${d.signed==='N'?'on':''}" onclick="rxpRe('signed','N')">N</button></div>`)}</div>
+            ${rxpF('Address',rxpIn('prescriberAddress',{dis:rxDis}),true)}
+            <div class="rxp-g2">${rxpF('Phone',rxpIn('prescriberPhone',{dis:rxDis}))}${rxpF('Fax',rxpIn('prescriberFax',{dis:rxDis}))}</div>
+            <div class="rxp-g2">${rxpF('Issue Date',rxpIn('issueDate',{type:'date',dis:rxDis}))}${rxpF('Expiry Date',rxpIn('expiryDate',{type:'date',dis:rxDis}),true)}</div>
+          </div>
+        </div>
+        <div class="rxp-sublbl">Prescription Values</div>
+        <table class="rxp-tbl rxp-vtbl"><thead><tr><th></th><th>Sphere<span class="rxp-req">*</span></th><th>Cylinder<span class="rxp-req">*</span></th><th>Axis<span class="rxp-req">*</span></th>
+          <th>PD<span class="rxp-req">*</span><br><span class="rxp-seg"><button ${rxDis?'disabled':''} class="${d.rx.pdType==='SINGLE'?'on':''}" onclick="rxpPdType('SINGLE')">Single</button><button ${rxDis?'disabled':''} class="${d.rx.pdType==='DUAL'?'on':''}" onclick="rxpPdType('DUAL')">Dual</button></span></th><th>OC</th></tr></thead>
+          <tbody>${eye('od','OD (Right Eye)')}${eye('os','OS (Left Eye)')}</tbody></table>
+      </div>
+
+      <div class="rxp-sec" id="rxp-sec-purchaser">
+        <div class="rxp-sec-t">Purchaser Info<span class="rxp-req">*</span></div>
+        <div class="rxp-g3">${rxpF('Name',rxpIn('purchaserName',{ph:'Full Name',dis:custDis,max:50}),true)}${rxpF('Phone',rxpIn('purchaserPhone',{ph:'Phone Number',dis:custDis,max:50}),true)}${rxpF('Email',rxpIn('purchaserEmail',{ph:'Email Address',dis:custDis,max:50}),true)}</div>
+      </div>
+
+      <div class="rxp-sec" id="rxp-sec-delivery">
+        <div class="rxp-sec-t">Patient &amp; Shipping Info<span class="rxp-req">*</span></div>
+        <div class="rxp-g3" style="margin-bottom:14px;">${rxpF('Patient Name',rxpIn('rcvName',{ph:'Full Name',dis:custDis,max:50}),true)}${rxpF('Phone',rxpIn('rcvPhone',{ph:'Phone Number',dis:custDis,max:50}),true)}${rxpF('Email',rxpIn('rcvEmail',{ph:'Email Address',dis:custDis,max:50}),true)}</div>
+        <div class="rxp-f"><label>Shipping Type<span class="rxp-req">*</span></label></div>
+        <div class="rxp-ship">
+          <div class="rxp-ship-card${d.receive==='B2C_DELIVERY'?' on':''}${custDis?' dis':''}" onclick="${custDis?'':"rxpRe('receive','B2C_DELIVERY')"}"><div><div class="t">Ship to Address</div><div class="d">Deliver to the customer's address</div></div></div>
+          <div class="rxp-ship-card${d.receive==='STORE_PICKUP'?' on':''}${custDis?' dis':''}" onclick="${custDis?'':"rxpRe('receive','STORE_PICKUP')"}"><div><div class="t">Ship to Store</div><div class="d">Pick up at ${r.storeCode}</div></div></div>
+        </div>
+        ${d.receive==='B2C_DELIVERY'?`<div class="rxp-f"><label>Shipping Address<span class="rxp-req">*</span></label></div>
+          <div style="margin-bottom:8px;">${rxpIn('address',{ph:'Search address',dis:addrDis,max:200})}</div>
+          <div style="margin-bottom:8px;">${rxpIn('address2',{ph:'Address Line 2',dis:addrDis,max:200})}</div>
+          <div class="rxp-g3">${rxpF('CITY',rxpIn('city',{dis:addrDis,max:200}),true)}${rxpF('STATE',rxpIn('state',{dis:addrDis,max:200}),true)}${rxpF('ZIP',rxpIn('zip',{dis:addrDis,max:50}),true)}</div>`:''}
+      </div>
+
+      ${on?'':`<div class="rxp-sec" id="rxp-sec-policy">
+        <div class="rxp-sec-t">Policy Agreements</div>
+        <label class="rxp-agree"><input type="checkbox" ${d.rxTerms?'checked':''} disabled><span>I have read and agree to the Consent &amp; Agreement Policy for prescription lens services.<span class="rxp-req">*</span></span></label>
+        <label class="rxp-agree"><input type="checkbox" ${d.hipaa?'checked':''} disabled><span>I authorize the use and disclosure of my health information as described in the HIPAA Authorization.<span class="rxp-req">*</span></span></label>
+        <label class="rxp-agree"><input type="checkbox" ${d.marketing?'checked':''} disabled><span>I agree to receive marketing communications.</span></label>
+        ${rxpErrors.rxTerms||rxpErrors.hipaa?'<div class="rxp-err">Required</div>':''}
+        <div class="rxp-f" style="margin-top:14px;"><label>Signature<span class="rxp-req">*</span></label></div>
+        <div class="rxp-sig">${d.signature?RXP_ICON.sig:'Signature'}</div>${rxpErrors.signature?'<div class="rxp-err">Required</div>':''}
+      </div>`}
+
+      <div class="rxp-sec" id="rxp-sec-comment">
+        <div class="rxp-sec-t">Comment<span class="cnt">${comments.length}</span></div>
+        <div class="rxp-cmt-in">
+          <select id="rxp-cmt-type" aria-label="Comment Type">${RXP_COMMENT_TYPES.map(([v,l])=>`<option value="${v}">${l}</option>`).join('')}</select>
+          <div style="flex:1;"><textarea id="rxp-cmt-text" maxlength="200" placeholder="Enter your Comments." oninput="document.getElementById('rxp-cmt-cnt').textContent=this.value.length+' / 200'"></textarea><div class="rxp-cnt" id="rxp-cmt-cnt">0 / 200</div></div>
+          <button class="rxp-btn-sm" onclick="rxpAddComment()">Add</button>
+        </div>
+        ${comments.length?comments.map(c=>{const t=(RXP_COMMENT_TYPES.find(x=>x[0]===c.type)||[c.type,c.type])[1],mine=c.author===RXP_ME.username;
+          return `<div class="rxp-cmt"><div class="rxp-cmt-h"><span class="rxp-ctype ${c.type}">${t}</span><span class="who">${rxpEsc(c.author)}</span><span class="when">${c.date}</span>
+            ${mine&&rxpEditCmt!==c.id?`<button style="color:#1565C0" onclick="rxpEditComment('${c.id}')">Modification</button><button style="color:#e53935" onclick="rxpDelComment('${c.id}')">Delete</button>`:''}</div>
+            ${rxpEditCmt===c.id?`<div class="rxp-cmt-in" style="margin:0;"><select id="rxp-cmt-etype">${RXP_COMMENT_TYPES.map(([v,l])=>`<option value="${v}" ${v===c.type?'selected':''}>${l}</option>`).join('')}</select>
+                <textarea id="rxp-cmt-etext" maxlength="200">${rxpEsc(c.text)}</textarea><button class="rxp-btn-sm" onclick="rxpSaveComment('${c.id}')">Save</button><button class="rxp-btn-sm ghost" onclick="rxpEditCmt=null;rxpRenderDetail()">Cancel</button></div>`
+              :`<div class="rxp-cmt-txt">${rxpEsc(c.text)}</div>`}</div>`;}).join(''):'<div class="rxp-empty-sm">No commets.</div>'}
+      </div>
+    </div>
+    <aside class="rxp-d-side"><div class="rxp-index" id="rxp-index"></div></aside></div>
+  </div>`;
+  rxpRenderSide();
+}
+// Index (auto check) + bottom action bar
+function rxpRenderSide(){
+  const r=rxpCur,d=rxpDraft,st=rxpStatus(r),on=rxpOnline(),f=v=>!rxpBlank(v);
+  const ed=['UNREADY','REQUESTED'].includes(st);
+  const rx=d.rx,pres=['osSph','odSph','osCyl','odCyl','osAxis','odAxis','odPd'].every(k=>f(rx[k]))&&(rx.pdType==='SINGLE'||f(rx.osPd))&&['patientName','patientDob','prescriberName','license','prescriberAddress'].every(k=>f(d[k]));
+  const secs=[['Customer Info','rxp-sec-purchaser',[d.purchaserName,d.purchaserPhone,d.purchaserEmail].every(f)],
+    ['Order Info','rxp-sec-order',!ed||d.mapped.every(f)],
+    ['Prescription','rxp-sec-prescription',pres],
+    ['Documents','rxp-sec-documents',f(d.expiryDate)&&d.files.length>0],
+    ['Delivery','rxp-sec-delivery',[d.rcvName,d.rcvPhone,d.rcvEmail].every(f)&&(d.receive==='STORE_PICKUP'||[d.address,d.city,d.state,d.zip].every(f))]]
+    .concat(on?[]:[['Policy Agreements','rxp-sec-policy',d.rxTerms&&d.hipaa&&d.signature]])
+    .concat([['Comment','rxp-sec-comment',r.d.comments.length>0]]);
+  const idx=document.getElementById('rxp-index');
+  if(idx) idx.innerHTML=`<div class="hd">Index</div><ul>${secs.map(([l,a,ok])=>`<li onclick="document.getElementById('${a}').scrollIntoView({behavior:'smooth',block:'start'})"><span class="ck${ok?' on':''}">${ok?'✓':''}</span>${l}</li>`).join('')}</ul>
+    ${st==='CONFIRMED'?'<div class="msg">This order has been confirmed.</div>':''}`;
+  const ready=rxpFormReady(),dec=!RXP_CAN_APPROVAL||!ready||st!=='REQUESTED';
+  document.getElementById('rxp-actbar').innerHTML=`<div class="grp">
+      <button class="rxp-act rej" ${dec?'disabled':''} onclick="rxpOpenReject()">&#8856; Reject</button>
+      <button class="rxp-act cfm" ${dec?'disabled':''} onclick="rxpOpenDlg('confirm')">&#10003; Confirm</button></div>
+    <button class="rxp-act save" ${!RXP_CAN_WRITE||!ed||rxpOcrBusy?'disabled':''} onclick="rxpOpenDlg('save')">Save</button>`;
+}
+function rxpCopy(no){try{navigator.clipboard.writeText(no).catch(()=>{});}catch(e){}}
+function rxpPdType(t){
+  if(t==='SINGLE'){rxpDraft.rx.osPd='';}
+  rxpRe('rx.pdType',t);
+}
+function rxpMap(slot,v){rxpDraft.mapped[slot]=v;delete rxpErrors['mapped.'+slot];rxpRenderDetail();}
+// File upload -> OCR (AWS Textract) auto-fill. Save / Confirm / Reject are blocked while OCR is running.
+function rxpUpload(input){
+  const file=input.files&&input.files[0];input.value='';
+  if(!file) return;
+  if(!/\.(jpe?g|png|pdf)$/i.test(file.name)){showToast('Prescription','Unsupported file type. (JPG, PNG, PDF)','error');return;}
+  if(file.size>10*1024*1024){showToast('Prescription','The file exceeds 10MB.','error');return;}
+  if(rxpDraft.files.length>=3) return;
+  rxpDraft.files.push(file.name);delete rxpErrors.files;
+  rxpOcrBusy=true;rxpRenderDetail();
+  setTimeout(()=>{
+    if(!rxpCur) return;
+    rxpOcrBusy=false;rxpOcrFields=[];
+    const o=RXP_OCR,d=rxpDraft;
+    ['patientName','patientDob','prescriberName','license','prescriberAddress','prescriberPhone','prescriberFax','signed','issueDate','expiryDate'].forEach(k=>{if(rxpBlank(d[k])){d[k]=o[k];rxpOcrFields.push(k);}});
+    Object.entries(o.rx).forEach(([k,v])=>{if(rxpBlank(d.rx[k])&&!(k==='pdType'&&!rxpBlank(d.rx.odPd))){d.rx[k]=v;rxpOcrFields.push('rx.'+k);}});
+    rxpRenderDetail();
+    showToast('Auto-fill Complete !','');
+  },1500);
+}
+function rxpRemoveFile(i){rxpDraft.files.splice(i,1);rxpRenderDetail();}
+// ----- Comments (saved immediately, separate API) -----
+function rxpAddComment(){
+  const text=document.getElementById('rxp-cmt-text').value.trim(),type=document.getElementById('rxp-cmt-type').value;
+  if(!text) return;
+  rxpCur.d.comments.push({id:'c'+Date.now(),type,author:RXP_ME.username,date:rxpNow(),text});
+  rxpRenderDetail();
+}
+function rxpEditComment(id){rxpEditCmt=id;rxpRenderDetail();}
+function rxpSaveComment(id){
+  const c=rxpCur.d.comments.find(x=>x.id===id),text=document.getElementById('rxp-cmt-etext').value.trim();
+  if(!c||!text) return;
+  c.text=text;c.type=document.getElementById('rxp-cmt-etype').value;rxpEditCmt=null;rxpRenderDetail();
+}
+function rxpDelComment(id){rxpDlgAction={type:'delcmt',id};rxpShowDlg('Do you want to delete this comment?','Delete');}
+// ----- Confirm / Save dialogs -----
+function rxpOpenDlg(type){
+  rxpDlgAction={type};
+  if(type==='confirm') rxpShowDlg('Do you want to ‘ Confirm’ approval for this task?','Confirm');
+  else rxpShowDlg('Would you like to Save the Changes?','Save');
+}
+function rxpShowDlg(text,ok){
+  document.getElementById('rxp-dlg-text').textContent=text;
+  document.getElementById('rxp-dlg-ok').textContent=ok;
+  document.getElementById('rxp-dlg').classList.add('show');
+}
+function rxpCloseDlg(){document.getElementById('rxp-dlg').classList.remove('show');rxpDlgAction=null;}
+function rxpDlgOk(){
+  const a=rxpDlgAction;if(!a||!rxpCur) return rxpCloseDlg();
+  if(a.type==='delcmt'){rxpCur.d.comments=rxpCur.d.comments.filter(c=>c.id!==a.id);rxpCloseDlg();rxpRenderDetail();return;}
+  if(a.type==='save'){
+    rxpErrors=rxpValidate();
+    // Invalid: snackbar only, the dialog stays open
+    if(Object.keys(rxpErrors).length){rxpRenderDetail();showToast('Validation error. Please check the form and try again.','','error');return;}
+    if(!rxpEditable()){rxpCloseDlg();showToast('REQUESTED 상태까지만 수정 가능합니다.','','error');return;}
+    const comments=rxpCur.d.comments;
+    rxpCur.d={...JSON.parse(JSON.stringify(rxpDraft)),comments};
+    // Online orders: only the prescription is saved; customer / receiving method / item components are ignored by the API (fields are disabled)
+    if(rxpCur.pos&&rxpStatus(rxpCur)==='UNREADY') rxpSetStatus(rxpCur,'REQUESTED');
+    rxpOcrFields=[];rxpCloseDlg();rxpLoadDraft();rxpRenderDetail();
+    showToast('The save has been completed.','');
+    return;
+  }
+  if(a.type==='confirm'){
+    if(rxpStatus(rxpCur)!=='REQUESTED'){rxpCloseDlg();showToast('REQUESTED 상태에서만 확정/거절할 수 있습니다.','','error');return;}
+    rxpSetStatus(rxpCur,'CONFIRMED');
+    rxpCur.decidedAt=rxpNow();rxpCur.decidedTz=RXP_ME.tz;rxpCur.decidedBy=RXP_ME.username;
+    // Only the status is sent: unsaved form changes are discarded (detail is reloaded)
+    rxpCloseDlg();rxpErrors={};rxpOcrFields=[];rxpLoadDraft();rxpRenderDetail();
+    showToast('Prescription confirmation has been requested.','Prescription confirmation has been requested.');
+  }
+}
+// ----- Reject reason modal (lmsRxRejectReasonModal) -----
+function rxpOpenReject(){
+  const s=document.getElementById('rxp-rej-reason');
+  s.innerHTML='<option value="" disabled selected hidden>Select Reason.</option>'+RXP_REJECT_REASONS.map(x=>`<option>${x}</option>`).join('');
+  s.value='';
+  document.getElementById('rxp-rej-sub-wrap').hidden=true;
+  document.getElementById('rxp-rej-ok').disabled=true;
+  if(typeof csRefresh==='function') csRefresh(s);
+  document.getElementById('rxp-rej-modal').classList.add('show');
+}
+function rxpCloseReject(){document.getElementById('rxp-rej-modal').classList.remove('show');}
+function rxpRejReasonChange(){
+  const reason=document.getElementById('rxp-rej-reason').value,subs=RXP_REJECT_SUBS[reason];
+  const sub=document.getElementById('rxp-rej-sub');
+  sub.innerHTML='<option value="" disabled selected hidden>Select Sub Reason.</option>'+(subs||[]).map(x=>`<option>${x}</option>`).join('');
+  sub.value='';
+  if(typeof csRefresh==='function') csRefresh(sub);
+  document.getElementById('rxp-rej-sub-wrap').hidden=!subs;
+  rxpRejValidate();
+}
+function rxpRejValidate(){
+  const reason=document.getElementById('rxp-rej-reason').value,sub=document.getElementById('rxp-rej-sub').value;
+  document.getElementById('rxp-rej-ok').disabled=!reason||(!!RXP_REJECT_SUBS[reason]&&!sub);
+}
+function rxpSubmitReject(){
+  const reason=document.getElementById('rxp-rej-reason').value,sub=document.getElementById('rxp-rej-sub').value;
+  if(!reason||(RXP_REJECT_SUBS[reason]&&!sub)||!rxpCur) return;
+  if(rxpStatus(rxpCur)!=='REQUESTED'){rxpCloseReject();showToast('REQUESTED 상태에서만 확정/거절할 수 있습니다.','','error');return;}
+  rxpSetStatus(rxpCur,'REJECTED');
+  Object.assign(rxpCur,{decidedAt:rxpNow(),decidedTz:RXP_ME.tz,decidedBy:RXP_ME.username,rejectReason:reason,rejectSub:RXP_REJECT_SUBS[reason]?sub:null});
+  rxpCloseReject();rxpErrors={};rxpOcrFields=[];rxpLoadDraft();rxpRenderDetail();
+  showToast('The rejection was successful.','Please check the status.');
+}
 const HOME_LINKS=[
   {menu:'Inventory',title:'Outbound List',desc:'Outbound / Outbound Request list, detail, registration (Outbound Order Tag)',path:'/inventory/outbound'},
   {menu:'Master Information',title:'Store',desc:'Store master list (SAP) and store detail / edit history',path:'/master/store'},
@@ -11015,7 +11970,7 @@ const MENU_PAGES={
   '/sales/rx-sales-view':{bc:['Sales'],title:'RX Sales View',open:['sales'],view:'rxs-view',onEnter:()=>rxsEnter()},
   '/order/order-list':{bc:['Order'],title:'Order List',open:['order'],view:'ol-view',onEnter:()=>olEnter('ol')},
   '/order/refund-list':{bc:['Order'],title:'Refund List',open:['order'],view:'rl-view',onEnter:()=>olEnter('rl')},
-  '/rx/prescription-review':{bc:['RX (Lens)'],title:'Rx Prescription Review',open:['rx']},
+  '/rx/prescription-review':{bc:['RX (Lens)'],title:'Rx Prescription Review',open:['rx'],view:'rxp-view',onEnter:()=>rxpEnter()},
   '/rx/work-management':{bc:['RX (Lens)'],title:'Rx Work Management',open:['rx']},
   '/inventory/inbound':{bc:['Inventory'],title:'Inbound List',open:['inv'],view:'ib-view',onEnter:()=>ibEnter()},
   '/inventory/outbound-order':{bc:['Inventory'],title:'Outbound Order List',open:['inv'],view:'oo-view',onEnter:()=>ooEnter()},
@@ -11103,6 +12058,10 @@ function route(){
       const pg=MENU_PAGES['/inventory/outbound-order'];
       setPageHeader({...pg,menu:'/inventory/outbound-order'});showPlaceholder(pg);
       if(!ooOpenDetail(m[1])) return redirect('#/inventory/outbound-order');
+    }else if((m=path.match(/^\/rx\/prescription-review\/([^/]+)$/))){
+      const pg=MENU_PAGES['/rx/prescription-review'];
+      setPageHeader({...pg,menu:'/rx/prescription-review'});showPlaceholder(pg);
+      if(!rxpOpenDetail(m[1])) return redirect('#/rx/prescription-review');
     }else if(ROUTE_ALIASES[path]){
       return redirect('#'+ROUTE_ALIASES[path]);
     }else if(MENU_PAGES[path]){
