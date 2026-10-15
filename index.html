@@ -13596,13 +13596,14 @@ function rxwSnFocus(){
 }
 function rxwSnRender(){
   const m=rxwSn,done=m.ids.filter(id=>m.ok[id]).length,cur=m.ids.find(id=>!m.ok[id]);
-  const head={cs:'IE orders require a serial scan before moving to <b>Outbound Inspection</b>. The status changes after all serials are scanned.',
-    lr:'Serial scan is required before <b>Label Registration</b>. Scan the orders below to continue.',
-    edit:'Scan the IE serial attached to the frame.'}[m.mode];
+  // Callout: 2 lines (what is required / what happens next)
+  const head={cs:['IE orders require a serial scan before moving to <b>Outbound Inspection</b>.','The status changes after all serials are scanned.'],
+    lr:['Serial scan is required before <b>Label Registration</b>.','Scan the orders below to continue.'],
+    edit:['Scan the IE serial attached to the frame.','The serial is sent to SPM after label registration.']}[m.mode];
   const ok={cs:'Save &amp; Change Status',lr:'Save &amp; Continue',edit:'Save'}[m.mode];
   document.getElementById('rxw-sn-body').innerHTML=`
-    <div class="rxw-sn-alert" style="background:#fff4e5;color:#8a4b00;">&#9888;<span>${head}</span></div>
-    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;"><span class="rxw-sn-prog">Scanned <b>${done}</b> / ${m.ids.length}</span><span style="font-size:11px;color:#888;">Scan with the barcode scanner (Enter = next)</span></div>
+    <div class="rxw-sn-alert" style="background:#fff4e5;color:#8a4b00;">&#9888;<span>${head[0]}<br>${head[1]}</span></div>
+    <div style="margin-bottom:8px;"><span class="rxw-sn-prog">Scanned <b>${done}</b> / ${m.ids.length}</span></div>
     <div class="rxw-sn-list">${m.ids.map(id=>{const r=rxwById(id),fr=rxwFlatRows(r.items).map(x=>x.it).find(it=>it.ie),e=m.errs[id];
       return `<div class="rxw-sn-row${m.ok[id]?' ok':e?' err':''}${id===cur?' cur':''}">
         <div class="o"><b>${rxwEsc(r.ssid)}</b><small>${rxwEsc(r.orderNo)}</small><small>${fr?rxwEsc(fr.code+' / '+fr.name):''}</small></div>
@@ -13612,7 +13613,6 @@ function rxwSnRender(){
           <button class="rxw-sn-sim" title="Prototype only" onclick="rxwSnSim('${id}')">Simulate Scan</button></div>
           ${e?`<span class="em">${rxwEsc(e)}</span>`:''}</div>
         <span class="ck">${m.ok[id]?'&#10003;':''}</span></div>`;}).join('')}</div>
-    <div class="rxw-sn-proto">Prototype: serial format A–Z / 0–9, 8–30 chars. A serial ending in 0000 simulates "not registered in SPM".</div>
     <div class="rxw-mfoot" style="gap:8px;">
       <button class="btn-action btn-outline" onclick="rxwSnClose()">Cancel</button>
       <button class="btn-action btn-primary" ${done===m.ids.length?'':'disabled'} onclick="rxwSnConfirm()">${ok}</button></div>`;
