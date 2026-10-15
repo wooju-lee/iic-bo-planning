@@ -1565,6 +1565,7 @@ a.ib-trk:hover{border-color:#ff6b35;color:#ff6b35;}
 .rxw-sn-row .em{font-size:11px;color:#d32f2f;}
 .rxw-sn-row .ck{width:20px;height:20px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:11px;color:#fff;background:#e0e0e0;}
 .rxw-sn-row.ok .ck{background:#2e7d32;}
+.rxw-demo{margin-left:6px;background:#7c3aed;color:#fff;border-radius:3px;padding:1px 4px;font-size:9px;font-weight:700;letter-spacing:.4px;vertical-align:1px;}
 .rxw-sn-sim{height:32px;padding:0 10px;border:1px dashed #bbb;border-radius:4px;background:#fff;font-size:11px;color:#666;cursor:pointer;white-space:nowrap;}
 .rxw-sn-prog{font-size:12px;color:#555;}.rxw-sn-prog b{color:#ff6b35;}
 .rxw-sn-proto{font-size:10px;color:#aaa;margin-top:8px;}
@@ -13499,7 +13500,7 @@ function rxwReasonChange(){
 }
 function rxwReasonSync(){
   const v=document.getElementById('rxw-rs-r1').value,sub=document.getElementById('rxw-rs-r2').value;
-  document.getElementById('rxw-rs-ok').disabled=!v||(!!RXW_SUB_REASONS[v]&&!sub)||(rxwRetNeeded()&&rxwDs.retSn!==rxwCur.serial.no);
+  document.getElementById('rxw-rs-ok').disabled=!v||(!!RXW_SUB_REASONS[v]&&!sub)||(rxwRetNeeded()&&!rxwDs.retSn);
 }
 // RxWorkCancelFacade channel / fulfillment checks (simplified to the dummy flags)
 function rxwCancelErr(r){
@@ -13519,7 +13520,7 @@ function rxwReasonSubmit(){
     rxwToast('Work canceled successfully.','Work canceled.');
   }else{
     if(r.status!=='FINALIZED') return rxwToast(`Order must be COMPLETED to refund: orderNo=${r.orderNo}, currentStatus=${r.status}`,'','error');
-    if(rxwRetNeeded()&&rxwDs.retSn!==r.serial.no) return rxwToast('Scan the returned IE serial first.','','error');
+    if(rxwRetNeeded()&&!rxwDs.retSn) return rxwToast('Scan the returned IE serial first.','','error');
     r.claim='REFUNDED';
     rxwAddHistory(r,[['CLAIM_STATUS',null,'REFUNDED'],['REFUND_REASON',null,reason]].concat(sub?[['REFUND_SUB_REASON',null,sub]]:[]));
     // IE serial: return serial sent to SPM (deactivate) together with the refund
@@ -13535,7 +13536,6 @@ function rxwReasonSubmit(){
 // SPM: serial + order mapping is sent after the TMS label is issued (COMPLETED). Re Do keeps the serial (rework, same frame).
 // Refund (Finalized): the returned item's serial must match the shipped serial, then the return serial is sent to SPM.
 // TBD: BO keeps the order-serial mapping (needed for refund) / IE product identification / serial format / SPM validation API.
-const RXW_SN_RE=/^[A-Z0-9]{8,30}$/;
 let rxwSn=null;
 function rxwSnRequired(r){return !!r.ie&&r.recv==='B2C_DELIVERY'&&!r.claim;}
 function rxwSnGen(seed){const A='0123456789ABCDEFGHJKLMNPQRSTUVWXYZ';let x=seed>>>0||7,o='';for(let k=0;k<10;k++){x=(x*1103515245+12345)>>>0;o+=A[x%A.length];}return 'GMIE'+o;}
@@ -13610,20 +13610,16 @@ function rxwSnRender(){
         <div class="in"><div><input id="rxw-sn-in-${id}" value="${rxwEsc(m.vals[id]||'')}" placeholder="Scan IE serial" autocomplete="off"
             oninput="rxwSn.vals['${id}']=this.value.toUpperCase().trim();rxwSn.ok['${id}']=false;"
             onkeydown="if(event.key==='Enter'){event.preventDefault();rxwSnCommit('${id}');}">
-          <button class="rxw-sn-sim" title="Prototype only" onclick="rxwSnSim('${id}')">Simulate Scan</button></div>
+          <button class="rxw-sn-sim" title="Prototype only" onclick="rxwSnSim('${id}')">Simulate Scan<span class="rxw-demo">DEMO</span></button></div>
           ${e?`<span class="em">${rxwEsc(e)}</span>`:''}</div>
         <span class="ck">${m.ok[id]?'&#10003;':''}</span></div>`;}).join('')}</div>
     <div class="rxw-mfoot" style="gap:8px;">
       <button class="btn-action btn-outline" onclick="rxwSnClose()">Cancel</button>
       <button class="btn-action btn-primary" ${done===m.ids.length?'':'disabled'} onclick="rxwSnConfirm()">${ok}</button></div>`;
 }
+// Prototype: any non-empty value passes. Real validation (format / already mapped / duplicate / SPM registered) is TBD.
 function rxwSnCheck(id,v){
   if(!v) return 'Please scan the serial.';
-  if(!RXW_SN_RE.test(v)) return 'Invalid serial format.';
-  const other=RXW_DATA.find(x=>x.id!==id&&x.serial&&x.serial.no===v&&x.serial.spm!=='RETURNED');
-  if(other) return `This serial is already mapped to order ${other.ssid}.`;
-  if(rxwSn.ids.some(x=>x!==id&&rxwSn.ok[x]&&rxwSn.vals[x]===v)) return 'Duplicate serial in this list.';
-  if(/0000$/.test(v)) return 'Serial not registered in SPM.';
   return null;
 }
 function rxwSnCommit(id){
@@ -13650,21 +13646,22 @@ function rxwRetNeeded(){const r=rxwCur;return !!(r&&rxwDs.claimMode==='refund'&&
 function rxwRetRender(){
   const el=document.getElementById('rxw-rs-sn');if(!el) return;
   if(!rxwRetNeeded()){el.innerHTML='';return;}
-  const r=rxwCur,ok=rxwDs.retSn===r.serial.no;
+  const r=rxwCur,ok=!!rxwDs.retSn&&!rxwDs.retErr;
   el.innerHTML=`<div style="border:1px solid #e5e5e5;border-radius:6px;padding:12px 14px;display:flex;flex-direction:column;gap:8px;">
     <div style="font-size:12px;font-weight:700;">Returned IE Serial <span class="rxw-req">*</span></div>
     <div style="font-size:11px;color:#777;">Shipped serial: <b style="color:#222;">${rxwEsc(r.serial.no)}</b></div>
     <div class="rxw-sn-row${ok?' ok':rxwDs.retErr?' err':''}" style="grid-template-columns:1fr 22px;padding:0;border:none;">
       <div class="in"><div><input id="rxw-rs-sn-in" value="${rxwEsc(rxwDs.retSn)}" placeholder="Scan the returned item serial" autocomplete="off"
           onkeydown="if(event.key==='Enter'){event.preventDefault();rxwRetCommit(this.value);}">
-        <button class="rxw-sn-sim" onclick="rxwRetCommit(rxwCur.serial.no)">Simulate Scan</button></div>
+        <button class="rxw-sn-sim" onclick="rxwRetCommit(rxwCur.serial.no)">Simulate Scan<span class="rxw-demo">DEMO</span></button></div>
         ${rxwDs.retErr?`<span class="em">${rxwEsc(rxwDs.retErr)}</span>`:''}</div>
       <span class="ck">${ok?'&#10003;':''}</span></div>
     <div style="font-size:11px;color:#777;">On Refund, the return serial is sent to SPM (deactivation).</div></div>`;
 }
 function rxwRetCommit(v){
   v=String(v||'').toUpperCase().trim();if(v===rxwDs.retSn&&!rxwDs.retErr) return;
-  rxwDs.retSn=v;rxwDs.retErr=!v?'':v!==rxwCur.serial.no?'The returned serial does not match the shipped serial.':'';
+  // Prototype: any non-empty value passes. Real rule (returned serial must match the shipped serial) is TBD.
+  rxwDs.retSn=v;rxwDs.retErr='';
   rxwRetRender();rxwReasonSync();
 }
 // ===== RX menus: search filter Reset (prototype addition; real frontend has no Reset) =====
