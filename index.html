@@ -13016,7 +13016,7 @@ function rxwLabelRegConfirm(){
   });
   // IE serial: after the label is issued (COMPLETED) BO sends serial + order mapping to SPM -> serial activated
   const sent=rows.filter(r=>r.serial&&r.serial.spm==='PENDING');
-  sent.forEach(r=>{r.serial.spm='ACTIVATED';r.serial.spmAt=now;rxwAddHistory(r,[['SPM_SERIAL_STATUS','PENDING','ACTIVATED']],'system');});
+  sent.forEach(r=>{r.serial.spm='ACTIVATED';r.serial.spmAt=now;r.serial.spmBy='monster1437';rxwAddHistory(r,[['SPM_SERIAL_STATUS','PENDING','ACTIVATED']],'system');});
   rxwCloseModal('lr');if(!m.single) rxwSel.clear();
   rxwToast('Label registration has been sent to TMS successfully.',sent.length?`IE serial sent to SPM and activated: ${sent.length} order(s)`:'');
   rxwAfterChange();
@@ -13525,7 +13525,7 @@ function rxwReasonSubmit(){
     rxwAddHistory(r,[['CLAIM_STATUS',null,'REFUNDED'],['REFUND_REASON',null,reason]].concat(sub?[['REFUND_SUB_REASON',null,sub]]:[]));
     // IE serial: return serial sent to SPM (deactivate) together with the refund
     const ret=rxwRetNeeded();
-    if(ret){r.serial.spm='RETURNED';r.serial.retAt=rxwFmt(new Date());rxwAddHistory(r,[['SPM_SERIAL_STATUS','ACTIVATED','RETURNED']],'system');}
+    if(ret){r.serial.spm='RETURNED';r.serial.retAt=rxwFmt(new Date());r.serial.retBy='monster1437';rxwAddHistory(r,[['SPM_SERIAL_STATUS','ACTIVATED','RETURNED']],'system');}
     rxwToast('rx_work_refund_success',ret?'Return serial sent to SPM.':'');   // lokalise key missing in en -> shown as-is
   }
   rxwCloseModal('rs');rxwAfterChange();
@@ -13548,7 +13548,8 @@ function rxwIeSeed(){
     r.ie=true;r.items[0].ie=true;
     if(r.recv!=='B2C_DELIVERY'||r.claim==='CANCELED') return;
     const at=r.completedAt||r.confirmAt;
-    if(['COMPLETED','FINALIZED'].includes(r.status)) r.serial={no:rxwSnGen(i*7919),at,by:r.worker||'monster1437',spm:r.claim==='REFUNDED'?'RETURNED':'ACTIVATED',spmAt:r.completedAt};
+    if(['COMPLETED','FINALIZED'].includes(r.status)) r.serial={no:rxwSnGen(i*7919),at,by:r.worker||'monster1437',spm:r.claim==='REFUNDED'?'RETURNED':'ACTIVATED',spmAt:r.completedAt,spmBy:r.worker||'monster1437'};
+    if(r.serial&&r.serial.spm==='RETURNED'){const h=r.history.find(e=>e.items.some(it=>it.field==='CLAIM_STATUS'));r.serial.retAt=h?h.createdAt:r.completedAt;r.serial.retBy=h?h.createdBy:'monster1437';}
     else if(r.status==='OUTBOUND_INSPECTION'&&oiScanned++===0) r.serial={no:rxwSnGen(i*7919),at,by:r.worker||'monster1437',spm:'PENDING'};
   });
 }
@@ -13568,16 +13569,13 @@ function rxwSerialBox(r){
   if(!r.ie) return '';
   const s=rxwSnState(r),sn=r.serial,b2c=r.recv==='B2C_DELIVERY';
   const canScan=b2c&&!r.claim&&!sn&&r.status==='OUTBOUND_INSPECTION',canRe=b2c&&!r.claim&&sn&&sn.spm==='PENDING';
-  const fr=rxwFlatRows(r.items).map(x=>x.it).find(it=>it.ie);
   return `<div class="rxw-box${s[0]==='need'?' sn-need':''}"><h3 class="rxw-ttl">IE Serial<span class="rxw-sn-st ${s[0]}">${s[1]}</span>
       <span class="rxw-ttl-sfx">${canScan?`<button class="btn-action btn-primary" style="height:28px;" onclick="rxwSnOpen('edit',['${r.id}'])">Scan Serial</button>`:canRe?`<button class="btn-action btn-outline" style="height:28px;" onclick="rxwSnOpen('edit',['${r.id}'])">Rescan</button>`:''}</span></h3>
     ${s[0]==='need'?`<div class="rxw-sn-alert">&#9888;<span>Scan the IE serial before label registration. Label Registration is blocked until the serial is saved.</span></div>`:''}
-    <div class="rxw-sn-grid">
-      <span class="k">IE Product</span><span class="v">${fr?rxwEsc(fr.code+' / '+fr.name):'-'}</span>
-      <span class="k">Serial No.</span><span class="v">${sn?rxwEsc(sn.no):'-'}</span>
-      <span class="k">Scanned</span><span class="v">${sn?`${sn.at} (${r.tz}) · ${rxwEsc(sn.by)}`:'-'}</span>
-      <span class="k">SPM</span><span class="v">${!sn?'-':sn.spm==='PENDING'?'Not sent (sent after label registration)':sn.spm==='ACTIVATED'?`Activated${sn.spmAt?' · '+sn.spmAt+' ('+r.tz+')':''}`:`Returned${sn.retAt?' · '+sn.retAt+' ('+r.tz+')':''}`}</span>
-    </div>
+    ${b2c?`<div class="rxw-sn-grid">
+      <span class="k">Sent to SPM</span><span class="v">${sn&&sn.spmAt?`${sn.spmAt} (${r.tz}) · ${rxwEsc(sn.spmBy||'-')}`:'-'}</span>
+      ${sn&&sn.spm==='RETURNED'?`<span class="k">Return Sent to SPM</span><span class="v">${sn.retAt?sn.retAt+' ('+r.tz+')':'-'} · ${rxwEsc(sn.retBy||'-')}</span>`:''}
+    </div>`:''}
     <div class="rxw-sn-note">${b2c?'Scan at Outbound Inspection → sent to SPM (order mapping + activation) once the TMS label is issued. Re Do keeps the serial. Refund requires scanning the returned item serial.'
       :'Ship to Store: the serial is scanned in POS RX Operation when the customer picks up the order.'}</div>
   </div>`;
