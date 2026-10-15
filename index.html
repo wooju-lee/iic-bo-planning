@@ -13038,11 +13038,11 @@ function rxwLabelRegConfirm(){
     r.status='COMPLETED';r.completedAt=now;r.step='LABEL_PRINTABLE';
     r.trackings=r.trackings.filter(t=>t.dir!=='OUTBOUND').concat([{dir:'OUTBOUND',carrier,no:carrier==='UPS'?'1Z'+String(Date.now()).slice(-14):String(Date.now()).slice(-12)}]);
   });
-  // IE serial: after the label is issued (COMPLETED) BO sends serial + order mapping to SPM -> serial activated
+  // IE serial: after the label is issued (COMPLETED) BO publishes a topic (serial + order mapping); SPM subscribes. No result comes back to BO.
   const sent=rows.filter(r=>r.serial&&r.serial.spm==='PENDING');
-  sent.forEach(r=>{r.serial.spm='ACTIVATED';r.serial.spmAt=now;r.serial.spmBy='monster1437';rxwAddHistory(r,[['SPM_SERIAL_STATUS','PENDING','ACTIVATED']],'system');});
+  sent.forEach(r=>{r.serial.spm='PUBLISHED';r.serial.spmAt=now;r.serial.spmBy='monster1437';rxwAddHistory(r,[['SPM_SERIAL',null,'Sent to SPM']],'system');});
   rxwCloseModal('lr');if(!m.single) rxwSel.clear();
-  rxwToast('Label registration has been sent to TMS successfully.',sent.length?`IE serial sent to SPM and activated: ${sent.length} order(s)`:'');
+  rxwToast('Label registration has been sent to TMS successfully.',sent.length?`IE serial sent to SPM: ${sent.length} order(s)`:'');
   rxwAfterChange();
 }
 
@@ -13583,9 +13583,9 @@ function rxwReasonSubmit(){
     if(rxwRetNeeded()&&!rxwDs.retSn) return rxwToast('Scan the returned IE serial first.','','error');
     r.claim='REFUNDED';
     rxwAddHistory(r,[['CLAIM_STATUS',null,'REFUNDED'],['REFUND_REASON',null,reason]].concat(sub?[['REFUND_SUB_REASON',null,sub]]:[]));
-    // IE serial: return serial sent to SPM (deactivate) together with the refund
+    // IE serial: return topic published to SPM together with the refund (no result comes back)
     const ret=rxwRetNeeded();
-    if(ret){r.serial.spm='RETURNED';r.serial.retAt=rxwFmt(new Date());r.serial.retBy='monster1437';rxwAddHistory(r,[['SPM_SERIAL_STATUS','ACTIVATED','RETURNED']],'system');}
+    if(ret){r.serial.spm='RETURN_PUBLISHED';r.serial.retAt=rxwFmt(new Date());r.serial.retBy='monster1437';rxwAddHistory(r,[['SPM_SERIAL','Sent to SPM','Return Sent to SPM']],'system');}
     rxwToast('rx_work_refund_success',ret?'Return serial sent to SPM.':'');   // lokalise key missing in en -> shown as-is
   }
   rxwCloseModal('rs');rxwAfterChange();
@@ -13614,9 +13614,10 @@ function rxwPurchaserBox(r){
 // ===== IE serial (prototype addition, 2026-10-15 planning) =====
 // Scope: To Customer (B2C_DELIVERY) RX orders that include an IE frame. Ship to Store serials are handled in POS RX Operation at pickup.
 // Gate 1: moving to Outbound Inspection (Change Status / detail Save) opens the scan modal. Gate 2: Label Registration blocks missing serials.
-// SPM: serial + order mapping is sent after the TMS label is issued (COMPLETED). Re Do keeps the serial (rework, same frame).
-// Refund (Finalized): the returned item's serial must match the shipped serial, then the return serial is sent to SPM.
-// TBD: BO keeps the order-serial mapping (needed for refund) / IE product identification / serial format / SPM validation API.
+// SPM (2026-10-15 confirmed): BO publishes a topic, SPM subscribes and takes the serial. SPM sends no result back -> BO shows "Sent to SPM" only (user wording; system = topic published);
+//   failures are checked by operations on the SPM side. Published after the TMS label is issued (COMPLETED). Re Do keeps the serial (rework, same frame).
+// Refund (Finalized): scan the returned item serial, then a return topic is published to SPM.
+// TBD: BO keeps the order-serial mapping (needed for the topic payload / refund) / IE product identification / serial format.
 let rxwSn=null;
 const RXW_CLOCK='<svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm0 18a8 8 0 1 1 0-16 8 8 0 0 1 0 16zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/></svg>';
 function rxwSnRequired(r){return !!r.ie&&r.recv==='B2C_DELIVERY'&&!r.claim;}
@@ -13630,15 +13631,15 @@ function rxwIeSeed(){
     r.ie=true;r.items[0].ie=true;
     if(r.recv!=='B2C_DELIVERY'||r.claim==='CANCELED') return;
     const at=r.completedAt||r.confirmAt;
-    if(['COMPLETED','FINALIZED'].includes(r.status)) r.serial={no:rxwSnGen(i*7919),at,by:r.worker||'monster1437',spm:r.claim==='REFUNDED'?'RETURNED':'ACTIVATED',spmAt:r.completedAt,spmBy:r.worker||'monster1437'};
-    if(r.serial&&r.serial.spm==='RETURNED'){const h=r.history.find(e=>e.items.some(it=>it.field==='CLAIM_STATUS'));r.serial.retAt=h?h.createdAt:r.completedAt;r.serial.retBy=h?h.createdBy:'monster1437';}
+    if(['COMPLETED','FINALIZED'].includes(r.status)) r.serial={no:rxwSnGen(i*7919),at,by:r.worker||'monster1437',spm:r.claim==='REFUNDED'?'RETURN_PUBLISHED':'PUBLISHED',spmAt:r.completedAt,spmBy:r.worker||'monster1437'};
+    if(r.serial&&r.serial.spm==='RETURN_PUBLISHED'){const h=r.history.find(e=>e.items.some(it=>it.field==='CLAIM_STATUS'));r.serial.retAt=h?h.createdAt:r.completedAt;r.serial.retBy=h?h.createdBy:'monster1437';}
     else if(r.status==='OUTBOUND_INSPECTION'&&oiScanned++===0) r.serial={no:rxwSnGen(i*7919),at,by:r.worker||'monster1437',spm:'PENDING'};
   });
 }
 function rxwSnState(r){
   if(!r.ie) return null;
   if(r.recv!=='B2C_DELIVERY') return ['wait','Processed in POS'];
-  if(r.serial) return r.serial.spm==='ACTIVATED'?['act','SPM Activated']:r.serial.spm==='RETURNED'?['ret','SPM Returned']:['scan','Scanned'];
+  if(r.serial) return r.serial.spm==='PUBLISHED'?['act','Sent to SPM']:r.serial.spm==='RETURN_PUBLISHED'?['ret','Return Sent to SPM']:['scan','Scanned'];
   if(r.claim) return ['wait','Not Scanned'];
   return r.status==='OUTBOUND_INSPECTION'?['need','Scan Required']:['wait','Not Scanned'];
 }
@@ -13651,17 +13652,17 @@ function rxwSerialBox(r){
   if(!r.ie) return '';
   const s=rxwSnState(r),sn=r.serial,b2c=r.recv==='B2C_DELIVERY';
   const canScan=b2c&&!r.claim&&!sn&&r.status==='OUTBOUND_INSPECTION',canRe=b2c&&!r.claim&&sn&&sn.spm==='PENDING';
-  const tip=b2c?['Scan the serial at Outbound Inspection (required).','Sent to SPM automatically after the TMS label is issued (order mapping + activation).','Re Do keeps the serial.','Refund: scan the returned item serial → return sent to SPM.']
+  const tip=b2c?['Scan the serial at Outbound Inspection (required).','Sent to SPM automatically after the TMS label is issued. SPM does not send a result back.','Failed serials are checked by operations on the SPM side.','Re Do keeps the serial.','Refund: scan the returned item serial → return info is sent to SPM.']
     :['Ship to Store: the serial is scanned in POS RX Operation when the customer picks up the order.'];
   return `<div class="rxw-box${s[0]==='need'?' sn-need':''}"><h3 class="rxw-ttl">${rxwTip('IE Serial',tip)}
       <span class="rxw-ttl-sfx" style="display:flex;align-items:center;gap:10px;"><span class="rxw-sn-st ${s[0]}">${s[1]}</span>${canScan?`<button class="btn-action btn-primary" style="height:28px;" onclick="rxwSnOpen('edit',['${r.id}'])">Scan Serial</button>`:canRe?`<button class="btn-action btn-outline" style="height:28px;" onclick="rxwSnOpen('edit',['${r.id}'])">Rescan</button>`:''}</span></h3>
     ${s[0]==='need'?`<div class="rxw-sn-alert">&#9888;<span>Scan the IE serial before label registration. Label Registration is blocked until the serial is saved.</span></div>`:''}
     ${b2c?`<div class="rxw-sn-grid">
-      <span class="k">Sent to SPM</span><span class="v">${sn&&sn.spmAt?`${sn.spmAt} (${r.tz}) · ${rxwEsc(sn.spmBy||'-')}`
+      <span class="k">Sent Date / Account</span><span class="v">${sn&&sn.spmAt?`${sn.spmAt} (${r.tz}) · ${rxwEsc(sn.spmBy||'-')}`
         :sn?`<span class="rxw-sn-pend">${RXW_CLOCK}<b>Not sent yet</b><span>Sent automatically after Label Registration</span></span>`
           :r.status==='OUTBOUND_INSPECTION'&&!r.claim?`<span class="rxw-sn-pend need">${RXW_CLOCK}<b>Not sent yet</b><span>Scan the serial first</span></span>`
           :`<span class="rxw-sn-pend off">${RXW_CLOCK}<b>Not sent yet</b></span>`}</span>
-      ${sn&&sn.spm==='RETURNED'?`<span class="k">Return Sent to SPM</span><span class="v">${sn.retAt?sn.retAt+' ('+r.tz+')':'-'} · ${rxwEsc(sn.retBy||'-')}</span>`:''}
+      ${sn&&sn.spm==='RETURN_PUBLISHED'?`<span class="k">Return Sent Date / Account</span><span class="v">${sn.retAt?sn.retAt+' ('+r.tz+')':'-'} · ${rxwEsc(sn.retBy||'-')}</span>`:''}
     </div>`:''}
     ${b2c?'':'<div class="rxw-sn-note">Processed in POS RX Operation at customer pickup.</div>'}
   </div>`;
@@ -13726,7 +13727,7 @@ function rxwSnConfirm(){
   else{rxwToast('IE serial has been saved.','');rxwAfterChange();}
 }
 // ----- refund: returned item serial must match the shipped serial -----
-function rxwRetNeeded(){const r=rxwCur;return !!(r&&rxwDs.claimMode==='refund'&&r.ie&&r.serial&&r.serial.spm==='ACTIVATED');}
+function rxwRetNeeded(){const r=rxwCur;return !!(r&&rxwDs.claimMode==='refund'&&r.ie&&r.serial&&r.serial.spm==='PUBLISHED');}
 function rxwRetRender(){
   const el=document.getElementById('rxw-rs-sn');if(!el) return;
   if(!rxwRetNeeded()){el.innerHTML='';return;}
@@ -13740,7 +13741,7 @@ function rxwRetRender(){
         <button class="rxw-sn-sim" onclick="rxwRetCommit(rxwCur.serial.no)">Simulate Scan<span class="rxw-demo">DEMO</span></button></div>
         ${rxwDs.retErr?`<span class="em">${rxwEsc(rxwDs.retErr)}</span>`:''}</div>
       <span class="ck">${ok?'&#10003;':''}</span></div>
-    <div style="font-size:11px;color:#777;">On Refund, the return serial is sent to SPM (deactivation).</div></div>`;
+    <div style="font-size:11px;color:#777;">On Refund, the return info is sent to SPM.</div></div>`;
 }
 function rxwRetCommit(v){
   v=String(v||'').toUpperCase().trim();if(v===rxwDs.retSn&&!rxwDs.retErr) return;
