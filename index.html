@@ -1035,6 +1035,33 @@ table.grid th.ol-sort.asc .arr{transform:rotate(180deg);}
 .rpl-error-title{color:#ef4444;font-size:13px;}
 .rpl-error-msg{color:#6b7280;font-size:12px;margin-bottom:8px;}
 #rpl-view [hidden]{display:none!important;}
+/* ===== BP Package (Master Information > Package > BP Package) ===== */
+#bpk-view table.grid tbody tr{cursor:default;}
+#bpk-view table.grid tbody tr:hover td{background:#fff!important;}
+#bpk-view table.grid tbody tr.bpk-checked td{background:#fff4ee!important;}
+.bpk-sub{font-size:10px;font-weight:400;opacity:.85;}
+.grid th.bpk-sort{cursor:pointer;user-select:none;}
+.bpk-sort-ico{display:inline-block;width:10px;margin-left:4px;font-size:10px;}
+.grid th.bpk-sort[data-dir="asc"] .bpk-sort-ico::after{content:'▲';}
+.grid th.bpk-sort[data-dir="desc"] .bpk-sort-ico::after{content:'▼';}
+.bpk-link{color:#1976d2;text-decoration:underline;cursor:pointer;background:none;border:none;font-size:12px;padding:0;text-align:left;}
+.bpk-date{width:150px;height:34px;border:1px solid #787878;border-radius:4px;padding:0 8px;font-size:12px;background:#fff;color:#222;outline:none;box-sizing:border-box;font-family:inherit;}
+.bpk-date:focus{border-color:#ff6b35;box-shadow:0 0 0 2px rgba(255,107,53,0.12);}
+.bpk-err{color:#d32f2f;font-size:12px;margin-top:6px;}
+.bpk-wrap{white-space:normal!important;word-break:break-all;max-width:420px;line-height:1.5;}
+.bpk-dt-head{display:flex;align-items:center;gap:6px;margin:0 0 18px;}
+.bpk-back{display:flex;align-items:center;justify-content:center;width:28px;height:28px;border:none;background:none;border-radius:4px;cursor:pointer;padding:0;}
+.bpk-back:hover{background:#f0f0f0;}
+.bpk-dt-title{font-size:18px;font-weight:700;color:#222;}
+/* ===== Customer Price (Master Information > Price > Customer Price) ===== */
+#cp-view table.grid tbody tr{cursor:default;}
+#cp-view table.grid tbody tr:hover td{background:#fff!important;}
+.cp-sub{font-size:10px;font-weight:400;opacity:.85;}
+.grid th.cp-sort{cursor:pointer;user-select:none;}
+.cp-sort-ico{display:inline-block;width:10px;margin-left:4px;font-size:10px;}
+.grid th.cp-sort[data-dir="asc"] .cp-sort-ico::after{content:'▲';}
+.grid th.cp-sort[data-dir="desc"] .cp-sort-ico::after{content:'▼';}
+.cp-err{color:#d32f2f;font-size:12px;margin-top:6px;}
 </style>
 <!-- SheetJS: client-side Excel (.xlsx) export -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
@@ -2096,6 +2123,268 @@ table.grid th.ol-sort.asc .arr{transform:rotate(180deg);}
         <div class="pg-nav">
           <button class="pg-btn" id="rpl-prev" onclick="pgGo('rpl',-1)"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg></button>
           <button class="pg-btn" id="rpl-next" onclick="pgGo('rpl',1)"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg></button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== BP PACKAGE VIEW (Master Information > Package > BP Package) ===== -->
+  <div class="detail-view" id="bpk-view">
+    <!-- List / History (tabs) -->
+    <div id="bpk-main">
+      <div class="psv-tabs">
+        <div class="psv-tab" data-tab="list" onclick="bpkSwitchTab('list')">PACKAGE LIST</div>
+        <div class="psv-tab" data-tab="history" onclick="bpkSwitchTab('history')">EDIT HISTORY</div>
+      </div>
+      <!-- Tab 1: Package List -->
+      <div id="bpk-list-pane">
+        <div class="search-box">
+          <table class="search-table">
+            <tr>
+              <th>BP</th>
+              <td><div class="field-row"><div class="field-inline"><select id="bpk-bp" style="min-width:360px;"><option value="">All</option></select></div></div></td>
+            </tr>
+            <tr>
+              <th>Package Code, Package Name</th>
+              <td>
+                <div class="field-row"><div class="field-inline" style="flex:1;max-width:360px;">
+                  <input type="text" id="bpk-query" placeholder="Please enter at least 2 characters." style="width:100%;" onkeydown="if(event.key==='Enter')bpkSearch()">
+                </div></div>
+                <div class="bpk-err" id="bpk-query-err" hidden>Please enter at least 2 characters.</div>
+              </td>
+            </tr>
+          </table>
+          <div class="search-action">
+            <button class="btn-search" onclick="bpkSearch()"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><use href="#i-search"/></svg>Search</button>
+          </div>
+        </div>
+        <div class="table-box">
+          <div class="table-toolbar">
+            <div class="table-toolbar-left">Total <b id="bpk-total">0</b> Count</div>
+            <div class="table-toolbar-right">
+              <button class="btn-action btn-primary" id="bpk-save" onclick="bpkSave()" disabled>Save</button>
+              <button class="btn-action btn-outline" onclick="bpkExport('list')">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="#555"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
+                Excel Export
+              </button>
+            </div>
+          </div>
+          <div class="grid-wrap">
+            <table class="grid bpk-grid">
+              <thead>
+                <tr class="hdr">
+                  <th style="width:40px;"><input type="checkbox" id="bpk-all" onclick="bpkToggleAll('bpk',this.checked)"></th>
+                  <th class="tl">Brand</th>
+                  <th class="tl bpk-sort" data-sort="branchCode" onclick="bpkSortBy('bpk','branchCode')">BP Information<br><span class="bpk-sub">(Code / Name)</span><span class="bpk-sort-ico"></span></th>
+                  <th class="tl bpk-sort" data-sort="packageCode" onclick="bpkSortBy('bpk','packageCode')">Package Info<br><span class="bpk-sub">(Code / Name)</span><span class="bpk-sort-ico"></span></th>
+                  <th style="width:190px;">Effective Start Date</th>
+                  <th style="width:190px;">Effective End Date</th>
+                </tr>
+              </thead>
+              <tbody id="bpk-body"></tbody>
+            </table>
+          </div>
+          <div class="pg-bar">
+            <div class="rpp"><span>Rows per page:</span>
+              <select id="bpk-rpp" style="width:72px;" onchange="pgState('bpk').page=1;bpkClearSel('bpk');bpkRender();">
+                <option value="10">10</option><option value="30" selected>30</option><option value="50">50</option><option value="100">100</option><option value="300">300</option>
+              </select>
+            </div>
+            <span id="bpk-range">0–0 of 0</span>
+            <div class="pg-nav">
+              <button class="pg-btn" id="bpk-prev" onclick="bpkClearSel('bpk');pgGo('bpk',-1)"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg></button>
+              <button class="pg-btn" id="bpk-next" onclick="bpkClearSel('bpk');pgGo('bpk',1)"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg></button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Tab 2: Edit History -->
+      <div id="bpk-hist-pane" hidden>
+        <div class="search-box">
+          <table class="search-table">
+            <tr>
+              <th>BP</th>
+              <td><div class="field-row"><div class="field-inline"><select id="bpkh-bp" style="min-width:360px;"><option value="">All</option></select></div></div></td>
+            </tr>
+            <tr>
+              <th>Edit Date</th>
+              <td><div class="field-row">
+                <div class="field-inline"><input type="date" lang="en" id="bpkh-from" style="min-width:170px;"></div>
+                <span style="color:#999;">~</span>
+                <div class="field-inline"><input type="date" lang="en" id="bpkh-to" style="min-width:170px;"></div>
+              </div></td>
+            </tr>
+            <tr>
+              <th>Package List</th>
+              <td>
+                <div class="field-row"><div class="field-inline" style="flex:1;max-width:360px;">
+                  <input type="text" id="bpkh-query" placeholder="Please enter at least 2 characters." style="width:100%;" onkeydown="if(event.key==='Enter')bpkhSearch()">
+                </div></div>
+                <div class="bpk-err" id="bpkh-query-err" hidden>Please enter at least 2 characters.</div>
+              </td>
+            </tr>
+          </table>
+          <div class="search-action">
+            <button class="btn-search" onclick="bpkhSearch()"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><use href="#i-search"/></svg>Search</button>
+          </div>
+        </div>
+        <div class="table-box">
+          <div class="table-toolbar">
+            <div class="table-toolbar-left"></div>
+            <div class="table-toolbar-right">
+              <button class="btn-action btn-outline" onclick="bpkExport('history')">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="#555"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
+                Excel Export
+              </button>
+            </div>
+          </div>
+          <div class="grid-wrap">
+            <table class="grid bpk-grid">
+              <thead>
+                <tr class="hdr">
+                  <th class="bpk-sort" data-sort="updateAt" onclick="bpkSortBy('bpkh','updateAt')" style="width:260px;">Edit Date<span class="bpk-sort-ico"></span></th>
+                  <th class="tl bpk-sort" data-sort="branchCode" onclick="bpkSortBy('bpkh','branchCode')">BP Information<br><span class="bpk-sub">(Code / Name)</span><span class="bpk-sort-ico"></span></th>
+                  <th class="tl bpk-sort" data-sort="packageCode" onclick="bpkSortBy('bpkh','packageCode')">Package Info<br><span class="bpk-sub">(Code / Name)</span><span class="bpk-sort-ico"></span></th>
+                  <th>Edit Contents</th>
+                  <th style="width:160px;">Process Account<br><span class="bpk-sub">(Account ID)</span></th>
+                </tr>
+              </thead>
+              <tbody id="bpkh-body"></tbody>
+            </table>
+          </div>
+          <div class="pg-bar">
+            <div class="rpp"><span>Rows per page:</span>
+              <select id="bpkh-rpp" style="width:72px;" onchange="pgState('bpkh').page=1;bpkhRender();">
+                <option value="10">10</option><option value="30" selected>30</option><option value="50">50</option><option value="100">100</option><option value="300">300</option>
+              </select>
+            </div>
+            <span id="bpkh-range">0–0 of 0</span>
+            <div class="pg-nav">
+              <button class="pg-btn" id="bpkh-prev" onclick="pgGo('bpkh',-1)"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg></button>
+              <button class="pg-btn" id="bpkh-next" onclick="pgGo('bpkh',1)"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg></button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Detail: products mapped to one package for one BP (route #/master/package/bp-package/{packageCode}-{bpCode}) -->
+    <div id="bpk-detail" hidden>
+      <div class="bpk-dt-head">
+        <button class="bpk-back" onclick="bpkCloseDetail()" title="Back"><svg width="18" height="18" viewBox="0 0 24 24" fill="#333"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg></button>
+        <span class="bpk-dt-title" id="bpkd-title"></span>
+      </div>
+      <div class="table-box">
+        <div class="table-toolbar">
+          <div class="table-toolbar-left">Total <b id="bpkd-total">0</b> Count</div>
+          <div class="table-toolbar-right">
+            <button class="btn-action btn-primary" id="bpkd-save" onclick="bpkdSave()" disabled>Save</button>
+            <button class="btn-action btn-outline" onclick="bpkExport('detail')">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="#555"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
+              Excel Export
+            </button>
+          </div>
+        </div>
+        <div class="grid-wrap">
+          <table class="grid bpk-grid">
+            <thead>
+              <tr class="hdr">
+                <th style="width:40px;"><input type="checkbox" id="bpkd-all" onclick="bpkToggleAll('bpkd',this.checked)"></th>
+                <th class="tl">Product Info<br><span class="bpk-sub">(Code / Name)</span></th>
+                <th>(HQ) Effective Start Date</th>
+                <th>(HQ) Effective End Date</th>
+                <th style="width:190px;">(BP) Effective Start Date</th>
+                <th style="width:190px;">(BP) Effective End Date</th>
+              </tr>
+            </thead>
+            <tbody id="bpkd-body"></tbody>
+          </table>
+        </div>
+        <div class="pg-bar">
+          <div class="rpp"><span>Rows per page:</span>
+            <select id="bpkd-rpp" style="width:72px;" onchange="pgState('bpkd').page=1;bpkClearSel('bpkd');bpkdRender();">
+              <option value="10">10</option><option value="30" selected>30</option><option value="50">50</option><option value="100">100</option><option value="300">300</option>
+            </select>
+          </div>
+          <span id="bpkd-range">0–0 of 0</span>
+          <div class="pg-nav">
+            <button class="pg-btn" id="bpkd-prev" onclick="bpkClearSel('bpkd');pgGo('bpkd',-1)"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg></button>
+            <button class="pg-btn" id="bpkd-next" onclick="bpkClearSel('bpkd');pgGo('bpkd',1)"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg></button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== CUSTOMER PRICE VIEW (Master Information > Price > Customer Price) ===== -->
+  <div class="detail-view" id="cp-view">
+    <!-- SEARCH (same layout as Supply Price / Store Customer Price) -->
+    <div class="search-box">
+      <table class="search-table">
+        <tr>
+          <th>Brand</th>
+          <td><div class="field-row"><div class="field-inline"><select id="cp-brand" style="min-width:360px;" onchange="cpBrandChange()"><option value="">All</option></select></div></div></td>
+        </tr>
+        <tr>
+          <th>Currency</th>
+          <td><div class="field-row"><div class="field-inline"><select id="cp-currency" style="min-width:360px;"><option value="">All</option></select></div></div></td>
+        </tr>
+        <tr>
+          <th>Product Category 1</th>
+          <td><div class="field-row"><div class="field-inline"><select id="cp-cat1" style="min-width:360px;" onchange="cpCat1Change()" disabled><option value="">All</option></select></div></div></td>
+        </tr>
+        <tr>
+          <th>Product Category 2</th>
+          <td><div class="field-row"><div class="field-inline"><select id="cp-cat2" style="min-width:360px;" disabled><option value="">All</option></select></div></div></td>
+        </tr>
+        <tr>
+          <th>Keyword<br><span style="font-weight:400;font-size:10px;color:#999;">Product Info (Code / Name),<br>Barcode</span></th>
+          <td>
+            <div class="field-row"><div class="field-inline" style="flex:1;max-width:360px;">
+              <input type="text" id="cp-keyword" placeholder="Please enter at least 2 characters." style="width:100%;" onkeydown="if(event.key==='Enter')cpSearch()">
+            </div></div>
+            <div class="cp-err" id="cp-keyword-err" hidden>Please enter at least 2 characters.</div>
+          </td>
+        </tr>
+      </table>
+      <div class="search-action">
+        <button class="btn-reset" onclick="cpReset()"><svg width="14" height="14" viewBox="0 0 24 24" fill="#555"><path d="M17.65 6.35C16.2 4.9 14.21 4 12 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08c-.82 2.33-3.04 4-5.65 4-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"/></svg>Reset</button>
+        <button class="btn-search" onclick="cpSearch()"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><use href="#i-search"/></svg>Search</button>
+      </div>
+    </div>
+    <div class="table-box">
+      <div class="table-toolbar">
+        <div class="table-toolbar-left">Total <b id="cp-total">0</b> Count</div>
+        <div class="table-toolbar-right">
+          <button class="btn-action btn-outline" onclick="cpExport()">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="#555"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
+            Excel Export
+          </button>
+        </div>
+      </div>
+      <div class="grid-wrap">
+        <table class="grid">
+          <thead>
+            <tr class="hdr">
+              <th class="tl">Brand</th>
+              <th class="tl cp-sort" data-sort="productCode" onclick="cpSortBy('productCode')">Product Info<br><span class="cp-sub">Product Info (Code / Name), Barcode</span><span class="cp-sort-ico"></span></th>
+              <th class="cp-sort" data-sort="currency" onclick="cpSortBy('currency')">Currency<br><span class="cp-sub">(Purchase Currency)</span><span class="cp-sort-ico"></span></th>
+              <th class="cp-sort" data-sort="price" onclick="cpSortBy('price')">Sales Price<span class="cp-sort-ico"></span></th>
+            </tr>
+          </thead>
+          <tbody id="cp-body"></tbody>
+        </table>
+      </div>
+      <div class="pg-bar">
+        <div class="rpp"><span>Rows per page:</span>
+          <select id="cp-rpp" style="width:72px;" onchange="pgState('cp').page=1;cpRender();">
+            <option value="10">10</option><option value="30" selected>30</option><option value="50">50</option><option value="100">100</option><option value="300">300</option>
+          </select>
+        </div>
+        <span id="cp-range">0–0 of 0</span>
+        <div class="pg-nav">
+          <button class="pg-btn" id="cp-prev" onclick="pgGo('cp',-1)"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg></button>
+          <button class="pg-btn" id="cp-next" onclick="pgGo('cp',1)"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg></button>
         </div>
       </div>
     </div>
@@ -3549,7 +3838,7 @@ function csRefresh(sel){
   trg.classList.toggle('disabled',sel.disabled);
 }
 function csSyncModal(){
-  document.querySelectorAll('#ob-reg-modal select, #dp-view select, #sp-view select, #drv-view select, #psv-view select, #prsv-view select, #label-modal select, #st-view select, #st-modal select, .pg-bar select').forEach(s=>{csBuild(s);csRefresh(s);});
+  document.querySelectorAll('#ob-reg-modal select, #dp-view select, #sp-view select, #drv-view select, #psv-view select, #prsv-view select, #label-modal select, #st-view select, #st-modal select, #bpk-view select, #cp-view select, .pg-bar select').forEach(s=>{csBuild(s);csRefresh(s);});
 }
 // Re-sync whenever step content / options / disabled state change (ignore the custom UI's own mutations)
 new MutationObserver(muts=>{
@@ -6645,6 +6934,461 @@ function rplExport(){
   XLSX.writeFile(wb,fileName);
   showToast('Excel Export',fileName+' — '+rows.length+' rows');
 }
+// ===== BP Package (Master Information > Package > BP Package) =====
+// Source: iic-bo-frontend features/(master)/package/bp (Package List / Edit History tabs + detail) + iic-bo master/branchPackages API
+// - List = every PACKAGE product (sub category 105000, in use) x every BP of the product's brand. Start/End Date = BP bulk dates (empty until set).
+// - Detail = HQ package mapping products valid today; (BP) dates are per-product overrides for this BP.
+// - Bulk save (list) replaces ALL per-product BP dates of that package with the bulk dates.
+// - Edit Contents text is built by the backend in Korean (shown as-is in the English UI).
+const BPK_BRAND_NAME='GENTLE MONSTER';                                   // brand.name (list Brand column)
+const BPK_BPS={C1002:'GM_United States',C1012:'GM_Australia'};          // grid/select label = frontend BP_LOKALISE_KEYS
+const BPK_BP_DB={C1002:'GM_미국법인',C1012:'GM_Australia'};              // branch.name in DB (used by backend Excel "BP Name", same as LG_BPS)
+const BPK_END='9999-12-31';
+// Package master (dummy): [packageCode, packageName, [[productCode, HQ validFrom, HQ validTo], ...]]
+// Mapped products = products this package is attached to (same idea as POS "package added automatically as a set")
+const BPK_PKG_SRC=[
+  ['11500301','GM OPTICAL PACKAGE',[['11000003','2025-01-01',BPK_END],['11000004','2025-01-01',BPK_END],['11000005','2025-01-01',BPK_END],['11000006','2025-01-01',BPK_END],['11000007','2025-01-01',BPK_END],['11000008','2025-01-01',BPK_END],['11000009','2025-01-01',BPK_END]]],
+  ['11500305','SMART GLASSES PACKAGE',[['11000000','2025-07-01',BPK_END],['11000001','2025-07-01',BPK_END],['11000002','2025-07-01','2026-06-30'],['11000020','2025-07-01',BPK_END],['11000021','2025-07-01',BPK_END],['11000022','2025-07-01',BPK_END],['11000023','2025-07-01',BPK_END],['11000024','2025-07-01',BPK_END]]],
+  ['11500310','METAL OPTICAL PACKAGE',[['11000010','2025-01-01',BPK_END],['11000011','2025-01-01',BPK_END],['11000012','2025-01-01',BPK_END],['11000013','2025-01-01',BPK_END],['11000016','2025-01-01',BPK_END],['11000017','2025-01-01',BPK_END],['11000018','2025-01-01',BPK_END],['11000019','2025-01-01',BPK_END]]],
+  ['11500318','2025 HOLIDAY PACKAGE SET',[['11000005','2025-11-01','2026-12-31'],['11000006','2025-11-01','2026-12-31'],['11000007','2025-11-01','2026-12-31'],['11000014','2025-11-01','2026-12-31'],['11000015','2025-11-01','2026-12-31']]],
+  ['11001243','2021 NANO PACKAGE SET',[['11000016','2021-03-01',BPK_END],['11000017','2021-03-01',BPK_END]]],
+  ['11500322','GM LEATHER CASE PACKAGE',[['11000003','2026-01-01',BPK_END],['11000004','2026-01-01',BPK_END]]],
+  ['11500330','TOM SERIES PACKAGE',[['11000010','2025-04-01',BPK_END],['11000011','2025-04-01',BPK_END],['11000012','2025-04-01',BPK_END],['11000013','2025-04-01',BPK_END]]],
+  ['11500334','WESTCOAST PACKAGE',[['11000014','2025-04-01',BPK_END],['11000015','2025-04-01',BPK_END]]],
+  ['11500341','ACETATE OPTICAL PACKAGE',[['11000003','2025-01-01',BPK_END],['11000004','2025-01-01',BPK_END],['11000008','2025-01-01',BPK_END],['11000009','2025-01-01',BPK_END]]],
+  ['11500347','GIFT BOX PACKAGE',[['11000005','2024-01-01','2024-12-31']]],   // HQ mapping expired -> detail shows no rows
+  ['11500352','INTHEMOOD PACKAGE',[['11000017','2025-09-01',BPK_END],['11000018','2025-09-01',BPK_END],['11000019','2025-09-01',BPK_END]]],
+  ['11500360','DAY SERIES PACKAGE',[['11000003','2025-06-01',BPK_END],['11000004','2025-06-01',BPK_END]]]
+];
+// BP bulk dates (branch_packages.valid_from / valid_to); others = not set
+const BPK_BULK_SRC={
+  'C1002|11500301':['2026-01-01','2026-12-31'],'C1002|11500305':['2025-07-01',BPK_END],'C1002|11500310':['2026-03-01','2026-12-31'],
+  'C1002|11001243':['2021-03-01','2026-12-31'],'C1002|11500341':['2026-01-01','2026-12-31'],
+  'C1012|11500301':['2026-07-01','2026-12-31'],'C1012|11500341':['2026-09-01','2027-06-30']
+};
+// Per-product BP overrides set from the detail page (branch_packages_mapping)
+const BPK_OVERRIDE_SRC={
+  'C1002|11500301|11000004':['2026-02-01','2026-12-31'],'C1002|11500341|11000009':['2026-01-15','2026-10-31'],
+  'C1002|11500330|11000010':['2026-05-01','2026-12-31']
+};
+let bpkInited=false,bpkTab='list',bpkPkgs=[],bpkRows=[],bpkMap={},bpkHist=[];
+let bpkListRendered=false,bpkHistRendered=false;
+// List / history / detail state
+let bpkLast=[],bpkhLast=[],bpkdRows=[],bpkDetail=null;
+const bpkSortState={bpk:{key:null,dir:null},bpkh:{key:null,dir:null}};
+const bpkSel={bpk:new Set(),bpkd:new Set()},bpkDraft={bpk:{},bpkd:{}};
+const bpkEsc=v=>String(v??'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+const bpkToday=()=>{const d=new Date(),p=n=>String(n).padStart(2,'0');return d.getFullYear()+'-'+p(d.getMonth()+1)+'-'+p(d.getDate());};
+const bpkPkg=code=>bpkPkgs.find(p=>p.code===code);
+const bpkProdName=code=>(typeof PRODUCT_MASTER!=='undefined'&&PRODUCT_MASTER.find(p=>p.code===code)?.name)||'';
+function bpkAgo(n,hms){const d=new Date(Date.now()-n*864e5),p=x=>String(x).padStart(2,'0');return d.getFullYear()+'-'+p(d.getMonth()+1)+'-'+p(d.getDate())+' '+hms;}
+function bpkNow(){const d=new Date(),p=x=>String(x).padStart(2,'0');return bpkToday()+' '+p(d.getHours())+':'+p(d.getMinutes())+':'+p(d.getSeconds());}
+
+function bpkInitData(){
+  bpkPkgs=BPK_PKG_SRC.map(([code,name,hq])=>({code,name,hq:hq.map(([product,from,to])=>({product,from,to}))}));
+  bpkRows=[];
+  Object.keys(BPK_BPS).forEach(bp=>bpkPkgs.forEach(p=>{
+    const b=BPK_BULK_SRC[bp+'|'+p.code];
+    bpkRows.push({bp,pkg:p.code,from:b?b[0]:'',to:b?b[1]:''});
+  }));
+  // Bulk dates are copied to every HQ-valid product mapping when saved
+  bpkMap={};
+  bpkRows.filter(r=>r.from&&r.to).forEach(r=>bpkValidHq(r.pkg).forEach(m=>{bpkMap[r.bp+'|'+r.pkg+'|'+m.product]={from:r.from,to:r.to};}));
+  Object.entries(BPK_OVERRIDE_SRC).forEach(([k,[from,to]])=>{bpkMap[k]={from,to};});
+  // Edit history (newest first). INDIVIDUAL rows on an existing mapping show no field name (backend behavior, see notes)
+  bpkHist=[
+    {at:bpkAgo(1,'10:12:44'),tz:'Asia/Seoul',bp:'C1002',pkg:'11500341',content:'11000009/HEY-B4 OPT:(BP)',by:'monster1437'},
+    {at:bpkAgo(3,'16:40:02'),tz:'America/Los_Angeles',bp:'C1002',pkg:'11500330',content:'11000010/TOM21-A02:(BP)적용 시작일,적용 종료일',by:'jane.park'},
+    {at:bpkAgo(6,'09:05:31'),tz:'Australia/Sydney',bp:'C1012',pkg:'11500341',content:'일괄:적용 시작일,적용 종료일',by:'monster1437'},
+    {at:bpkAgo(9,'14:22:05'),tz:'Asia/Seoul',bp:'C1012',pkg:'11500301',content:'일괄:적용 시작일,적용 종료일',by:'monster1437'},
+    {at:bpkAgo(12,'11:48:19'),tz:'America/Los_Angeles',bp:'C1002',pkg:'11500301',content:'11000004/DAY-B4 OPT:(BP)',by:'alex.kim'},
+    {at:bpkAgo(20,'17:30:00'),tz:'Asia/Seoul',bp:'C1002',pkg:'11500310',content:'일괄:적용 시작일,적용 종료일',by:'monster1437'},
+    {at:bpkAgo(27,'08:15:42'),tz:'America/Los_Angeles',bp:'C1002',pkg:'11500341',content:'일괄:적용 시작일,적용 종료일',by:'jane.park'},
+    {at:bpkAgo(41,'13:02:11'),tz:'Asia/Seoul',bp:'C1002',pkg:'11500305',content:'일괄:적용 시작일,적용 종료일',by:'monster1437'},
+    {at:bpkAgo(55,'15:20:09'),tz:'Asia/Seoul',bp:'C1002',pkg:'11001243',content:'일괄:적용 시작일,적용 종료일',by:'chris.lee'}
+  ];
+}
+// HQ package mapping valid today (detail list + bulk save target)
+function bpkValidHq(pkg){const t=bpkToday(),p=bpkPkg(pkg);return p?p.hq.filter(m=>m.from<=t&&m.to>=t).sort((a,b)=>a.product.localeCompare(b.product)):[];}
+
+function bpkInit(){
+  if(bpkInited) return;
+  bpkInited=true;
+  bpkInitData();
+  ['bpk','bpkh','bpkd'].forEach(k=>{if(!PAGERS[k]) PAGERS[k]={render:k==='bpk'?()=>bpkRender():k==='bpkh'?()=>bpkhRender():()=>bpkdRender()};});
+  // BP options: label = BP name only (frontend hierarchical branch options)
+  const opts='<option value="">All</option>'+Object.entries(BPK_BPS).map(([v,t])=>'<option value="'+v+'">'+t+'</option>').join('');
+  document.getElementById('bpk-bp').innerHTML=opts;
+  document.getElementById('bpkh-bp').innerHTML=opts;
+  // Edit Date default: today-30 ~ today (not required)
+  const iso=d=>{const p=n=>String(n).padStart(2,'0');return d.getFullYear()+'-'+p(d.getMonth()+1)+'-'+p(d.getDate());};
+  document.getElementById('bpkh-from').value=iso(new Date(Date.now()-30*864e5));
+  document.getElementById('bpkh-to').value=iso(new Date());
+  if(typeof csSyncModal==='function') csSyncModal();
+}
+// Entry: #/master/package/bp-package[?tab=history] or #/master/package/bp-package/{packageCode}-{bpCode}
+function bpkEnter(){
+  bpkInit();
+  const [path,query]=location.hash.slice(1).split('?');
+  const m=(path||'').match(/^\/master\/package\/bp-package\/([^/]+)$/);
+  if(m){bpkOpenDetail(decodeURIComponent(m[1]));return;}
+  bpkShowMain();
+  bpkSwitchTab(new URLSearchParams(query||'').get('tab')==='history'?'history':'list');
+}
+function bpkShowMain(){
+  document.getElementById('bpk-detail').hidden=true;
+  document.getElementById('bpk-main').hidden=false;
+  bpkDetail=null;
+}
+function bpkSwitchTab(tab){
+  bpkTab=tab;
+  document.querySelectorAll('#bpk-view .psv-tab').forEach(t=>t.classList.toggle('active',t.dataset.tab===tab));
+  document.getElementById('bpk-list-pane').hidden=tab!=='list';
+  document.getElementById('bpk-hist-pane').hidden=tab!=='history';
+  setRoute('#/master/package/bp-package'+(tab==='history'?'?tab=history':''));
+  if(tab==='list'&&!bpkListRendered) bpkSearch();
+  if(tab==='history'&&!bpkHistRendered) bpkhSearch();
+}
+// Keyword: frontend checks the raw value (min 2), backend trims and applies only when >= 2 characters
+function bpkKeyword(id){
+  const raw=document.getElementById(id).value,err=document.getElementById(id+'-err');
+  if(raw&&raw.length<2){err.hidden=false;return null;}
+  err.hidden=true;
+  return raw;
+}
+// ----- Sorting (server sort; asc -> desc -> none) -----
+function bpkSortBy(grid,key){
+  const s=bpkSortState[grid];
+  if(s.key!==key){s.key=key;s.dir='asc';}
+  else if(s.dir==='asc') s.dir='desc';
+  else {s.key=null;s.dir=null;}
+  pgState(grid).page=1;
+  if(grid==='bpk'){bpkClearSel('bpk');bpkRender();} else bpkhRender();
+}
+function bpkSortIcons(grid,viewSel){
+  const s=bpkSortState[grid];
+  document.querySelectorAll(viewSel+' th.bpk-sort').forEach(th=>{if(th.dataset.sort===s.key) th.dataset.dir=s.dir; else delete th.dataset.dir;});
+}
+// ----- Package List -----
+function bpkSearch(){
+  const q=bpkKeyword('bpk-query');if(q===null) return;
+  const bp=document.getElementById('bpk-bp').value,kw=q.trim().toLowerCase();
+  bpkLast=bpkRows.filter(r=>{
+    if(bp&&r.bp!==bp) return false;
+    if(kw.length>=2){const p=bpkPkg(r.pkg);if(!r.pkg.toLowerCase().includes(kw)&&!p.name.toLowerCase().includes(kw)) return false;}
+    return true;
+  });
+  // New search resets sort, page, selection and unsaved date edits
+  bpkSortState.bpk={key:null,dir:null};
+  pgState('bpk').page=1;bpkClearSel('bpk');bpkDraft.bpk={};
+  bpkListRendered=true;
+  document.getElementById('bpk-total').textContent=bpkLast.length;
+  bpkRender();
+}
+function bpkSorted(){
+  const s=bpkSortState.bpk;
+  // Default (no sort): branchCode ASC, packageCode ASC
+  if(!s.key) return [...bpkLast].sort((a,b)=>a.bp.localeCompare(b.bp)||a.pkg.localeCompare(b.pkg));
+  const d=s.dir==='asc'?1:-1,f=s.key==='branchCode'?'bp':'pkg',g=f==='bp'?'pkg':'bp';
+  return [...bpkLast].sort((a,b)=>a[f].localeCompare(b[f])*d||a[g].localeCompare(b[g]));
+}
+const bpkRowKey=r=>r.pkg+'-'+r.bp;
+function bpkRowVal(r){const d=bpkDraft.bpk[bpkRowKey(r)]||{};return {from:d.from??r.from,to:d.to??r.to};}
+function bpkRender(){
+  const rows=bpkSorted(),[s,e]=pgRange('bpk',rows.length);
+  bpkSortIcons('bpk','#bpk-list-pane');
+  const page=rows.slice(s,e);
+  document.getElementById('bpk-body').innerHTML=page.length?page.map(r=>{
+    const k=bpkRowKey(r),v=bpkRowVal(r),p=bpkPkg(r.pkg),on=bpkSel.bpk.has(k);
+    return `<tr data-key="${k}"${on?' class="bpk-checked"':''}>
+      <td><input type="checkbox"${on?' checked':''} onclick="bpkCheck('bpk','${k}',this.checked)"></td>
+      <td class="tl">${BPK_BRAND_NAME}</td>
+      <td class="tl">${r.bp} / ${BPK_BPS[r.bp]}</td>
+      <td class="tl"><button class="bpk-link" onclick="bpkGoDetail('${r.pkg}','${r.bp}')">${r.pkg} / ${bpkEsc(p.name)}</button></td>
+      <td><input type="date" lang="en" class="bpk-date" value="${v.from}"${v.to?` max="${v.to}"`:''} onchange="bpkDateChange('bpk','${k}','from',this)"></td>
+      <td><input type="date" lang="en" class="bpk-date" value="${v.to}"${v.from?` min="${v.from}"`:''} onchange="bpkDateChange('bpk','${k}','to',this)"></td></tr>`;}).join('')
+    :'<tr><td colspan="6" class="dp-empty">No data found.</td></tr>';
+  bpkSyncCheck('bpk',page.map(bpkRowKey));
+}
+// Date picker rules (same as frontend DatePicker): start max = end, end min = start;
+// start later than end moves end to start; end earlier than start is ignored; clearing keeps the previous value
+function bpkDateChange(grid,key,field,el){
+  const base=grid==='bpk'?bpkRowVal(bpkLast.find(r=>bpkRowKey(r)===key)):bpkdRowVal(bpkdRows.find(r=>r.product===key));
+  const v=el.value,d=bpkDraft[grid][key]=bpkDraft[grid][key]||{};
+  if(!v){el.value=base[field];return;}
+  if(field==='from'){d.from=v;if(base.to&&base.to<v) d.to=v;}
+  else{if(base.from&&v<base.from){el.value=base.to;return;}d.to=v;}
+  grid==='bpk'?bpkRender():bpkdRender();
+}
+// ----- Checkbox selection (current page only; cleared on page / sort / search change) -----
+function bpkCheck(grid,key,on){on?bpkSel[grid].add(key):bpkSel[grid].delete(key);grid==='bpk'?bpkRender():bpkdRender();}
+function bpkToggleAll(grid,on){
+  document.querySelectorAll('#'+grid+'-body tr[data-key]').forEach(tr=>{on?bpkSel[grid].add(tr.dataset.key):bpkSel[grid].delete(tr.dataset.key);});
+  grid==='bpk'?bpkRender():bpkdRender();
+}
+function bpkClearSel(grid){bpkSel[grid].clear();const b=document.getElementById(grid+'-save');if(b) b.disabled=true;}
+function bpkSyncCheck(grid,keys){
+  const all=document.getElementById(grid+'-all'),n=keys.filter(k=>bpkSel[grid].has(k)).length;
+  all.checked=!!keys.length&&n===keys.length;all.indeterminate=n>0&&n<keys.length;
+  document.getElementById(grid+'-save').disabled=!bpkSel[grid].size;
+}
+// Bulk save (PUT /api/v1/branch-packages): selected rows with their current Start/End Date
+function bpkSave(){
+  if(!bpkSel.bpk.size) return;
+  const items=[...bpkSel.bpk].map(k=>{const r=bpkLast.find(x=>bpkRowKey(x)===k);return {r,...bpkRowVal(r)};});
+  // Backend @NotNull validation (API error message shown as-is)
+  const miss=items.find(i=>!i.from||!i.to);
+  if(miss){showToast('Save',!miss.from?'적용 시작일자는 필수값입니다.':'적용 종료일자는 필수값입니다.','error');return;}
+  const at=bpkNow();
+  items.forEach(({r,from,to})=>{
+    r.from=from;r.to=to;
+    // Replace all per-product BP dates of this package with the bulk dates (individual overrides are lost)
+    Object.keys(bpkMap).filter(k=>k.startsWith(r.bp+'|'+r.pkg+'|')).forEach(k=>delete bpkMap[k]);
+    bpkValidHq(r.pkg).forEach(m=>{bpkMap[r.bp+'|'+r.pkg+'|'+m.product]={from,to};});
+    // One BULK history row per item, always "start + end" (both are required)
+    bpkHist.unshift({at,tz:'Asia/Seoul',bp:r.bp,pkg:r.pkg,content:'일괄:적용 시작일,적용 종료일',by:'monster1437'});
+  });
+  bpkHistRendered=false;bpkDraft.bpk={};bpkClearSel('bpk');
+  bpkRender();
+  showToast('The save has been completed.','Processed successfully.');
+}
+function bpkGoDetail(pkg,bp){
+  // Frontend link: /master/package/bp-package/{packageCode}-{branchCode} (lower case)
+  const code=(pkg+'-'+bp).toLowerCase();
+  setRoute('#/master/package/bp-package/'+code);
+  bpkOpenDetail(code);
+}
+// ----- Edit History -----
+const BPK_BULK_WORDS=['일괄','bulk','전체','모든','모두'];
+function bpkhSearch(){
+  const q=bpkKeyword('bpkh-query');if(q===null) return;
+  const v=id=>document.getElementById(id).value,bp=v('bpkh-bp'),from=v('bpkh-from'),to=v('bpkh-to');
+  const kw=(q||'').toLowerCase();
+  bpkhLast=bpkHist.filter(h=>{
+    if(bp&&h.bp!==bp) return false;
+    if(from&&h.at.slice(0,10)<from) return false;
+    if(to&&h.at.slice(0,10)>to) return false;
+    if(kw.length>=2){
+      // "일괄" / "bulk" / "전체" / "모든" / "모두" -> bulk edits only; otherwise package code / name
+      if(BPK_BULK_WORDS.some(w=>kw.includes(w))) return h.content.startsWith('일괄');
+      const p=bpkPkg(h.pkg);
+      return h.pkg.toLowerCase().includes(kw)||(p&&p.name.toLowerCase().includes(kw));
+    }
+    return true;
+  });
+  bpkSortState.bpkh={key:null,dir:null};
+  pgState('bpkh').page=1;
+  bpkHistRendered=true;
+  bpkhRender();
+}
+function bpkhSorted(){
+  const s=bpkSortState.bpkh,f={updateAt:'at',branchCode:'bp',packageCode:'pkg'}[s.key]||'at',d=s.key&&s.dir==='asc'?1:-1;
+  // Default: Edit Date DESC
+  return [...bpkhLast].sort((a,b)=>a[f].localeCompare(b[f])*d);
+}
+function bpkhRender(){
+  const rows=bpkhSorted(),[s,e]=pgRange('bpkh',rows.length);
+  bpkSortIcons('bpkh','#bpk-hist-pane');
+  document.getElementById('bpkh-body').innerHTML=rows.length?rows.slice(s,e).map(h=>{const p=bpkPkg(h.pkg);return `<tr>
+    <td>${h.at} (${h.tz})</td><td class="tl">${h.bp} / ${BPK_BPS[h.bp]}</td><td class="tl">${h.pkg} / ${bpkEsc(p?p.name:'')}</td>
+    <td class="bpk-wrap">${bpkEsc(h.content)}</td><td>${h.by}</td></tr>`;}).join('')
+    :'<tr><td colspan="5" class="dp-empty">No data found.</td></tr>';
+}
+// ----- Detail -----
+function bpkOpenDetail(code){
+  bpkInit();
+  const [pkg,bp]=String(code).split('-').map(x=>(x||'').toUpperCase());
+  bpkDetail={pkg,bp,code:String(code).toLowerCase()};
+  document.getElementById('bpk-main').hidden=true;
+  document.getElementById('bpk-detail').hidden=false;
+  document.getElementById('bpkd-title').textContent=pkg+' / '+bp;
+  bpkdRows=bpkValidHq(pkg).map(m=>({product:m.product,name:bpkProdName(m.product),hqFrom:m.from,hqTo:m.to}));
+  pgState('bpkd').page=1;bpkClearSel('bpkd');bpkDraft.bpkd={};
+  document.getElementById('bpkd-total').textContent=bpkdRows.length;
+  bpkdRender();
+}
+function bpkCloseDetail(){
+  bpkShowMain();
+  bpkListRendered=false;   // list refetches on return (bulk dates may have been read again)
+  bpkSwitchTab(bpkTab||'list');
+}
+function bpkdRowVal(r){const m=bpkMap[bpkDetail.bp+'|'+bpkDetail.pkg+'|'+r.product]||{},d=bpkDraft.bpkd[r.product]||{};return {from:d.from??m.from??'',to:d.to??m.to??''};}
+function bpkdRender(){
+  if(!bpkDetail) return;
+  const rows=bpkdRows,[s,e]=pgRange('bpkd',rows.length),page=rows.slice(s,e);
+  document.getElementById('bpkd-body').innerHTML=page.length?page.map(r=>{
+    const v=bpkdRowVal(r),on=bpkSel.bpkd.has(r.product);
+    return `<tr data-key="${r.product}"${on?' class="bpk-checked"':''}>
+      <td><input type="checkbox"${on?' checked':''} onclick="bpkCheck('bpkd','${r.product}',this.checked)"></td>
+      <td class="tl">${r.product} / ${bpkEsc(r.name)}</td><td>${r.hqFrom}</td><td>${r.hqTo}</td>
+      <td><input type="date" lang="en" class="bpk-date" value="${v.from}"${v.to?` max="${v.to}"`:''} onchange="bpkDateChange('bpkd','${r.product}','from',this)"></td>
+      <td><input type="date" lang="en" class="bpk-date" value="${v.to}"${v.from?` min="${v.from}"`:''} onchange="bpkDateChange('bpkd','${r.product}','to',this)"></td></tr>`;}).join('')
+    :'<tr><td colspan="6" class="dp-empty">No data found.</td></tr>';
+  bpkSyncCheck('bpkd',page.map(r=>r.product));
+}
+// Individual save (PUT /api/v1/branch-packages/detail): one INDIVIDUAL history row per selected product
+function bpkdSave(){
+  if(!bpkSel.bpkd.size||!bpkDetail) return;
+  const {bp,pkg}=bpkDetail;
+  const items=[...bpkSel.bpkd].map(code=>{const r=bpkdRows.find(x=>x.product===code);return {r,...bpkdRowVal(r)};});
+  const miss=items.find(i=>!i.from||!i.to);
+  if(miss){showToast('Save',!miss.from?'적용 시작일자는 필수값입니다.':'적용 종료일자는 필수값입니다.','error');return;}
+  const at=bpkNow();
+  items.forEach(({r,from,to})=>{
+    const key=bp+'|'+pkg+'|'+r.product,existed=!!bpkMap[key];
+    bpkMap[key]={from,to};
+    // Backend compares against the already-updated mapping, so an existing mapping never records which date changed
+    const fields=existed?'':'적용 시작일,적용 종료일';
+    bpkHist.unshift({at,tz:'Asia/Seoul',bp,pkg,content:r.product+'/'+r.name+':(BP)'+fields,by:'monster1437'});
+  });
+  bpkHistRendered=false;bpkDraft.bpkd={};bpkClearSel('bpkd');
+  bpkdRender();
+  showToast('The save has been completed.','Processed successfully.');
+}
+// ----- Excel export (backend columns; list / history use the last search, detail uses all rows) -----
+function bpkExport(kind){
+  if(typeof XLSX==='undefined'){showToast('Excel Export','Excel library failed to load. Check network and reload.','error');return;}
+  const ymd=(()=>{const d=new Date();return d.getFullYear()+'_'+(d.getMonth()+1)+'_'+d.getDate();})();
+  let aoa,sheet,file,count;
+  if(kind==='list'){
+    if(!bpkListRendered){bpkSearch();}
+    const rows=[...bpkLast].sort((a,b)=>a.bp.localeCompare(b.bp)||a.pkg.localeCompare(b.pkg));
+    count=rows.length;
+    aoa=[['BP Code','BP Name','Package Code','Package Name','Start Date','End Date']]
+      .concat(rows.map(r=>[r.bp,BPK_BP_DB[r.bp],r.pkg,bpkPkg(r.pkg).name,r.from,r.to]));
+    sheet='Branch Packages List';file='branch_package_list_'+ymd+'.xlsx';
+  }else if(kind==='history'){
+    // Backend Excel ignores the grid sort: always Edit Date DESC
+    const rows=[...bpkhLast].sort((a,b)=>b.at.localeCompare(a.at));
+    count=rows.length;
+    aoa=[['Created At','Timezone','BP Code','BP Name','Package Code','Package Name','Updated Content','Updated By']]
+      .concat(rows.map(h=>[h.at,h.tz,h.bp,BPK_BP_DB[h.bp],h.pkg,bpkPkg(h.pkg)?.name||'',h.content,h.by]));
+    sheet='Branch Packages History List';file='branch_package_history_'+ymd+'.xlsx';
+  }else{
+    if(!bpkDetail) return;
+    const {bp,pkg}=bpkDetail,p=bpkPkg(pkg);
+    count=bpkdRows.length;
+    aoa=[['BP Code','BP Name','Package Code','Package Name','Product Code','Product Name','(HQ) Start Date','(HQ) End Date','(BP) Start Date','(BP) End Date']]
+      .concat(bpkdRows.map(r=>{const m=bpkMap[bp+'|'+pkg+'|'+r.product]||{};return [bp,BPK_BP_DB[bp]||'',pkg,p?p.name:'',r.product,r.name,r.hqFrom,r.hqTo,m.from||'',m.to||''];}));
+    sheet='Branch Packages Detail List';file='branch_package_detail_'+ymd+'.xlsx';
+  }
+  if(!count){showToast('Excel Export','No data to export.','error');return;}
+  const ws=XLSX.utils.aoa_to_sheet(aoa),wb=XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(wb,ws,sheet);
+  XLSX.writeFile(wb,file);
+  showToast('Excel Export',file+' — '+count+' rows');
+}
+// ===== Customer Price (Master Information > Price > Customer Price) =====
+// Source: iic-bo-frontend features/(master)/price/sales (route master/price/sales-price) + iic-bo GET /api/v1/customer-prices
+// Customer Price = SAP standard price (ZP01, no customer code) per Brand + Product + Currency, valid today. Package products (105000) are excluded.
+// Read-only screen (no register / edit). Users see only currencies of their BP countries (all currencies in the prototype).
+const CP_BRANDS={'1100':'GENTLE MONSTER'};              // Brand select label = brand name only (frontend brand options)
+const CP_COUNTRY={USD:'US',CAD:'CA',AUD:'AU'};          // country_currency mapping (backend Excel "country" column)
+let cpInited=false,cpRendered=false,cpData=[],cpLast=[],cpSortKey=null,cpSortDir=null,cpExcelParams={};
+// Dummy prices: USD = POS Customer Price (posPrice) so POS and master match; CAD / AUD are dummy conversions
+function cpInitData(){
+  cpData=[];
+  PRODUCT_MASTER.forEach((p,i)=>{
+    const usd=typeof posPrice==='function'?posPrice(p).cp:280+(parseInt(p.code.slice(-2),10)%8)*20;
+    const base={brandCode:'1100',code:p.code,name:p.name,barcode:p.barcode,cat1:p.cat1,cat2:p.cat2};
+    cpData.push({...base,currency:'USD',price:usd});
+    if(i%5===0) cpData.push({...base,currency:'CAD',price:Math.round(usd*1.4/10)*10});
+    if(i<10) cpData.push({...base,currency:'AUD',price:Math.round(usd*1.55/10)*10});
+  });
+}
+function cpInit(){
+  if(cpInited) return;
+  cpInited=true;
+  cpInitData();
+  if(!PAGERS.cp) PAGERS.cp={render:()=>cpRender()};
+  document.getElementById('cp-brand').innerHTML='<option value="">All</option>'+Object.entries(CP_BRANDS).map(([v,t])=>'<option value="'+v+'">'+t+'</option>').join('');
+  document.getElementById('cp-currency').innerHTML='<option value="">All</option>'+[...new Set(cpData.map(r=>r.currency))].sort().map(v=>'<option value="'+v+'">'+v+'</option>').join('');
+  if(typeof csSyncModal==='function') csSyncModal();
+}
+function cpEnter(){
+  cpInit();
+  if(!cpRendered) cpSearch();
+}
+// Product Category 1 loads only after a Brand is chosen; Product Category 2 only after Category 1 (cascading reset)
+function cpFillSelect(id,values){
+  const s=document.getElementById(id);
+  s.innerHTML='<option value="">All</option>'+values.map(v=>'<option value="'+v+'">'+v+'</option>').join('');
+  s.disabled=!values.length;s.selectedIndex=0;
+  if(typeof csRefresh==='function') csRefresh(s);
+}
+function cpBrandChange(){
+  const b=document.getElementById('cp-brand').value;
+  cpFillSelect('cp-cat1',b?[...new Set(cpData.filter(r=>r.brandCode===b).map(r=>r.cat1))].sort():[]);
+  cpFillSelect('cp-cat2',[]);
+}
+function cpCat1Change(){
+  const c=document.getElementById('cp-cat1').value;
+  cpFillSelect('cp-cat2',c?[...new Set(cpData.filter(r=>r.cat1===c).map(r=>r.cat2))].sort():[]);
+}
+// Keyword matches product name / code / barcode (contains, case-insensitive)
+function cpMatch(r,p){
+  const kw=(p.query||'').trim().toLowerCase();
+  return (!p.brand||r.brandCode===p.brand)&&(!p.currency||r.currency===p.currency)&&
+    (!p.cat1||r.cat1===p.cat1)&&(!p.cat2||r.cat2===p.cat2)&&
+    (!kw||[r.name,r.code,r.barcode].some(x=>String(x).toLowerCase().includes(kw)));
+}
+function cpSearch(){
+  const v=id=>document.getElementById(id).value,q=v('cp-keyword'),err=document.getElementById('cp-keyword-err');
+  // Frontend: raw keyword shorter than 2 -> inline error, no search
+  if(q&&q.length<2){err.hidden=false;return;}
+  err.hidden=true;
+  const p={brand:v('cp-brand'),currency:v('cp-currency'),cat1:v('cp-cat1'),cat2:v('cp-cat2'),query:q};
+  cpLast=cpData.filter(r=>cpMatch(r,p));
+  // Excel export sends only Brand / Currency / Keyword (category filters are not passed)
+  cpExcelParams={brand:p.brand,currency:p.currency,query:p.query};
+  cpSortKey=null;cpSortDir=null;
+  PAGERS.cp.page=1;cpRendered=true;
+  document.getElementById('cp-total').textContent=cpLast.length;
+  cpRender();
+}
+function cpReset(){
+  ['cp-brand','cp-currency'].forEach(id=>{const s=document.getElementById(id);s.selectedIndex=0;if(typeof csRefresh==='function') csRefresh(s);});
+  cpFillSelect('cp-cat1',[]);cpFillSelect('cp-cat2',[]);
+  document.getElementById('cp-keyword').value='';
+  cpSearch();
+}
+// Server sort: Product Info (productCode) / Currency / Sales Price; asc -> desc -> none
+function cpSortBy(key){
+  if(cpSortKey!==key){cpSortKey=key;cpSortDir='asc';}
+  else if(cpSortDir==='asc') cpSortDir='desc';
+  else {cpSortKey=null;cpSortDir=null;}
+  PAGERS.cp.page=1;cpRender();
+}
+function cpSorted(){
+  // Default: productCode ASC, currency ASC
+  if(!cpSortKey) return [...cpLast].sort((a,b)=>a.code.localeCompare(b.code)||a.currency.localeCompare(b.currency));
+  const d=cpSortDir==='asc'?1:-1;
+  const f={productCode:(a,b)=>a.code.localeCompare(b.code),currency:(a,b)=>a.currency.localeCompare(b.currency),price:(a,b)=>a.price-b.price}[cpSortKey];
+  return [...cpLast].sort((a,b)=>f(a,b)*d);
+}
+// Frontend formats with toLocaleString("ko-KR"); 0 / empty shows "-"
+const cpFmt=n=>n?Number(n).toLocaleString('ko-KR'):'-';
+function cpRender(){
+  const rows=cpSorted(),[s,e]=pgRange('cp',rows.length);
+  document.querySelectorAll('#cp-view th.cp-sort').forEach(th=>{if(th.dataset.sort===cpSortKey) th.dataset.dir=cpSortDir; else delete th.dataset.dir;});
+  document.getElementById('cp-body').innerHTML=rows.length?rows.slice(s,e).map(r=>`<tr>
+    <td class="tl">${CP_BRANDS[r.brandCode]}</td><td class="tl">${r.code} / ${r.name} / ${r.barcode}</td>
+    <td>${r.currency}</td><td>${cpFmt(r.price)}</td></tr>`).join('')
+    :'<tr><td colspan="4" class="dp-empty">No data found.</td></tr>';
+}
+// Excel export (GET /api/v1/customer-prices/excel): backend columns, no sort order, category filters ignored
+function cpExport(){
+  if(typeof XLSX==='undefined'){showToast('Excel Export','Excel library failed to load. Check network and reload.','error');return;}
+  const rows=cpData.filter(r=>cpMatch(r,cpExcelParams));
+  if(!rows.length){showToast('Excel Export','No data to export.','error');return;}
+  const aoa=[['Brand Name','Product Code','Product Name','barcode','country','currency','price']]
+    .concat(rows.map(r=>[CP_BRANDS[r.brandCode],r.code,r.name,r.barcode,CP_COUNTRY[r.currency]||'',r.currency,r.price]));
+  const ws=XLSX.utils.aoa_to_sheet(aoa),wb=XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(wb,ws,'Customer Price List');
+  const d=new Date(),fileName='sales_price_list_'+d.getFullYear()+'_'+(d.getMonth()+1)+'_'+d.getDate()+'.xlsx';
+  XLSX.writeFile(wb,fileName);
+  showToast('Excel Export',fileName+' — '+rows.length+' rows');
+}
 const HOME_LINKS=[
   {menu:'Inventory',title:'Outbound List',desc:'Outbound / Outbound Request list, detail, registration (Outbound Order Tag)',path:'/inventory/outbound'},
   {menu:'Master Information',title:'Store',desc:'Store master list (SAP) and store detail / edit history',path:'/master/store'},
@@ -6665,8 +7409,8 @@ const MENU_PAGES={
   '/master/store':{bc:['Master Information'],title:'Store',open:['master'],view:'st-view',onEnter:storeEnter},
   '/master/product/product-list':{bc:['Master Information','Product'],title:'Product List',open:['master','mst-product'],view:'pl-view',onEnter:()=>plEnter()},
   '/master/product/rx-product-list':{bc:['Master Information','Product'],title:'RX Product List',open:['master','mst-product'],view:'rpl-view',onEnter:()=>rplEnter()},
-  '/master/package/bp-package':{bc:['Master Information','Package'],title:'BP Package',open:['master','mst-package']},
-  '/master/price/customer-price':{bc:['Master Information','Price'],title:'Customer Price',open:['master','mst-price']},
+  '/master/package/bp-package':{bc:['Master Information','Package'],title:'BP Package',open:['master','mst-package'],view:'bpk-view',onEnter:()=>bpkEnter()},
+  '/master/price/customer-price':{bc:['Master Information','Price'],title:'Customer Price',open:['master','mst-price'],view:'cp-view',onEnter:()=>cpEnter()},
   '/master/price/supply-price':{bc:['Master Information','Price'],title:'Supply Price',open:['master','mst-price'],view:'sp-view',onEnter:()=>{if(!spRendered)searchSupplyPrice();}},
   '/master/price/store-customer-price':{bc:['Master Information','Price'],title:'Store Customer Price',open:['master','mst-price'],view:'dp-view',onEnter:()=>{if(!dpRendered)searchDiscountPrice();}},
   '/sales/daily-record-view':{bc:['Sales'],title:'Daily Record View',open:['sales'],view:'drv-view',onEnter:()=>{if(!drvRendered)searchDailyRecord();}},
@@ -6752,6 +7496,9 @@ function route(){
       const idx=REQUEST_DATA.findIndex(r=>r.reqNo===m[1]);
       if(idx<0) return redirect('#/inventory/outbound?tab=request');
       setPageHeader(OUTBOUND_PAGE);activateTab('request');showListView();openDetail(idx);
+    }else if(/^\/master\/package\/bp-package\/[^/]+$/.test(path)){
+      const pg=MENU_PAGES['/master/package/bp-package'];
+      setPageHeader({...pg,menu:'/master/package/bp-package'});showPlaceholder(pg);
     }else if(ROUTE_ALIASES[path]){
       return redirect('#'+ROUTE_ALIASES[path]);
     }else if(MENU_PAGES[path]){
