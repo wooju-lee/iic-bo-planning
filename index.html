@@ -13652,7 +13652,7 @@ function rxwSerialBox(r){
   if(!r.ie) return '';
   const s=rxwSnState(r),sn=r.serial,b2c=r.recv==='B2C_DELIVERY';
   const canScan=b2c&&!r.claim&&!sn&&r.status==='OUTBOUND_INSPECTION',canRe=b2c&&!r.claim&&sn&&sn.spm==='PENDING';
-  const tip=b2c?['Scan the serial at Outbound Inspection (required).','Sent to SPM automatically after the TMS label is issued. SPM does not send a result back.','Failed serials are checked by operations on the SPM side.','Re Do keeps the serial.','Refund: scan the returned item serial → return info is sent to SPM.']
+  const tip=b2c?['Scan the serial at Outbound Inspection (required).','Sent to SPM automatically after the TMS label is issued.','Re Do keeps the serial.','Refund: scan the returned item serial → return info is sent to SPM.']
     :['Ship to Store: the serial is scanned in POS RX Operation when the customer picks up the order.'];
   return `<div class="rxw-box${s[0]==='need'?' sn-need':''}"><h3 class="rxw-ttl">${rxwTip('IE Serial',tip)}
       <span class="rxw-ttl-sfx" style="display:flex;align-items:center;gap:10px;"><span class="rxw-sn-st ${s[0]}">${s[1]}</span>${canScan?`<button class="btn-action btn-primary" style="height:28px;" onclick="rxwSnOpen('edit',['${r.id}'])">Scan Serial</button>`:canRe?`<button class="btn-action btn-outline" style="height:28px;" onclick="rxwSnOpen('edit',['${r.id}'])">Rescan</button>`:''}</span></h3>
