@@ -1563,6 +1563,19 @@ a.ib-trk:hover{border-color:#ff6b35;color:#ff6b35;}
 .rxw-sn-row.ok .ck{background:#2e7d32;}
 .rxw-demo{margin-left:6px;background:#7c3aed;color:#fff;border-radius:3px;padding:1px 4px;font-size:9px;font-weight:700;letter-spacing:.4px;vertical-align:1px;}
 .rxw-sn-sim{height:32px;padding:0 10px;border:1px dashed #bbb;border-radius:4px;background:#fff;font-size:11px;color:#666;cursor:pointer;white-space:nowrap;}
+/* Refund modal: returned serial block (separated from the reason dropdowns) */
+.rxw-ret{margin-top:20px;background:#f7f8fa;border:1px solid #eceef2;border-radius:8px;padding:18px 18px 16px;display:flex;flex-direction:column;gap:12px;}
+.rxw-ret .hd{font-size:13px;font-weight:700;color:#222;}
+.rxw-ret .ship{display:flex;align-items:center;gap:12px;font-size:12px;}
+.rxw-ret .ship span{color:#777;}.rxw-ret .ship b{font-weight:700;color:#222;letter-spacing:.3px;}
+.rxw-ret .row{display:flex;gap:8px;}
+.rxw-ret .row input{flex:1;height:36px;border:1px solid #d5d5d5;border-radius:4px;padding:0 12px;font-size:12px;font-family:inherit;text-transform:uppercase;outline:none;background:#fff;}
+.rxw-ret .row input::placeholder{text-transform:none;}
+.rxw-ret .row input:focus{border-color:#ff6b35;box-shadow:0 0 0 2px rgba(255,107,53,.12);}
+.rxw-ret .row.ok input{border-color:#81c784;background:#f6fbf6;}.rxw-ret .row.err input{border-color:#d32f2f;}
+.rxw-ret .row .rxw-sn-sim{height:36px;background:#fff;}
+.rxw-ret .msg{font-size:11px;margin-top:-4px;}.rxw-ret .msg.ok{color:#2e7d32;font-weight:600;}.rxw-ret .msg.err{color:#d32f2f;}
+.rxw-ret .note{font-size:11px;color:#888;border-top:1px solid #e6e8ec;padding-top:10px;}
 .rxw-sn-prog{font-size:12px;color:#555;}.rxw-sn-prog b{color:#ff6b35;}
 .rxw-sn-proto{font-size:10px;color:#aaa;margin-top:8px;}
 /* Toolbar button groups with a vertical divider between groups */
@@ -13731,16 +13744,15 @@ function rxwRetRender(){
   const el=document.getElementById('rxw-rs-sn');if(!el) return;
   if(!rxwRetNeeded()){el.innerHTML='';return;}
   const r=rxwCur,ok=!!rxwDs.retSn&&!rxwDs.retErr;
-  el.innerHTML=`<div style="border:1px solid #e5e5e5;border-radius:6px;padding:12px 14px;display:flex;flex-direction:column;gap:8px;">
-    <div style="font-size:12px;font-weight:700;">Returned IE Serial <span class="rxw-req">*</span></div>
-    <div style="font-size:11px;color:#777;">Shipped serial: <b style="color:#222;">${rxwEsc(r.serial.no)}</b></div>
-    <div class="rxw-sn-row${ok?' ok':rxwDs.retErr?' err':''}" style="grid-template-columns:1fr 22px;padding:0;border:none;">
-      <div class="in"><div><input id="rxw-rs-sn-in" value="${rxwEsc(rxwDs.retSn)}" placeholder="Scan the returned item serial" autocomplete="off"
-          onkeydown="if(event.key==='Enter'){event.preventDefault();rxwRetCommit(this.value);}">
-        <button class="rxw-sn-sim" onclick="rxwRetCommit(rxwCur.serial.no)">Simulate Scan<span class="rxw-demo">DEMO</span></button></div>
-        ${rxwDs.retErr?`<span class="em">${rxwEsc(rxwDs.retErr)}</span>`:''}</div>
-      <span class="ck">${ok?'&#10003;':''}</span></div>
-    <div style="font-size:11px;color:#777;">On Refund, the return info is sent to SPM.</div></div>`;
+  el.innerHTML=`<div class="rxw-ret">
+    <div class="hd">Returned IE Serial <span class="rxw-req">*</span></div>
+    <div class="ship"><span>Shipped serial</span><b>${rxwEsc(r.serial.no)}</b></div>
+    <div class="row${ok?' ok':rxwDs.retErr?' err':''}">
+      <input id="rxw-rs-sn-in" value="${rxwEsc(rxwDs.retSn)}" placeholder="Scan the returned item serial" autocomplete="off"
+        onkeydown="if(event.key==='Enter'){event.preventDefault();rxwRetCommit(this.value);}">
+      <button class="rxw-sn-sim" onclick="rxwRetCommit(rxwCur.serial.no)">Simulate Scan<span class="rxw-demo">DEMO</span></button></div>
+    ${rxwDs.retErr?`<div class="msg err">${rxwEsc(rxwDs.retErr)}</div>`:ok?'<div class="msg ok">&#10003; Scanned</div>':''}
+    <div class="note">On Refund, the return info is sent to SPM.</div></div>`;
 }
 function rxwRetCommit(v){
   v=String(v||'').toUpperCase().trim();if(v===rxwDs.retSn&&!rxwDs.retErr) return;
