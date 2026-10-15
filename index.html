@@ -4363,6 +4363,11 @@ table.grid th.dt-l,table.grid td.dt-l{text-align:left!important;}
             <td><div class="field-row"><div class="field-inline"><select id="rxw-status" style="min-width:360px;"><option value="">All</option></select></div></div></td>
           </tr>
           <tr>
+            <!-- Prototype change: Cancel / Refund filter (dev request D-8; backend supports claimStatus, FE has no field) -->
+            <th>Cancel / Refund</th>
+            <td><div class="field-row"><div class="field-inline"><select id="rxw-claim" style="min-width:360px;"><option value="">All</option><option value="CANCELED">Canceled</option><option value="REFUNDED">Refund</option></select></div></div></td>
+          </tr>
+          <tr>
             <th>Date Search</th>
             <td><div class="field-row">
               <div class="field-inline"><select id="rxw-dtype" style="min-width:170px;"><option value="ORDER_DATE">Order Date</option><option value="APPROVAL_DATE">Approval Date</option><option value="COMPLETION_DATE">Complete Date</option></select></div>
@@ -4437,8 +4442,8 @@ table.grid th.dt-l,table.grid td.dt-l{text-align:left!important;}
                 <th style="min-width:140px;">Cancel / Refund</th>
                 <th style="min-width:100px;">Channel</th>
                 <th style="min-width:100px;">Order Type</th>
-                <th class="tl" style="min-width:230px;">Order ID #<br><span class="rxw-sub">(Number #)</span></th>
-                <th style="min-width:140px;">Invoice No. #</th>
+                <th class="tl rxw-sort" data-sort="sourceSystemOrderId" onclick="rxwSort('sourceSystemOrderId')" style="min-width:230px;">Order ID #<br><span class="rxw-sub">(Number #)</span><span class="rxw-sort-ico"></span></th>
+                <th class="rxw-sort" data-sort="invoiceNo" onclick="rxwSort('invoiceNo')" style="min-width:140px;">Invoice No. #<span class="rxw-sort-ico"></span></th>
                 <th class="tl rxw-sort" data-sort="storeCode" onclick="rxwSort('storeCode')" style="min-width:260px;">Store Info<br><span class="rxw-sub">(Code / Name)</span><span class="rxw-sort-ico"></span></th>
                 <th style="min-width:100px;">Work Type</th>
                 <th class="rxw-sort" data-sort="expectedWorkingDuration" onclick="rxwSort('expectedWorkingDuration')" style="min-width:170px;">Processing Period<span class="rxw-sort-ico"></span></th>
@@ -12642,7 +12647,7 @@ function rxpRenderDetail(){
             ${mine&&rxpEditCmt!==c.id?`<button style="color:#1565C0" onclick="rxpEditComment('${c.id}')">Modification</button><button style="color:#e53935" onclick="rxpDelComment('${c.id}')">Delete</button>`:''}</div>
             ${rxpEditCmt===c.id?`<div class="rxp-cmt-in" style="margin:0;"><select id="rxp-cmt-etype">${RXP_COMMENT_TYPES.map(([v,l])=>`<option value="${v}" ${v===c.type?'selected':''}>${l}</option>`).join('')}</select>
                 <textarea id="rxp-cmt-etext" maxlength="200">${rxpEsc(c.text)}</textarea><button class="rxp-btn-sm" onclick="rxpSaveComment('${c.id}')">Save</button><button class="rxp-btn-sm ghost" onclick="rxpEditCmt=null;rxpRenderDetail()">Cancel</button></div>`
-              :`<div class="rxp-cmt-txt">${rxpEsc(c.text)}</div>`}</div>`;}).join(''):'<div class="rxp-empty-sm">No commets.</div>'}
+              :`<div class="rxp-cmt-txt">${rxpEsc(c.text)}</div>`}</div>`;}).join(''):'<div class="rxp-empty-sm">No comments.</div>'}
       </div>
     </div>
     <aside class="rxp-d-side"><div class="rxp-index" id="rxp-index"></div></aside></div>
@@ -13075,7 +13080,7 @@ function rxwShowPane(p){
 function rxwForm(){
   const v=id=>document.getElementById(id).value,ms=id=>[...document.querySelectorAll('#'+id+'-dropdown .dd-item.selected')].map(e=>e.dataset.val);
   return {branchCode:v('rxw-bp'),storeCode:ms('rxwStore'),orderChannel:v('rxw-ch'),workExecutionType:v('rxw-type'),expectedWorkingDuration:ms('rxwDur'),
-    workProgressStatus:v('rxw-status'),dateSearchType:v('rxw-dtype'),startDate:v('rxw-from'),endDate:v('rxw-to'),query:v('rxw-kw')};
+    workProgressStatus:v('rxw-status'),claimStatus:v('rxw-claim'),dateSearchType:v('rxw-dtype'),startDate:v('rxw-from'),endDate:v('rxw-to'),query:v('rxw-kw')};
 }
 function rxwSearch(){
   const f=rxwForm(),err=document.getElementById('rxw-kw-err');
@@ -13105,6 +13110,7 @@ function rxwFilter(p,recv){
     if(p.storeCode.length&&!p.storeCode.includes(r.storeCode)) return false;
     if(p.orderChannel&&r.channel!==p.orderChannel) return false;
     if(p.workProgressStatus&&r.status!==p.workProgressStatus) return false;
+    if(p.claimStatus&&r.claim!==p.claimStatus) return false;
     if(p.workExecutionType&&r.exec!==p.workExecutionType) return false;
     if(p.expectedWorkingDuration.length&&!p.expectedWorkingDuration.includes(r.dur)) return false;
     if(recv&&r.recv!==recv) return false;
@@ -13126,7 +13132,8 @@ function rxwRunQuery(){
 }
 // Server-side sort (RX_WORK_MANAGEMENT_SORT_FIELD_MAP). Default (no sort) = orderedAt desc. asc -> desc -> none.
 const RXW_SORT_VAL={orderedAt:r=>r.orderedAt,convertedConfirmDecidedAt:r=>r.confirmAt,expectedCompleteDate:r=>r.eta,workProgressStatus:r=>r.status,
-  storeCode:r=>r.storeCode,expectedWorkingDuration:r=>r.dur,convertedCompletedAt:r=>r.completedAt};
+  storeCode:r=>r.storeCode,expectedWorkingDuration:r=>r.dur,convertedCompletedAt:r=>r.completedAt,
+  sourceSystemOrderId:r=>r.ssid,invoiceNo:r=>r.invoiceNo};   // Prototype change: Order ID # / Invoice No. # sortable (dev request D-7)
 function rxwCmp(a,b){return a==null&&b==null?0:a==null?-1:b==null?1:String(a).localeCompare(String(b));}
 function rxwSorted(){
   if(!rxwSortKey) return [...rxwRows].sort((a,b)=>rxwCmp(b.orderedAt,a.orderedAt));
@@ -13194,15 +13201,17 @@ function rxwRenderButtons(rows){
   dis('rxw-b-ob',!has||!sel.some(r=>r.step==='OUTBOUND_NOT_REGISTERED')||!sel.some(r=>r.status==='OUTBOUND_INSPECTION'));
 }
 
-// ----- Excel (GET /rx/works/excel; backend columns, max 10,000) -----
+// ----- Excel (GET /rx/works/excel, max 10,000) -----
+// Prototype change (dev request D-6): same columns as the list, '-' for empty values, backend 10,000 message
 function rxwExportExcel(){
   if(typeof XLSX==='undefined') return rxwToast('Excel Export','Excel library failed to load. Check network and reload.','error');
-  // Error message is fixed in ExcelDownloadButton (shown for any API error)
-  if(rxwErr) return rxwToast('(Code / Name / Barcode)','Please reduce the range to a maximum of 200 and try again.','error');
+  if(rxwErr) return rxwToast('Excel Export',rxwErr,'error');
   const list=[...rxwRows].sort((a,b)=>rxwCmp(b.orderedAt,a.orderedAt));
-  if(list.length>10000) return rxwToast('(Code / Name / Barcode)','Please reduce the range to a maximum of 200 and try again.','error');
-  const head=['Order Date','Approve Date','Order No.','Number.','Channel','Store Code','Store Name','Status','Cancel / Refund','Work Type','Processing Period','Worker','Lead Time','Completed Date'];
-  const aoa=[head].concat(list.map(r=>[r.orderedAt,r.confirmAt||'',r.orderNo,r.ssid||'',r.channel,r.storeCode,r.storeName,r.status,r.claim||'',r.exec||'',r.dur||'',r.worker||'',String(rxwLeadDays(r)),r.completedAt||'']));
+  if(list.length>10000) return rxwToast('Excel Export','Excel downloads are limited to a maximum of 10000 records.','error');
+  const d0=v=>v==null||v===''?'-':String(v);
+  const head=['Order Date','Approval Date','Work ETA','Work Status','Cancel / Refund','Channel','Order Type','Order ID # (Number #)','Invoice No. #','Store Info (Code / Name)','Work Type','Processing Period','Worker','Lead Time','Complete Date'];
+  const aoa=[head].concat(list.map(r=>[r.orderedAt+' ('+r.tz+')',r.confirmAt?r.confirmAt+' ('+r.tz+')':'-',d0(r.eta),rxwStatusLabel(r.status),r.claim?rxwStatusLabel(r.claim):'-',r.channel,
+    r.tags.length?r.tags.join(', '):'NORMAL',d0(r.ssid)+' ('+d0(r.orderNo)+')',d0(r.invoiceNo),r.storeCode+' / '+r.storeName,d0(r.exec),d0(r.dur),d0(r.worker),rxwLeadDays(r)+' days',r.completedAt?r.completedAt+' ('+r.tz+')':'-']));
   const wb=XLSX.utils.book_new();XLSX.utils.book_append_sheet(wb,XLSX.utils.aoa_to_sheet(aoa),'RX Work Management');
   const d=new Date();XLSX.writeFile(wb,'rx_work_management_'+d.getFullYear()+'_'+(d.getMonth()+1)+'_'+d.getDate()+'.xlsx');
 }
@@ -13476,19 +13485,20 @@ function rxwDetailHead(r){
   // Work status stays as is after a claim (e.g. Finalized) -> show both: work status + cancel/refund status
   const chip=rxwChip(r.status,'sm')+(r.claim?' '+rxwChip(r.claim,'sm'):'');   // same label as the list / status box
   const b2c=r.recv==='B2C_DELIVERY',dis=v=>v?'disabled':'';
-  // workStatus === "CANCELED" never happens (claim is a separate field) -> print buttons are always enabled
+  // Prototype change (dev request D-18): after Cancel / Refund, Serial / Invoice / Label / Outbound buttons are disabled (Picking List stays)
+  const cl=!!r.claim;
   return `<div class="rxw-dt-title">
       <button class="rxw-back" onclick="rxwCloseDetail()" title="Back to List">${RXW_ICON.back}</button>
       <button class="rxw-ssid" onclick="rxwCopySsid()">${rxwEsc(r.ssid)}</button><span class="rxw-ono-gray">(${rxwEsc(r.orderNo)})</span>
       ${chip}<span style="margin-left:10px;color:#777;font-size:12px;">${rxwChannel(r.channel)}</span>
     </div>
     <div class="rxw-dt-btns">
-      <span class="rxw-tg"><button class="btn-action" onclick="rxwSerialPrint()">${RXW_ICON.card}Serial Print</button></span>
+      <span class="rxw-tg"><button class="btn-action" ${dis(cl)} onclick="rxwSerialPrint()">${RXW_ICON.card}Serial Print</button></span>
       <span class="rxw-tg sep"><button class="btn-action" onclick="rxwPicking(['${r.id}'])">${RXW_ICON.print}Print Picking List</button>
-        <button class="btn-action" onclick="rxwInvoice(['${r.id}'])">${RXW_ICON.invoice}Invoice Print</button></span>
+        <button class="btn-action" ${dis(cl)} onclick="rxwInvoice(['${r.id}'])">${RXW_ICON.invoice}Invoice Print</button></span>
       ${b2c?`<span class="rxw-tg sep"><button class="btn-action" ${dis(r.status!=='OUTBOUND_INSPECTION'||!!r.claim)} onclick="rxwOpenLabelReg('${r.id}')">${RXW_ICON.truck}Label Registration</button>
-        <button class="btn-action" ${dis(r.status!=='COMPLETED')} onclick="rxwLabelPrint('${r.id}')">${RXW_ICON.print}Label Print</button></span>`:''}
-      ${r.recv==='STORE_PICKUP'?`<span class="rxw-tg sep"><button class="btn-action" ${dis(r.step!=='OUTBOUND_NOT_REGISTERED'||r.status!=='OUTBOUND_INSPECTION')} onclick="rxwOpenOutbound('${r.id}')">${RXW_ICON.truck}Outbound Registration</button></span>`:''}
+        <button class="btn-action" ${dis(r.status!=='COMPLETED'||cl)} onclick="rxwLabelPrint('${r.id}')">${RXW_ICON.print}Label Print</button></span>`:''}
+      ${r.recv==='STORE_PICKUP'?`<span class="rxw-tg sep"><button class="btn-action" ${dis(r.step!=='OUTBOUND_NOT_REGISTERED'||r.status!=='OUTBOUND_INSPECTION'||cl)} onclick="rxwOpenOutbound('${r.id}')">${RXW_ICON.truck}Outbound Registration</button></span>`:''}
     </div>`;
 }
 function rxwCopySsid(){try{navigator.clipboard.writeText(rxwCur.ssid);}catch(e){}}
@@ -13567,7 +13577,7 @@ function rxwRxBox(r){
 }
 // ----- Customer Info (receiving method / address) -----
 function rxwCustomerBox(r){
-  const rc=r.recipient||{},a=rxwDs.addr,editable=r.status!=='COMPLETED'&&r.status!=='FINALIZED',rcA=rc.address||{};
+  const rc=r.recipient||{},a=rxwDs.addr,editable=r.status!=='COMPLETED'&&r.status!=='FINALIZED'&&!r.claim,rcA=rc.address||{};
   let addrHtml;
   if(editable){
     const ship=a.recv==='B2C_DELIVERY';
@@ -13638,6 +13648,7 @@ function rxwAddrModified(r){
 // PUT /rx/works/{id}/address (RxWorkManagementDetailUpdateFacade.updateAddress)
 function rxwAddrSave(){
   const r=rxwCur,a=rxwDs.addr;
+  if(r.claim) return rxwToast('Cannot modify address of claimed work.','','error');   // Prototype change (dev request D-18)
   if(a.recv==='B2C_DELIVERY'&&a.manual&&a.verify!=='ok') return rxwToast('Please recheck the save conditions.','','error');
   if(r.step!=='LABEL_REGISTRABLE'&&r.step!=='OUTBOUND_NOT_REGISTERED') return rxwToast(`Cannot modify address after label registration. (shippingStep: ${r.step})`,'','error');
   const items=[];
@@ -13685,7 +13696,7 @@ function rxwCommentBox(r){
         <div class="rxw-mfoot"><button class="btn-action btn-outline" onclick="rxwDs.editId=null;rxwRenderDetail();">Cancel</button><button class="btn-action btn-primary" onclick="rxwCommentUpdate()">Save</button></div></div>`
       :`<div class="rxw-cm"><div class="rxw-cm-h"><span class="rxw-cm-type">${lbl(c.type)}</span><span>${rxwEsc(c.createdBy)}</span><span>${c.createdAt} (${c.tz})</span>
         <span class="rxw-cm-acts"><button onclick="rxwCommentEdit('${c.id}')">Modification</button><button onclick="rxwDs.delId='${c.id}';rxwOpenModal('cd');">Delete</button></span></div><div style="white-space:pre-wrap;">${rxwEsc(c.content)}</div></div>`).join('')
-      :'<p style="font-size:12px;color:#A3A3A3;">No commets.</p>'}</div></div>`;
+      :'<p style="font-size:12px;color:#A3A3A3;">No comments.</p>'}</div></div>`;
 }
 function rxwCommentAdd(){
   const ds=rxwDs,t=ds.cmtText.trim();if(!t) return;
@@ -13700,7 +13711,7 @@ function rxwCommentUpdate(){
 }
 function rxwCommentDelete(){rxwCur.comments=rxwCur.comments.filter(c=>c.id!==rxwDs.delId);rxwDs.delId=null;rxwCloseModal('cd');rxwRenderDetail();}
 // ----- Work Status Management (GET /rx/works/{id}/work-status, PUT /rx/lens-works/{id}) -----
-function rxwWsLocked(r){return r.claim==='CANCELED'||['COMPLETED','FINALIZED','CANCELED'].includes(r.status);}
+function rxwWsLocked(r){return !!r.claim||['COMPLETED','FINALIZED','CANCELED'].includes(r.status);}
 function rxwStatusBox(r){
   const f=rxwDs.form,lock=rxwWsLocked(r)?'disabled':'';
   const workers=(f.worker&&!RXW_WORKERS.includes(f.worker)?[f.worker]:[]).concat(RXW_WORKERS);
