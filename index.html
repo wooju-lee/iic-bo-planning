@@ -13557,7 +13557,7 @@ function rxwPurchaserSeed(){
 }
 // Detail title tooltip — same pattern as Outbound Information (dashed-underlined title + .wms-tooltip)
 function rxwTip(label,lines,cls){
-  return `<span class="wms-tooltip-wrap rxw-ttip ${cls||''}"><span style="border-bottom:1px dashed #aaa;cursor:help;">${label}</span>
+  return `<span class="wms-tooltip-wrap rxw-ttip ${cls||''}"><span style="border-bottom:1px dashed #666;cursor:help;padding-bottom:1px;">${label}</span>
     <span class="wms-tooltip">${lines.length>1?lines.map(t=>'&bull; '+t).join('<br>'):lines[0]}</span></span>`;
 }
 function rxwPurchaserBox(r){
