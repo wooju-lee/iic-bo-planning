@@ -1561,6 +1561,10 @@ a.ib-trk:hover{border-color:#ff6b35;color:#ff6b35;}
 .rxw-sn-row input:focus{border-color:#ff6b35;box-shadow:0 0 0 2px rgba(255,107,53,.12);}
 .rxw-sn-row.err input{border-color:#d32f2f;}
 .rxw-sn-row.ok input{border-color:#81c784;background:#f6fbf6;}
+.rxw-sn-row .o .pos{display:flex;gap:6px;align-items:center;margin-top:4px;font-size:10px;color:#1565c0;}
+.rxw-sn-row .o .pos b{display:inline;font-size:11px;margin:0;color:#0d47a1;letter-spacing:.2px;}
+.rxw-sn-row .mt{font-size:11px;color:#2e7d32;font-weight:600;}
+.rxw-sn-row .wn{font-size:11px;color:#b45309;font-weight:600;}
 .rxw-sn-row .em{font-size:11px;color:#d32f2f;}
 .rxw-sn-row .ck{width:20px;height:20px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:11px;color:#fff;background:#e0e0e0;}
 .rxw-sn-row.ok .ck{background:#2e7d32;}
@@ -13669,6 +13673,8 @@ function rxwIeSeed(){
     if(r.items[0].cof) return;   // C.O.F = customer's own frame: no IE frame sold in this order
     r.ie=true;r.items[0].ie=true;
     if(r.recv!=='B2C_DELIVERY'||r.claim==='CANCELED') return;
+    // Offline only: the serial is received from the external POS (Shopify) with the sale -> verified by scan at Outbound Inspection
+    if(r.channel==='OFFLINE') r.posSerial=rxwSnGen(i*7919);
     const at=r.completedAt||r.confirmAt;
     if(['COMPLETED','FINALIZED'].includes(r.status)) r.serial={no:rxwSnGen(i*7919),at,by:r.worker||'monster1437',spm:r.claim==='REFUNDED'?'RETURN_PUBLISHED':'PUBLISHED',spmAt:r.completedAt,spmBy:r.worker||'monster1437'};
     if(r.serial&&r.serial.spm==='RETURN_PUBLISHED'){const h=r.history.find(e=>e.items.some(it=>it.field==='CLAIM_STATUS'));r.serial.retAt=h?h.createdAt:r.completedAt;r.serial.retBy=h?h.createdBy:'monster1437';}
@@ -13691,11 +13697,11 @@ function rxwSerialBox(r){
   if(!r.ie) return '';
   const s=rxwSnState(r),sn=r.serial,b2c=r.recv==='B2C_DELIVERY';
   const canScan=b2c&&!r.claim&&!sn&&r.status==='OUTBOUND_INSPECTION',canRe=b2c&&!r.claim&&sn&&sn.spm==='PENDING';
-  const tip=b2c?['Scan the serial at Outbound Inspection (required).','Sent to SPM automatically after the TMS label is issued.','Re Do keeps the serial.','Refund: scan the returned item serial → return info is sent to SPM.']
+  const tip=b2c?[r.posSerial?'Offline order: the serial is received from POS in advance. Scan the frame at Outbound Inspection to check it (required).':'Scan the serial at Outbound Inspection (required).','Sent to SPM automatically after the TMS label is issued.','Re Do keeps the serial.','Refund: scan the returned item serial → return info is sent to SPM.']
     :['Ship to Store: the serial is scanned in POS RX Operation when the customer picks up the order.'];
   return `<div class="rxw-box${s[0]==='need'?' sn-need':''}"><h3 class="rxw-ttl">${rxwTip('IE Serial',tip)}
       <span class="rxw-ttl-sfx" style="display:flex;align-items:center;gap:10px;"><span class="rxw-sn-st ${s[0]}">${s[1]}</span>${canScan?`<button class="btn-action btn-primary" style="height:28px;" onclick="rxwSnOpen('edit',['${r.id}'])">Scan Serial</button>`:canRe?`<button class="btn-action btn-outline" style="height:28px;" onclick="rxwSnOpen('edit',['${r.id}'])">Rescan</button>`:''}</span></h3>
-    ${s[0]==='need'?`<div class="rxw-sn-alert">&#9888;<span>Scan the IE serial before label registration. Label Registration is blocked until the serial is saved.</span></div>`:''}
+    ${s[0]==='need'?`<div class="rxw-sn-alert">&#9888;<span>${r.posSerial?'Scan the frame to check it against the serial received from POS. ':'Scan the IE serial before label registration. '}Label Registration is blocked until the serial is saved.</span></div>`:''}
     ${b2c?`<div class="rxw-sn-grid">
       <span class="k">Sent Date / Account</span><span class="v">${sn&&sn.spmAt?`${sn.spmAt} (${r.tz}) · ${rxwEsc(sn.spmBy||'-')}`
         :sn?`<span class="rxw-sn-pend">${RXW_CLOCK}<b>Not sent yet</b><span>Sent automatically after Label Registration</span></span>`
@@ -13724,18 +13730,19 @@ function rxwSnRender(){
   const head={cs:['IE orders require a serial scan before moving to <b>Outbound Inspection</b>.','The status changes after all serials are scanned.'],
     lr:['Serial scan is required before <b>Label Registration</b>.','Scan the orders below to continue.'],
     edit:['Scan the IE serial attached to the frame.','The serial is sent to SPM after label registration.']}[m.mode];
+  if(m.ids.some(id=>rxwById(id).posSerial)) head[1]+=' Offline orders: scan the frame to check it against the serial received from POS.';
   const ok={cs:'Save &amp; Change Status',lr:'Save &amp; Continue',edit:'Save'}[m.mode];
   document.getElementById('rxw-sn-body').innerHTML=`
     <div class="rxw-sn-alert" style="background:#fff4e5;color:#8a4b00;">&#9888;<span>${head[0]}<br>${head[1]}</span></div>
     <div style="margin-bottom:8px;"><span class="rxw-sn-prog">Scanned <b>${done}</b> / ${m.ids.length}</span></div>
     <div class="rxw-sn-list">${m.ids.map(id=>{const r=rxwById(id),fr=rxwFlatRows(r.items).map(x=>x.it).find(it=>it.ie),e=m.errs[id];
       return `<div class="rxw-sn-row${m.ok[id]?' ok':e?' err':''}${id===cur?' cur':''}">
-        <div class="o"><b>${rxwEsc(r.ssid)}</b><small>${fr?rxwEsc(fr.code+' / '+fr.name):''}</small></div>
+        <div class="o"><b>${rxwEsc(r.ssid)}</b><small>${fr?rxwEsc(fr.code+' / '+fr.name):''}</small>${r.posSerial?`<span class="pos">POS serial<b>${rxwEsc(r.posSerial)}</b></span>`:''}</div>
         <div class="in"><div><input id="rxw-sn-in-${id}" value="${rxwEsc(m.vals[id]||'')}" placeholder="Scan IE serial" autocomplete="off"
             oninput="rxwSn.vals['${id}']=this.value.toUpperCase().trim();rxwSn.ok['${id}']=false;"
             onkeydown="if(event.key==='Enter'){event.preventDefault();rxwSnCommit('${id}');}">
           <button class="rxw-sn-sim" title="Prototype only" onclick="rxwSnSim('${id}')">Simulate Scan<span class="rxw-demo">DEMO</span></button></div>
-          ${e?`<span class="em">${rxwEsc(e)}</span>`:''}</div>
+          ${e?`<span class="em">${rxwEsc(e)}</span>`:m.ok[id]&&r.posSerial?(m.vals[id]===r.posSerial?'<span class="mt">&#10003; Matches the POS serial</span>':'<span class="wn">&#9888; Different from the POS serial — the scanned serial will be used.</span>'):''}</div>
         <span class="ck">${m.ok[id]?'&#10003;':''}</span></div>`;}).join('')}</div>
     <div class="rxw-mfoot" style="gap:8px;">
       <button class="btn-action btn-primary" ${done===m.ids.length?'':'disabled'} onclick="rxwSnConfirm()">${ok}</button></div>`;
@@ -13752,13 +13759,13 @@ function rxwSnCommit(id){
   rxwSnRender();
   if(e){const el=document.getElementById('rxw-sn-in-'+id);if(el){el.focus();el.select();}}else rxwSnFocus();
 }
-function rxwSnSim(id){rxwSn.vals[id]=rxwSnGen(Date.now()+id.length*31+Math.floor(Math.random()*1e6));rxwSnCommit(id);}
+function rxwSnSim(id){const r=rxwById(id);if(r.posSerial&&!r.serial){rxwSn.vals[id]=r.posSerial;return rxwSnCommit(id);}rxwSn.vals[id]=rxwSnGen(Date.now()+id.length*31+Math.floor(Math.random()*1e6));rxwSnCommit(id);}
 function rxwSnConfirm(){
   const m=rxwSn;if(!m) return;
   for(const id of m.ids){const e=rxwSnCheck(id,m.vals[id]);if(e){m.errs[id]=e;m.ok[id]=false;rxwSnRender();return;}}
   const now=rxwFmt(new Date());
-  m.ids.forEach(id=>{const r=rxwById(id),old=r.serial?r.serial.no:null,v=m.vals[id];
-    if(old===v) return;
+  m.ids.forEach(id=>{const r=rxwById(id),old=r.serial?r.serial.no:(r.posSerial||null),v=m.vals[id];
+    if(old===v&&r.serial) return;
     r.serial={no:v,at:now,by:'monster1437',spm:'PENDING'};rxwAddHistory(r,[['IE_SERIAL',old,v]]);});
   const then=m.then;rxwSnClose();
   if(then) then();
