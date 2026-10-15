@@ -4229,8 +4229,11 @@ table.grid th.dt-l,table.grid td.dt-l{text-align:left!important;}
       <div class="table-box">
         <div class="table-toolbar">
           <div class="table-toolbar-left">Total <b id="rxw-total">0</b> Count</div>
-          <!-- Button groups (divider between groups): Label | Status | Print | Outbound | Excel -->
+          <!-- Button groups (divider between groups): Outbound (To Store) / Label (To Customer) | Status | Print | Excel -->
           <div class="table-toolbar-right rxw-tbar">
+            <span class="rxw-tg" id="rxw-g-ob">
+              <button class="btn-action btn-primary" id="rxw-b-ob" onclick="rxwOpenOutbound()">Outbound Registration</button>
+            </span>
             <span class="rxw-tg" id="rxw-g-label">
               <button class="btn-action btn-primary" id="rxw-b-lr" onclick="rxwOpenLabelReg()">Label Registration</button>
               <button class="btn-action btn-primary" id="rxw-b-lp" onclick="rxwLabelPrint()">Label Print</button>
@@ -4241,9 +4244,6 @@ table.grid th.dt-l,table.grid td.dt-l{text-align:left!important;}
             <span class="rxw-tg">
               <button class="btn-action btn-primary" id="rxw-b-pk" onclick="rxwPicking(null)">Print Picking List</button>
               <button class="btn-action btn-primary" id="rxw-b-iv" onclick="rxwInvoice(null)">Invoice Print</button>
-            </span>
-            <span class="rxw-tg" id="rxw-g-ob">
-              <button class="btn-action btn-primary" id="rxw-b-ob" onclick="rxwOpenOutbound()">Outbound Registration</button>
             </span>
             <span class="rxw-tg">
               <button class="btn-action btn-outline" onclick="rxwExportExcel()">
