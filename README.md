@@ -37,7 +37,9 @@ BO 신규/변경 기능의 기획 검토용 UI 프로토타입입니다. 여러 
 - **그리드 컬럼 정렬**: Brand / BP(법인) / Store 컬럼(From·To Store 포함)은 헤더·값 모두 **왼쪽 정렬** (`class="tl"`)
 - 주문번호 컬럼(Order No. / Refund No. / Original Order No.)도 헤더·값 왼쪽 정렬
 - 금액 컬럼(Price / Amount / Total / Net / VAT / Unit 등)은 헤더·값 오른쪽 정렬 (`class="tr"`), 상세·모달 테이블 포함
+- 날짜 컬럼(헤더에 Date / Datetime / ETA 포함)은 모든 그리드에서 헤더·값 왼쪽 정렬 (공통 `gridAlignDates()`가 자동 적용)
 - 헤더 정렬은 해당 컬럼 값 정렬과 맞춘다
+- **검색 Keyword 필드**: 라벨은 `Keyword`, 아래에 검색 대상 필드를 회색 작은 글씨로 나열 (예: `Keyword` / `BP Code, BP Name, Store Code, ...`)
 
 ## Features
 
