@@ -1964,8 +1964,8 @@ table.grid th.dt-l,table.grid td.dt-l{text-align:left!important;}
     <a class="menu-item depth2" href="#/inventory/inbound"><span class="menu-text">Inbound List</span></a>
     <a class="menu-item depth2 active" href="#/inventory/outbound"><span class="menu-text">Outbound List</span></a>
     <a class="menu-item depth2" href="#/inventory/outbound-order"><span class="menu-text">Outbound Order List</span></a>
-    <a class="menu-item depth2" href="https://bo-inventory-stocktaking-v2.vercel.app/"><span class="menu-text">Inventory Stocktaking</span></a>
-    <a class="menu-item depth2" href="https://bo-inv-adjustment.vercel.app/"><span class="menu-text">Inventory Adjustment</span></a>
+    <a class="menu-item depth2" href="#/inventory/stocktaking"><span class="menu-text">Inventory Stocktaking</span></a>
+    <a class="menu-item depth2" href="#/inventory/adjustment"><span class="menu-text">Inventory Adjustment</span></a>
     <a class="menu-item depth2" href="#/inventory/movement"><span class="menu-text">Inventory Movement</span></a>
     <div class="menu-item depth2" onclick="toggle('inv-mon')">
       <span class="menu-text">Monitoring</span>
@@ -13869,6 +13869,9 @@ const MENU_PAGES={
   '/rx/work-management':{bc:['RX (Lens)'],title:'Rx Work Management',open:['rx'],view:'rxw-view',onEnter:()=>rxwEnter()},
   '/inventory/inbound':{bc:['Inventory'],title:'Inbound List',open:['inv'],view:'ib-view',onEnter:()=>ibEnter()},
   '/inventory/outbound-order':{bc:['Inventory'],title:'Outbound Order List',open:['inv'],view:'oo-view',onEnter:()=>ooEnter()},
+  // Stocktaking / Adjustment: were links to separate prototypes -> managed in this prototype (Coming Soon until built)
+  '/inventory/stocktaking':{bc:['Inventory'],title:'Inventory Stocktaking',open:['inv']},
+  '/inventory/adjustment':{bc:['Inventory'],title:'Inventory Adjustment',open:['inv']},
   '/inventory/movement':{bc:['Inventory'],title:'Inventory Movement',open:['inv'],view:'mv-view',onEnter:()=>mvEnter()},
   '/inventory/monitoring/inventory-list':{bc:['Inventory','Monitoring'],title:'Inventory List',open:['inv','inv-mon'],view:'il-view',onEnter:()=>ilEnter()},
   '/inventory/monitoring/inventory-ledger':{bc:['Inventory','Monitoring'],title:'Inventory Ledger',open:['inv','inv-mon'],view:'lg-view',onEnter:()=>lgEnter()},
