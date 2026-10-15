@@ -6413,7 +6413,7 @@ function olSearch(p){
 }
 function olRenderHead(p){
   const st=OL_STATE[p],h=OL_CFG[p].head;
-  document.getElementById(p+'-head').innerHTML='<tr class="hdr">'+h.map((t,i)=>i===0?`<th class="ol-sort${st.asc?' asc':''}" style="min-width:180px;" onclick="OL_STATE['${p}'].asc=!OL_STATE['${p}'].asc;olRenderHead('${p}');olRenderPage('${p}')">${t}<span class="arr">↓</span></th>`:`<th${t.startsWith('Store')?' class="tl"':''}>${t}</th>`).join('')+'</tr>';
+  document.getElementById(p+'-head').innerHTML='<tr class="hdr">'+h.map((t,i)=>i===0?`<th class="ol-sort${st.asc?' asc':''}" style="min-width:180px;" onclick="OL_STATE['${p}'].asc=!OL_STATE['${p}'].asc;olRenderHead('${p}');olRenderPage('${p}')">${t}<span class="arr">↓</span></th>`:`<th${/^(Store|Order No|Refund No|Original Order No)/.test(t)?' class="tl"':''}>${t}</th>`).join('')+'</tr>';
 }
 function olRenderPage(p){
   const st=OL_STATE[p],rows=[...st.rows].sort((a,b)=>(st.asc?1:-1)*((a.date+a.dateTime.slice(11,16)).localeCompare(b.date+b.dateTime.slice(11,16))));
@@ -6424,7 +6424,7 @@ function olRenderPage(p){
     const noCell=p==='ol'?`<div class="ol-no" onclick="olOpen('ol',${idx})">${r.no}</div><div class="ol-no-sub">(${r.no})</div>`
       :`<div class="ol-no" onclick="olOpen('rl',${idx})">${r.orderNo}</div><div class="ol-no-sub">(${r.no})</div>`;
     return `<tr onclick="olOpen('${p}',${idx})"><td>${r.dateTime}</td><td><span class="ol-pill ${r[OL_CFG[p].statusKey]}">${olPillLabel(r[OL_CFG[p].statusKey])}</span></td>
-      <td onclick="event.stopPropagation()">${noCell}</td>${p==='rl'?`<td>${r.orderNo}</td>`:''}<td class="tl">${store}</td><td>${r.loc}</td><td>${r.store.cur}</td><td>${olQty(r)}</td><td>${fmtAmt2(olTotal(r))}</td></tr>`;
+      <td class="tl" onclick="event.stopPropagation()">${noCell}</td>${p==='rl'?`<td class="tl">${r.orderNo}</td>`:''}<td class="tl">${store}</td><td>${r.loc}</td><td>${r.store.cur}</td><td>${olQty(r)}</td><td>${fmtAmt2(olTotal(r))}</td></tr>`;
   }).join(''):`<tr><td colspan="${n}" class="dp-empty">No data found.</td></tr>`;
 }
 // ----- Detail modal -----
