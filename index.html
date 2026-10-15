@@ -1550,7 +1550,9 @@ a.ib-trk:hover{border-color:#ff6b35;color:#ff6b35;}
 .rxw-sn-grid{display:grid;grid-template-columns:max-content 1fr;gap:8px 20px;font-size:12px;margin-bottom:12px;}
 .rxw-sn-grid .k{color:#777;}.rxw-sn-grid .v{font-weight:600;color:#222;font-variant-numeric:tabular-nums;}
 .rxw-sn-tip{position:relative;display:inline-flex;cursor:help;}
-.rxw-sn-tip .rxw-info{width:20px;height:20px;font-size:12px;}
+.rxw-sn-tip .ico{color:#9e9e9e;transition:color .15s;}
+.rxw-sn-tip:hover .ico{color:#555;}
+.rxw-sn-tip .box::after{content:'';position:absolute;left:12px;top:-5px;border:5px solid transparent;border-top:0;border-bottom-color:#222;}
 .rxw-sn-tip .box{display:none;position:absolute;left:-8px;top:calc(100% + 8px);z-index:20;width:360px;flex-direction:column;gap:6px;background:#222;color:#fff;border-radius:6px;padding:10px 12px;font-size:11px;font-weight:400;line-height:1.5;box-shadow:0 4px 14px rgba(0,0,0,.18);}
 .rxw-sn-tip .box span{display:block;padding-left:10px;position:relative;}
 .rxw-sn-tip .box span::before{content:'•';position:absolute;left:0;}
@@ -13605,7 +13607,7 @@ function rxwSerialBox(r){
   const canScan=b2c&&!r.claim&&!sn&&r.status==='OUTBOUND_INSPECTION',canRe=b2c&&!r.claim&&sn&&sn.spm==='PENDING';
   const tip=b2c?['Scan the serial at Outbound Inspection (required).','Sent to SPM automatically after the TMS label is issued (order mapping + activation).','Re Do keeps the serial.','Refund: scan the returned item serial → return sent to SPM.']
     :['Ship to Store: the serial is scanned in POS RX Operation when the customer picks up the order.'];
-  return `<div class="rxw-box${s[0]==='need'?' sn-need':''}"><h3 class="rxw-ttl">IE Serial<span class="rxw-sn-tip"><span class="rxw-info" style="background:#eee;">i</span><span class="box">${tip.map(t=>`<span>${t}</span>`).join('')}</span></span>
+  return `<div class="rxw-box${s[0]==='need'?' sn-need':''}"><h3 class="rxw-ttl">IE Serial<span class="rxw-sn-tip"><svg class="ico" viewBox="0 0 24 24" width="16" height="16"><circle cx="12" cy="12" r="9.25" fill="none" stroke="currentColor" stroke-width="1.6"/><rect x="11.1" y="10.4" width="1.8" height="6.6" rx=".9" fill="currentColor"/><circle cx="12" cy="7.6" r="1.15" fill="currentColor"/></svg><span class="box">${tip.map(t=>`<span>${t}</span>`).join('')}</span></span>
       <span class="rxw-ttl-sfx" style="display:flex;align-items:center;gap:10px;"><span class="rxw-sn-st ${s[0]}">${s[1]}</span>${canScan?`<button class="btn-action btn-primary" style="height:28px;" onclick="rxwSnOpen('edit',['${r.id}'])">Scan Serial</button>`:canRe?`<button class="btn-action btn-outline" style="height:28px;" onclick="rxwSnOpen('edit',['${r.id}'])">Rescan</button>`:''}</span></h3>
     ${s[0]==='need'?`<div class="rxw-sn-alert">&#9888;<span>Scan the IE serial before label registration. Label Registration is blocked until the serial is saved.</span></div>`:''}
     ${b2c?`<div class="rxw-sn-grid">
