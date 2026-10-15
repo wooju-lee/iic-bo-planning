@@ -1009,6 +1009,32 @@ table.grid th.ol-sort.asc .arr{transform:rotate(180deg);}
 #il-view th.il-avail{color:#222;font-weight:700;}
 #il-view td.il-avail{font-weight:700;color:#222;background:#FFF3E6;}
 #il-view td.il-avail.neg{color:#C62828;}
+/* ===== Product List (Master Information > Product) ===== */
+#pl-view table.grid tbody tr{cursor:default;}
+.pl-sub{font-size:10px;font-weight:400;opacity:.85;}
+.grid th.pl-sort{cursor:pointer;user-select:none;}
+.pl-sort-ico{display:inline-block;width:10px;margin-left:4px;font-size:10px;}
+.grid th.pl-sort[data-dir="asc"] .pl-sort-ico::after{content:'▲';}
+.grid th.pl-sort[data-dir="desc"] .pl-sort-ico::after{content:'▼';}
+.pl-kw-err{color:#ef4444;font-size:12px;margin-top:5px;}
+.pl-error{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:32px;gap:8px;}
+.pl-error[hidden]{display:none;}
+.pl-error-title{color:#ef4444;font-size:13px;}
+.pl-error-msg{color:#6b7280;font-size:12px;margin-bottom:8px;}
+#pl-view [hidden]{display:none!important;}
+/* ===== RX Product List (Master Information > Product) ===== */
+#rpl-view table.grid tbody tr{cursor:default;}
+.rpl-sub{font-size:10px;font-weight:400;opacity:.85;}
+.grid th.rpl-sort{cursor:pointer;user-select:none;}
+.rpl-sort-ico{display:inline-block;width:10px;margin-left:4px;font-size:10px;}
+.grid th.rpl-sort[data-dir="asc"] .rpl-sort-ico::after{content:'▲';}
+.grid th.rpl-sort[data-dir="desc"] .rpl-sort-ico::after{content:'▼';}
+.rpl-kw-err{color:#ef4444;font-size:12px;margin-top:5px;}
+.rpl-error{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:32px;gap:8px;}
+.rpl-error[hidden]{display:none;}
+.rpl-error-title{color:#ef4444;font-size:13px;}
+.rpl-error-msg{color:#6b7280;font-size:12px;margin-bottom:8px;}
+#rpl-view [hidden]{display:none!important;}
 </style>
 <!-- SheetJS: client-side Excel (.xlsx) export -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
@@ -1926,6 +1952,150 @@ table.grid th.ol-sort.asc .arr{transform:rotate(180deg);}
         <div class="pg-nav">
           <button class="pg-btn" id="dp-prev" onclick="dpGo(-1)"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg></button>
           <button class="pg-btn" id="dp-next" onclick="dpGo(1)"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg></button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== PRODUCT LIST VIEW (Master Information > Product > Product List) — read only (SAP master) ===== -->
+  <div class="detail-view" id="pl-view">
+    <div class="search-box">
+      <table class="search-table">
+        <tr>
+          <th>Brand</th>
+          <td><div class="field-row"><div class="field-inline"><select id="pl-brand" style="min-width:360px;"><option value="">All</option></select></div></div></td>
+        </tr>
+        <tr>
+          <th>HQ Sales Status</th>
+          <td><div class="field-row"><div class="field-inline"><select id="pl-status" style="min-width:360px;"><option value="">All</option></select></div></div></td>
+        </tr>
+        <tr>
+          <th>HQ Material Grade</th>
+          <td><div class="field-row"><div class="field-inline"><select id="pl-grade" style="min-width:360px;"><option value="">All</option></select></div></div></td>
+        </tr>
+        <tr>
+          <th>HQ Launch Date</th>
+          <td><div class="field-row">
+            <div class="field-inline"><input type="date" lang="en" id="pl-from" style="min-width:170px;"></div>
+            <span style="color:#999;font-size:13px;">~</span>
+            <div class="field-inline"><input type="date" lang="en" id="pl-to" style="min-width:170px;"></div>
+          </div></td>
+        </tr>
+        <tr>
+          <th>Product Info (Code / Name),<br>Barcode</th>
+          <td><div class="field-row"><div class="field-inline" style="flex:1;max-width:360px;">
+            <input type="text" id="pl-kw" placeholder="Please enter at least 2 characters." style="width:100%;" onkeydown="if(event.key==='Enter')plSearch()">
+            <div class="pl-kw-err" id="pl-kw-err" hidden>Please enter at least 2 characters.</div>
+          </div></div></td>
+        </tr>
+      </table>
+      <div class="search-action">
+        <button class="btn-search" onclick="plSearch()"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><use href="#i-search"/></svg>Search</button>
+      </div>
+    </div>
+    <div class="table-box">
+      <div class="table-toolbar">
+        <div class="table-toolbar-left">Total <b id="pl-total">0</b> Count</div>
+        <div class="table-toolbar-right">
+          <button class="btn-action btn-outline" onclick="plExport()"><svg width="14" height="14" viewBox="0 0 24 24" fill="#555"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>Excel Export</button>
+        </div>
+      </div>
+      <div class="grid-wrap" id="pl-grid-wrap">
+        <table class="grid">
+          <thead>
+            <tr class="hdr">
+              <th class="tl" style="min-width:150px;">Brand</th>
+              <th class="pl-sort" data-sort="productCode" onclick="plSort('productCode')" style="min-width:300px;">Product Info<br><span class="pl-sub">(Code / Name / Barcode)</span><span class="pl-sort-ico"></span></th>
+              <th style="min-width:200px;">HQ Sales Status</th>
+              <th style="min-width:150px;">HQ Material Grade</th>
+              <th class="pl-sort" data-sort="launchDate" onclick="plSort('launchDate')" style="min-width:150px;">HQ Launch Date<span class="pl-sort-ico"></span></th>
+              <th style="min-width:150px;">Global Launch Date</th>
+              <th style="min-width:150px;">Product Category</th>
+              <th style="min-width:150px;">Product Subcategory</th>
+              <th style="min-width:150px;">Collection</th>
+              <th style="min-width:150px;">Size</th>
+            </tr>
+          </thead>
+          <tbody id="pl-body"></tbody>
+        </table>
+      </div>
+      <div class="pl-error" id="pl-error" hidden>
+        <div class="pl-error-title">Failed to load data.</div>
+        <div class="pl-error-msg" id="pl-error-msg"></div>
+        <button class="btn-action btn-outline" onclick="plSearch()">Retry</button>
+      </div>
+      <div class="pg-bar" id="pl-pg">
+        <div class="rpp"><span>Rows per page:</span>
+          <select id="pl-rpp" style="width:72px;" onchange="pgState('pl').page=1;plRenderPage();">
+            <option value="10">10</option><option value="30" selected>30</option><option value="50">50</option><option value="100">100</option><option value="300">300</option>
+          </select>
+        </div>
+        <span id="pl-range">0–0 of 0</span>
+        <div class="pg-nav">
+          <button class="pg-btn" id="pl-prev" onclick="pgGo('pl',-1)"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg></button>
+          <button class="pg-btn" id="pl-next" onclick="pgGo('pl',1)"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg></button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== RX PRODUCT LIST VIEW (Master Information > Product > RX Product List) — read only (SAP master, LENS only) ===== -->
+  <div class="detail-view" id="rpl-view">
+    <div class="search-box">
+      <table class="search-table">
+        <tr>
+          <th>Country</th>
+          <td><div class="field-row"><div class="field-inline"><select id="rpl-country" style="min-width:360px;"><option value="">All</option></select></div></div></td>
+        </tr>
+        <tr>
+          <th>Product Code, Product Name</th>
+          <td><div class="field-row"><div class="field-inline" style="flex:1;max-width:360px;">
+            <input type="text" id="rpl-kw" placeholder="Please enter at least 2 characters." style="width:100%;" onkeydown="if(event.key==='Enter')rplSearch()">
+            <div class="rpl-kw-err" id="rpl-kw-err" hidden>Please enter at least 2 characters.</div>
+          </div></div></td>
+        </tr>
+      </table>
+      <div class="search-action">
+        <button class="btn-search" onclick="rplSearch()"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><use href="#i-search"/></svg>Search</button>
+      </div>
+    </div>
+    <div class="table-box">
+      <div class="table-toolbar">
+        <div class="table-toolbar-left">Total <b id="rpl-total">0</b> Count</div>
+        <div class="table-toolbar-right">
+          <button class="btn-action btn-outline" onclick="rplExport()"><svg width="14" height="14" viewBox="0 0 24 24" fill="#555"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>Excel Export</button>
+        </div>
+      </div>
+      <div class="grid-wrap" id="rpl-grid-wrap">
+        <table class="grid">
+          <thead>
+            <tr class="hdr">
+              <th style="min-width:150px;">Country</th>
+              <th class="tl" style="min-width:150px;">Brand</th>
+              <th class="rpl-sort" data-sort="productCode" onclick="rplSort('productCode')" style="min-width:500px;">Product Info<br><span class="rpl-sub">(Code / Name / Barcode)</span><span class="rpl-sort-ico"></span></th>
+              <th style="min-width:150px;">Unit</th>
+              <th style="min-width:150px;">Product Category 1</th>
+              <th style="min-width:150px;">Product Category 2</th>
+            </tr>
+          </thead>
+          <tbody id="rpl-body"></tbody>
+        </table>
+      </div>
+      <div class="rpl-error" id="rpl-error" hidden>
+        <div class="rpl-error-title">Failed to load data.</div>
+        <div class="rpl-error-msg" id="rpl-error-msg"></div>
+        <button class="btn-action btn-outline" onclick="rplSearch()">Retry</button>
+      </div>
+      <div class="pg-bar" id="rpl-pg">
+        <div class="rpp"><span>Rows per page:</span>
+          <select id="rpl-rpp" style="width:72px;" onchange="pgState('rpl').page=1;rplRenderPage();">
+            <option value="10">10</option><option value="30" selected>30</option><option value="50">50</option><option value="100">100</option><option value="300">300</option>
+          </select>
+        </div>
+        <span id="rpl-range">0–0 of 0</span>
+        <div class="pg-nav">
+          <button class="pg-btn" id="rpl-prev" onclick="pgGo('rpl',-1)"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg></button>
+          <button class="pg-btn" id="rpl-next" onclick="pgGo('rpl',1)"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg></button>
         </div>
       </div>
     </div>
@@ -6239,6 +6409,242 @@ REQUEST_DATA.forEach((r,i)=>{r.reqNo='RQ'+String(REQUEST_DATA.length-i).padStart
 function genReqNo(){return 'RQ'+String(nextReqNo++).padStart(6,'0');}
 
 // Home: screens built in this prototype (shortcut cards)
+// ===== Product List (Master Information > Product) =====
+// Source: iic-bo-frontend features/(master)/product/productList + iic-bo master/product (ProductListController, ProductListReadService, ProductRepositoryImpl)
+// Read only. Product master is received from SAP (Kafka product upsert via BO-Adapter -> ProductUpsertService, auditor = SAP).
+// SAP field origin: salesStatus <- discontinuedCode (1/2/3, else CONTINUED), materialGrade <- productTier, launchDate <- releaseDate,
+//   globalLaunchDate <- releaseDateGlobal, standard (Size), collectionName, barcode, categories (L1~L3) as sent by SAP.
+// LENS products (leaf category 111010) are excluded here; they are listed in RX Product List.
+const PL_BRANDS=[['1100','GENTLE MONSTER']];
+// Dropdown: GET /api/v1/products/dropdown/sales-status (label = lokalise text, value = enum)
+const PL_SALES_STATUS=[['CONTINUED','Active'],['TO_BE_DISCONTINUED','Expiring'],['DISCONTINUED_P','Discontinued (P)'],['DISCONTINUED_C','Discontinued (C)']];
+// Dropdown: GET /api/v1/products/dropdown/material-grades — frontend maps label = productTierCode ('1'), value = productTierName ('COMMERCIAL')
+const PL_GRADES=[['COMMERCIAL','1'],['FASHION','2'],['STATEMENT','3'],['UNKNOWN','0']];
+const PL_GRADE_CODE={COMMERCIAL:'1',FASHION:'2',STATEMENT:'3',UNKNOWN:'0'};
+let plInited=false,plData=[],plRows=[],plParams=null,plError='',plSortKey=null,plSortDir=null;
+// Dummy product master: PRODUCT_MASTER (shared with Inventory / Price screens) + package / extra items. Built lazily (PRODUCT_MASTER is defined elsewhere).
+function plBuildData(){
+  const extra=[
+    // In Supply Price list but not in PRODUCT_MASTER (category assumed)
+    {code:'11000025',name:'SMART LUTTO-01',barcode:'8809639024324',cat1:'OPTICAL',cat2:'OPTICAL COMBI'},
+    {code:'11000026',name:'SMART HAVANA-01',barcode:'8809639024331',cat1:'OPTICAL',cat2:'OPTICAL COMBI'},
+    // Dummy sunglasses
+    {code:'11000101',name:'LILIT-01',barcode:'8809639025101',cat1:'SUNGLASS',cat2:'SUNGLASS ACETATE'},
+    {code:'11000102',name:'DREAMER-17',barcode:'8809639025118',cat1:'SUNGLASS',cat2:'SUNGLASS ACETATE'},
+    {code:'11000103',name:'HER-01',barcode:'8809639025125',cat1:'SUNGLASS',cat2:'SUNGLASS ACETATE'},
+    {code:'11000104',name:'MUSEE-01',barcode:'8809639025132',cat1:'SUNGLASS',cat2:'SUNGLASS COMBI'},
+    {code:'11000105',name:'JACKIE-01',barcode:'8809639025149',cat1:'SUNGLASS',cat2:'SUNGLASS METAL'},
+    // Packages (same as Inventory Ledger / Inventory List: PACKAGE > PACKAGE SET) and RX packages used in RX orders
+    {code:'11500340',name:'2025 PACKAGE SET(SUN)',barcode:'8809983943661',cat1:'PACKAGE',cat2:'PACKAGE SET'},
+    {code:'11500341',name:'2025 PACKAGE SET(OPT)',barcode:'8809983943678',cat1:'PACKAGE',cat2:'PACKAGE SET'},
+    {code:'11500904',name:'2026 PACKAGE SET(POCKET-W)',barcode:'8800352191621',cat1:'PACKAGE',cat2:'PACKAGE SET'},
+    {code:'15000001',name:'RX PACKAGE-01',barcode:null,cat1:'PACKAGE',cat2:'PACKAGE'},
+    {code:'15000002',name:'RX PACKAGE-02',barcode:null,cat1:'PACKAGE',cat2:'PACKAGE'}
+  ];
+  const base=(typeof PRODUCT_MASTER!=='undefined'?PRODUCT_MASTER:[]).map(p=>({code:p.code,name:p.name,barcode:p.barcode,cat1:p.cat1,cat2:p.cat2}));
+  const status=i=>({3:'TO_BE_DISCONTINUED',4:'TO_BE_DISCONTINUED',10:'DISCONTINUED_P',11:'DISCONTINUED_P',15:'DISCONTINUED_C',19:'TO_BE_DISCONTINUED',33:'DISCONTINUED_C'})[i]||'CONTINUED';
+  const grades=['COMMERCIAL','FASHION','COMMERCIAL','STATEMENT','FASHION','COMMERCIAL','UNKNOWN','COMMERCIAL','FASHION','STATEMENT'];
+  const pad=n=>String(n).padStart(2,'0');
+  return base.concat(extra).map((p,i)=>{
+    const pkg=p.cat1==='PACKAGE';
+    // HQ launch date (SAP releaseDate): 2023-01 ~ 2026-09; some packages have none ("00000000" from SAP -> null)
+    let y=2023+(i%4),m=(i*5)%12+1;if(y===2026&&m>9) m-=4;
+    const launch=pkg&&i%2?null:y+'-'+pad(m)+'-'+pad(10+(i%3)*5);
+    // Global launch date (SAP releaseDateGlobal): empty for some items, otherwise same day or 2 weeks later
+    let global=null;
+    if(launch&&i%5!==0){const d=new Date(launch+'T00:00:00Z');if(i%3) d.setUTCDate(d.getUTCDate()+14);global=d.toISOString().slice(0,10);}
+    return {brandCode:'1100',brandName:'GENTLE MONSTER',productCode:p.code,productName:p.name,barcode:p.barcode||null,
+      salesStatus:status(i),materialGrade:pkg?'UNKNOWN':grades[i%grades.length],launchDate:launch,globalLaunchDate:global,
+      subCategoryName:p.cat1,leafCategoryName:p.cat2,
+      collectionName:pkg?null:(i%4===0?'2026 SS':i%4===1?'2025 FW':i%4===2?'2025 SS':null),
+      standard:pkg?null:(50+i%6)+'ㅁ'+(17+i%4)+'-'+(140+(i%3)*5)};
+  });
+}
+function plEnter(){
+  if(plInited) return;
+  if(typeof PAGERS!=='undefined'&&!PAGERS.pl) PAGERS.pl={render:()=>plRenderPage()};
+  plData=plBuildData();
+  const fill=(id,items)=>{document.getElementById(id).innerHTML='<option value="">All</option>'+items.map(([v,t])=>'<option value="'+v+'">'+t+'</option>').join('');};
+  fill('pl-brand',PL_BRANDS);fill('pl-status',PL_SALES_STATUS);fill('pl-grade',PL_GRADES);
+  ['pl-brand','pl-status','pl-grade','pl-rpp'].forEach(id=>{const s=document.getElementById(id);csBuild(s);csRefresh(s);});
+  plInited=true;plSearch();
+}
+function plSearch(){
+  const v=id=>document.getElementById(id).value;
+  const kw=v('pl-kw');
+  // Frontend: 1 character -> inline error, no request (value is not trimmed)
+  const err=kw.length>0&&kw.length<2;
+  document.getElementById('pl-kw-err').hidden=!err;
+  if(err) return;
+  plParams={brandCode:v('pl-brand'),salesStatus:v('pl-status'),materialGrade:v('pl-grade'),launchDateFrom:v('pl-from'),launchDateTo:v('pl-to'),query:kw};
+  // New search: page 1, default sort (productCode ASC)
+  plSortKey=null;plSortDir=null;
+  plRows=plFilter(plParams);
+  if(typeof PAGERS!=='undefined'&&PAGERS.pl) PAGERS.pl.page=1;
+  plRenderPage();
+}
+function plFilter(p){
+  // Backend validation: launchDateFrom after launchDateTo -> request rejected
+  if(p.launchDateFrom&&p.launchDateTo&&p.launchDateFrom>p.launchDateTo){plError='Start date must not be after end date';return [];}
+  plError='';
+  const q=p.query.toLowerCase();
+  return plData.filter(r=>(!p.brandCode||r.brandCode===p.brandCode)&&(!p.salesStatus||r.salesStatus===p.salesStatus)&&(!p.materialGrade||r.materialGrade===p.materialGrade)
+    &&(!p.launchDateFrom||(r.launchDate&&r.launchDate>=p.launchDateFrom))&&(!p.launchDateTo||(r.launchDate&&r.launchDate<=p.launchDateTo))
+    &&(!q||[r.productCode,r.productName,r.barcode].some(x=>x&&x.toLowerCase().includes(q))));
+}
+// Sortable: Product Info (productCode) / HQ Launch Date (asc -> desc -> none)
+function plSort(key){
+  if(plSortKey!==key){plSortKey=key;plSortDir='asc';}
+  else if(plSortDir==='asc') plSortDir='desc';
+  else {plSortKey=null;plSortDir=null;}
+  if(typeof PAGERS!=='undefined'&&PAGERS.pl) PAGERS.pl.page=1;
+  plRenderPage();
+}
+function plSortedRows(){
+  // No sort -> backend default: productCode ASC
+  const key=plSortKey||'productCode',d=plSortKey&&plSortDir==='desc'?-1:1;
+  return [...plRows].sort((a,b)=>{
+    const x=a[key]||'',y=b[key]||'';
+    return (x<y?-1:x>y?1:0)*d||a.productCode.localeCompare(b.productCode);
+  });
+}
+function plRenderPage(){
+  const failed=!!plError;
+  document.getElementById('pl-grid-wrap').hidden=failed;
+  document.getElementById('pl-pg').hidden=failed;
+  document.getElementById('pl-error').hidden=!failed;
+  document.getElementById('pl-error-msg').textContent=plError;
+  document.getElementById('pl-total').textContent=plRows.length;
+  if(failed) return;
+  document.querySelectorAll('#pl-view th.pl-sort').forEach(th=>{if(th.dataset.sort===plSortKey) th.dataset.dir=plSortDir; else delete th.dataset.dir;});
+  const rows=plSortedRows(),[s,e]=pgRange('pl',rows.length),esc=x=>String(x??'').replace(/&/g,'&amp;').replace(/</g,'&lt;');
+  document.getElementById('pl-body').innerHTML=rows.length?rows.slice(s,e).map(r=>`<tr>
+    <td class="tl">${esc(r.brandName)}</td>
+    <td>${r.productCode} / ${esc(r.productName)} / ${r.barcode||'-'}</td>
+    <td>${r.salesStatus||''}</td><td>${PL_GRADE_CODE[r.materialGrade]||''}</td>
+    <td>${r.launchDate||'-'}</td><td>${r.globalLaunchDate||'-'}</td>
+    <td>${esc(r.subCategoryName)}</td><td>${esc(r.leafCategoryName)}</td>
+    <td>${esc(r.collectionName)||'-'}</td><td>${esc(r.standard)||'-'}</td></tr>`).join('')
+    :'<tr><td colspan="10" class="dp-empty">No rows</td></tr>';
+}
+// Excel: GET /api/v1/products/excel with the last searched conditions (not the grid sort); server builds the file
+function plExport(){
+  if(typeof XLSX==='undefined'){showToast('Excel Export','Excel library failed to load. Check network and reload.','error');return;}
+  if(!plParams) return;
+  const p=plParams;
+  // Any API error shows the shared Excel error snackbar (text as in production)
+  if(p.launchDateFrom&&p.launchDateTo&&p.launchDateFrom>p.launchDateTo){showToast('(Code / Name / Barcode)','Please reduce the range to a maximum of 200 and try again.','error');return;}
+  const rows=plFilter(p).sort((a,b)=>a.productCode.localeCompare(b.productCode));
+  const aoa=[['Brand','Product Code','Product Name','Barcode','HQ Sales Status','HQ Material Grade','Collection','HQ Launch Date','Global Launch Date','Product Category(L1)','Product Category(L2)','Product Size']]
+    .concat(rows.map(r=>[r.brandName,r.productCode,r.productName,r.barcode||'',r.salesStatus||'',PL_GRADE_CODE[r.materialGrade]||'',r.collectionName||'',r.launchDate||'',r.globalLaunchDate||'',r.subCategoryName,r.leafCategoryName,r.standard||'']));
+  const ws=XLSX.utils.aoa_to_sheet(aoa),wb=XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(wb,ws,'Product List');
+  const d=new Date(),fileName='product_list_'+d.getFullYear()+'_'+(d.getMonth()+1)+'_'+d.getDate()+'.xlsx';
+  XLSX.writeFile(wb,fileName);
+  showToast('Excel Export',fileName+' — '+rows.length+' rows');
+}
+// ===== RX Product List (Master Information > Product) =====
+// Source: iic-bo-frontend features/(master)/product/rxProductList + iic-bo master/product (RxProductListController, RxProductListReadService, RxProductRepositoryImpl)
+// Read only. Lists LENS products only (leaf category code 111010) from the SAP product master (Kafka product upsert).
+// Country = product.useCountry (SAP useCountry, mapped to the Country enum; unknown codes are stored as empty).
+// Brand permission: the API limits rows to the login user's brands (no Brand filter on screen).
+// Country dropdown = GET /api/v1/nationalities/dropdown (Nationality enum, all countries, label = description, value = code)
+const RPL_NATIONALITIES=[['NONE','None'],['EG','Egypt'],['KE','Kenya'],['SA','Saudi Arabia'],['CA','Canada'],['US','United States'],['AU','Australia'],['BD','Bangladesh'],['CN','China'],['FJ','Fiji'],
+  ['HK','Hong Kong'],['ID','Indonesia'],['IN','India'],['JP','Japan'],['KR','Republic of Korea'],['KW','Kuwait'],['MM','Myanmar'],['MO','Macao'],['MY','Malaysia'],['NZ','New Zealand'],
+  ['PH','Philippines'],['PK','Pakistan'],['SG','Singapore'],['TH','Thailand'],['TW','Taiwan'],['VN','Vietnam'],['AT','Austria'],['BE','Belgium'],['BG','Bulgaria'],['CH','Switzerland'],
+  ['CY','Cyprus'],['CZ','Czech Republic'],['DE','Germany'],['DK','Denmark'],['EE','Estonia'],['ES','Spain'],['FI','Finland'],['FR','France'],['GB','Great Britain'],['GR','Greece'],
+  ['HR','Croatia'],['HU','Hungary'],['IE','Ireland'],['IL','Israel'],['IS','Iceland'],['IT','Italy'],['LT','Lithuania'],['LU','Luxembourg'],['LV','Latvia'],['MT','Malta'],
+  ['NL','Netherlands'],['NO','Norway'],['PL','Poland'],['PT','Portugal'],['RO','Romania'],['RS','Serbia'],['RU','Russia'],['SE','Sweden'],['SI','Slovenia'],['SK','Slovakia'],
+  ['TR','Turkey'],['UA','Ukraine'],['AR','Argentina'],['BR','Brazil'],['CL','Chile'],['CO','Colombia'],['CR','Costa Rica'],['MX','Mexico'],['PA','Panama'],['PE','Peru'],
+  ['AE','Arab Emirates'],['BH','Bahrain'],['JO','Jordan'],['LB','Lebanon'],['OM','Oman'],['QA','Qatar'],['UN','Unknown']];
+// The API parameter is the Country enum (store countries). Any other dropdown value is rejected (400 Bad Request).
+const RPL_COUNTRY_ENUM=['KR','US','JP','CN','HK','MO','TW','CA','MX','GB','DE','AU','FR','ES','IT','PT','LU','TR','PL','AE','KW','MY','SG','PH','TH','VN','UNKNOWN'];
+let rplInited=false,rplData=[],rplRows=[],rplParams=null,rplError='',rplSortKey=null,rplSortDir=null;
+// Dummy LENS master: US codes/names are the lens items used in RX orders (RX_ORDERS); AU / CA rows added.
+// SAP sends no barcode for lenses -> API returns '-'. Category 1 (sub, 111000) = COMPONENT, Category 2 (leaf, 111010) = LENS.
+function rplBuildData(){
+  const L=[
+    ['14000217','167-PF-AR','US'],['14000220','174-AR','US'],['14000222','CR39-TINT','US'],['14000223','PL-167-AR','US'],['14000225','POLY-AR','US'],
+    ['14000226','POLY-BG','US'],['14000227','POLY-PF-AR','US'],['14000228','POLY-POL-AR','US'],['14000230','CR39-AR','US'],['14000231','174-PF-AR','US'],
+    ['14000232','POLY-PF-BG','US'],['14000233','167-TINT','US'],['14000234','POLY-AR','US'],['14000235','174-POL-AR','US'],['14000236','167-AR','US'],
+    ['14000237','POLY-BG','US'],['14000238','174-PF-AR','US'],
+    ['14000240','CR39-AR','AU'],['14000241','POLY-AR','AU'],['14000242','167-AR','AU'],['14000243','174-AR','AU'],['14000244','POLY-BG','AU'],['14000245','167-PF-AR','AU'],
+    ['14000246','POLY-AR','CA'],['14000247','167-AR','CA'],['14000248','174-PF-AR','CA']
+  ];
+  return L.map(([code,name,country])=>({countryCode:country,brandCode:'1100',brandName:'GENTLE MONSTER',productCode:code,productName:name,barcode:'-',
+    baseUnit:'EA',subCategoryName:'COMPONENT',leafCategoryName:'LENS'}));
+}
+function rplEnter(){
+  if(rplInited) return;
+  if(typeof PAGERS!=='undefined'&&!PAGERS.rpl) PAGERS.rpl={render:()=>rplRenderPage()};
+  rplData=rplBuildData();
+  document.getElementById('rpl-country').innerHTML='<option value="">All</option>'+RPL_NATIONALITIES.map(([v,t])=>'<option value="'+v+'">'+t+'</option>').join('');
+  ['rpl-country','rpl-rpp'].forEach(id=>{const s=document.getElementById(id);csBuild(s);csRefresh(s);});
+  rplInited=true;rplSearch();
+}
+function rplSearch(){
+  const kw=document.getElementById('rpl-kw').value;
+  // Frontend: 1 character -> inline error, no request (value is not trimmed)
+  const err=kw.length>0&&kw.length<2;
+  document.getElementById('rpl-kw-err').hidden=!err;
+  if(err) return;
+  rplParams={countryCode:document.getElementById('rpl-country').value,query:kw};
+  rplSortKey=null;rplSortDir=null;
+  rplRows=rplFilter(rplParams);
+  if(typeof PAGERS!=='undefined'&&PAGERS.rpl) PAGERS.rpl.page=1;
+  rplRenderPage();
+}
+function rplFilter(p){
+  // Country value must be a Country enum name; Nationality-only codes (e.g. NZ, NONE, UN) fail request binding
+  if(p.countryCode&&!RPL_COUNTRY_ENUM.includes(p.countryCode)){rplError='Bad Request';return [];}
+  rplError='';
+  const q=p.query.toLowerCase();
+  // Keyword: product code / product name only (barcode is not searched)
+  return rplData.filter(r=>(!p.countryCode||r.countryCode===p.countryCode)&&(!q||[r.productCode,r.productName].some(x=>x.toLowerCase().includes(q))));
+}
+// Sortable: Product Info (productCode) only (asc -> desc -> none)
+function rplSort(key){
+  if(rplSortKey!==key){rplSortKey=key;rplSortDir='asc';}
+  else if(rplSortDir==='asc') rplSortDir='desc';
+  else {rplSortKey=null;rplSortDir=null;}
+  if(typeof PAGERS!=='undefined'&&PAGERS.rpl) PAGERS.rpl.page=1;
+  rplRenderPage();
+}
+function rplSortedRows(){
+  // No sort -> backend default: productCode ASC
+  const d=rplSortKey&&rplSortDir==='desc'?-1:1;
+  return [...rplRows].sort((a,b)=>a.productCode.localeCompare(b.productCode)*d);
+}
+function rplRenderPage(){
+  const failed=!!rplError;
+  document.getElementById('rpl-grid-wrap').hidden=failed;
+  document.getElementById('rpl-pg').hidden=failed;
+  document.getElementById('rpl-error').hidden=!failed;
+  document.getElementById('rpl-error-msg').textContent=rplError;
+  document.getElementById('rpl-total').textContent=rplRows.length;
+  if(failed) return;
+  document.querySelectorAll('#rpl-view th.rpl-sort').forEach(th=>{if(th.dataset.sort===rplSortKey) th.dataset.dir=rplSortDir; else delete th.dataset.dir;});
+  const rows=rplSortedRows(),[s,e]=pgRange('rpl',rows.length);
+  document.getElementById('rpl-body').innerHTML=rows.length?rows.slice(s,e).map(r=>`<tr>
+    <td>${r.countryCode||'-'}</td><td class="tl">${r.brandName}</td>
+    <td>${r.productCode||'-'} / ${r.productName||'-'} / ${r.barcode||'-'}</td>
+    <td>${r.baseUnit||''}</td><td>${r.subCategoryName}</td><td>${r.leafCategoryName}</td></tr>`).join('')
+    :'<tr><td colspan="6" class="dp-empty">No rows</td></tr>';
+}
+// Excel: GET /api/v1/rx-products/excel with the last searched conditions; server builds the file, ordered by productCode ASC
+function rplExport(){
+  if(typeof XLSX==='undefined'){showToast('Excel Export','Excel library failed to load. Check network and reload.','error');return;}
+  if(!rplParams) return;
+  if(rplParams.countryCode&&!RPL_COUNTRY_ENUM.includes(rplParams.countryCode)){showToast('(Code / Name / Barcode)','Please reduce the range to a maximum of 200 and try again.','error');return;}
+  const rows=rplFilter(rplParams).sort((a,b)=>a.productCode.localeCompare(b.productCode));
+  const aoa=[['Country','Brand','Product Code','Product Name','Barcode','Base Unit','Product Category 1','Product Category 2']]
+    .concat(rows.map(r=>[r.countryCode||'',r.brandName,r.productCode,r.productName,r.barcode,r.baseUnit||'',r.subCategoryName,r.leafCategoryName]));
+  const ws=XLSX.utils.aoa_to_sheet(aoa),wb=XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(wb,ws,'Rx Product List');
+  const d=new Date(),fileName='rx_product_list_'+d.getFullYear()+'_'+(d.getMonth()+1)+'_'+d.getDate()+'.xlsx';
+  XLSX.writeFile(wb,fileName);
+  showToast('Excel Export',fileName+' — '+rows.length+' rows');
+}
 const HOME_LINKS=[
   {menu:'Inventory',title:'Outbound List',desc:'Outbound / Outbound Request list, detail, registration (Outbound Order Tag)',path:'/inventory/outbound'},
   {menu:'Master Information',title:'Store',desc:'Store master list (SAP) and store detail / edit history',path:'/master/store'},
@@ -6257,8 +6663,8 @@ const OUTBOUND_PAGE={bc:['Inventory'],title:'Outbound List',open:['inv'],menu:'/
 const MENU_PAGES={
   '/':{bc:[],title:'Main',open:[],view:'home-view',onEnter:renderHomeCards},
   '/master/store':{bc:['Master Information'],title:'Store',open:['master'],view:'st-view',onEnter:storeEnter},
-  '/master/product/product-list':{bc:['Master Information','Product'],title:'Product List',open:['master','mst-product']},
-  '/master/product/rx-product-list':{bc:['Master Information','Product'],title:'RX Product List',open:['master','mst-product']},
+  '/master/product/product-list':{bc:['Master Information','Product'],title:'Product List',open:['master','mst-product'],view:'pl-view',onEnter:()=>plEnter()},
+  '/master/product/rx-product-list':{bc:['Master Information','Product'],title:'RX Product List',open:['master','mst-product'],view:'rpl-view',onEnter:()=>rplEnter()},
   '/master/package/bp-package':{bc:['Master Information','Package'],title:'BP Package',open:['master','mst-package']},
   '/master/price/customer-price':{bc:['Master Information','Price'],title:'Customer Price',open:['master','mst-price']},
   '/master/price/supply-price':{bc:['Master Information','Price'],title:'Supply Price',open:['master','mst-price'],view:'sp-view',onEnter:()=>{if(!spRendered)searchSupplyPrice();}},
