@@ -1168,6 +1168,166 @@ a.ib-trk:hover{border-color:#ff6b35;color:#ff6b35;}
 .ib-blk-err table.grid th{min-width:110px;}
 .ib-blk-err table.grid th:first-child{min-width:40px;}
 .ib-blk-err table.grid td{white-space:normal;}
+/* ===== Outbound Order List (Inventory > Outbound Order List) ===== */
+.oo-sub{font-size:10px;font-weight:400;opacity:.85;}
+.oo-th-sub{font-weight:400;font-size:10px;color:#999;line-height:1.4;}
+.oo-kw-err{color:#d32f2f;font-size:12px;margin-top:4px;}
+.grid th.oo-sort{cursor:pointer;user-select:none;}
+.oo-sort-ico{display:inline-block;width:10px;margin-left:4px;font-size:10px;}
+.grid th.oo-sort[data-dir="asc"] .oo-sort-ico::after{content:'▲';}
+.grid th.oo-sort[data-dir="desc"] .oo-sort-ico::after{content:'▼';}
+.oo-chip{display:inline-flex;align-items:center;height:22px;padding:0 10px;border-radius:11px;font-size:11px;white-space:nowrap;}
+.oo-chip.b{font-weight:700;}
+.oo-dd-grp{padding:6px 12px 4px;font-size:11px;font-weight:700;color:#999;letter-spacing:.3px;background:#fafafa;border-top:1px solid #f0f0f0;cursor:default;}
+.oo-dd-grp:first-child{border-top:none;}
+/* Detail */
+.oo-info-card{border:1px solid #E5E5E5;border-radius:8px;background:#fff;padding:20px 24px;}
+.oo-card-title{display:flex;align-items:center;gap:8px;font-size:14px;color:#333;margin-bottom:20px;}
+.oo-info-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px 24px;}
+.oo-info-l{font-size:11px;color:#888;margin-bottom:4px;line-height:1.4;}
+.oo-info-v{font-size:13px;color:#333;line-height:1.4;word-break:break-all;}
+.oo-dl-actions{display:flex;justify-content:flex-end;gap:10px;margin-top:24px;}
+.oo-cnt-chip{display:inline-flex;align-items:center;height:24px;padding:0 10px;border-radius:12px;background:#e0f2f1;color:#00695c;font-size:12px;font-weight:600;}
+.oo-cancel-row{display:flex;justify-content:flex-end;margin-top:20px;}
+.oo-cancel-row[hidden],#oo-view [hidden]{display:none;}
+.oo-btn-danger{background:#d32f2f;color:#fff;}
+.oo-btn-danger:hover{background:#b71c1c;}
+.badge.oo-hd-default{background:#ebebeb;color:#555;}
+.badge.oo-hd-success{background:#2e7d32;color:#fff;}
+.badge.oo-hd-error{background:#d32f2f;color:#fff;}
+#page-title.oo-copy{cursor:copy;}
+/* Registration modal */
+.modal-box.oo-reg-box{width:1200px;max-width:96vw;max-height:92vh;display:flex;flex-direction:column;}
+.modal-box.oo-reg-box .oo-reg-body{padding:20px;max-height:none;flex:1;overflow-y:auto;}
+.oo-noti{list-style:none;margin:16px 0 10px;padding:15px 20px;border-radius:8px;border:1px solid #f1e6cf;background:#FFFBF3;color:#6a5325;font-size:12px;display:flex;flex-direction:column;gap:5px;}
+.oo-info-ico{display:inline-flex;align-items:center;justify-content:center;width:15px;height:15px;border-radius:50%;background:#fff;color:#ff6b35;font-size:10px;font-weight:700;margin-left:4px;cursor:help;vertical-align:middle;}
+.oo-ord-no{display:flex;flex-direction:column;align-items:center;gap:2px;}
+.oo-ord-no b{font-size:12px;color:#f97316;}
+.oo-ord-no span{font-size:11px;}
+.oo-reg-foot{display:flex;justify-content:flex-end;align-items:center;gap:8px;padding:14px 20px;border-top:1px solid #eee;background:#fff;}
+#ooc-selcnt{font-size:12px;color:#888;}
+.oo-confirm-foot{display:flex;justify-content:flex-end;gap:8px;padding:12px 20px;border-top:1px solid #eee;}
+/* Label preview (prototype stand-in for the TMS PDF) */
+.oo-label{width:384px;margin:0 auto;background:#fff;border:2px solid #111;font-family:Arial,sans-serif;color:#111;}
+.oo-label .r{padding:10px 12px;border-bottom:2px solid #111;font-size:11px;line-height:1.5;}
+.oo-label .r:last-child{border-bottom:none;}
+.oo-label .big{font-size:22px;font-weight:700;letter-spacing:1px;}
+.oo-label .bc{height:56px;margin:6px 0;background:repeating-linear-gradient(90deg,#111 0 2px,#fff 2px 4px,#111 4px 5px,#fff 5px 8px);}
+/* ===== Inventory Movement (Inventory > Inventory Movement) ===== */
+.mv-sub{font-size:10px;font-weight:400;opacity:.85;}
+.mv-kw-err{color:#d32f2f;font-size:12px;margin-top:4px;}
+.table-toolbar-left.mv-noti-line{font-size:12px;color:#D97706;font-weight:400;max-width:70%;}
+.mv-dd-grp{padding:6px 12px 4px;font-size:11px;font-weight:700;color:#999;letter-spacing:.3px;background:#fafafa;border-top:1px solid #f0f0f0;cursor:default;}
+.mv-dd-grp:first-child{border-top:none;}
+/* Registration modal */
+.modal-box.mv-reg-box{width:1200px;max-width:96vw;max-height:92vh;display:flex;flex-direction:column;}
+.modal-box.mv-reg-box .mv-reg-body{padding:20px 24px;max-height:none;flex:1;overflow-y:auto;}
+.mv-steps{display:flex;align-items:flex-start;justify-content:center;max-width:820px;margin:8px auto 28px;}
+.mv-steps .ob-step{flex-direction:column;align-items:center;min-width:150px;}
+.mv-steps .ob-step-label{margin-top:6px;font-size:12px;text-align:center;}
+.mv-reg-foot{display:flex;align-items:center;gap:8px;padding:14px 24px;border-top:1px solid #eee;background:#fff;}
+.mv-box{border:1px solid #e8e8e8;border-radius:8px;background:#fff;padding:20px;}
+.mv-box-title{display:block;font-size:12px;font-weight:700;margin-bottom:14px;color:#222;}
+.mv-fields{display:flex;flex-wrap:wrap;gap:10px;}
+.mv-f{display:flex;flex-direction:column;gap:5px;min-width:200px;}
+.mv-f>span{font-size:11px;color:#555;}
+.mv-f select,.mv-f input[type=text]{height:34px;border:1px solid #d5d5d5;border-radius:4px;padding:0 10px;font-size:12px;background:#fff;outline:none;}
+.mv-sum{display:flex;gap:10px;margin-top:10px;}
+.mv-sum .l{display:flex;align-items:center;gap:40px;background:#FFFBF3;border:1px solid #f1e6cf;border-radius:8px;padding:10px 14px;}
+.mv-sum .r{display:flex;flex-direction:column;gap:10px;}
+.mv-sum .r>div{display:flex;gap:10px;align-items:flex-start;background:#FFFBF3;border:1px solid #f1e6cf;border-radius:8px;padding:10px 14px;}
+.mv-sum b{font-size:11px;white-space:nowrap;}
+.mv-sum span{font-size:11px;}
+.mv-sum b.to{color:#D97706;}
+.mv-s2-search{display:flex;align-items:center;justify-content:space-between;gap:20px;}
+.mv-tot{font-size:14px;color:rgba(0,0,0,.54);margin-bottom:8px;}
+.mv-tot b{color:#222;}
+.mv-tot strong{color:#D97706;margin-left:10px;}
+.mv-qty-in{width:150px;height:30px;border:1px solid #d5d5d5;border-radius:4px;padding:0 8px;font-size:12px;}
+.mv-qty-in.err{border-color:#d32f2f;}
+.mv-rmk{height:30px;min-width:170px;border:1px solid #d5d5d5;border-radius:4px;font-size:12px;padding:0 8px;background:#fff;}
+/* Bulk upload */
+.mv-tmpl{display:block;width:fit-content;margin-left:auto;font-size:12px;color:#737373;text-decoration:underline;cursor:pointer;background:none;border:none;}
+.mv-drop{margin-top:6px;border:2px dashed #d5d5d5;border-radius:8px;padding:32px 20px;text-align:center;font-size:13px;color:#777;cursor:pointer;background:#fafafa;transition:border-color .15s,background .15s;}
+.mv-drop.over{border-color:#ff6b35;background:#FFF5EF;}
+.mv-drop .fn{margin-top:8px;font-size:12px;color:#222;font-weight:600;}
+.mv-bulk-noti{margin-top:10px;text-align:center;font-size:12px;color:#737373;line-height:1.6;}
+.mv-fmt-err{margin-top:16px;border-radius:8px;background:#FEF2F2;padding:16px;text-align:center;}
+.mv-fmt-err h3{font-size:14px;font-weight:600;color:#991B1B;margin:0 0 6px;}
+.mv-fmt-err p{font-size:12px;color:#B91C1C;margin:0;}
+.mv-cell-err{color:#ef4444;}
+.mv-bulk-act{display:flex;justify-content:center;padding:20px 0 4px;}
+/* ===== Inventory Snapshot (Inventory > Monitoring) — read only ===== */
+#sn-view .btn-search:disabled{opacity:.4;cursor:not-allowed;}
+#sn-view .sn-q-err{color:#d32f2f;font-size:11px;margin-top:4px;}
+.sn-ph{display:flex;align-items:center;justify-content:center;gap:8px;padding:80px 0;font-size:16px;color:#333;}
+.sn-ph svg{color:#555;}
+.sn-ph[hidden]{display:none;}
+.multi-select-dropdown .sn-dd-grp{padding:8px 12px 4px;font-size:11px;font-weight:700;color:#999;letter-spacing:.3px;cursor:default;}
+#sn-view table.grid tbody tr{cursor:default;}
+#sn-view table.grid th .sub{font-size:10px;font-weight:400;opacity:.85;}
+#sn-view table.grid th.sn-sort{cursor:pointer;user-select:none;}
+#sn-view table.grid th.sn-sort .arr{margin-left:6px;opacity:.5;}
+#sn-view table.grid th.sn-sort.on .arr{opacity:1;}
+/* Group header row: IIC BO / ERP Difference Qty / WMS Difference Qty = amber, ERP / WMS = black (real frontend colors) */
+#sn-view tr.hdr th.sn-g{background:#F59E0B;color:#000;border-bottom:1px solid #fff;}
+#sn-view tr.hdr th.sn-g.dark{background:#000;color:#fff;}
+#sn-view tr.hdr th.sn-leaf{background:#e0e0e0;color:#000;border-right:1px solid #fff;}
+#sn-view table.grid td.sn-bo{background:#FDECCE;color:#000;}
+#sn-view table.grid td.sn-neg{color:#ef4444;}
+#sn-view .btn-action[hidden]{display:none;}
+/* ===== Inventory Snapshot (WH) (Inventory > Monitoring) — read only ===== */
+#snw-view .btn-search:disabled{opacity:.4;cursor:not-allowed;}
+#snw-view .snw-q-err{color:#d32f2f;font-size:11px;margin-top:4px;}
+.snw-ph{display:flex;align-items:center;justify-content:center;gap:8px;padding:80px 0;font-size:16px;color:#333;}
+.snw-ph svg{color:#555;}
+.snw-ph[hidden]{display:none;}
+.snw-toolbar{flex-wrap:wrap;gap:12px;}
+.snw-left{display:flex;align-items:center;flex-wrap:wrap;gap:12px;}
+.snw-legend{display:flex;flex-wrap:wrap;align-items:center;gap:8px;}
+.snw-legend button{display:flex;align-items:center;gap:6px;border:none;background:none;border-radius:4px;padding:2px 6px;cursor:pointer;font-size:12px;color:#555;}
+.snw-legend button:hover:not(:disabled){background:#f5f5f5;text-decoration:underline;}
+.snw-legend button:disabled{opacity:.5;cursor:default;}
+.snw-legend i{display:inline-block;width:12px;height:12px;border-radius:2px;}
+.snw-hint{display:inline-flex;align-items:center;gap:4px;font-size:11px;color:#888;font-weight:400;}
+.snw-right{align-items:center;gap:16px!important;}
+.snw-switch{display:inline-flex;align-items:center;gap:8px;font-size:13px;color:#333;cursor:pointer;user-select:none;}
+.snw-switch input{display:none;}
+.snw-track{position:relative;width:28px;height:16px;border-radius:8px;background:#bdbdbd;transition:background .15s;}
+.snw-track::after{content:'';position:absolute;top:2px;left:2px;width:12px;height:12px;border-radius:50%;background:#fff;box-shadow:0 1px 2px rgba(0,0,0,.3);transition:left .15s;}
+.snw-switch input:checked+.snw-track{background:#ed6c02;}
+.snw-switch input:checked+.snw-track::after{left:14px;}
+#snw-view .snw-grid{position:relative;max-height:770px;overflow:auto;}
+#snw-view table.grid{width:auto;min-width:100%;}
+#snw-view table.grid tbody tr{cursor:default;}
+#snw-view table.grid td{font-size:10px;padding:10px 8px;}
+#snw-view tr.hdr th{font-size:11px;padding:8px;}
+#snw-view table.grid th .sub{font-size:10px;font-weight:400;opacity:.85;}
+#snw-view thead{position:sticky;top:0;z-index:3;}
+#snw-view th.snw-sort{cursor:pointer;user-select:none;}
+#snw-view th.snw-sort .arr{margin-left:6px;opacity:.5;}
+#snw-view th.snw-sort.on .arr{opacity:1;}
+/* Left-pinned columns: Saved Date / Product Info / Category 1 / Category 2 / Collection */
+#snw-view .snw-pin{position:sticky;z-index:2;}
+#snw-view td.snw-pin{background:#fff;}
+#snw-view th.snw-pin{z-index:4;}
+#snw-view th.snw-pin-last,#snw-view td.snw-pin-last{box-shadow:2px 0 0 #e0e0e0;}
+/* Quantity group headers / leaves (colors from SnapshotWhTable QTY_GROUPS) */
+#snw-view tr.hdr th.snw-g{color:#000;border-bottom:1px solid #e0e0e0;}
+#snw-view tr.hdr th.snw-leaf{color:#000;background:#fff;border-right:1px solid #eee;min-width:56px;}
+#snw-view td.snw-tot{font-weight:700;}
+#snw-view td.snw-neg{color:#DC2626;}
+#snw-view .btn-action[hidden]{display:none;}
+/* ===== Inventory In/Out History (Inventory > Monitoring) — read only ===== */
+#ioh-view .search-table th.ioh-sec{color:#D97706;font-weight:700;}
+#ioh-view .ioh-cap{font-size:11px;color:#777;margin-bottom:4px;}
+#ioh-view .ioh-q-err{color:#d32f2f;font-size:11px;margin-top:4px;}
+#ioh-view table.grid tbody tr{cursor:default;}
+#ioh-view table.grid th .sub{font-size:10px;font-weight:400;opacity:.85;}
+.ioh-err{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:32px;}
+.ioh-err[hidden]{display:none;}
+.ioh-err-t{color:#ef4444;margin-bottom:8px;font-size:14px;}
+.ioh-err-m{color:#6b7280;font-size:13px;margin-bottom:16px;}
 </style>
 <!-- SheetJS: client-side Excel (.xlsx) export -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
@@ -2727,6 +2887,647 @@ a.ib-trk:hover{border-color:#ff6b35;color:#ff6b35;}
     </div>
   </div>
 
+  <!-- ===== OUTBOUND ORDER LIST VIEW (Inventory > Outbound Order List) ===== -->
+  <div class="detail-view" id="oo-view">
+    <!-- List pane -->
+    <div id="oo-list-pane">
+      <div class="search-box">
+        <table class="search-table">
+          <tr>
+            <th>BP</th>
+            <td><div class="field-row"><div class="field-inline"><select id="oo-bp" style="min-width:360px;" onchange="ooBpChange()"><option value="">All</option></select></div></div></td>
+          </tr>
+          <tr>
+            <th>Store</th>
+            <td><div class="field-row"><div class="multi-select-wrap">
+              <div class="multi-select-trigger" id="ooStore-trigger" onclick="toggleMulti('ooStore')" style="min-width:360px;">Store (All)</div>
+              <div class="multi-select-dropdown hidden" id="ooStore-dropdown"></div>
+            </div></div></td>
+          </tr>
+          <tr>
+            <th>Outbound Status</th>
+            <td><div class="field-row"><div class="multi-select-wrap">
+              <div class="multi-select-trigger" id="ooStatus-trigger" onclick="toggleMulti('ooStatus')" style="min-width:360px;">Outbound Status (All)</div>
+              <div class="multi-select-dropdown hidden" id="ooStatus-dropdown"></div>
+            </div></div></td>
+          </tr>
+          <tr>
+            <th>Outbound Tag</th>
+            <td><div class="field-row"><div class="field-inline"><select id="oo-tag" style="min-width:360px;">
+              <option value="">All</option><option value="RX">RX</option><option value="PREORDER">Pre-Order</option>
+            </select></div></div></td>
+          </tr>
+          <tr>
+            <th>Type</th>
+            <td><div class="field-row"><div class="multi-select-wrap">
+              <div class="multi-select-trigger" id="ooType-trigger" onclick="toggleMulti('ooType')" style="min-width:360px;">Type (All)</div>
+              <div class="multi-select-dropdown hidden" id="ooType-dropdown"></div>
+            </div></div></td>
+          </tr>
+          <tr>
+            <th>Registration Date</th>
+            <td><div class="field-row">
+              <div class="field-inline"><input type="date" lang="en" id="oo-from" style="min-width:170px;"></div>
+              <span style="color:#999;font-size:13px;">~</span>
+              <div class="field-inline"><input type="date" lang="en" id="oo-to" style="min-width:170px;"></div>
+              <div class="ol-quick"><button onclick="ooQuick(0)">Today</button><button onclick="ooQuick(7)">1 week</button><button onclick="ooQuick(30)">1 Month</button><button onclick="ooQuick(90)">3 Months</button></div>
+            </div></td>
+          </tr>
+          <tr>
+            <th>Keyword<br><span class="oo-th-sub">BP Code, BP Name, Store Code, Store Name,<br>I/V No, Order No, Request Account</span></th>
+            <td><div class="field-row"><div class="field-inline" style="flex:1;max-width:560px;">
+              <input type="text" id="oo-kw" placeholder="Please enter at least 2 characters." style="width:100%;" onkeydown="if(event.key==='Enter')ooSearch()">
+              <div class="oo-kw-err" id="oo-kw-err" hidden>Please enter at least 2 characters.</div>
+            </div></div></td>
+          </tr>
+        </table>
+        <div class="search-action">
+          <button class="btn-search" onclick="ooSearch()"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><use href="#i-search"/></svg>Search</button>
+        </div>
+      </div>
+      <div class="table-box">
+        <div class="table-toolbar">
+          <div class="table-toolbar-left">Total <b id="oo-total">0</b> Count</div>
+          <div class="table-toolbar-right">
+            <button class="btn-action btn-outline" onclick="ooOpenReg()">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="#555"><path d="M20 8h-3V4H3c-1.1 0-2 .9-2 2v11h2c0 1.66 1.34 3 3 3s3-1.34 3-3h6c0 1.66 1.34 3 3 3s3-1.34 3-3h2v-5l-3-4zM6 18.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zm13.5-9l1.96 2.5H17V9.5h2.5zm-1.5 9c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/></svg>
+              Outbound Registration
+            </button>
+            <button class="btn-action btn-outline" onclick="ooExport()">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="#555"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
+              Excel Export
+            </button>
+          </div>
+        </div>
+        <div class="grid-wrap">
+          <table class="grid">
+            <thead>
+              <tr class="hdr">
+                <th class="oo-sort" data-sort="createDate" onclick="ooSort('createDate')" style="min-width:190px;">Registration Date<span class="oo-sort-ico"></span></th>
+                <th style="min-width:160px;">Outbound Status</th>
+                <th style="min-width:120px;">Outbound Tag</th>
+                <th style="min-width:80px;">Type</th>
+                <th class="oo-sort" data-sort="invoiceNo" onclick="ooSort('invoiceNo')" style="min-width:140px;">I/V No.<span class="oo-sort-ico"></span></th>
+                <th style="min-width:70px;">Order</th>
+                <th class="oo-sort tl" data-sort="fromStore" onclick="ooSort('fromStore')" style="min-width:230px;">From Store<br><span class="oo-sub">(Code / Name)</span><span class="oo-sort-ico"></span></th>
+                <th class="oo-sort" data-sort="fromLocation" onclick="ooSort('fromLocation')" style="min-width:160px;">From Location<br><span class="oo-sub">(Code / Name)</span><span class="oo-sort-ico"></span></th>
+                <th class="oo-sort tl" data-sort="toStore" onclick="ooSort('toStore')" style="min-width:230px;">To Store<br><span class="oo-sub">(Code / Name)</span><span class="oo-sort-ico"></span></th>
+                <th class="oo-sort" data-sort="toLocation" onclick="ooSort('toLocation')" style="min-width:160px;">To Location<br><span class="oo-sub">(Code / Name)</span><span class="oo-sort-ico"></span></th>
+                <th style="min-width:120px;">Created By</th>
+              </tr>
+            </thead>
+            <tbody id="oo-body"></tbody>
+          </table>
+        </div>
+        <div class="pg-bar">
+          <div class="rpp"><span>Rows per page:</span>
+            <select id="oo-rpp" style="width:72px;" onchange="pgState('oo').page=1;ooRenderPage();">
+              <option value="10">10</option><option value="30" selected>30</option><option value="50">50</option><option value="100">100</option><option value="300">300</option>
+            </select>
+          </div>
+          <span id="oo-range">0–0 of 0</span>
+          <div class="pg-nav">
+            <button class="pg-btn" id="oo-prev" onclick="pgGo('oo',-1)"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg></button>
+            <button class="pg-btn" id="oo-next" onclick="pgGo('oo',1)"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg></button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Detail pane (route #/inventory/outbound-order/{id}) -->
+    <div id="oo-detail-pane" hidden>
+      <div class="oo-info-card">
+        <div class="oo-card-title"><svg width="16" height="16" viewBox="0 0 24 24" fill="#ff6b35"><path d="M20 2H4c-1 0-2 .9-2 2v3.01c0 .72.43 1.34 1 1.69V20c0 1.1 1.1 2 2 2h14c.9 0 2-.9 2-2V8.7c.57-.35 1-.97 1-1.69V4c0-1.1-1-2-2-2zm-1 18H5V9h14v11zm1-13H4V4h16v3zM9 12h6v2H9z"/></svg>Outbound Information</div>
+        <div class="oo-info-field" style="margin-bottom:24px;"><div class="oo-info-l">Create Date</div><div class="oo-info-v" id="ood-create"></div></div>
+        <div class="oo-info-grid">
+          <div class="oo-info-field"><div class="oo-info-l">From Store</div><div class="oo-info-v" id="ood-from-store"></div></div>
+          <div class="oo-info-field"><div class="oo-info-l">From Location</div><div class="oo-info-v" id="ood-from-loc"></div></div>
+          <div class="oo-info-field"><div class="oo-info-l">To Store</div><div class="oo-info-v" id="ood-to-store"></div></div>
+          <div class="oo-info-field"><div class="oo-info-l">To Location</div><div class="oo-info-v" id="ood-to-loc"></div></div>
+        </div>
+      </div>
+      <div class="oo-dl-actions">
+        <button class="btn-action btn-outline" id="ood-label-btn" onclick="ooOpenLabel()">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="#555"><path d="M19 8H5c-1.66 0-3 1.34-3 3v6h4v4h12v-4h4v-6c0-1.66-1.34-3-3-3zm-3 11H8v-5h8v5zm3-7c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1zm-1-9H6v4h12V3z"/></svg>
+          Outbound Label Print
+        </button>
+        <button class="btn-action btn-outline" onclick="ooExportDetail()">Excel Export</button>
+      </div>
+      <div class="table-box" style="margin-top:24px;">
+        <div class="oo-card-title" style="margin-bottom:16px;">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="#888"><path d="M19 5v14H5V5h14m0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
+          Order List <span class="oo-cnt-chip" id="ood-cnt">0 orders</span>
+        </div>
+        <div class="grid-wrap">
+          <table class="grid">
+            <thead>
+              <tr class="hdr">
+                <th style="min-width:200px;">Order #</th>
+                <th style="min-width:320px;">Product Info<br><span class="oo-sub">(Code / Name)</span></th>
+                <th style="min-width:140px;">Product Category</th>
+                <th style="min-width:160px;">Product Sub category</th>
+                <th style="min-width:130px;">Outbound Qty<br><span class="oo-sub">(Registered)</span></th>
+                <th style="min-width:130px;">Outbound Qty<br><span class="oo-sub">(Completed)</span></th>
+              </tr>
+            </thead>
+            <tbody id="ood-body"></tbody>
+          </table>
+        </div>
+        <div class="pg-bar">
+          <div class="rpp"><span>Rows per page:</span>
+            <select id="ood-rpp" style="width:72px;" onchange="pgState('ood').page=1;ooRenderDetailItems();">
+              <option value="10">10</option><option value="30" selected>30</option><option value="50">50</option><option value="100">100</option><option value="300">300</option>
+            </select>
+          </div>
+          <span id="ood-range">0–0 of 0</span>
+          <div class="pg-nav">
+            <button class="pg-btn" id="ood-prev" onclick="pgGo('ood',-1)"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg></button>
+            <button class="pg-btn" id="ood-next" onclick="pgGo('ood',1)"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg></button>
+          </div>
+        </div>
+      </div>
+      <div class="oo-cancel-row" id="ood-cancel-row" hidden>
+        <button class="btn-action oo-btn-danger" onclick="ooOpenCancel()">Outbound Canceled</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- OUTBOUND REGISTRATION MODAL (Inventory > Outbound Order List) -->
+  <div class="modal-overlay" id="oo-reg-modal" onclick="if(event.target===this)ooCloseReg();">
+    <div class="modal-box oo-reg-box">
+      <div class="modal-header"><span class="modal-title">Outbound Registration</span><button class="modal-close" onclick="ooCloseReg()">&times;</button></div>
+      <div class="modal-body oo-reg-body">
+        <div class="psv-tabs" style="margin-bottom:16px;"><div class="psv-tab active">Pre-Order</div></div>
+        <div class="search-box" style="margin-bottom:0;">
+          <table class="search-table">
+            <tr>
+              <th>BP</th>
+              <td><div class="field-row"><div class="field-inline"><select id="ooc-bp" style="min-width:300px;" onchange="ooCandBpChange()"><option value="">All</option></select></div></div></td>
+            </tr>
+            <tr>
+              <th>Store</th>
+              <td><div class="field-row"><div class="field-inline"><select id="ooc-store" style="min-width:300px;"><option value="">All</option></select></div></div></td>
+            </tr>
+            <tr>
+              <th>Date Type</th>
+              <td><div class="field-row"><div class="field-inline"><select id="ooc-dtype" style="min-width:300px;">
+                <option value="ORDER_DATE">Order Date</option><option value="LAUNCH_DATE">Launch Date</option><option value="SHIP_DATE">Ship Date</option><option value="PICKUP_DATE">Pickup Date</option>
+              </select></div></div></td>
+            </tr>
+            <tr>
+              <th>Registration Date</th>
+              <td><div class="field-row">
+                <div class="field-inline"><input type="date" lang="en" id="ooc-from" style="min-width:160px;"></div>
+                <div class="field-inline"><select id="ooc-from-h" style="width:96px;"></select></div>
+                <span style="color:#999;font-size:13px;">~</span>
+                <div class="field-inline"><input type="date" lang="en" id="ooc-to" style="min-width:160px;"></div>
+                <div class="field-inline"><select id="ooc-to-h" style="width:96px;"></select></div>
+              </div></td>
+            </tr>
+            <tr>
+              <th>Keyword<br><span class="oo-th-sub">BP Code, BP Name, Store Code, Store Name,<br>I/V No, TRK No, Request Account</span></th>
+              <td><div class="field-row"><div class="field-inline" style="flex:1;max-width:520px;">
+                <input type="text" id="ooc-kw" placeholder="Please enter at least 2 characters." style="width:100%;" onkeydown="if(event.key==='Enter')ooCandSearch()">
+              </div></div></td>
+            </tr>
+          </table>
+          <div class="search-action">
+            <button class="btn-search" onclick="ooCandSearch()"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><use href="#i-search"/></svg>Search</button>
+          </div>
+        </div>
+        <ul class="oo-noti">
+          <li>⭐️ Outbound registration is available only for orders within the same BP (Business Partner).</li>
+          <li>⭐️ Even if multiple stores are selected, outbound orders will be created per store.</li>
+        </ul>
+        <div class="grid-wrap">
+          <table class="grid">
+            <thead>
+              <tr class="hdr">
+                <th style="width:44px;"><input type="checkbox" id="ooc-all" onclick="ooCandToggleAll(this.checked)"></th>
+                <th style="min-width:180px;">Order Date</th>
+                <th style="min-width:110px;">Launch Date</th>
+                <th style="min-width:110px;">Ship Date</th>
+                <th style="min-width:110px;">Pickup Date</th>
+                <th style="min-width:100px;">Order Tag</th>
+                <th style="min-width:200px;">Order #</th>
+                <th class="tl" style="min-width:260px;">Store Info <span class="oo-info-ico" title="Only orders from the same store can be selected together.">i</span></th>
+              </tr>
+            </thead>
+            <tbody id="ooc-body"></tbody>
+          </table>
+        </div>
+        <div class="pg-bar">
+          <div class="rpp"><span>Rows per page:</span>
+            <select id="ooc-rpp" style="width:72px;" onchange="pgState('ooc').page=1;ooCandRender();">
+              <option value="30" selected>30</option><option value="50">50</option><option value="100">100</option><option value="300">300</option><option value="500">500</option><option value="1000">1000</option>
+            </select>
+          </div>
+          <span id="ooc-range">0–0 of 0</span>
+          <div class="pg-nav">
+            <button class="pg-btn" id="ooc-prev" onclick="pgGo('ooc',-1)"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg></button>
+            <button class="pg-btn" id="ooc-next" onclick="pgGo('ooc',1)"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg></button>
+          </div>
+        </div>
+      </div>
+      <div class="oo-reg-foot">
+        <span id="ooc-selcnt"></span>
+        <button class="btn-action btn-primary" id="ooc-reg-btn" onclick="ooCandRegister()" disabled style="height:34px;padding:0 22px;">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="#fff"><path d="M20 8h-3V4H3c-1.1 0-2 .9-2 2v11h2c0 1.66 1.34 3 3 3s3-1.34 3-3h6c0 1.66 1.34 3 3 3s3-1.34 3-3h2v-5l-3-4zM6 18.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zm13.5-9l1.96 2.5H17V9.5h2.5zm-1.5 9c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/></svg>
+          Register
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- OUTBOUND CANCEL CONFIRM (Outbound Order detail) -->
+  <div class="modal-overlay" id="oo-cancel-modal" onclick="if(event.target===this)ooCloseCancel();">
+    <div class="modal-box" style="width:420px;">
+      <div class="modal-header"><span class="modal-title">Outbound Canceled</span><button class="modal-close" onclick="ooCloseCancel()">&times;</button></div>
+      <div class="modal-body" style="padding:24px 20px;font-size:13px;color:#333;">Confirm cancellation of outbound TO?</div>
+      <div class="oo-confirm-foot">
+        <button class="btn-action btn-outline" style="height:34px;padding:0 20px;" onclick="ooCloseCancel()">NO</button>
+        <button class="btn-action btn-primary" style="height:34px;padding:0 20px;" onclick="ooConfirmCancel()">Yes.</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- OUTBOUND LABEL PRINT (Outbound Order detail, TMS = INTERNAL only) -->
+  <div class="modal-overlay" id="oo-label-modal" onclick="if(event.target===this)ooCloseLabel();">
+    <div class="modal-box" style="width:520px;max-height:92vh;display:flex;flex-direction:column;">
+      <div class="modal-header"><span class="modal-title">Outbound Label Print</span><button class="modal-close" onclick="ooCloseLabel()">&times;</button></div>
+      <div class="modal-body" id="oo-label-body" style="background:#525659;padding:24px;max-height:none;flex:1;overflow:auto;"></div>
+      <div class="oo-confirm-foot">
+        <button class="btn-action btn-outline" style="height:34px;padding:0 20px;" onclick="ooLabelDownload()">Download</button>
+        <button class="btn-action btn-primary" style="height:34px;padding:0 20px;" onclick="window.print()">Print</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== INVENTORY MOVEMENT VIEW (Inventory > Inventory Movement) ===== -->
+  <div class="detail-view" id="mv-view">
+    <div class="search-box">
+      <table class="search-table">
+        <tr>
+          <th>Brand</th>
+          <td><div class="field-row"><div class="field-inline"><select id="mv-brand" style="min-width:360px;" onchange="mvBrandChange()"><option value="">All</option></select></div></div></td>
+        </tr>
+        <tr>
+          <th>BP</th>
+          <td><div class="field-row"><div class="field-inline"><select id="mv-bp" style="min-width:360px;" onchange="mvBpChange()"><option value="">All</option></select></div></div></td>
+        </tr>
+        <tr>
+          <th>Store</th>
+          <td><div class="field-row"><div class="multi-select-wrap">
+            <div class="multi-select-trigger disabled" id="mvStore-trigger" onclick="toggleMulti('mvStore')" style="min-width:360px;">Store (All)</div>
+            <div class="multi-select-dropdown hidden" id="mvStore-dropdown"></div>
+          </div></div></td>
+        </tr>
+        <tr>
+          <th>Search Period</th>
+          <td><div class="field-row">
+            <div class="field-inline"><input type="date" lang="en" id="mv-from" style="min-width:170px;"></div>
+            <span style="color:#999;font-size:13px;">~</span>
+            <div class="field-inline"><input type="date" lang="en" id="mv-to" style="min-width:170px;"></div>
+          </div></td>
+        </tr>
+        <tr>
+          <th>Product Code, Product Name</th>
+          <td><div class="field-row"><div class="field-inline" style="flex:1;max-width:560px;">
+            <input type="text" id="mv-kw" placeholder="Please enter at least 2 characters." style="width:100%;" onkeydown="if(event.key==='Enter')mvSearch()">
+            <div class="mv-kw-err" id="mv-kw-err" hidden>Please enter at least 2 characters.</div>
+          </div></div></td>
+        </tr>
+      </table>
+      <div class="search-action">
+        <button class="btn-search" onclick="mvSearch()"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><use href="#i-search"/></svg>Search</button>
+      </div>
+    </div>
+    <div class="table-box">
+      <div class="table-toolbar">
+        <div class="table-toolbar-left mv-noti-line">* Inventory Movement refers to relocating inventory between locations within the same inventory type (Store Inventory or Warehouse Inventory).</div>
+        <div class="table-toolbar-right">
+          <button class="btn-action btn-outline" onclick="mvOpenReg()">Movement Registration</button>
+          <button class="btn-action btn-outline" onclick="mvExport()">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="#555"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
+            Excel Export
+          </button>
+        </div>
+      </div>
+      <div class="grid-wrap">
+        <table class="grid">
+          <thead>
+            <tr class="hdr">
+              <th style="min-width:200px;">Registration Datetime</th>
+              <th class="tl" style="min-width:190px;">BP Information<br><span class="mv-sub">(Code / Name)</span></th>
+              <th class="tl" style="min-width:340px;">From Information</th>
+              <th style="min-width:320px;">Product Info<br><span class="mv-sub">(Code / Name / Barcode)</span></th>
+              <th class="tl" style="min-width:340px;">To Information</th>
+              <th style="min-width:130px;">Qty Before Transfer</th>
+              <th style="min-width:100px;">Movement Qty</th>
+              <th style="min-width:120px;">Process Account</th>
+              <th style="min-width:150px;">Remarks</th>
+            </tr>
+          </thead>
+          <tbody id="mv-body"></tbody>
+        </table>
+      </div>
+      <div class="pg-bar">
+        <div class="rpp"><span>Rows per page:</span>
+          <select id="mv-rpp" style="width:72px;" onchange="pgState('mv').page=1;mvRenderPage();">
+            <option value="10">10</option><option value="30" selected>30</option><option value="50">50</option><option value="100">100</option><option value="300">300</option>
+          </select>
+        </div>
+        <span id="mv-range">0–0 of 0</span>
+        <div class="pg-nav">
+          <button class="pg-btn" id="mv-prev" onclick="pgGo('mv',-1)"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg></button>
+          <button class="pg-btn" id="mv-next" onclick="pgGo('mv',1)"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg></button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MOVEMENT REGISTRATION MODAL (Inventory > Inventory Movement) -->
+  <div class="modal-overlay" id="mv-reg-modal" onclick="if(event.target===this)mvCloseReg();">
+    <div class="modal-box mv-reg-box">
+      <div class="modal-header"><span class="modal-title">Movement Registration</span><button class="modal-close" onclick="mvCloseReg()">&times;</button></div>
+      <div class="modal-body mv-reg-body">
+        <div class="psv-tabs" id="mv-tabs">
+          <div class="psv-tab active" data-tab="STORE" onclick="mvSwitchTab('STORE')">Location Inventory Movement</div>
+          <div class="psv-tab" data-tab="WAREHOUSE" onclick="mvSwitchTab('WAREHOUSE')">Warehouse Inventory Movement</div>
+          <div class="psv-tab" data-tab="BULK" onclick="mvSwitchTab('BULK')">Inventory Bulk Upload</div>
+        </div>
+        <div class="mv-steps" id="mv-steps">
+          <div class="ob-step" data-i="0"><span class="ob-step-num">1</span><span class="ob-step-label">Set Before / After Movement Location</span></div>
+          <div class="ob-step-line"></div>
+          <div class="ob-step" data-i="1"><span class="ob-step-num">2</span><span class="ob-step-label">Processed Inventory Search</span></div>
+          <div class="ob-step-line"></div>
+          <div class="ob-step" data-i="2"><span class="ob-step-num">3</span><span class="ob-step-label">Enter Movement Information</span></div>
+        </div>
+        <div id="mv-step-body"></div>
+      </div>
+      <div class="mv-reg-foot" id="mv-reg-foot">
+        <button class="btn-action btn-outline" id="mv-prev-btn" style="height:34px;padding:0 20px;" onclick="mvBack()">Previous</button>
+        <span style="flex:1;"></span>
+        <button class="btn-action btn-primary" id="mv-next-btn" style="height:34px;padding:0 24px;" onclick="mvNext()">Next</button>
+        <button class="btn-action btn-primary" id="mv-submit-btn" style="height:34px;padding:0 24px;" onclick="mvSubmit()">Register</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== INVENTORY SNAPSHOT VIEW (Inventory > Monitoring > Inventory Snapshot) — read only ===== -->
+  <div class="detail-view" id="sn-view">
+    <div class="search-box">
+      <table class="search-table">
+        <tr>
+          <th>Brand</th>
+          <td><div class="field-row"><div class="field-inline"><select id="sn-brand" style="min-width:360px;" onchange="snBrandChange()"><option value="">All</option></select></div></div></td>
+        </tr>
+        <tr>
+          <th>BP</th>
+          <td><div class="field-row"><div class="field-inline"><select id="sn-bp" style="min-width:360px;" onchange="snBpChange()" disabled><option value="">All</option></select></div></div></td>
+        </tr>
+        <tr>
+          <th>Store</th>
+          <td><div class="field-row"><div class="multi-select-wrap">
+            <div class="multi-select-trigger disabled" id="snStore-trigger" onclick="toggleMulti('snStore')" style="min-width:360px;">Store (All)</div>
+            <div class="multi-select-dropdown hidden" id="snStore-dropdown"></div>
+          </div></div></td>
+        </tr>
+        <tr>
+          <th>Location</th>
+          <td><div class="field-row"><div class="multi-select-wrap">
+            <div class="multi-select-trigger disabled" id="snLoc-trigger" onclick="toggleMulti('snLoc')" style="min-width:360px;">Location (All)</div>
+            <div class="multi-select-dropdown hidden" id="snLoc-dropdown"></div>
+          </div></div></td>
+        </tr>
+        <tr>
+          <th>Save Date</th>
+          <td><div class="field-row"><div class="field-inline"><input type="date" lang="en" id="sn-date" style="min-width:170px;"></div></div></td>
+        </tr>
+        <tr>
+          <th>Product Code, Product Name, Barcode</th>
+          <td><div class="field-row"><div class="field-inline" style="flex:1;max-width:360px;">
+            <input type="text" id="sn-q" placeholder="Please enter at least 2 characters." style="width:100%;" onkeydown="if(event.key==='Enter')snSearch()">
+            <div class="sn-q-err" id="sn-q-err" hidden>Please enter at least 2 characters.</div>
+          </div></div></td>
+        </tr>
+      </table>
+      <div class="search-action">
+        <button class="btn-search" id="sn-btn" onclick="snSearch()" disabled><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><use href="#i-search"/></svg>Search</button>
+      </div>
+    </div>
+    <div class="table-box">
+      <!-- Shown until Brand / BP / Store / Save Date are all set -->
+      <div class="sn-ph" id="sn-ph">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M18.5 8c-.28 0-.5.22-.5.5V12h-1V5.5c0-.83-.67-1.5-1.5-1.5S14 4.67 14 5.5V12h-1V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V12H9V5.5C9 4.67 8.33 4 7.5 4S6 4.67 6 5.5v9.81l-2.71-1.43c-.56-.3-1.24-.18-1.68.27l-.61.61 6.1 6.61c.38.41.91.63 1.47.63H16c1.66 0 3-1.34 3-3V9.5c0-.83-.67-1.5-1.5-1.5z"/></svg>
+        Please select a period and location to view the snapshot list.
+      </div>
+      <div id="sn-result" hidden>
+        <div class="table-toolbar">
+          <div class="table-toolbar-left">Total <b id="sn-total">0</b> Count</div>
+          <div class="table-toolbar-right">
+            <button class="btn-action btn-outline" id="sn-excel" onclick="snExport()" hidden>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="#555"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
+              Excel Export
+            </button>
+          </div>
+        </div>
+        <div class="grid-wrap sn-grid"><table class="grid"><thead id="sn-head"></thead><tbody id="sn-body"></tbody></table></div>
+        <div class="pg-bar">
+          <div class="rpp"><span>Rows per page:</span>
+            <select id="sn-rpp" style="width:72px;" onchange="PAGERS.sn.page=1;snRenderPage();">
+              <option value="10">10</option><option value="30" selected>30</option><option value="50">50</option><option value="100">100</option><option value="300">300</option>
+            </select>
+          </div>
+          <span id="sn-range">0–0 of 0</span>
+          <div class="pg-nav">
+            <button class="pg-btn" id="sn-prev" onclick="pgGo('sn',-1)"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg></button>
+            <button class="pg-btn" id="sn-next" onclick="pgGo('sn',1)"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg></button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== INVENTORY SNAPSHOT (WH) VIEW (Inventory > Monitoring > Inventory Snapshot (WH)) — read only ===== -->
+  <div class="detail-view" id="snw-view">
+    <div class="search-box">
+      <table class="search-table">
+        <tr>
+          <th>Brand</th>
+          <td><div class="field-row"><div class="field-inline"><select id="snw-brand" style="min-width:360px;" onchange="snwBrandChange()"><option value="">All</option></select></div></div></td>
+        </tr>
+        <tr>
+          <th>BP</th>
+          <td><div class="field-row"><div class="field-inline"><select id="snw-bp" style="min-width:360px;" onchange="snwBpChange()" disabled><option value="">All</option></select></div></div></td>
+        </tr>
+        <tr>
+          <th>Store</th>
+          <td><div class="field-row"><div class="field-inline"><select id="snw-store" style="min-width:360px;" onchange="snwFormChange()" disabled><option value="">All</option></select></div></div></td>
+        </tr>
+        <tr>
+          <th>Saved Date</th>
+          <td><div class="field-row"><div class="field-inline"><input type="date" lang="en" id="snw-date" style="min-width:170px;" onchange="snwFormChange()" oninput="snwFormChange()"></div></div></td>
+        </tr>
+        <tr>
+          <th>Product Code / Product Name / Barcode</th>
+          <td><div class="field-row"><div class="field-inline" style="flex:1;max-width:360px;">
+            <input type="text" id="snw-q" placeholder="Please enter at least 2 characters." style="width:100%;" onkeydown="if(event.key==='Enter')snwSearch()">
+            <div class="snw-q-err" id="snw-q-err" hidden>Please enter at least 2 characters.</div>
+          </div></div></td>
+        </tr>
+      </table>
+      <div class="search-action">
+        <button class="btn-search" id="snw-btn" onclick="snwSearch()" disabled><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><use href="#i-search"/></svg>Search</button>
+      </div>
+    </div>
+    <div class="table-box">
+      <!-- Shown until Brand / BP / Store / Saved Date are all set -->
+      <div class="snw-ph" id="snw-ph">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M18.5 8c-.28 0-.5.22-.5.5V12h-1V5.5c0-.83-.67-1.5-1.5-1.5S14 4.67 14 5.5V12h-1V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V12H9V5.5C9 4.67 8.33 4 7.5 4S6 4.67 6 5.5v9.81l-2.71-1.43c-.56-.3-1.24-.18-1.68.27l-.61.61 6.1 6.61c.38.41.91.63 1.47.63H16c1.66 0 3-1.34 3-3V9.5c0-.83-.67-1.5-1.5-1.5z"/></svg>
+        Please select a warehouse and date range, then click Search.
+      </div>
+      <div id="snw-result" hidden>
+        <div class="table-toolbar snw-toolbar">
+          <div class="table-toolbar-left snw-left">
+            <span>Total <b id="snw-total">0</b> Count</span>
+            <div class="snw-legend" id="snw-legend" role="group" aria-label="Go to this column."></div>
+            <span class="snw-hint"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M6.99 11L3 15l3.99 4v-3H14v-2H6.99v-3zM21 9l-3.99-4v3H10v2h7.01v3L21 9z"/></svg>Hold Shift and use the mouse wheel to scroll horizontally.</span>
+          </div>
+          <div class="table-toolbar-right snw-right">
+            <label class="snw-switch"><input type="checkbox" id="snw-diff" onchange="snwDiffChange(this.checked)"><span class="snw-track"></span>Diff Only</label>
+            <button class="btn-action btn-outline" id="snw-excel" onclick="snwExport()" hidden>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="#555"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
+              Excel Export
+            </button>
+          </div>
+        </div>
+        <div class="grid-wrap snw-grid" id="snw-wrap"><table class="grid"><thead id="snw-head"></thead><tbody id="snw-body"></tbody></table></div>
+        <div class="pg-bar">
+          <div class="rpp"><span>Rows per page:</span>
+            <select id="snw-rpp" style="width:72px;" onchange="PAGERS.snw.page=1;snwRenderPage();">
+              <option value="10">10</option><option value="30" selected>30</option><option value="50">50</option><option value="100">100</option><option value="300">300</option>
+            </select>
+          </div>
+          <span id="snw-range">0–0 of 0</span>
+          <div class="pg-nav">
+            <button class="pg-btn" id="snw-prev" onclick="pgGo('snw',-1)"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg></button>
+            <button class="pg-btn" id="snw-next" onclick="pgGo('snw',1)"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg></button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== INVENTORY IN/OUT HISTORY VIEW (Inventory > Monitoring > Inventory In/Out History) — read only ===== -->
+  <div class="detail-view" id="ioh-view">
+    <div class="search-box">
+      <table class="search-table">
+        <tr>
+          <th class="ioh-sec">From Store Location</th>
+          <td><div class="field-row">
+            <div class="field-inline"><span class="ioh-cap">Brand</span><select id="ioh-brand" style="min-width:170px;" onchange="iohBrandChange('f')"><option value="">All</option></select></div>
+            <div class="field-inline"><span class="ioh-cap">BP</span><select id="ioh-bp" style="min-width:170px;" onchange="iohBpChange('f')" disabled><option value="">All</option></select></div>
+            <div class="field-inline"><span class="ioh-cap">Store</span><select id="ioh-fstore" style="min-width:240px;" onchange="iohStoreChange('f')" disabled><option value="">All</option></select></div>
+            <div class="field-inline"><span class="ioh-cap">Location</span><select id="ioh-floc" style="min-width:170px;" disabled><option value="">All</option></select></div>
+          </div></td>
+        </tr>
+        <tr>
+          <th class="ioh-sec">To Store Location</th>
+          <td><div class="field-row">
+            <div class="field-inline"><span class="ioh-cap">Brand</span><select id="ioh-tbrand" style="min-width:170px;" onchange="iohBrandChange('t')"><option value="">All</option></select></div>
+            <div class="field-inline"><span class="ioh-cap">BP</span><select id="ioh-tbp" style="min-width:170px;" onchange="iohBpChange('t')" disabled><option value="">All</option></select></div>
+            <div class="field-inline"><span class="ioh-cap">Store</span><select id="ioh-tstore" style="min-width:240px;" onchange="iohStoreChange('t')" disabled><option value="">All</option></select></div>
+            <div class="field-inline"><span class="ioh-cap">Location</span><select id="ioh-tloc" style="min-width:170px;" disabled><option value="">All</option></select></div>
+          </div></td>
+        </tr>
+        <tr>
+          <th>Type</th>
+          <td><div class="field-row"><div class="field-inline"><select id="ioh-type" style="min-width:170px;">
+            <option value="">All</option><option value="S2S">S2S</option><option value="L2S">L2S</option><option value="S2L">S2L</option>
+          </select></div></div></td>
+        </tr>
+        <tr>
+          <th>Search Period</th>
+          <td><div class="field-row">
+            <div class="field-inline"><select id="ioh-dtype" style="min-width:200px;">
+              <option value="REQUESTED">Request Date</option><option value="COMPLETED">Confirmed Inbound Date</option><option value="REGISTERED" selected>Registration Date</option>
+            </select></div>
+            <div class="field-inline"><input type="date" lang="en" id="ioh-from" style="min-width:170px;"></div>
+            <span style="color:#999;font-size:13px;">~</span>
+            <div class="field-inline"><input type="date" lang="en" id="ioh-to" style="min-width:170px;"></div>
+          </div></td>
+        </tr>
+        <tr>
+          <th>Product Code, Product Name,<br>Barcode, Created By, Approved By</th>
+          <td><div class="field-row"><div class="field-inline" style="flex:1;max-width:360px;">
+            <input type="text" id="ioh-q" placeholder="Please enter at least 2 characters." style="width:100%;" onkeydown="if(event.key==='Enter')iohSearch()">
+            <div class="ioh-q-err" id="ioh-q-err" hidden>Please enter at least 2 characters.</div>
+          </div></div></td>
+        </tr>
+      </table>
+      <div class="search-action">
+        <button class="btn-search" onclick="iohSearch()"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><use href="#i-search"/></svg>Search</button>
+      </div>
+    </div>
+    <div class="table-box">
+      <div class="table-toolbar">
+        <div class="table-toolbar-left">Total <b id="ioh-total">0</b> Count</div>
+        <div class="table-toolbar-right">
+          <!-- Always shown (even with no rows) -->
+          <button class="btn-action btn-outline" onclick="iohExport()">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="#555"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
+            Excel Export
+          </button>
+        </div>
+      </div>
+      <!-- API error (ErrorDisplay) -->
+      <div class="ioh-err" id="ioh-err" hidden>
+        <div class="ioh-err-t">Failed to load data.</div>
+        <div class="ioh-err-m" id="ioh-err-m"></div>
+        <button class="btn-action btn-outline" onclick="iohQuery()">다시 시도</button>
+      </div>
+      <div id="ioh-result">
+        <div class="grid-wrap"><table class="grid">
+          <thead>
+            <tr class="hdr">
+              <th>Request Date</th>
+              <th>Confirmed Inbound Date</th>
+              <th>Registration Date</th>
+              <th>In/Outbound Type</th>
+              <th class="tl">Brand</th>
+              <th class="tl">From Store Location<br><span class="sub">(Code / Name)</span></th>
+              <th class="tl">From Location Information<br><span class="sub">(Code / Name)</span></th>
+              <th class="tl">To Store Location<br><span class="sub">(Code / Name)</span></th>
+              <th class="tl">To Location Information<br><span class="sub">(Code / Name)</span></th>
+              <th class="tl">Product Info<br><span class="sub">(Code / Name / Barcode)</span></th>
+              <th>Product Category 1</th>
+              <th>Product Category 2</th>
+              <th class="tr">Outbound Request Qty</th>
+              <th class="tr">Outbound Qty</th>
+              <th class="tr">Confirmed Inbound Qty</th>
+              <th>Created By</th>
+              <th>Approved By</th>
+            </tr>
+          </thead>
+          <tbody id="ioh-body"></tbody>
+        </table></div>
+        <div class="pg-bar">
+          <div class="rpp"><span>Rows per page:</span>
+            <select id="ioh-rpp" style="width:72px;" onchange="PAGERS.ioh.page=1;iohRenderPage();">
+              <option value="10">10</option><option value="30" selected>30</option><option value="50">50</option><option value="100">100</option><option value="300">300</option>
+            </select>
+          </div>
+          <span id="ioh-range">0–0 of 0</span>
+          <div class="pg-nav">
+            <button class="pg-btn" id="ioh-prev" onclick="pgGo('ioh',-1)"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg></button>
+            <button class="pg-btn" id="ioh-next" onclick="pgGo('ioh',1)"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg></button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- ===== STORE VIEW (Master Information > Store) ===== -->
   <div class="detail-view" id="st-view">
     <div class="psv-tabs">
@@ -3394,7 +4195,7 @@ function selectMulti(id,el){
   el.classList.toggle('selected');
   const sel=[...document.querySelectorAll('#'+id+'-dropdown .dd-item.selected')];
   const t=document.getElementById(id+'-trigger');
-  const labels={ilStore:'Store',ilLoc:'Location',lgStore:'Store',lgLoc:'Location',lgType:'Inventory Transaction Type',olBp:'BP',olStore:'Store',olStatus:'Order Status',rlBp:'BP',rlStore:'Store',rlStatus:'Refund Type',bp:'BP',fromStore:'From Store',toStore:'To Store',dpCat2:'Product Category 2',dpStore:'Store',stStore:'Store',sthStore:'Store',ibFrom:'From Store',ibTo:'To Store',ibType:'Type',ibChannel:'Channel',ibStatus:'Inbound Status',drvBp:'BP',drvStore:'Store',psvBp:'BP',psvStore:'Store',prsvBp:'BP',prsvStore:'Store'};
+  const labels={ilStore:'Store',ilLoc:'Location',lgStore:'Store',lgLoc:'Location',lgType:'Inventory Transaction Type',olBp:'BP',olStore:'Store',olStatus:'Order Status',rlBp:'BP',rlStore:'Store',rlStatus:'Refund Type',bp:'BP',fromStore:'From Store',toStore:'To Store',dpCat2:'Product Category 2',dpStore:'Store',stStore:'Store',sthStore:'Store',ibFrom:'From Store',ibTo:'To Store',ibType:'Type',ibChannel:'Channel',ibStatus:'Inbound Status',ooStore:'Store',ooStatus:'Outbound Status',ooType:'Type',mvStore:'Store',snStore:'Store',snLoc:'Location',drvBp:'BP',drvStore:'Store',psvBp:'BP',psvStore:'Store',prsvBp:'BP',prsvStore:'Store'};
   if(!sel.length) t.textContent=labels[id]+' (All)';
   else if(sel.length===1) t.textContent=sel[0].textContent.replace('✓','').trim();
   else t.textContent=sel[0].textContent.replace('✓','').trim()+' +'+(sel.length-1);
@@ -4175,7 +4976,7 @@ function csRefresh(sel){
   trg.classList.toggle('disabled',sel.disabled);
 }
 function csSyncModal(){
-  document.querySelectorAll('#ob-reg-modal select, #dp-view select, #sp-view select, #drv-view select, #psv-view select, #prsv-view select, #label-modal select, #st-view select, #st-modal select, #bpk-view select, #cp-view select, #ib-view select, #ib-reg-modal select, .pg-bar select').forEach(s=>{csBuild(s);csRefresh(s);});
+  document.querySelectorAll('#ob-reg-modal select, #dp-view select, #sp-view select, #drv-view select, #psv-view select, #prsv-view select, #label-modal select, #st-view select, #st-modal select, #bpk-view select, #cp-view select, #ib-view select, #ib-reg-modal select, #sn-view select, #snw-view select, #ioh-view select, .pg-bar select').forEach(s=>{csBuild(s);csRefresh(s);});
 }
 // Re-sync whenever step content / options / disabled state change (ignore the custom UI's own mutations)
 new MutationObserver(muts=>{
@@ -8452,6 +9253,1404 @@ function ibS3Register(){
   ibCreateInbound({bp:st.bp,store:st.store,loc:st.loc,blNo:st.bl,ivNo:st.iv,expDate:st.date,lines:[...st.sel.keys()].map(c=>({code:c,qty:Number(st.qty[c])}))});
   ibRegSuccess('Registration has been completed.','check the details in the list.');
 }
+// ===== Inventory > Outbound Order List (+ detail, Outbound Registration modal) =====
+// Source: iic-bo-frontend features/(inventory)/outboundOrderList + outboundOrderDetail
+//         iic-bo logistic/outbound OutboundOrderListController / OutboundOrderDetailController / OutboundOrderReadService,
+//         order OrderListController (outbound-candidates) / PreorderStorePickupOutboundFacade
+// Only outbounds linked to orders (OrderFulfillment) are listed: PREORDER (store pickup B2B, L2S WH -> pickup store OMNI) and RX (S2S lab -> store Rx HLD).
+// Separate menu from Outbound List (#/inventory/outbound); data here is independent of OUTBOUND_DATA.
+const OO_STATUS={  // list chip colors = outboundStatusConfig.ts; enum order = dropdown order
+  PLANNED:{label:'Outbound Planned',color:'#1565C0',bg:'#E3F2FD',hd:'default',hdLabel:'Outbound Planned'},
+  PENDING:{label:'Pending Registration',color:'#E65100',bg:'#FFF3E0',hd:'default',hdLabel:'outbound_pending'},  // detail chip uses a missing i18n key (shows the raw key)
+  REGISTERED:{label:'Outbound Registered',color:'#2E7D32',bg:'#E8F5E9',hd:'success',hdLabel:'Outbound Registered'},
+  REG_FAILED:{label:'Registration Failed',color:'#B71C1C',bg:'#FFCDD2',hd:'error',hdLabel:'Registration Failed'},
+  COMPLETE:{label:'Outbound Completed',color:'#1B5E20',bg:'#C8E6C9',hd:'success',hdLabel:'Outbound Completed'},
+  CANCELED:{label:'Outbound Canceled',color:'#C62828',bg:'#FFEBEE',hd:'error',hdLabel:'Outbound Canceled'}
+};
+// Type dropdown: OutboundType minus SEEDING_B2B (OUTBOUND_TYPE_EXCLUDED_CODES), labels = inv_outbound_type_1..4
+const OO_TYPES=[['C2C','Corporation to Corporation'],['S2S','Store to Store'],['L2S','Logistics to Store'],['S2L','Store to Logistics']];
+const OO_STORE_GROUPS=['RETAIL STORES','ONLINE / WAREHOUSE','ETC'];
+let OO_STORES=null,OO_DATA=null,OO_CANDS=null,ooInited=false,ooRows=[],ooApplied=null,ooSortKey=null,ooSortDir=null,ooCur=null,ooCandRows=[],ooCandSel=new Map(),ooSeq=0;
+const ooEsc=v=>String(v??'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+const ooPad=n=>String(n).padStart(2,'0');
+const ooYmd=d=>d.getFullYear()+'-'+ooPad(d.getMonth()+1)+'-'+ooPad(d.getDate());
+// Backend TimeZone enum name by store (dummy, by city in the store name)
+function ooTzOf(name){
+  if(/NewYork|NewJersey/.test(name)) return 'EST';
+  if(/Houston/.test(name)) return 'CST';
+  if(/Sydney|Melbourne|Australia/.test(name)) return 'AET_SYD';
+  return 'PST';
+}
+// Store dropdown group (shared/utils/getStoreGroup.ts): name tokens split by "_"
+function ooGroupOf(name){
+  const t=name.toUpperCase().split('_');
+  if(t.some(x=>x==='ONLINE'||x==='WH')) return OO_STORE_GROUPS[1];
+  if(t.some(x=>['PS','RX','OFFICE','LOST'].includes(x))) return OO_STORE_GROUPS[2];
+  return OO_STORE_GROUPS[0];
+}
+// Stores: REG_DATA (C1002) + AU stores of the inventory screens (LG_STORES, C1012)
+function ooStores(){
+  if(OO_STORES) return OO_STORES;
+  const list=[];
+  Object.values(REG_DATA).forEach(b=>Object.entries(b.companies).forEach(([bp,c])=>Object.entries(c.stores).forEach(([code,s])=>
+    list.push({code,name:s.name,bp,wh:s.storeType==='WH',locs:s.locations,tz:ooTzOf(s.name)}))));
+  LG_STORES.filter(s=>!list.some(x=>x.code===s.code)).forEach(s=>list.push({code:s.code,name:s.name,bp:s.bp,wh:!!s.wh,locs:US_STORE_LOCS,tz:ooTzOf(s.name)}));
+  return OO_STORES=list;
+}
+const ooStore=code=>ooStores().find(s=>s.code===code);
+const ooLoc=(s,code)=>({code,name:s.locs[code]||''});
+const ooCN=(c,n)=>c?(n?c+' / '+n:c):'-';
+function ooNow(tz){  // dummy "now" in store time zone (prototype: browser time)
+  const d=new Date();return ooYmd(d)+' '+ooPad(d.getHours())+':'+ooPad(d.getMinutes());
+}
+// ----- Dummy data -----
+function ooInitData(){
+  if(OO_DATA) return;
+  let seed=71;const rnd=()=>(seed=(seed*16807)%2147483647)/2147483647,pick=a=>a[Math.floor(rnd()*a.length)],ri=(a,b)=>a+Math.floor(rnd()*(b-a+1));
+  const A='0123456789ABCDEFGHJKLMNPQRSTUVWXYZ',code=n=>Array.from({length:n},()=>pick(A)).join(''),num=n=>Array.from({length:n},()=>ri(0,9)).join('');
+  const today=new Date();today.setHours(0,0,0,0);
+  const dayStr=n=>{const d=new Date(today);d.setDate(d.getDate()+n);return ooYmd(d);};
+  const wh=ooStore('US1006'),lab=ooStore('US1017');
+  const pickupStores=['US1001','US1002','US1003','US1007','US1008','US1009','US1013'].map(ooStore);
+  const rxStores=['US1001','US1002','US1007','US1009','US1011'].map(ooStore);
+  const users=['monster1437','jane.park','alex.kim','chris.lee'];
+  const frames=PRODUCT_MASTER.slice(0,20);
+  OO_DATA=[];OO_CANDS=[];
+  const mkCand=(store,orderAgo)=>{
+    const od=dayStr(-orderAgo),launch=dayStr(-orderAgo+ri(7,20)),ship=dayStr(-orderAgo+ri(4,6)),pickupAt=dayStr(-orderAgo+ri(21,26));
+    const hm=ooPad(ri(8,22))+':'+ooPad(ri(0,59));
+    return {orderId:String(5200100+(ooSeq++)),orderedAt:od+' '+hm,tz:store.tz,launch,ship,pickup:pickupAt,tags:['PREORDER'],
+      orderNo:od.slice(2).replace(/-/g,'')+'0RS'+code(10),srcId:'GMUS'+num(6),store,bp:store.bp,items:[{product:pick(frames),qty:rnd()<0.85?1:2}]};
+  };
+  for(let i=0;i<34;i++){
+    const age=i<28?ri(0,29):ri(32,70),isPre=rnd()<0.62;
+    const regDate=dayStr(-age),hm=ooPad(ri(8,21))+':'+ooPad(ri(0,59));
+    let status;
+    if(isPre) status=age<=1?pick(['PLANNED','PENDING','PENDING','REG_FAILED']):age<=6?pick(['PENDING','REGISTERED','REGISTERED','REG_FAILED']):pick(['COMPLETE','COMPLETE','COMPLETE','REGISTERED','CANCELED']);
+    else status=age<=1?pick(['PLANNED','PENDING']):age<=4?pick(['PENDING','COMPLETE','REG_FAILED']):'COMPLETE';  // S2S + ERP only: no REGISTERED step
+    const erpDone=['REGISTERED','COMPLETE','CANCELED'].includes(status);
+    const ivNo=erpDone?'TO'+ri(9100000,9199999):'STM'+regDate.slice(2).replace(/-/g,'')+num(4);
+    let from,to,type,tags,tms,orders=[],cands=[];
+    if(isPre){
+      const ps=pick(pickupStores);
+      from={store:wh,loc:ooLoc(wh,'1110')};to={store:ps,loc:ooLoc(ps,'1050')};type='L2S';tags=['PREORDER'];tms='NONE';
+      const n=ri(1,5);
+      for(let k=0;k<n;k++){const c=mkCand(ps,age+ri(20,40));cands.push(c);orders.push({orderNo:c.orderNo,lines:c.items});}
+    }else{
+      const st=pick(rxStores);
+      from={store:lab,loc:ooLoc(lab,'1000')};to={store:st,loc:ooLoc(st,'1040')};type='S2S';tags=['RX'];tms='INTERNAL';
+      const n=ri(1,3);
+      for(let k=0;k<n;k++) orders.push({orderNo:'SL'+st.code+dayStr(-age-ri(3,9)).slice(2).replace(/-/g,'')+ooPad(ri(10,20))+ooPad(ri(0,59))+ooPad(ri(0,59))+code(5),lines:[{product:pick(frames),qty:1}]});
+    }
+    const items=[];
+    orders.forEach(o=>o.lines.forEach(l=>items.push({id:String(9300000+items.length+i*20),orderNo:o.orderNo,product:l.product,reg:l.qty,done:status==='COMPLETE'?l.qty:0})));
+    OO_DATA.push({id:String(880100+i),status,tags,type,ivNo,trkNo:!isPre&&erpDone?'1Z'+code(6)+num(10):'',regAt:regDate+' '+hm,tz:from.store.tz,from,to,
+      createdBy:pick(users),tms,items,cands,srcIds:cands.map(c=>c.srcId)});
+  }
+  // Registration candidates: PREORDER + STORE_PICKUP orders with an unlinked MID_MILE fulfillment
+  for(let i=0;i<26;i++) OO_CANDS.push(mkCand(pick(pickupStores),i<22?ri(0,29):ri(31,50)));
+}
+// ----- Init / filters -----
+function ooCs(ids){ids.forEach(id=>{const s=document.getElementById(id);csBuild(s);csRefresh(s);});}
+function ooEnsure(){
+  ooInitData();
+  if(!PAGERS.oo){PAGERS.oo={render:()=>ooRenderPage()};PAGERS.ood={render:()=>ooRenderDetailItems()};PAGERS.ooc={render:()=>ooCandRender()};}
+}
+function ooEnter(){
+  ooEnsure();
+  ooShowList();
+  if(ooInited) return;
+  const bpOpts='<option value="">All</option>'+Object.entries(ST_BPS).map(([c,n])=>`<option value="${c}">${n}</option>`).join('');
+  document.getElementById('oo-bp').innerHTML=bpOpts;
+  document.getElementById('ooc-bp').innerHTML=bpOpts;
+  document.getElementById('ooStatus-dropdown').innerHTML=Object.entries(OO_STATUS).map(([v,s])=>`<div class="dd-item" onclick="selectMulti('ooStatus',this)" data-val="${v}"><span class="check-ico">✓</span>${s.label}</div>`).join('');
+  document.getElementById('ooType-dropdown').innerHTML=OO_TYPES.map(([v,l])=>`<div class="dd-item" onclick="selectMulti('ooType',this)" data-val="${v}"><span class="check-ico">✓</span>${l}</div>`).join('');
+  const hours=Array.from({length:24},(_,h)=>`<option value="${h}">${ooPad(h)}:00</option>`).join('');
+  document.getElementById('ooc-from-h').innerHTML=hours;document.getElementById('ooc-to-h').innerHTML=hours;
+  ooBpChange();ooQuick(30);
+  ooCs(['oo-bp','oo-tag','oo-rpp','ood-rpp','ooc-bp','ooc-store','ooc-dtype','ooc-from-h','ooc-to-h','ooc-rpp']);
+  ooInited=true;ooSearch();
+}
+// Grouped store options (RETAIL STORES / ONLINE / WAREHOUSE / ETC)
+function ooStoreItems(bp,id){
+  const list=ooStores().filter(s=>!bp||s.bp===bp);
+  return OO_STORE_GROUPS.map(g=>{const ss=list.filter(s=>ooGroupOf(s.name)===g);return ss.length?`<div class="oo-dd-grp">${g}</div>`+ss.map(s=>
+    `<div class="dd-item" onclick="selectMulti('${id}',this)" data-val="${s.code}"><span class="check-ico">✓</span>${s.code} / ${ooEsc(s.name)}</div>`).join(''):'';}).join('');
+}
+// Store options load only after a BP is chosen (storeFlag: true) -> disabled while BP = All
+function ooBpChange(){
+  const bp=document.getElementById('oo-bp').value,trg=document.getElementById('ooStore-trigger');
+  document.getElementById('ooStore-dropdown').innerHTML=bp?ooStoreItems(bp,'ooStore'):'';
+  trg.textContent='Store (All)';trg.classList.toggle('disabled',!bp);
+}
+// Quick range: Today / 1 week / 1 Month / 3 Months (start = today - N days, end = today)
+function ooQuick(days){
+  const t=new Date(),f=new Date();f.setDate(t.getDate()-days);
+  document.getElementById('oo-from').value=ooYmd(f);document.getElementById('oo-to').value=ooYmd(t);
+}
+function ooShowList(){
+  ooCur=null;
+  document.getElementById('oo-list-pane').hidden=false;
+  document.getElementById('oo-detail-pane').hidden=true;
+}
+// ----- Search -----
+function ooSearch(){
+  const v=id=>document.getElementById(id).value,multi=id=>[...document.querySelectorAll('#'+id+'-dropdown .dd-item.selected')].map(el=>el.dataset.val);
+  const kw=v('oo-kw').trim();
+  // Frontend: keyword shorter than 2 characters -> inline error, no request
+  document.getElementById('oo-kw-err').hidden=!(kw&&kw.length<2);
+  if(kw&&kw.length<2) return;
+  ooApplied={bp:v('oo-bp'),stores:multi('ooStore'),statuses:multi('ooStatus'),tag:v('oo-tag'),types:multi('ooType'),from:v('oo-from'),to:v('oo-to'),kw};
+  ooSortKey=null;ooSortDir=null;  // new search resets sort to default
+  ooRunQuery();
+}
+// Backend: OutboundOrderListSearchRequest validation + repository predicate
+function ooQuery(p){
+  if(!p.from) return {err:'startDate is required.'};
+  if(!p.to) return {err:'endDate is required.'};
+  if(p.from>p.to) return {err:'startDate cannot be after endDate.'};
+  const kw=p.kw.toLowerCase(),has=x=>String(x||'').toLowerCase().includes(kw);
+  return {rows:OO_DATA.filter(r=>r.items.length  // inner join OrderFulfillment: unlinked (user-canceled) outbounds drop out
+    &&(!p.bp||r.from.store.bp===p.bp)&&(!p.stores.length||p.stores.includes(r.from.store.code))
+    &&(!p.statuses.length||p.statuses.includes(r.status))&&(!p.tag||r.tags.includes(p.tag))&&(!p.types.length||p.types.includes(r.type))
+    &&r.regAt.slice(0,10)>=p.from&&r.regAt.slice(0,10)<=p.to
+    &&(!kw||[r.from.store.code,r.from.store.name,r.to.store.code,r.to.store.name,r.ivNo,r.trkNo].some(has)||r.items.some(it=>has(it.orderNo))||r.srcIds.some(has)))};
+}
+function ooRunQuery(){
+  const res=ooQuery(ooApplied);
+  ooRows=res.rows||[];
+  PAGERS.oo.page=1;
+  if(res.err){
+    document.getElementById('oo-total').textContent=0;
+    document.getElementById('oo-body').innerHTML=`<tr><td colspan="11" class="dp-empty">${ooEsc(res.err)}</td></tr>`;
+    pgRange('oo',0);showToast('Search',res.err,'error');return;
+  }
+  ooRenderPage();
+}
+// Sortable: Registration Date / I/V No. / From Store / From Location / To Store / To Location (asc -> desc -> none)
+function ooSort(key){
+  if(ooSortKey!==key){ooSortKey=key;ooSortDir='asc';}
+  else if(ooSortDir==='asc') ooSortDir='desc';
+  else {ooSortKey=null;ooSortDir=null;}
+  PAGERS.oo.page=1;ooRenderPage();
+}
+const OO_SORT_VAL={createDate:r=>r.regAt,invoiceNo:r=>r.ivNo,fromStore:r=>r.from.store.code,fromLocation:r=>r.from.loc.code,toStore:r=>r.to.store.code,toLocation:r=>r.to.loc.code};
+function ooSorted(rows,key,dir){
+  // No sort -> API default: Registration Date (convertedRegisteredAt) DESC
+  const k=key||'createDate',d=key&&dir==='asc'?1:-1,f=OO_SORT_VAL[k];
+  return [...rows].sort((a,b)=>String(f(a)).localeCompare(String(f(b)))*d||b.regAt.localeCompare(a.regAt));
+}
+function ooChip(st){const c=OO_STATUS[st];return c?`<span class="oo-chip${st==='COMPLETE'?' b':''}" style="color:${c.color};background:${c.bg};">${c.label}</span>`:(st||'-');}
+function ooRenderPage(){
+  const rows=ooSorted(ooRows,ooSortKey,ooSortDir);
+  document.querySelectorAll('#oo-view th.oo-sort').forEach(th=>{if(th.dataset.sort===ooSortKey) th.dataset.dir=ooSortDir; else delete th.dataset.dir;});
+  document.getElementById('oo-total').textContent=rows.length;
+  const [s,e]=pgRange('oo',rows.length);
+  document.getElementById('oo-body').innerHTML=rows.length?rows.slice(s,e).map(r=>`<tr onclick="ooOpenDetail('${r.id}')">
+    <td>${r.regAt} (${r.tz})</td><td>${ooChip(r.status)}</td><td>${r.tags.length?r.tags.join(', '):'-'}</td><td>${r.type}</td>
+    <td>${r.ivNo||'-'}</td><td>${new Set(r.items.map(i=>i.orderNo)).size}</td>
+    <td class="tl">${ooCN(r.from.store.code,ooEsc(r.from.store.name))}</td><td>${ooCN(r.from.loc.code,r.from.loc.name)}</td>
+    <td class="tl">${ooCN(r.to.store.code,ooEsc(r.to.store.name))}</td><td>${ooCN(r.to.loc.code,r.to.loc.name)}</td><td>${r.createdBy}</td></tr>`).join('')
+    :'<tr><td colspan="11" class="dp-empty">No data found.</td></tr>';
+}
+// Excel: last applied search (not the form), backend columns, default order (Registration Date DESC), max 10,000 rows
+function ooExport(){
+  if(typeof XLSX==='undefined') return showToast('Excel Export','Excel library failed to load. Check network and reload.','error');
+  const res=ooQuery(ooApplied);
+  if(res.err) return showToast('Excel Export',res.err,'error');
+  const rows=ooSorted(res.rows,null,null);
+  if(rows.length>10000) return showToast('Excel Export','Excel downloads are limited to a maximum of 10000 records.','error');
+  const aoa=[['Created Date','Timezone','Outbound Status','Outbound Tag','Outbound Type','I/V No.','From Store Code','From Store Name','From Location Code','From Location Name','To Store Code','To Store Name','To Location Code','To Location Name','Created By']]
+    .concat(rows.map(r=>[r.regAt,r.tz,r.status,r.tags.join(', '),r.type,r.ivNo,r.from.store.code,r.from.store.name,r.from.loc.code,r.from.loc.name,r.to.store.code,r.to.store.name,r.to.loc.code,r.to.loc.name,r.createdBy]));
+  const ws=XLSX.utils.aoa_to_sheet(aoa),wb=XLSX.utils.book_new();XLSX.utils.book_append_sheet(wb,ws,'Outbound Order List');
+  const d=new Date(),fn='outbound_order_list_'+d.getFullYear()+'_'+(d.getMonth()+1)+'_'+d.getDate()+'.xlsx';
+  XLSX.writeFile(wb,fn);showToast('Excel Export',fn+' — '+rows.length+' rows');
+}
+// ----- Detail (route #/inventory/outbound-order/{id}) -----
+// Header back button is shared with Outbound List: make it route-aware while this detail is open
+function ooBackClick(){if(/^#\/inventory\/outbound-order\//.test(location.hash)) ooCloseDetail(); else backToList();}
+function ooTitleClick(){
+  // Frontend: clicking the title (I/V No.) copies it to the clipboard
+  if(!ooCur||!/^#\/inventory\/outbound-order\//.test(location.hash)||!ooCur.ivNo) return;
+  try{navigator.clipboard.writeText(ooCur.ivNo);}catch(e){}
+}
+function ooOpenDetail(id){
+  ooEnsure();
+  const r=OO_DATA.find(x=>x.id===String(id));
+  if(!r) return false;
+  ooCur=r;
+  setRoute('#/inventory/outbound-order/'+r.id);
+  document.getElementById('oo-list-pane').hidden=true;
+  document.getElementById('oo-detail-pane').hidden=false;
+  const back=document.getElementById('detail-back-btn');back.style.display='';back.onclick=ooBackClick;
+  const title=document.getElementById('page-title');title.textContent=r.ivNo||'-';title.onclick=ooTitleClick;
+  PAGERS.ood.page=1;
+  ooRenderDetail();
+  return true;
+}
+function ooCloseDetail(){
+  ooShowList();
+  document.getElementById('detail-back-btn').style.display='none';
+  document.getElementById('detail-status-badge').style.display='none';
+  document.getElementById('page-title').textContent='Outbound Order List';
+  setRoute('#/inventory/outbound-order');
+  if(ooApplied) ooRunQuery();
+}
+function ooRenderDetail(){
+  const r=ooCur,c=OO_STATUS[r.status];
+  const badge=document.getElementById('detail-status-badge');
+  badge.style.display='';badge.className='badge oo-hd-'+c.hd;badge.textContent=c.hdLabel;
+  document.getElementById('ood-create').textContent=r.regAt+' ('+r.tz+')';
+  document.getElementById('ood-from-store').textContent=ooCN(r.from.store.code,r.from.store.name);
+  document.getElementById('ood-from-loc').textContent=ooCN(r.from.loc.code,r.from.loc.name);
+  document.getElementById('ood-to-store').textContent=ooCN(r.to.store.code,r.to.store.name);
+  document.getElementById('ood-to-loc').textContent=ooCN(r.to.loc.code,r.to.loc.name);
+  // Outbound Label Print: only when TMS is used (tms !== NONE)
+  document.getElementById('ood-label-btn').style.display=r.tms!=='NONE'?'':'none';
+  // Cancel: REGISTERED + L2S / S2L only (frontend rule)
+  document.getElementById('ood-cancel-row').hidden=!(r.status==='REGISTERED'&&(r.type==='L2S'||r.type==='S2L'));
+  document.getElementById('ood-cnt').textContent=new Set(r.items.map(i=>i.orderNo)).size+' orders';
+  ooRenderDetailItems();
+}
+function ooDetailItems(){return [...ooCur.items].sort((a,b)=>a.orderNo.localeCompare(b.orderNo)||a.id.localeCompare(b.id));}
+function ooRenderDetailItems(){
+  if(!ooCur) return;
+  const rows=ooDetailItems(),[s,e]=pgRange('ood',rows.length);
+  document.getElementById('ood-body').innerHTML=rows.length?rows.slice(s,e).map(it=>`<tr style="cursor:default;">
+    <td>${it.orderNo}</td><td>${it.product.code} / ${ooEsc(it.product.name)}</td><td>${it.product.cat1||'-'}</td><td>${it.product.cat2||'-'}</td>
+    <td>${it.reg}</td><td>${it.done}</td></tr>`).join('')
+    :'<tr><td colspan="6" class="dp-empty">No data found.</td></tr>';
+}
+function ooExportDetail(){
+  if(typeof XLSX==='undefined') return showToast('Excel Export','Excel library failed to load. Check network and reload.','error');
+  const r=ooCur;if(!r) return;
+  const aoa=[['Created Date','Timezone','I/V No.','Order No.','Outbound Status','From Store Code','From Store Name','From Location Code','From Location Name','To Store Code','To Store Name','To Location Code','To Location Name','Product Code','Product Name','Barcode','Product Category','Product Subcategory','Outbound Qty (Registered)','Outbound Qty (Completed)']]
+    .concat(ooDetailItems().map(it=>[r.regAt,r.tz,r.ivNo,it.orderNo,r.status,r.from.store.code,r.from.store.name,r.from.loc.code,r.from.loc.name,r.to.store.code,r.to.store.name,r.to.loc.code,r.to.loc.name,it.product.code,it.product.name,it.product.barcode,it.product.cat1,it.product.cat2,it.reg,it.done]));
+  const ws=XLSX.utils.aoa_to_sheet(aoa),wb=XLSX.utils.book_new();XLSX.utils.book_append_sheet(wb,ws,'Outbound Order Detail');
+  const d=new Date(),fn='outbound_order_detail_label_'+r.id+'_'+d.getFullYear()+'_'+(d.getMonth()+1)+'_'+d.getDate()+'.xlsx';
+  XLSX.writeFile(wb,fn);showToast('Excel Export',fn+' — '+(aoa.length-1)+' rows');
+}
+// Outbound cancel: PATCH /outbounds/{id}/cancel. Backend unlinks the order fulfillments -> the outbound leaves this list
+// and its orders return to the registration candidates.
+function ooOpenCancel(){document.getElementById('oo-cancel-modal').classList.add('show');}
+function ooCloseCancel(){document.getElementById('oo-cancel-modal').classList.remove('show');}
+function ooConfirmCancel(){
+  const r=ooCur;if(!r) return;
+  const ok=(r.type==='L2S'||r.type==='S2L')?['REGISTERED','REG_FAILED'].includes(r.status):false;
+  if(!ok){ooCloseCancel();return showToast('Outbound Canceled','Outbound cannot be canceled. outboundType='+r.type+', outboundStatus='+r.status,'error');}
+  r.status='CANCELED';
+  r.cands.forEach(c=>{if(!OO_CANDS.includes(c)) OO_CANDS.push(c);});
+  r.items=[];r.srcIds=[];r.cands=[];
+  ooCloseCancel();
+  showToast('The save has been completed.','Processed successfully.');
+  PAGERS.ood.page=1;ooRenderDetail();
+}
+// Label: GET /outbounds/{id}/delivery-label (PDF from TMS). Not integrated yet -> API error (Korean message from backend)
+function ooOpenLabel(){
+  const r=ooCur;if(!r) return;
+  if(!r.trkNo) return showToast('Outbound Label Print','TMS 연동이 완료되지 않았습니다. outboundId='+r.id+', phase=PENDING','error');
+  document.getElementById('oo-label-body').innerHTML=`<div class="oo-label">
+    <div class="r"><b>SHIP FROM</b><br>${ooEsc(r.from.store.name)} (${r.from.store.code})</div>
+    <div class="r"><b>SHIP TO</b><br>${ooEsc(r.to.store.name)} (${r.to.store.code})<br>Location ${r.to.loc.code} / ${r.to.loc.name}</div>
+    <div class="r"><div class="big">UPS GROUND</div>TRACKING #: ${r.trkNo}<div class="bc"></div></div>
+    <div class="r">REF: ${r.ivNo} &nbsp;·&nbsp; ${new Set(r.items.map(i=>i.orderNo)).size} order(s)</div></div>`;
+  document.getElementById('oo-label-modal').classList.add('show');
+}
+function ooCloseLabel(){document.getElementById('oo-label-modal').classList.remove('show');}
+function ooLabelDownload(){if(ooCur) showToast('Download','label-'+ooCur.id+'.pdf (prototype)');}
+// ----- Outbound Registration modal (Pre-Order tab) -----
+// GET /orders/outbound-candidates (orderTag=PREORDER) -> POST /outbounds/orders {outboundTag:'PREORDER', orderIds}
+function ooOpenReg(){
+  // Frontend mounts the modal fresh on every open: default search, no selection, first search runs immediately
+  const t=new Date(),f=new Date();f.setDate(t.getDate()-30);
+  ['ooc-bp','ooc-dtype'].forEach(id=>{const s=document.getElementById(id);s.selectedIndex=0;csRefresh(s);});
+  ooCandBpChange();
+  document.getElementById('ooc-from').value=ooYmd(f);document.getElementById('ooc-to').value=ooYmd(t);
+  const fh=document.getElementById('ooc-from-h'),th=document.getElementById('ooc-to-h');fh.value='0';th.value='23';csRefresh(fh);csRefresh(th);
+  document.getElementById('ooc-kw').value='';
+  ooCandSel=new Map();PAGERS.ooc.page=1;
+  document.getElementById('oo-reg-modal').classList.add('show');
+  ooCandSearch();
+}
+function ooCloseReg(){document.getElementById('oo-reg-modal').classList.remove('show');}
+function ooCandBpChange(){
+  const bp=document.getElementById('ooc-bp').value,sel=document.getElementById('ooc-store'),list=bp?ooStores().filter(s=>s.bp===bp):[];
+  sel.innerHTML='<option value="">All</option>'+OO_STORE_GROUPS.map(g=>{const ss=list.filter(s=>ooGroupOf(s.name)===g);
+    return ss.length?`<optgroup label="${g}">`+ss.map(s=>`<option value="${s.code}">${s.code} / ${ooEsc(s.name)}</option>`).join('')+'</optgroup>':'';}).join('');
+  sel.disabled=!bp;  // store options load only after a BP is chosen
+  csRefresh(sel);
+}
+function ooCandSearch(){
+  const v=id=>document.getElementById(id).value;
+  const p={bp:v('ooc-bp'),store:v('ooc-store'),dtype:v('ooc-dtype'),from:v('ooc-from'),fh:+v('ooc-from-h'),to:v('ooc-to'),th:+v('ooc-to-h'),kw:v('ooc-kw').trim()};
+  // Backend validation (OutboundCandidateSearchRequest). Frontend shows no message: the grid just stays empty.
+  let err='';
+  if(!p.from) err='startDate is required.';
+  else if(!p.to) err='endDate is required.';
+  else if(p.from>p.to) err='startDate cannot be after endDate.';
+  else if(p.dtype==='ORDER_DATE'&&p.fh===p.th) err='startHour and endHour cannot be the same.';
+  else if(p.kw&&p.kw.length<2) err='Query must be at least 2 characters.';
+  PAGERS.ooc.page=1;
+  if(err){ooCandRows=[];ooCandRender();return showToast('Outbound Registration',err,'error');}
+  const kw=p.kw.toLowerCase(),has=x=>String(x||'').toLowerCase().includes(kw);
+  const lo=p.from+' '+ooPad(p.fh)+':00',hi=p.to+' '+ooPad(p.th)+':59';
+  const dateOf={LAUNCH_DATE:c=>c.launch,SHIP_DATE:c=>c.ship,PICKUP_DATE:c=>c.pickup};
+  ooCandRows=OO_CANDS.filter(c=>(!p.bp||c.bp===p.bp)&&(!p.store||c.store.code===p.store)
+    &&(p.dtype==='ORDER_DATE'?(c.orderedAt>=lo&&c.orderedAt<=hi):(dateOf[p.dtype](c)>=p.from&&dateOf[p.dtype](c)<=p.to))
+    &&(!kw||[c.orderNo,c.srcId,c.store.code,c.store.name].some(has)))
+    .sort((a,b)=>b.orderedAt.localeCompare(a.orderedAt));
+  ooCandRender();
+}
+function ooCandRender(){
+  const rows=ooCandRows,[s,e]=pgRange('ooc',rows.length),page=rows.slice(s,e);
+  document.getElementById('ooc-body').innerHTML=page.length?page.map(c=>`<tr style="cursor:default;">
+    <td><input type="checkbox" ${ooCandSel.has(c.orderId)?'checked':''} onclick="ooCandToggle('${c.orderId}',this.checked)"></td>
+    <td>${c.orderedAt} (${c.tz})</td><td>${c.launch||'-'}</td><td>${c.ship||'-'}</td><td>${c.pickup||'-'}</td><td>${c.tags.join(', ')||'-'}</td>
+    <td><div class="oo-ord-no"><b>${c.srcId||'-'}</b><span>(${c.orderNo||'-'})</span></div></td>
+    <td class="tl">${c.store.code} / ${ooEsc(c.store.name)}</td></tr>`).join('')
+    :'<tr><td colspan="8" class="dp-empty">No data found.</td></tr>';
+  document.getElementById('ooc-all').checked=page.length>0&&page.every(c=>ooCandSel.has(c.orderId));
+  ooCandSelUpdate();
+}
+function ooCandToggle(id,on){const c=OO_CANDS.find(x=>x.orderId===id);if(on&&c) ooCandSel.set(id,c); else ooCandSel.delete(id);ooCandRender();}
+// Header checkbox selects / clears the current page only (selection on other pages is kept)
+function ooCandToggleAll(on){const [s,e]=pgRange('ooc',ooCandRows.length);ooCandRows.slice(s,e).forEach(c=>{if(on) ooCandSel.set(c.orderId,c); else ooCandSel.delete(c.orderId);});ooCandRender();}
+function ooCandSelUpdate(){
+  const n=ooCandSel.size;
+  document.getElementById('ooc-selcnt').textContent=n?n+' selected':'';
+  document.getElementById('ooc-reg-btn').disabled=!n;
+}
+// Backend: same BP only; one outbound per pickup store (L2S, WH 1110 -> pickup store 1050 OMNI, tag PREORDER)
+function ooCandRegister(){
+  const sel=[...ooCandSel.values()];if(!sel.length) return;
+  const bps=[...new Set(sel.map(c=>c.bp))];
+  if(bps.length>1) return showToast('Outbound Registration','All orders must belong to the same BP. Found: ['+bps.join(', ')+']','error');
+  const wh=ooStore('US1006'),groups={};
+  sel.forEach(c=>{(groups[c.store.code]=groups[c.store.code]||[]).push(c);});
+  Object.values(groups).forEach(cs=>{
+    const ps=cs[0].store,now=ooNow(wh.tz),items=[];
+    cs.forEach(c=>c.items.forEach(l=>items.push({id:String(9400000+(ooSeq++)),orderNo:c.orderNo,product:l.product,reg:l.qty,done:0})));
+    OO_DATA.push({id:String(890000+(ooSeq++)),status:'PLANNED',tags:['PREORDER'],type:'L2S',ivNo:'STM'+now.slice(2,10).replace(/-/g,'')+String(Math.floor(Math.random()*10000)).padStart(4,'0'),trkNo:'',
+      regAt:now,tz:wh.tz,from:{store:wh,loc:ooLoc(wh,'1110')},to:{store:ps,loc:ooLoc(ps,'1050')},createdBy:'monster1437',tms:'NONE',items,cands:cs,srcIds:cs.map(c=>c.srcId)});
+    cs.forEach(c=>{const i=OO_CANDS.indexOf(c);if(i>=0) OO_CANDS.splice(i,1);});
+  });
+  ooCloseReg();
+  showToast('Outbound Registration','Outbound order candidate registration has been sent to ERP successfully.');
+  if(ooApplied) ooRunQuery();
+}
+// ===== Inventory > Inventory Movement (list + Movement Registration modal) =====
+// Source: iic-bo-frontend features/(inventory)/inventoryMovementsList
+//         iic-bo inventory/movement InventoryMovementListController / InventoryMovementCreateController / InventoryMovementListReadService,
+//         InventoryMovementCreateFacade (same store) / InventoryMovementGroupCreateFacade (cross-store) / InventoryMovementExcelUploadFacade (bulk)
+// Stock for registration starts from the Inventory List dummy data (IL_DATA: available = "Inventory Qty") and is kept locally in this screen.
+const MV_BRANDS={'1100':'GENTLE MONSTER'};
+// InventoryMovementRemark: manual values in dropdown order + system-only values (shown in the list only). Label = lokalise en.
+const MV_REMARKS={THEFT:'DP Setup Due to Theft',INITIAL_DP_SETUP:'Initial DP Setup',DAMAGE:'Damage',INVENTORY_ALLOCATION:'Inventory Allocation',TEMPORARY_HOLD:'Temporary Hold',ETC:'Etc.',
+  RX_ORDER:'RX Order Movement',RX_ORDER_CANCEL:'RX Order Cancel Movement',STORE_PICKUP_CANCEL:'Store Pickup Cancel Movement',INVENTORY_DISTRIBUTION:'Inventory Allocation'};
+const MV_MANUAL_REMARKS=['THEFT','INITIAL_DP_SETUP','DAMAGE','INVENTORY_ALLOCATION','TEMPORARY_HOLD','ETC'];
+const MV_STORE_GROUPS=['RETAIL STORES','ONLINE / WAREHOUSE','ETC'];
+const MV_UPLOAD_HEADERS=['Store Code (From)','Location Code (From)','Store Code (To)','Location Code (After)','Product Code','Movement Qty','Remark'];
+const MV_ERR={val_upload_2:'[Error] Please check the registered data again.',val_upload_3:'[Error] Please check the master information again.'};
+let MV_STORES=null,MV_DATA=null,mvStock=null,mvInited=false,mvRows=[],mvApplied=null,mvSeq=0,mvR=null;
+const mvEsc=v=>String(v??'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+const mvPad=n=>String(n).padStart(2,'0');
+const mvYmd=d=>d.getFullYear()+'-'+mvPad(d.getMonth()+1)+'-'+mvPad(d.getDate());
+const mvBpLabel=bp=>bp+' / '+(ST_BPS[bp]||'');              // grid: code / lokalise name (BP_LOKALISE_KEYS)
+const mvBpName=bp=>(LG_BPS[bp]||bp).split(' / ').pop();      // excel: backend branchName
+function mvTzOf(name){
+  if(/NewYork|NewJersey/.test(name)) return 'EST';
+  if(/Houston/.test(name)) return 'CST';
+  if(/Sydney|Melbourne|Australia/.test(name)) return 'AET_SYD';
+  return 'PST';
+}
+function mvGroupOf(name){
+  const t=name.toUpperCase().split('_');
+  if(t.some(x=>x==='ONLINE'||x==='WH')) return MV_STORE_GROUPS[1];
+  if(t.some(x=>['PS','RX','OFFICE','LOST'].includes(x))) return MV_STORE_GROUPS[2];
+  return MV_STORE_GROUPS[0];
+}
+// Stores: REG_DATA (C1002) + AU stores of the inventory screens. WH stores' locations are WAREHOUSE type.
+function mvStores(){
+  if(MV_STORES) return MV_STORES;
+  const list=[];
+  Object.values(REG_DATA).forEach(b=>Object.entries(b.companies).forEach(([bp,c])=>Object.entries(c.stores).forEach(([code,s])=>
+    list.push({code,name:s.name,bp,brand:'1100',wh:s.storeType==='WH',locs:s.locations,tz:mvTzOf(s.name)}))));
+  LG_STORES.filter(s=>!list.some(x=>x.code===s.code)).forEach(s=>list.push({code:s.code,name:s.name,bp:s.bp,brand:'1100',wh:!!s.wh,locs:US_STORE_LOCS,tz:mvTzOf(s.name)}));
+  return MV_STORES=list;
+}
+const mvStore=code=>mvStores().find(s=>s.code===code);
+const mvLoc=(s,code)=>({code,name:s.locs[code]||''});
+const mvSKey=(s,l,p)=>s+'|'+l+'|'+p;
+function mvProducts(){return LG_PRODUCTS;}
+function mvCat(p){const m=PRODUCT_MASTER.find(x=>x.code===p.code);return m?[m.cat1,m.cat2]:['PACKAGE','PACKAGE SET'];}
+function mvNowStr(){const d=new Date();return mvYmd(d)+' '+mvPad(d.getHours())+':'+mvPad(d.getMinutes())+':'+mvPad(d.getSeconds());}
+// ----- Dummy data -----
+function mvInitData(){
+  if(MV_DATA) return;
+  mvStock={};
+  IL_DATA.forEach(r=>{mvStock[mvSKey(r.store.code,r.loc.code,r.product.code)]={store:r.store.code,loc:r.loc.code,product:r.product,cat1:r.cat1,cat2:r.cat2,onHand:r.onHand,available:r.available};});
+  let seed=97;const rnd=()=>(seed=(seed*16807)%2147483647)/2147483647,pick=a=>a[Math.floor(rnd()*a.length)],ri=(a,b)=>a+Math.floor(rnd()*(b-a+1));
+  const today=new Date();today.setHours(0,0,0,0);
+  const users=['monster1437','jane.park','alex.kim','chris.lee'];
+  // [from store, from loc, to store, to loc, remarks]
+  const PLANS=[
+    ['US1001','1000','US1001','1010',['INITIAL_DP_SETUP','THEFT','INVENTORY_ALLOCATION']],
+    ['US1001','1010','US1001','1000',['ETC','TEMPORARY_HOLD']],
+    ['US1001','1000','US1001','1030',['DAMAGE','TEMPORARY_HOLD']],
+    ['US1001','1000','US1001','1040',['RX_ORDER']],
+    ['US1004','1000','US1004','1030',['DAMAGE','ETC']],
+    ['US1004','1050','US1004','1000',['STORE_PICKUP_CANCEL']],
+    ['US1006','1110','US1006','1120',['DAMAGE']],
+    ['US1006','1110','US1022','1110',['INVENTORY_ALLOCATION']],
+    ['AU1002','1000','AU1002','1010',['INITIAL_DP_SETUP','THEFT']],
+    ['AU1004','1000','AU1004','1030',['DAMAGE','TEMPORARY_HOLD']]
+  ];
+  MV_DATA=[];
+  for(let i=0;i<18;i++){
+    const [fs,fl,ts,tl,rms]=pick(PLANS),from=mvStore(fs),to=mvStore(ts);
+    const d=new Date(today);d.setDate(d.getDate()-(i<15?ri(0,29):ri(31,45)));
+    const at=mvYmd(d)+' '+mvPad(ri(9,20))+':'+mvPad(ri(0,59))+':'+mvPad(ri(0,59)),remark=pick(rms),by=remark.startsWith('RX')||remark==='STORE_PICKUP_CANCEL'?'SYSTEM':pick(users);
+    const prods=[...mvProducts()].sort(()=>rnd()-0.5).slice(0,ri(1,4));
+    prods.forEach(p=>{
+      const before=from.wh?ri(120,480):ri(4,60),qty=from.wh?ri(5,30):ri(1,Math.min(3,before));
+      MV_DATA.push({id:++mvSeq,at,tz:from.tz,bp:from.bp,brand:'1100',from:{store:from,loc:mvLoc(from,fl)},to:{store:to,loc:mvLoc(to,tl)},product:p,before,qty,by,remark});
+    });
+  }
+}
+// ----- Init / filters -----
+function mvCs(ids){ids.forEach(id=>{const s=document.getElementById(id);if(s){csBuild(s);csRefresh(s);}});}
+function mvEnter(){
+  mvInitData();
+  if(!PAGERS.mv) PAGERS.mv={render:()=>mvRenderPage()};
+  if(mvInited) return;
+  document.getElementById('mv-brand').innerHTML='<option value="">All</option>'+Object.entries(MV_BRANDS).map(([c,n])=>`<option value="${c}">${n}</option>`).join('');
+  const t=new Date(),f=new Date();f.setDate(t.getDate()-30);
+  document.getElementById('mv-from').value=mvYmd(f);document.getElementById('mv-to').value=mvYmd(t);
+  mvBrandChange();
+  mvCs(['mv-brand','mv-bp','mv-rpp']);
+  mvInited=true;mvSearch();
+}
+// BP options load after a Brand is chosen (branchFlag), Store options after a BP is chosen (storeFlag)
+function mvBrandChange(){
+  const brand=document.getElementById('mv-brand').value,bp=document.getElementById('mv-bp');
+  bp.innerHTML='<option value="">All</option>'+(brand?Object.entries(ST_BPS).map(([c,n])=>`<option value="${c}">${n}</option>`).join(''):'');
+  bp.disabled=!brand;csRefresh(bp);mvBpChange();
+}
+function mvBpChange(){
+  const bp=document.getElementById('mv-bp').value,trg=document.getElementById('mvStore-trigger'),list=bp?mvStores().filter(s=>s.bp===bp):[];
+  document.getElementById('mvStore-dropdown').innerHTML=MV_STORE_GROUPS.map(g=>{const ss=list.filter(s=>mvGroupOf(s.name)===g);return ss.length?`<div class="mv-dd-grp">${g}</div>`+ss.map(s=>
+    `<div class="dd-item" onclick="selectMulti('mvStore',this)" data-val="${s.code}"><span class="check-ico">✓</span>${s.code} / ${mvEsc(s.name)}</div>`).join(''):'';}).join('');
+  trg.textContent='Store (All)';trg.classList.toggle('disabled',!bp);
+}
+// ----- Search -----
+function mvSearch(){
+  const v=id=>document.getElementById(id).value;
+  const kw=v('mv-kw').trim();
+  document.getElementById('mv-kw-err').hidden=!(kw&&kw.length<2);
+  if(kw&&kw.length<2) return;
+  mvApplied={brand:v('mv-brand'),bp:v('mv-bp'),stores:[...document.querySelectorAll('#mvStore-dropdown .dd-item.selected')].map(el=>el.dataset.val),from:v('mv-from'),to:v('mv-to'),kw};
+  mvRunQuery();
+}
+// Backend: InventoryMovementListRequest + repository (store filter = From store only, dates optional, product code / name)
+function mvQuery(p){
+  if(p.from&&p.to&&p.from>p.to) return {err:'Start date must not be after end date'};
+  const kw=p.kw.toLowerCase();
+  return {rows:MV_DATA.filter(r=>(!p.brand||r.brand===p.brand)&&(!p.bp||r.bp===p.bp)&&(!p.stores.length||p.stores.includes(r.from.store.code))
+    &&(!p.from||r.at.slice(0,10)>=p.from)&&(!p.to||r.at.slice(0,10)<=p.to)
+    &&(!kw||r.product.code.toLowerCase().includes(kw)||r.product.name.toLowerCase().includes(kw)))
+    .sort((a,b)=>b.at.localeCompare(a.at)||b.id-a.id)};  // default: movedAt DESC
+}
+function mvRunQuery(){
+  const res=mvQuery(mvApplied);
+  mvRows=res.rows||[];PAGERS.mv.page=1;
+  if(res.err){
+    document.getElementById('mv-body').innerHTML=`<tr><td colspan="9" class="dp-empty">${mvEsc(res.err)}</td></tr>`;
+    pgRange('mv',0);return showToast('Search',res.err,'error');
+  }
+  mvRenderPage();
+}
+const mvInfo=(s,l)=>`[${s?s.code:'-'}] ${s?mvEsc(s.name):'-'} / [${l?l.code:'-'}] ${l&&l.name?l.name:'-'}`;
+function mvRenderPage(){
+  const rows=mvRows,[s,e]=pgRange('mv',rows.length),n=v=>v.toLocaleString('ko-KR');
+  document.getElementById('mv-body').innerHTML=rows.length?rows.slice(s,e).map(r=>`<tr style="cursor:default;">
+    <td>${r.at} (${r.tz})</td><td class="tl">${mvBpLabel(r.bp)}</td><td class="tl">${mvInfo(r.from.store,r.from.loc)}</td>
+    <td>${r.product.code} / ${mvEsc(r.product.name)} / ${r.product.barcode}</td><td class="tl">${mvInfo(r.to.store,r.to.loc)}</td>
+    <td>${n(r.before)}</td><td>${n(r.qty)}</td><td>${r.by}</td><td>${r.remark?MV_REMARKS[r.remark]:'-'}</td></tr>`).join('')
+    :'<tr><td colspan="9" class="dp-empty">No data found.</td></tr>';
+}
+// Excel: last applied search, backend columns, movedAt DESC, max 3,000 rows (backend truncates silently at 3,000)
+function mvExport(){
+  if(typeof XLSX==='undefined') return showToast('Excel Export','Excel library failed to load. Check network and reload.','error');
+  const res=mvQuery(mvApplied);
+  if(res.err) return showToast('Excel Export',res.err,'error');
+  const rows=res.rows.slice(0,3000);
+  const info=(s,l)=>`[${s.code}] ${s.name} / [${l.code}] ${l.name}`;
+  const aoa=[['Created Date','Timezone Code','BP Code','BP Name','From Information','To Information','Product Code','Product Name','Barcode','Available Qty','Remark','Movement Qty','Updated By']]
+    .concat(rows.map(r=>[r.at,r.tz,r.bp,mvBpName(r.bp),info(r.from.store,r.from.loc),info(r.to.store,r.to.loc),r.product.code,r.product.name,r.product.barcode,r.before,r.remark||'',r.qty,r.by]));
+  const ws=XLSX.utils.aoa_to_sheet(aoa),wb=XLSX.utils.book_new();XLSX.utils.book_append_sheet(wb,ws,'Inventory Movement List');
+  const d=new Date(),fn='inventory_movements_list_'+d.getFullYear()+'_'+(d.getMonth()+1)+'_'+d.getDate()+'.xlsx';
+  XLSX.writeFile(wb,fn);showToast('Excel Export',fn+' — '+rows.length+' rows');
+}
+// ===== Movement Registration modal =====
+// Tabs: Location Inventory Movement (STORE, POST /inventory-movements) / Warehouse Inventory Movement (WAREHOUSE, POST /inventory-movements/cross-store)
+//       / Inventory Bulk Upload (BULK, POST /inventory-movements/upload-excel)
+function mvNewState(tab){return {tab,step:0,brand:'',bp:'',store:'',from:'',to:'',cat1:'',cat2:'',kw:'',kwErr:false,rows:[],sel:new Map(),qty:{},rmk:{},file:null,fmtErr:null,bulkRows:null};}
+function mvOpenReg(){mvInitData();mvR=mvNewState('STORE');document.getElementById('mv-reg-modal').classList.add('show');mvRender();}
+function mvCloseReg(){document.getElementById('mv-reg-modal').classList.remove('show');mvR=null;}
+function mvSwitchTab(tab){if(!mvR||mvR.tab===tab) return;mvR=mvNewState(tab);mvRender();}
+// Location options. STORE: all locations of the store (label = name). WAREHOUSE: WAREHOUSE-type locations of every store in the BP
+// (value = store|location, label = "[Store Name] NAME").
+function mvLocOptions(){
+  const r=mvR;
+  if(r.tab==='STORE'){const s=r.store&&mvStore(r.store);return s?Object.entries(s.locs).map(([c,n])=>({value:c,label:n,store:s,loc:{code:c,name:n}})):[];}
+  if(!r.bp) return [];
+  const out=[];mvStores().filter(s=>s.bp===r.bp&&s.wh).forEach(s=>Object.entries(s.locs).forEach(([c,n])=>out.push({value:s.code+'|'+c,label:`[${s.name}] ${n.toUpperCase()}`,store:s,loc:{code:c,name:n}})));
+  return out;
+}
+const mvOpt=(v)=>mvLocOptions().find(o=>o.value===v);
+function mvFromTo(){const f=mvOpt(mvR.from),t=mvOpt(mvR.to);return {f,t};}
+function mvSummary(){
+  const r=mvR,{f,t}=mvFromTo(),st=r.store&&mvStore(r.store);
+  const locText=o=>!o?'-':r.tab==='STORE'?`${o.loc.code} / ${o.loc.name}`:`[${o.store.code} ${mvEsc(o.store.name)}] ${o.loc.name}`;
+  return `<div class="mv-sum"><div class="l" style="flex:${r.tab==='STORE'?0.6:0.4};"><div><b>BP</b> <span>${r.bp?mvBpLabel(r.bp):'-'}</span></div>
+    ${r.tab==='STORE'?`<div><b>Store</b> <span>${st?st.code+' / '+mvEsc(st.name):'-'}</span></div>`:''}</div>
+    <div class="r" style="flex:${r.tab==='STORE'?0.4:0.6};"><div><b>Location (Before Movement)</b><span>${locText(f)}</span></div><div><b class="to">Location (After Movement)</b><span>${locText(t)}</span></div></div></div>`;
+}
+function mvSel(id,val,opts,onchange,disabled){
+  return `<select id="${id}" onchange="${onchange}"${disabled?' disabled':''}><option value="">All</option>${opts.map(o=>`<option value="${mvEsc(o.value)}"${o.value===val?' selected':''}>${mvEsc(o.label)}</option>`).join('')}</select>`;
+}
+function mvRender(){
+  const r=mvR;
+  document.querySelectorAll('#mv-tabs .psv-tab').forEach(t=>t.classList.toggle('active',t.dataset.tab===r.tab));
+  const bulk=r.tab==='BULK';
+  document.getElementById('mv-steps').style.display=bulk?'none':'';
+  document.getElementById('mv-reg-foot').style.display=bulk?'none':'';
+  document.querySelectorAll('#mv-steps .ob-step').forEach(el=>{const i=+el.dataset.i;el.classList.toggle('active',i===r.step);el.classList.toggle('done',i<r.step);el.querySelector('.ob-step-num').textContent=i<r.step?'✓':i+1;});
+  const body=document.getElementById('mv-step-body');
+  if(bulk) body.innerHTML=mvBulkHtml();
+  else if(r.step===0) body.innerHTML=mvStep1Html();
+  else if(r.step===1) body.innerHTML=mvStep2Html();
+  else body.innerHTML=mvStep3Html();
+  body.querySelectorAll('select:not(.mv-rmk)').forEach(s=>{csBuild(s);csRefresh(s);});
+  if(!bulk) mvFootUpdate();
+}
+function mvFootUpdate(){
+  const r=mvR,{f,t}=mvFromTo();
+  const step1Ok=(r.tab==='WAREHOUSE'?!!r.bp:!!(r.bp&&r.store))&&!!f&&!!t;
+  document.getElementById('mv-prev-btn').style.visibility=r.step>0?'visible':'hidden';
+  document.getElementById('mv-next-btn').style.display=r.step<2?'':'none';
+  document.getElementById('mv-submit-btn').style.display=r.step===2?'':'none';
+  document.getElementById('mv-next-btn').disabled=(r.step===0&&!step1Ok)||(r.step===1&&r.sel.size===0);
+}
+// ----- Step 1: Set Before / After Movement Location -----
+function mvStep1Html(){
+  const r=mvR,locs=mvLocOptions();
+  const brands=Object.entries(MV_BRANDS).map(([v,l])=>({value:v,label:l}));
+  const bps=r.brand?Object.entries(ST_BPS).map(([v,l])=>({value:v,label:l})):[];
+  const stores=r.bp?mvStores().filter(s=>s.bp===r.bp).map(s=>({value:s.code,label:s.code+' / '+s.name})):[];
+  const fromOpts=locs.filter(o=>o.value!==r.to),toOpts=locs.filter(o=>o.value!==r.from);  // From / To exclude each other
+  return `<div class="mv-box"><strong class="mv-box-title">Select Movement Information</strong>
+    <div class="mv-fields">
+      <div class="mv-f"><span>Brand</span>${mvSel('mvr-brand',r.brand,brands,"mvRSet('brand',this.value)",!brands.length)}</div>
+      <div class="mv-f"><span>BP</span>${mvSel('mvr-bp',r.bp,bps,"mvRSet('bp',this.value)",!bps.length)}</div>
+      ${r.tab==='STORE'?`<div class="mv-f"><span>Store</span>${mvSel('mvr-store',r.store,stores,"mvRSet('store',this.value)",!stores.length)}</div>`:''}
+    </div>
+    <div class="mv-fields" style="margin-top:14px;">
+      <div class="mv-f" style="min-width:260px;"><span>Location (Before Movement)</span>${mvSel('mvr-from',r.from,fromOpts,"mvRSet('from',this.value)",!fromOpts.length)}</div>
+      <div class="mv-f" style="min-width:260px;"><span>Location (After Movement)</span>${mvSel('mvr-to',r.to,toOpts,"mvRSet('to',this.value)",!toOpts.length)}</div>
+    </div></div>${mvSummary()}`;
+}
+// Cascade: Brand -> BP -> Store -> Locations (upstream change clears downstream values)
+function mvRSet(k,v){
+  const r=mvR;r[k]=v;
+  const chain=r.tab==='STORE'?['brand','bp','store','from','to']:['brand','bp','from','to'];
+  const i=chain.indexOf(k);
+  if(i>=0&&k!=='from'&&k!=='to') chain.slice(i+1).forEach(x=>r[x]='');
+  mvRender();
+}
+// ----- Step 2: Processed Inventory Search -----
+function mvSrc(){
+  const {f}=mvFromTo();return f?{store:f.store.code,loc:f.loc.code}:null;
+}
+function mvStep2Search(){
+  const r=mvR,src=mvSrc();
+  const kw=(document.getElementById('mvr-kw')||{value:r.kw}).value.trim();r.kw=kw;
+  if(kw&&kw.length<2){r.kwErr=true;mvRender();return;}
+  r.kwErr=false;
+  const k=kw.toLowerCase();
+  r.rows=Object.values(mvStock).filter(x=>src&&x.store===src.store&&x.loc===src.loc&&(!r.cat1||x.cat1===r.cat1)&&(!r.cat2||x.cat2===r.cat2)
+    &&(!k||x.product.code.toLowerCase().includes(k)||x.product.name.toLowerCase().includes(k)));
+  mvRender();
+}
+function mvStep2Html(){
+  const r=mvR,cats1=[...new Set(Object.values(mvStock).map(x=>x.cat1))].map(c=>({value:c,label:c}));
+  const cats2=r.cat1?[...new Set(Object.values(mvStock).filter(x=>x.cat1===r.cat1).map(x=>x.cat2))].map(c=>({value:c,label:c})):[];
+  const key=x=>x.store+'|'+x.loc+'|'+x.product.code,all=r.rows.length>0&&r.rows.every(x=>r.sel.has(key(x)));
+  return `<div class="mv-box mv-s2-search"><div style="flex:0.8;display:flex;flex-direction:column;gap:10px;">
+      <div class="mv-fields"><div class="mv-f"><span>Product Category 1</span>${mvSel('mvr-cat1',r.cat1,cats1,"mvR.kw=document.getElementById('mvr-kw').value;mvR.cat1=this.value;mvR.cat2='';mvRender()",!cats1.length)}</div>
+        <div class="mv-f"><span>Product Category 2</span>${mvSel('mvr-cat2',r.cat2,cats2,"mvR.cat2=this.value",!cats2.length)}</div></div>
+      <div class="mv-f"><span>Product Code, Product Name</span><input type="text" id="mvr-kw" value="${mvEsc(r.kw)}" placeholder="Please enter at least 2 characters." onkeydown="if(event.key==='Enter')mvStep2Search()">
+        ${r.kwErr?'<div class="mv-kw-err">Please enter at least 2 characters.</div>':''}</div>
+    </div><div style="flex:0.2;display:flex;justify-content:flex-end;"><button class="btn-search" onclick="mvStep2Search()"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><use href="#i-search"/></svg>Search</button></div></div>
+    ${mvSummary()}
+    <div class="mv-box" style="margin-top:10px;">
+      <div class="mv-tot">Total <b>${r.rows.length}</b> Count${r.sel.size?`<strong>Select ${r.sel.size} Count</strong>`:''}</div>
+      <div class="grid-wrap"><table class="grid"><thead><tr class="hdr">
+        <th style="width:44px;"><input type="checkbox" ${all?'checked':''} onclick="mvSelAll(this.checked)"></th>
+        <th style="min-width:300px;">Product Info<br><span class="mv-sub">(Code / Name / Barcode)</span></th><th style="min-width:120px;">Product Category 1</th><th style="min-width:160px;">Product Category 2</th><th style="min-width:120px;">Inventory Qty</th>
+      </tr></thead><tbody>${r.rows.length?r.rows.map(x=>`<tr style="cursor:default;"><td><input type="checkbox" ${r.sel.has(key(x))?'checked':''} onclick="mvSelOne('${key(x)}',this.checked)"></td>
+        <td>${x.product.code} / ${mvEsc(x.product.name)} / ${x.product.barcode}</td><td>${x.cat1}</td><td>${x.cat2}</td><td>${x.available}</td></tr>`).join('')
+        :'<tr><td colspan="5" class="dp-empty">No data found.</td></tr>'}</tbody></table></div></div>`;
+}
+function mvSelOne(k,on){const r=mvR,x=mvStock[k];if(on&&x) r.sel.set(k,x); else r.sel.delete(k);mvRender();}
+function mvSelAll(on){const r=mvR;r.rows.forEach(x=>{const k=x.store+'|'+x.loc+'|'+x.product.code;if(on) r.sel.set(k,x); else r.sel.delete(k);});mvRender();}
+// ----- Step 3: Enter Movement Information -----
+function mvStep3Html(){
+  const r=mvR,rows=[...r.sel.values()];
+  const rmk=code=>`<select class="mv-rmk" onchange="mvR.rmk['${code}']=this.value"><option value="">Please make a selection.</option>${MV_MANUAL_REMARKS.map(v=>`<option value="${v}"${r.rmk[code]===v?' selected':''}>${MV_REMARKS[v]}</option>`).join('')}</select>`;
+  return `${mvSummary()}<div class="mv-box" style="margin-top:10px;"><div class="grid-wrap"><table class="grid"><thead><tr class="hdr">
+      <th style="min-width:300px;">Product Info<br><span class="mv-sub">(Code / Name / Barcode)</span></th><th style="min-width:110px;">Product Category 1</th><th style="min-width:150px;">Product Category 2</th>
+      <th style="min-width:110px;">Inventory Qty</th><th style="min-width:180px;">Movement Qty</th><th style="min-width:190px;">Remarks</th>
+    </tr></thead><tbody>${rows.map(x=>`<tr style="cursor:default;"><td>${x.product.code} / ${mvEsc(x.product.name)} / ${x.product.barcode}</td><td>${x.cat1}</td><td>${x.cat2}</td><td>${x.available}</td>
+      <td><input type="text" inputmode="numeric" class="mv-qty-in" placeholder="Please enter a value." value="${r.qty[x.product.code]??''}" oninput="mvQtyInput(this,'${x.product.code}')"></td>
+      <td>${rmk(x.product.code)}</td></tr>`).join('')}</tbody></table></div></div>`;
+}
+// Frontend input guard: digits only, no leading 0 (min 1)
+function mvQtyInput(el,code){const v=el.value.replace(/\D/g,'').replace(/^0+/,'');el.value=v;mvR.qty[code]=v;}
+// Stepper navigation. Back from step 2 clears category / keyword / selection; back from step 3 clears movement qty only.
+function mvNext(){
+  const r=mvR;if(document.getElementById('mv-next-btn').disabled) return;
+  r.step++;
+  if(r.step===1) mvStep2Search(); else mvRender();
+}
+function mvBack(){
+  const r=mvR;
+  if(r.step===1){r.cat1='';r.cat2='';r.kw='';r.kwErr=false;r.sel=new Map();r.rows=[];}
+  if(r.step===2){r.qty={};}
+  r.step--;
+  if(r.step===1) mvStep2Search(); else mvRender();
+}
+// Submit: backend validation (quantity required / positive, available stock, cross-store rules)
+function mvSubmit(){
+  const r=mvR,{f,t}=mvFromTo(),rows=[...r.sel.values()];
+  for(const x of rows){
+    const q=r.qty[x.product.code];
+    if(!q) return showToast('Movement Registration','Quantity is required.','error');
+  }
+  if(r.tab==='WAREHOUSE'&&f.store.code===t.store.code) return showToast('Movement Registration','From store and to store must be different for cross-store movement.','error');
+  for(const x of rows){
+    if(+r.qty[x.product.code]>x.available) return showToast('Movement Registration','Requested quantity exceeds available inventory','error');
+  }
+  const at=mvNowStr();
+  rows.forEach(x=>mvApply(f.store,f.loc,t.store,t.loc,x.product,+r.qty[x.product.code],r.rmk[x.product.code]||null,at));
+  mvCloseReg();
+  showToast('The save has been completed.','Processed successfully.');
+  if(mvApplied) mvRunQuery();
+}
+// Apply one movement line: stock out of From, into To, plus a list row (Qty Before Transfer = From on-hand before)
+function mvApply(fs,fl,ts,tl,p,q,remark,at){
+  const fk=mvSKey(fs.code,fl.code,p.code),tk=mvSKey(ts.code,tl.code,p.code),src=mvStock[fk],before=src?src.onHand:0;
+  if(src){src.onHand-=q;src.available-=q;}
+  const [c1,c2]=mvCat(p);
+  const dst=mvStock[tk]||(mvStock[tk]={store:ts.code,loc:tl.code,product:p,cat1:src?src.cat1:c1,cat2:src?src.cat2:c2,onHand:0,available:0});
+  dst.onHand+=q;dst.available+=q;
+  MV_DATA.push({id:++mvSeq,at,tz:fs.tz,bp:fs.bp,brand:'1100',from:{store:fs,loc:fl},to:{store:ts,loc:tl},product:p,before,qty:q,by:'monster1437',remark});
+}
+// ----- Bulk upload -----
+function mvBulkHtml(){
+  const r=mvR,b=r.bulkRows;
+  const cell=(err,val)=>err?`<span class="mv-cell-err">${MV_ERR[err]||err}</span>`:val;
+  const ci=o=>o?`${o.code} / ${mvEsc(o.name)}`:'-';
+  return `<div style="margin-top:20px;"><button class="mv-tmpl" onclick="mvTemplate()">Download Upload Template</button>
+    <div class="mv-box" style="margin-top:5px;">
+      <div class="mv-drop" id="mv-drop" onclick="document.getElementById('mv-file').click()" ondragover="event.preventDefault();this.classList.add('over')" ondragleave="this.classList.remove('over')" ondrop="mvDrop(event)">
+        Drag & drop a file here, or click to select<br><span style="font-size:11px;color:#999;">.csv, .xls, .xlsx (1 file)</span>
+        ${r.file?`<div class="fn">${mvEsc(r.file.name)}</div>`:''}
+      </div>
+      <input type="file" id="mv-file" accept=".csv,.xls,.xlsx" hidden onchange="mvPickFile(this.files)">
+      <p class="mv-bulk-noti">Only inventory transfers within the same store and location in a single file can be processed in bulk.<br>(You cannot mix different stores or locations.)</p>
+    </div>
+    ${r.fmtErr?`<div class="mv-box" style="margin-top:10px;"><div class="mv-fmt-err" style="margin-top:0;"><h3>${r.fmtErr.code!=='STE-013'?'The upload format is invalid.':r.fmtErr.code}</h3><p><strong>${r.fmtErr.code!=='STE-013'?'Please try again using the specified format.':mvEsc(r.fmtErr.msg)}</strong></p></div></div>`:''}
+    ${b?`<div class="mv-box" style="margin-top:10px;"><div class="grid-wrap"><table class="grid"><thead><tr class="hdr">
+      <th>#</th><th>Brand</th><th>BP Information<br><span class="mv-sub">(Code / Name)</span></th><th>Before Store<br><span class="mv-sub">(Code / Name)</span></th>
+      <th>Location (Before Movement)<br><span class="mv-sub">(Code / Name)</span></th><th>From Store<br><span class="mv-sub">(Code / Name)</span></th>
+      <th>Location (After Movement)<br><span class="mv-sub">(Code / Name)</span></th><th>Product to Move<br><span class="mv-sub">(Code / Name / Barcode)</span></th><th>Movement Qty</th><th>Remarks</th>
+    </tr></thead><tbody>${b.map(x=>`<tr style="cursor:default;"><td>${x.index}</td><td>-</td><td>-</td>
+      <td>${cell(x.fromStoreCodeError,ci(x.fromStoreInfo))}</td><td>${cell(x.fromLocationCodeError,ci(x.fromLocationInfo))}</td>
+      <td>${cell(x.toStoreCodeError,ci(x.toStoreInfo))}</td><td>${cell(x.toLocationCodeError,ci(x.toLocationInfo))}</td>
+      <td>${cell(x.productCodeError,x.productInfo?`${x.productInfo.code} / ${mvEsc(x.productInfo.name)} / ${x.productInfo.barcode}`:'-')}</td>
+      <td>${cell(x.movementQtyError,x.movementQty)}</td><td>${cell(x.remarkError,x.remark||'')}</td></tr>`).join('')}</tbody></table></div></div>`:''}
+    <div class="mv-bulk-act"><button class="btn-search" onclick="mvBulkSubmit()">Register</button></div></div>`;
+}
+function mvDrop(e){e.preventDefault();document.getElementById('mv-drop').classList.remove('over');mvPickFile(e.dataTransfer.files);}
+function mvPickFile(files){
+  const f=files&&files[0];if(!f) return;
+  if(!/\.(csv|xls|xlsx)$/i.test(f.name)) return showToast('Inventory Bulk Upload','Only .csv, .xls, .xlsx files are allowed.','error');
+  mvR.file=f;mvR.fmtErr=null;mvR.bulkRows=null;mvRender();  // a new file clears previous errors
+}
+function mvTemplate(){
+  if(typeof XLSX==='undefined') return showToast('Download','Excel library failed to load. Check network and reload.','error');
+  const ws=XLSX.utils.aoa_to_sheet([['Store Code (From)*','Location Code (From)*','Store Code (To)','Location Code (After)*','Product Code*','Movement Qty*','Remark*']]),wb=XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(wb,ws,'Inventory Movement');XLSX.writeFile(wb,'Inventory_movement_upload_form_V3.xlsx');
+}
+// Backend error (ClientException) -> API message toast + the frontend's "upload format" box (errorCode present)
+function mvBulkFail(msg,code){mvR.fmtErr={code:code||'E-002',msg};mvR.bulkRows=null;mvRender();showToast('Inventory Bulk Upload',msg,'error');}
+function mvBulkSubmit(){
+  const r=mvR,f=r.file;
+  if(!f) return showToast('Inventory Bulk Upload','The file is empty.','error');
+  if(f.size>5*1024*1024) return mvBulkFail('The file size can be uploaded up to 5 MB.');
+  if(!/\.(xlsx|xls)$/i.test(f.name)) return mvBulkFail('Only Excel files can be uploaded.');
+  if(typeof XLSX==='undefined') return showToast('Inventory Bulk Upload','Excel library failed to load. Check network and reload.','error');
+  const reader=new FileReader();
+  reader.onload=()=>{
+    let aoa;
+    try{const wb=XLSX.read(new Uint8Array(reader.result),{type:'array'});aoa=XLSX.utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]],{header:1,defval:''});}
+    catch(e){return mvBulkFail('The upload format is invalid.');}
+    mvBulkValidate(aoa);
+  };
+  reader.readAsArrayBuffer(f);
+}
+// InventoryMovementExcelUploadFacade rules
+function mvBulkValidate(aoa){
+  const norm=v=>String(v??'').replace(/\*/g,'').replace(/\s+/g,' ').trim();
+  const head=aoa[0]||[];
+  if(MV_UPLOAD_HEADERS.some((h,i)=>norm(head[i])!==h)) return mvBulkFail('Excel Upload Validation Error','E-016');
+  const str=v=>{const s=String(v??'').trim();return s;};
+  const rows=aoa.slice(1).filter(a=>a.slice(0,7).some(v=>String(v??'').trim()!=='')).map(a=>{
+    const q=String(a[5]??'').trim();
+    const row={fromStore:str(a[0]),fromLoc:str(a[1]),toStore:str(a[2]),toLoc:str(a[3]),product:str(a[4]),qty:q===''||isNaN(+q)?null:Math.trunc(+q),remark:str(a[6])};
+    if(!row.toStore) row.toStore=row.fromStore;  // Store Code (To) empty -> same as From (within-store movement)
+    return row;
+  });
+  if(!rows.length) return mvBulkFail('No data rows found in the Excel file.');
+  if(rows.length>300) return mvBulkFail('Excel upload supports up to 300 rows. (actual: '+rows.length+')');
+  const groups=new Set(rows.map(x=>x.toLoc).filter(Boolean));
+  if(groups.size>20) return mvBulkFail('Excel upload supports up to 20 to-locations (movement groups). (actual: '+groups.size+')');
+  const uni={fromStore:(rows.find(x=>x.fromStore)||{}).fromStore,fromLoc:(rows.find(x=>x.fromLoc)||{}).fromLoc,toStore:(rows.find(x=>x.toStore)||{}).toStore};
+  const gk=x=>x.fromStore&&x.fromLoc&&x.toStore&&x.toLoc?[x.fromStore,x.fromLoc,x.toStore,x.toLoc].join('|'):null;
+  const dupCnt={};rows.forEach(x=>{const g=gk(x);if(g&&x.product) dupCnt[g+'#'+x.product]=(dupCnt[g+'#'+x.product]||0)+1;});
+  const cum={};rows.forEach(x=>{if(x.fromStore&&x.fromLoc&&x.product&&x.qty>0){const k=mvSKey(x.fromStore,x.fromLoc,x.product);cum[k]=(cum[k]||0)+x.qty;}});
+  const alnum=v=>v.toUpperCase().replace(/[^A-Z0-9]/g,'');
+  const toRemark=v=>MV_MANUAL_REMARKS.find(c=>alnum(c)===alnum(v)||alnum(MV_REMARKS[c])===alnum(v));
+  const prod=c=>mvProducts().find(p=>p.code===c)||PRODUCT_MASTER.find(p=>p.code===c);
+  const out=rows.map((x,i)=>{
+    const e={},set=(k,c)=>{e[k]=c;};
+    if(!x.fromStore) set('fromStoreCodeError','val_upload_2');
+    if(!x.fromLoc) set('fromLocationCodeError','val_upload_2');
+    if(!x.toLoc) set('toLocationCodeError','val_upload_2');
+    if(!x.product) set('productCodeError','val_upload_2');
+    if(!(x.qty>0)) set('movementQtyError','val_upload_2');
+    const rmRaw=x.remark&&x.remark.toLowerCase()!=='select remark'?x.remark:'',rm=rmRaw?toRemark(rmRaw):null;
+    if(!rmRaw) set('remarkError','val_upload_2'); else if(!rm) set('remarkError','val_upload_3');
+    const within=!!x.fromStore&&x.fromStore===x.toStore;
+    if(within&&x.fromLoc&&x.fromLoc===x.toLoc) set('toLocationCodeError','val_upload_2');
+    if(x.fromStore&&uni.fromStore&&x.fromStore!==uni.fromStore) set('fromStoreCodeError','val_upload_2');
+    if(x.fromLoc&&uni.fromLoc&&x.fromLoc!==uni.fromLoc) set('fromLocationCodeError','val_upload_2');
+    if(x.toStore&&uni.toStore&&x.toStore!==uni.toStore) set('toStoreCodeError','val_upload_2');
+    const g=gk(x);if(g&&x.product&&dupCnt[g+'#'+x.product]>1) set('productCodeError','val_upload_2');
+    const fs=x.fromStore?mvStore(x.fromStore):null,ts=x.toStore?mvStore(x.toStore):null;
+    if(x.fromStore&&!fs) set('fromStoreCodeError','val_upload_3');
+    if(x.toStore&&!ts) set('toStoreCodeError','val_upload_3');
+    // Location must exist in the store; cross-store movement needs WAREHOUSE-type locations on both sides
+    const locInfo=(s,code,key)=>{if(!s||!code) return null;if(!s.locs[code]||(!within&&!s.wh)){set(key,'val_upload_3');return null;}return {code,name:s.locs[code]};};
+    const fl=locInfo(fs,x.fromLoc,'fromLocationCodeError'),tl=locInfo(ts,x.toLoc,'toLocationCodeError');
+    const p=x.product?prod(x.product):null;
+    if(x.product&&!p) set('productCodeError','val_upload_3');
+    if(fs&&ts&&fs.bp!==ts.bp) set('toStoreCodeError','val_upload_3');
+    // Stock check: cumulative movement qty vs ON-HAND at the From location (single registration checks AVAILABLE instead)
+    if(x.fromStore&&x.fromLoc&&x.product&&x.qty>0){const k=mvSKey(x.fromStore,x.fromLoc,x.product);if((cum[k]||x.qty)>(mvStock[k]?mvStock[k].onHand:0)) set('movementQtyError','val_upload_3');}
+    return {index:i+1,fromStoreInfo:fs?{code:fs.code,name:fs.name}:null,fromLocationInfo:fl,toStoreInfo:ts?{code:ts.code,name:ts.name}:null,toLocationInfo:tl,
+      productInfo:p?{code:p.code,name:p.name,barcode:p.barcode}:null,movementQty:x.qty??0,remark:rm||null,isValid:!Object.keys(e).length,...e,_row:x,_p:p,_fs:fs,_ts:ts,_fl:fl,_tl:tl};
+  });
+  if(out.some(x=>!x.isValid)){mvR.fmtErr=null;mvR.bulkRows=out;mvRender();return;}
+  const at=mvNowStr();
+  out.forEach(x=>mvApply(x._fs,x._fl,x._ts,x._tl,x._p,x.movementQty,x.remark,at));
+  mvCloseReg();
+  showToast('The save has been completed.','Processed successfully.');
+  if(mvApplied) mvRunQuery();
+}
+// ===== Inventory > Monitoring > Inventory Snapshot (read only) =====
+// Source: iic-bo-frontend features/(inventory)/snapshot (route /inventory/snapshot, menu INVENTORY_MONITORING_SNAPSHOT)
+//         iic-bo inventory/snapshot: GET /api/v1/inventory-snapshots (+ /excel), InventorySnapshotScheduledFacade
+// What the data is: every hour the scheduler picks the stores whose local time is 23:00 and copies every BO inventory row
+// (store x location x product) into inventory_system_snapshot (one row per store/location/product/date).
+// NetSuite (ERP) qty is requested via bo-adapter and Pantos (WMS) qty arrives by Kafka; both are merged into the same row.
+// The shared snapshot source below (snSource / snSnapshotRows) is also used by Inventory Snapshot (WH): paste sn.js before snw.js.
+const SN_BRANDS={'1100':'GENTLE MONSTER'};
+// Screen BP label = lokalise bp_info_xx; Excel "BP Name" = branch.name stored in DB (prototype REG_DATA / LG_BPS name)
+const SN_BP_LABEL={C1002:'GM_United States',C1012:'GM_Australia'};
+const SN_BP_DBNAME={C1002:'GM_미국법인',C1012:'GM_Australia'};
+// ExternalSystem enum: US = NetSuite + Pantos, CA = NetSuite only, AU = none
+const SN_EXT={US:{erp:true,wms:true},CA:{erp:true,wms:false},AU:{erp:false,wms:false}};
+const SN_SNAPSHOT_HOUR=23;
+// Store dropdown groups (shared/utils/getStoreGroup): name tokens ONLINE/WH -> ONLINE / WAREHOUSE, PS/RX/OFFICE/LOST -> ETC
+const SN_GROUPS=['RETAIL STORES','ONLINE / WAREHOUSE','ETC'];
+let snSrc=null,snInited=false,snRows=[],snApplied=null,snSortKey=null,snSortDir=null;
+
+const snEsc=v=>String(v??'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+const snSel=id=>[...document.querySelectorAll('#'+id+'-dropdown .dd-item.selected')].map(el=>el.dataset.val);
+function snHash(s){let h=2166136261;for(let i=0;i<s.length;i++){h^=s.charCodeAt(i);h=Math.imul(h,16777619);}
+  h^=h>>>16;h=Math.imul(h,0x85ebca6b);h^=h>>>13;h=Math.imul(h,0xc2b2ae35);h^=h>>>16;return (h>>>0)/4294967296;}   // FNV-1a + fmix32 (deterministic dummy data)
+function snYmd(d){const p=n=>String(n).padStart(2,'0');return d.getFullYear()+'-'+p(d.getMonth()+1)+'-'+p(d.getDate());}
+function snAddDays(ymd,n){const [y,m,d]=ymd.split('-').map(Number);return new Date(Date.UTC(y,m-1,d+n)).toISOString().slice(0,10);}
+function snTzName(zone){const t=(typeof ST_TIMEZONES!=='undefined'?ST_TIMEZONES:[]).find(x=>x.zoneId===zone);return t?t.name:'UTC';}
+function snStoreGroup(name){
+  const tk=name.toUpperCase().split('_');
+  if(tk.some(t=>t==='ONLINE'||t==='WH')) return SN_GROUPS[1];
+  if(tk.some(t=>['PS','RX','OFFICE','LOST'].includes(t))) return SN_GROUPS[2];
+  return SN_GROUPS[0];
+}
+// Local wall-clock parts of an instant in a time zone
+function snParts(ms,zone){
+  return Object.fromEntries(new Intl.DateTimeFormat('en-CA',{timeZone:zone,year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit',second:'2-digit',hourCycle:'h23'})
+    .formatToParts(new Date(ms)).map(x=>[x.type,x.value]));
+}
+function snUtcToLocal(ms,zone){const p=snParts(ms,zone);return p.year+'-'+p.month+'-'+p.day+' '+p.hour+':'+p.minute+':'+p.second;}
+function snLocalToUtc(local,zone){
+  const [d,t]=local.split(' '),[y,m,dd]=d.split('-').map(Number),[h,mi,s]=(t||'00:00:00').split(':').map(Number);
+  const guess=Date.UTC(y,m-1,dd,h,mi,s||0),p=snParts(guess,zone);
+  return guess-(Date.UTC(+p.year,p.month-1,+p.day,+p.hour,+p.minute,+p.second)-guess);
+}
+
+// ----- Shared snapshot source (built lazily from the store master + Inventory Ledger dummy data) -----
+function snSource(){
+  if(snSrc) return snSrc;
+  const whCodes=new Set(),regStores={};
+  Object.values(REG_DATA).forEach(b=>Object.values(b.companies).forEach(c=>Object.entries(c.stores).forEach(([code,s])=>{regStores[code]=s;if(s.storeType==='WH') whCodes.add(code);})));
+  const storeLocs=Object.entries(LG_LOCS).filter(([k])=>k!=='WH').map(([,l])=>[l.code,l.name]);   // AU store locations as used in the ledger
+  const stores=[];
+  const add=(code,name,bp,zone,country)=>{
+    const wh=whCodes.has(code)||!!(LG_STORES.find(l=>l.code===code)||{}).wh;
+    let locs=wh?Object.entries(US_WH_LOCS):regStores[code]?Object.entries(regStores[code].locations):storeLocs;
+    locs=locs.map(([c,n])=>({code:c,name:n,type:wh?'WAREHOUSE':'STORE'}));
+    // Online damage location (backend ONLINE_DMG_LOCATION_CODE 1020) — used by the WH snapshot "Online DMG" column
+    if(code==='US1004'&&!locs.some(l=>l.code==='1020')) locs.push({code:'1020',name:'DMG',type:'STORE'});
+    stores.push({code,name,bp,brand:'1100',zone,tz:snTzName(zone),country,wh,locs:locs.sort((a,b)=>a.code.localeCompare(b.code))});
+  };
+  STORE_MASTER.forEach(s=>add(s.storeCode,s.storeName,s.branchCode,s.zoneId,s.countryCode));
+  LG_STORES.filter(l=>!stores.some(s=>s.code===l.code)).forEach(l=>add(l.code,l.name,l.bp,l.tz,l.bp==='C1012'?'AU':'US'));
+  const products=LG_PRODUCTS.map(p=>{const m=PRODUCT_MASTER.find(x=>x.code===p.code),h=snHash('col'+p.code);
+    return {code:p.code,name:p.name,barcode:p.barcode,cat1:m?m.cat1:'PACKAGE',cat2:m?m.cat2:'PACKAGE SET',collection:h<0.25?'2026 SS':h<0.4?'2025 FW':''};});
+  // On-hand timeline per store|location|product from the Inventory Ledger (After Qty)
+  const tl={};
+  [...LG_DATA].sort((a,b)=>a.id-b.id).forEach(r=>{const k=r.store.code+'|'+r.loc.code+'|'+r.product.code;
+    (tl[k]||(tl[k]={init:r.before,ev:[]})).ev.push([r.at.slice(0,10),r.after]);});
+  // Locations the ledger dummy data does not cover (WH fixed locations, online DMG, PS store): small fixed stock per product
+  const extra={};
+  [['US1006','1120',0.4,1,3],['US1006','1130',0.2,1,2],['US1006','1140',0.1,1,1],['US1006','1150',0.3,2,8],['US1006','1170',0.2,1,4],['US1004','1020',0.25,1,2],['US1022','1110',0.35,1,6]]
+    .forEach(([s,l,p,min,max])=>products.forEach(pr=>{if(snHash(s+l+pr.code)<p) extra[s+'|'+l+'|'+pr.code]=min+Math.floor(snHash('q'+s+l+pr.code)*(max-min+1));}));
+  snSrc={stores,products,tl,extra,first:snAddDays(snYmd(new Date()),-45)};
+  return snSrc;
+}
+// BO on-hand of store|location|product at the end of the given local date
+function snOnHand(k,date){
+  const S=snSource(),t=S.tl[k];
+  if(t){let q=t.init;for(const [d,a] of t.ev){if(d>date) break;q=a;}return q;}
+  let b=S.extra[k];
+  // Store/location/product the ledger dummy does not cover: deterministic base stock so every store has snapshot rows
+  if(b==null){if(snHash('base'+k)>=0.45) return 0;b=1+Math.floor(snHash('bq'+k)*12);}
+  const h=snHash(k+date);return Math.max(0,b+(h<0.06?-1:h>0.94?1:0));
+}
+// Latest snapshot date of a store: today's snapshot exists only after 23:00 store-local time
+function snLatestDate(store){
+  const p=snParts(Date.now(),store.zone),ymd=p.year+'-'+p.month+'-'+p.day;
+  return +p.hour>=SN_SNAPSHOT_HOUR?ymd:snAddDays(ymd,-1);
+}
+// Pantos reports US1006 by its own buckets: AVAILABLE includes online (US1004 SALES), PS (US1022), DISCONTINUED and TIKTOK stock;
+// DMG includes online damage. TIKTOK / DISCONTINUED / RETURNLESS locations are not reported (null).
+function snWmsQty(loc,prod,date){
+  const q=(s,l)=>snOnHand(s+'|'+l+'|'+prod,date),d=snHash('w'+loc+prod+date),diff=d<0.05?-1:d>0.95?1:0;
+  let v;
+  if(loc==='1110') v=q('US1006','1110')+q('US1004','1000')+q('US1022','1110')+q('US1006','1170')+q('US1006','1150');
+  else if(loc==='1120') v=q('US1006','1120')+q('US1004','1020');
+  else if(loc==='1130'||loc==='1140') v=q('US1006',loc);
+  else return null;
+  return Math.max(0,v+diff);
+}
+// Snapshot rows of the given stores on a Save Date (rows whose BO on-hand / ERP / WMS qty are all 0 are excluded, as in the query)
+function snSnapshotRows(storeCodes,date){
+  const S=snSource(),out=[];
+  storeCodes.forEach(code=>{
+    const st=S.stores.find(s=>s.code===code);if(!st) return;
+    if(!date||date<S.first||date>snLatestDate(st)) return;
+    const ext=SN_EXT[st.country]||{};
+    // One scheduler run per hour -> every store of the same time zone shares the same snapshot time
+    const at=date+' 23:00:'+String(2+Math.floor(snHash(st.zone)*20)).padStart(2,'0');
+    st.locs.forEach(l=>S.products.forEach(p=>{
+      const k=code+'|'+l.code+'|'+p.code,onHand=snOnHand(k,date),h=x=>snHash(k+date+x);
+      let erp=null,wms=null;
+      if(ext.erp){const d=h('e');erp=onHand>0?Math.max(0,onHand+(d<0.04?-1:d>0.97?2:d>0.94?1:0)):(d<0.01?1:0);}   // a few ERP-only rows (BO 0)
+      if(ext.wms&&code==='US1006') wms=snWmsQty(l.code,p.code,date);
+      if(!(onHand>0||erp>0||wms>0)) return;
+      const reserved=onHand>0&&h('r')<0.12?1+Math.floor(h('r2')*Math.min(3,onHand)):0;
+      const adj=onHand-reserved>0&&h('a')<0.05?1:0;
+      const incoming=h('i')<0.06?5+Math.floor(h('i2')*16):0;
+      out.push({date,at,store:st,loc:l,product:p,onHand,reserved,adj,incoming,available:onHand-reserved-adj,erp,wms,
+        // InventorySnapshotListResponse: ERP shown when the store country has an ERP, WMS only for WAREHOUSE locations of a WMS country
+        showErp:!!ext.erp,showWms:l.type==='WAREHOUSE'&&!!ext.wms});
+    }));
+  });
+  return out;
+}
+
+// ----- Screen -----
+function snEnter(){
+  if(snInited) return;
+  snInited=true;
+  PAGERS.sn={page:1,render:()=>snRenderPage()};
+  document.getElementById('sn-brand').innerHTML='<option value="">All</option>'+Object.entries(SN_BRANDS).map(([c,n])=>`<option value="${c}">${n}</option>`).join('');
+  // Frontend default: today as new Date().toISOString() (UTC date, not the store date)
+  document.getElementById('sn-date').value=new Date().toISOString().split('T')[0];
+  ['sn-brand','sn-bp','sn-rpp'].forEach(id=>{const s=document.getElementById(id);csBuild(s);csRefresh(s);});
+  snBrandChange();
+  snSearch();
+}
+// Cascade: Brand -> BP -> Store -> Location (a change resets everything below)
+function snBrandChange(){
+  const brand=document.getElementById('sn-brand').value,bp=document.getElementById('sn-bp');
+  const bps=brand?[...new Set(snSource().stores.filter(s=>s.brand===brand).map(s=>s.bp))]:[];
+  bp.innerHTML='<option value="">All</option>'+bps.map(c=>`<option value="${c}">${SN_BP_LABEL[c]||c}</option>`).join('');
+  bp.disabled=!bps.length;csRefresh(bp);
+  snBpChange();
+}
+function snGroupedItems(stores,id,after){
+  return SN_GROUPS.map(g=>{const list=stores.filter(s=>snStoreGroup(s.name)===g);
+    return list.length?`<div class="sn-dd-grp">${g}</div>`+list.map(s=>`<div class="dd-item" onclick="selectMulti('${id}',this);${after}" data-val="${s.code}"><span class="check-ico">✓</span>${snEsc(s.name)}</div>`).join(''):'';}).join('');
+}
+function snBpChange(){
+  const bp=document.getElementById('sn-bp').value,tr=document.getElementById('snStore-trigger');
+  const stores=bp?snSource().stores.filter(s=>s.bp===bp):[];
+  // Label = store name only (dropdown API), grouped RETAIL STORES / ONLINE / WAREHOUSE / ETC
+  document.getElementById('snStore-dropdown').innerHTML=snGroupedItems(stores,'snStore','snStoreChange()');
+  tr.textContent='Store (All)';tr.classList.toggle('disabled',!stores.length);
+  snStoreChange();
+}
+function snStoreChange(){
+  const stores=snSel('snStore'),tr=document.getElementById('snLoc-trigger'),seen=new Set(),locs=[];
+  // Locations of the selected stores (same location code in several stores is listed once here)
+  snSource().stores.filter(s=>stores.includes(s.code)).forEach(s=>s.locs.forEach(l=>{if(!seen.has(l.code)){seen.add(l.code);locs.push(l);}}));
+  locs.sort((a,b)=>a.code.localeCompare(b.code));
+  document.getElementById('snLoc-dropdown').innerHTML=locs.map(l=>`<div class="dd-item" onclick="selectMulti('snLoc',this)" data-val="${l.code}"><span class="check-ico">✓</span>${snEsc(l.name)}</div>`).join('');
+  tr.textContent='Location (All)';tr.classList.toggle('disabled',!locs.length);
+  // Search button needs Brand + BP + at least one Store (Save Date is checked when the query runs)
+  document.getElementById('sn-btn').disabled=!(document.getElementById('sn-brand').value&&document.getElementById('sn-bp').value&&stores.length);
+}
+function snSearch(){
+  const v=id=>document.getElementById(id).value,q=v('sn-q'),err=document.getElementById('sn-q-err');
+  if(q&&q.length<2){err.hidden=false;return;}
+  err.hidden=true;
+  snApplied={brand:v('sn-brand'),bp:v('sn-bp'),stores:snSel('snStore'),locs:snSel('snLoc'),date:v('sn-date'),query:q};
+  snSortKey=null;snSortDir=null;PAGERS.sn.page=1;   // a new search resets sort to default
+  snQuery();
+}
+function snQuery(){
+  const a=snApplied,valid=!!(a&&a.brand&&a.bp&&a.stores.length&&a.date);
+  document.getElementById('sn-ph').hidden=valid;
+  document.getElementById('sn-result').hidden=!valid;
+  if(!valid){snRows=[];return;}
+  const kw=(a.query||'').trim().toLowerCase();
+  snRows=snSnapshotRows(a.stores,a.date).filter(r=>r.store.brand===a.brand&&r.store.bp===a.bp&&(!a.locs.length||a.locs.includes(r.loc.code))
+      &&(!kw||[r.product.code,r.product.name,r.product.barcode].some(x=>x.toLowerCase().includes(kw))))
+    // Fixed backend order (sort param is ignored): Save Date DESC, BP DESC, Store DESC, Location DESC (product order is not defined -> code asc here)
+    .sort((x,y)=>y.at.localeCompare(x.at)||y.store.bp.localeCompare(x.store.bp)||y.store.code.localeCompare(x.store.code)||y.loc.code.localeCompare(x.loc.code)||x.product.code.localeCompare(y.product.code));
+  snRenderPage();
+}
+// Sortable headers: Save Date / BP / Store / Location (asc -> desc -> none). The API ignores the sort param, so the row order does not change.
+function snSort(key){
+  if(snSortKey!==key){snSortKey=key;snSortDir='asc';}
+  else if(snSortDir==='asc') snSortDir='desc';
+  else {snSortKey=null;snSortDir=null;}
+  PAGERS.sn.page=1;snRenderPage();
+}
+function snRenderPage(){
+  const total=snRows.length;
+  document.getElementById('sn-total').textContent=total;
+  const [s,e]=pgRange('sn',total),page=snRows.slice(s,e);
+  // Real grid decides the ERP / WMS columns from the FIRST row of the current page only
+  const hasErp=!!page[0]&&page[0].showErp,hasWms=!!page[0]&&page[0].showWms;
+  document.getElementById('sn-excel').hidden=!page.length;
+  const sub=t=>t?'<br><span class="sub">'+t+'</span>':'';
+  const sortTh=(k,label,st,cls)=>`<th rowspan="2" class="sn-sort${cls?' '+cls:''}${snSortKey===k?' on':''}" onclick="snSort('${k}')">${label}${sub(st)}<span class="arr">${snSortKey===k?(snSortDir==='asc'?'↑':'↓'):'↕'}</span></th>`;
+  const th=(label,st,cls)=>`<th rowspan="2"${cls?' class="'+cls+'"':''}>${label}${sub(st)}</th>`;
+  let r1=sortTh('convertedCreatedAt','Save Date')+sortTh('branchCode','BP Information','(Code / Name)','tl')+sortTh('storeCode','Store Information','(Code / Name)','tl')
+    +sortTh('locationCode','Location Information','(Code / Name)','tl')+th('Product Info','(Code / Name / Barcode)','tl')+th('Product Category 1')+th('Product Category 2')+th('Collection')
+    +'<th colspan="5" class="sn-g">IIC BO</th>';
+  let r2=['On-hand Qty','Available Qty','Outbound Pending Qty','Adjustment Pending Qty','Pending Inbound'].map(t=>`<th class="sn-leaf tr">${t}</th>`).join('');
+  // Leaf header of every ERP / WMS column is "On hand" in the real grid
+  if(hasErp){r1+='<th class="sn-g dark">ERP</th><th class="sn-g">ERP Difference Qty</th>';r2+='<th class="sn-leaf tr">On hand</th><th class="sn-leaf tr">On hand</th>';}
+  if(hasWms){r1+='<th class="sn-g dark">WMS</th><th class="sn-g">WMS Difference Qty</th>';r2+='<th class="sn-leaf tr">On hand</th><th class="sn-leaf tr">On hand</th>';}
+  document.getElementById('sn-head').innerHTML=`<tr class="hdr">${r1}</tr><tr class="hdr">${r2}</tr>`;
+  const n=v=>v.toLocaleString('en-US'),cols=13+(hasErp?2:0)+(hasWms?2:0);
+  // A row without ERP / WMS values under columns shown because of the first row: the real grid throws a render error; shown as "-" here
+  const ext=(show,qty,diff)=>show?`<td class="tr">${n(qty||0)}</td><td class="tr${diff<0?' sn-neg':''}">${n(diff)}</td>`:'<td class="tr">-</td><td class="tr">-</td>';
+  document.getElementById('sn-body').innerHTML=page.length?page.map(r=>`<tr><td>${r.date}</td>
+    <td class="tl">${r.store.bp} / ${SN_BP_LABEL[r.store.bp]||''}</td><td class="tl">${r.store.code} / ${snEsc(r.store.name)}</td><td class="tl">${r.loc.code} / ${snEsc(r.loc.name)}</td>
+    <td class="tl">${r.product.code} / ${snEsc(r.product.name)} / ${r.product.barcode}</td><td>${r.product.cat1}</td><td>${r.product.cat2}</td><td>${r.product.collection||'-'}</td>
+    <td class="tr sn-bo">${r.onHand}</td><td class="tr sn-bo">${r.available}</td><td class="tr sn-bo">${r.reserved}</td><td class="tr sn-bo">${r.adj}</td><td class="tr sn-bo">${r.incoming}</td>
+    ${hasErp?ext(r.showErp,r.erp,r.onHand-(r.erp||0)):''}${hasWms?ext(r.showWms,r.wms,r.onHand-(r.wms||0)):''}</tr>`).join('')
+    :`<tr><td colspan="${cols}" class="dp-empty">No rows</td></tr>`;
+}
+// Excel: same filters, backend fixed order, backend column set (No column added by ExcelUtil)
+function snExport(){
+  if(typeof XLSX==='undefined'){showToast('Excel Export','Excel library failed to load. Check network and reload.','error');return;}
+  if(!snRows.length){showToast('Excel Export','No data to export.','error');return;}
+  const aoa=[['No','Saved Date','Timezone Code','BP Code','BP Name','Store Code','Store Name','Location Code','Location Name','Product Code','Product Name','Barcode',
+    'Product Category_1','Product Category_2','Collection','(IIC BO) On-hand Qty','(IIC BO) Available Qty','(IIC BO) Outbound Pending Qty','(IIC BO) Inbound Pending Qty',
+    '(IIC BO) Adjustment Pending Qty','(ERP) Qty','(WMS) Qty','On-hand - ERP Difference','On-hand - WMS Difference']];
+  snRows.forEach((r,i)=>aoa.push([i+1,r.at,r.store.tz,r.store.bp,SN_BP_DBNAME[r.store.bp]||'',r.store.code,r.store.name,r.loc.code,r.loc.name,r.product.code,r.product.name,r.product.barcode,
+    r.product.cat1,r.product.cat2,r.product.collection,r.onHand,r.available,r.reserved,r.incoming,r.adj,
+    r.showErp?String(r.erp||0):'',r.showWms?String(r.wms||0):'',r.showErp?String(r.onHand-(r.erp||0)):'',r.showWms?String(r.onHand-(r.wms||0)):'']));
+  const ws=XLSX.utils.aoa_to_sheet(aoa),wb=XLSX.utils.book_new();XLSX.utils.book_append_sheet(wb,ws,'Inventory Snapshot');
+  const d=new Date(),fn='snapshot_list_'+d.getFullYear()+'_'+(d.getMonth()+1)+'_'+d.getDate()+'.xlsx';
+  XLSX.writeFile(wb,fn);showToast('Excel Export',fn+' — '+snRows.length+' rows');
+}
+// ===== Inventory > Monitoring > Inventory Snapshot (WH) (read only) =====
+// Source: iic-bo-frontend features/(inventory)/snapshotWh — the route /inventory/snapshot-wh imports snapshotWh
+//         (features/(inventory)/snapshot-wh is an older, unused mock version: USE_MOCK = true, not imported anywhere)
+//         iic-bo GET /api/v1/inventory-snapshots/warehouse (+ /excel), InventorySnapshotWarehouseReadService, WarehouseSnapshotPivot
+// One row = one product. The same daily snapshot rows as Inventory Snapshot are pivoted into fixed columns:
+//   selected WH store: 1110 AVL / 1120 DMG / 1130 HOLDING / 1140 LOST / 1170 DISCONTINUED / 1150 TIKTOK
+//   + paired online store: 1000 SALE (Online) / 1020 (Online DMG) + paired PS store: 1110 (PS AVL)
+// BO-NS DIFF = BO - ERP per column. BO-WMS DIFF compares with Pantos buckets:
+//   AVL = BO(AVL + Online + PS + DISCONTINUED + TIKTOK) - WMS AVL, DMG = BO(DMG + Online DMG) - WMS DMG, HOLDING / LOST 1:1.
+// Requires sn.js (snSource / snSnapshotRows / helpers).
+const SNW_PAIRED={US1006:{online:'US1004',ps:'US1022'},CA1002:{online:'CA1003'}};   // hard-coded in the backend service
+const SNW_WH_LOC_KEY={'1110':'available','1120':'damage','1130':'holding','1140':'lost','1170':'discontinued','1150':'tiktok'};
+const SNW_BO_LEAVES=[['available','AVL'],['onlineSale','Online'],['damage','DMG'],['onlineDamage','Online DMG'],['holding','HOLDING'],['lost','LOST'],
+  ['discontinued','DISCONTINUED'],['psAvailable','PS AVL'],['tiktok','Tiktok'],['total','Total',1]];
+const SNW_WMS_LEAVES=[['available','AVL'],['damage','DMG'],['holding','HOLDING'],['lost','LOST'],['total','Total',1]];
+const SNW_GROUPS=[
+  {id:'bo',label:'BO (On-Hand)',bg:'#FFE082',leafBg:'#FFF8F0',totalBg:'#FFF8F0',neg:false,src:'bo',leaves:SNW_BO_LEAVES},
+  {id:'erp',label:'NS (ERP)',bg:'#90CAF9',totalBg:'#BBDEFB',neg:false,src:'erp',leaves:SNW_BO_LEAVES},
+  // The screen has no Tiktok column in BO-NS DIFF (the API returns it and Total includes it)
+  {id:'bo-erp-diff',label:'BO-NS DIFF',bg:'#EF9A9A',totalBg:'#FFCDD2',neg:true,src:'boErpDiff',leaves:SNW_BO_LEAVES.filter(l=>l[0]!=='tiktok')},
+  {id:'wms',label:'WMS',bg:'#A5D6A7',totalBg:'#C8E6C9',neg:false,src:'wms',wms:true,leaves:SNW_WMS_LEAVES},
+  {id:'bo-wms-diff',label:'BO-WMS DIFF',bg:'#EF9A9A',totalBg:'#FFCDD2',neg:true,src:'boWmsDiff',wms:true,leaves:SNW_WMS_LEAVES}
+];
+// Hidden from BO / NS / BO-NS DIFF when the result has no WMS block (BP without 3PL, e.g. CA)
+const SNW_WMS_DEP=new Set(['discontinued','psAvailable','tiktok']);
+const SNW_PIN=[['Saved Date',200],['Product Info',320],['Category 1',120],['Category 2',120],['Collection',120]];
+let snwInited=false,snwApplied=null,snwRows=[],snwDiffOnly=false,snwSortDir='asc';
+
+function snwEnter(){
+  if(snwInited) return;
+  snwInited=true;
+  PAGERS.snw={page:1,render:()=>snwRenderPage()};
+  document.getElementById('snw-brand').innerHTML='<option value="">All</option>'+Object.entries(SN_BRANDS).map(([c,n])=>`<option value="${c}">${n}</option>`).join('');
+  document.getElementById('snw-date').value='';   // no default date (unlike Inventory Snapshot)
+  ['snw-brand','snw-bp','snw-store','snw-rpp'].forEach(id=>{const s=document.getElementById(id);csBuild(s);csRefresh(s);});
+  snwBrandChange();
+  snwSearch();
+}
+function snwBrandChange(){
+  const brand=document.getElementById('snw-brand').value,bp=document.getElementById('snw-bp');
+  const bps=brand?[...new Set(snSource().stores.filter(s=>s.brand===brand).map(s=>s.bp))]:[];
+  bp.innerHTML='<option value="">All</option>'+bps.map(c=>`<option value="${c}">${SN_BP_LABEL[c]||c}</option>`).join('');
+  bp.disabled=!bps.length;csRefresh(bp);
+  snwBpChange();
+}
+// Store options = warehouse stores of the BP only (dropdown isWarehouse=true), label = store name
+function snwBpChange(){
+  const bp=document.getElementById('snw-bp').value,st=document.getElementById('snw-store');
+  const stores=bp?snSource().stores.filter(s=>s.bp===bp&&s.wh):[];
+  st.innerHTML='<option value="">All</option>'+stores.map(s=>`<option value="${s.code}">${snEsc(s.name)}</option>`).join('');
+  st.disabled=!stores.length;csRefresh(st);
+  snwFormChange();
+}
+function snwFormChange(){
+  const v=id=>document.getElementById(id).value;
+  document.getElementById('snw-btn').disabled=!(v('snw-brand')&&v('snw-bp')&&v('snw-store')&&v('snw-date'));
+}
+function snwSearch(){
+  const v=id=>document.getElementById(id).value,q=v('snw-q'),err=document.getElementById('snw-q-err');
+  if(q&&q.length<2){err.hidden=false;return;}
+  err.hidden=true;
+  // Diff Only is kept from the current search state
+  snwApplied={brand:v('snw-brand'),bp:v('snw-bp'),store:v('snw-store'),date:v('snw-date'),query:q};
+  snwSortDir='asc';PAGERS.snw.page=1;   // default sort model: Product Info asc
+  snwQuery();
+}
+function snwDiffChange(on){
+  snwDiffOnly=on;PAGERS.snw.page=1;snwQuery();
+}
+const snwZero=()=>({available:0,onlineSale:0,onlineDamage:0,damage:0,holding:0,lost:0,discontinued:0,psAvailable:0,tiktok:0});
+const snwSum=(q,keys)=>keys.reduce((a,k)=>a+q[k],0);
+const SNW_KEYS=Object.keys(snwZero());
+function snwQuery(){
+  const a=snwApplied,valid=!!(a&&a.brand&&a.bp&&a.store&&a.date);
+  document.getElementById('snw-ph').hidden=valid;
+  document.getElementById('snw-result').hidden=!valid;
+  if(!valid){snwRows=[];return;}
+  const S=snSource(),wh=S.stores.find(s=>s.code===a.store);
+  if(!wh||!wh.wh){snwRows=[];showToast('Search','Store '+a.store+' is not a warehouse store.','error');return;}
+  const pair=SNW_PAIRED[a.store]||{},hasWms=!!(SN_EXT[wh.country]||{}).wms,kw=(a.query||'').trim().toLowerCase();
+  const raw=snSnapshotRows([a.store,pair.online,pair.ps].filter(Boolean),a.date).filter(r=>
+    ((r.store.code===a.store&&SNW_WH_LOC_KEY[r.loc.code])||(r.store.code===pair.online&&(r.loc.code==='1000'||r.loc.code==='1020'))||(r.store.code===pair.ps&&r.loc.code==='1110'))
+    &&r.store.brand===a.brand&&r.store.bp===a.bp&&(!kw||[r.product.code,r.product.name,r.product.barcode].some(x=>x.toLowerCase().includes(kw))));
+  const byP={};
+  raw.forEach(r=>{
+    const g=byP[r.product.code]||(byP[r.product.code]={product:r.product,at:'',tz:'',bo:snwZero(),erp:snwZero(),w:{}});
+    if(r.at>g.at) g.at=r.at;
+    if(r.store.tz>g.tz) g.tz=r.store.tz;
+    const key=r.store.code===a.store?SNW_WH_LOC_KEY[r.loc.code]:r.store.code===pair.ps?'psAvailable':r.loc.code==='1000'?'onlineSale':'onlineDamage';
+    g.bo[key]+=r.onHand;g.erp[key]+=(r.erp||0);   // ERP / WMS null counted as 0
+    if(r.store.code===a.store) g.w[key]=(g.w[key]||0)+(r.wms||0);
+  });
+  snwRows=Object.values(byP).map(g=>{
+    const bo={...g.bo,total:snwSum(g.bo,SNW_KEYS)},erp={...g.erp,total:snwSum(g.erp,SNW_KEYS)},d={};
+    SNW_KEYS.forEach(k=>{d[k]=bo[k]-erp[k];});d.total=snwSum(d,SNW_KEYS);
+    let wms=null,wd=null;
+    if(hasWms){
+      wms={available:g.w.available||0,damage:g.w.damage||0,holding:g.w.holding||0,lost:g.w.lost||0};wms.total=wms.available+wms.damage+wms.holding+wms.lost;
+      wd={available:bo.available+bo.onlineSale+bo.psAvailable+bo.discontinued+bo.tiktok-wms.available,damage:bo.damage+bo.onlineDamage-wms.damage,holding:bo.holding-wms.holding,lost:bo.lost-wms.lost};
+      wd.total=wd.available+wd.damage+wd.holding+wd.lost;
+    }
+    return {product:g.product,at:g.at,tz:g.tz,utc:new Date(snLocalToUtc(g.at,wh.zone)).toISOString().slice(0,19).replace('T',' '),
+      bp:wh.bp,storeCode:wh.code,storeName:wh.name,bo,erp,boErpDiff:d,wms,boWmsDiff:wd};
+  }).filter(r=>{
+    if(!snwDiffOnly) return true;
+    // Diff Only (HAVING): any BO-NS diff (Online only with a paired online store, PS only with a paired PS store) or, with WMS, any BO-WMS diff
+    const e=r.boErpDiff,keys=['available','damage','holding','lost','discontinued','tiktok'].concat(pair.online?['onlineSale','onlineDamage']:[],pair.ps?['psAvailable']:[]);
+    return keys.some(k=>e[k]!==0)||(hasWms&&['available','damage','holding','lost'].some(k=>r.boWmsDiff[k]!==0));
+  }).sort((x,y)=>x.product.code.localeCompare(y.product.code));   // always Product Code asc (sort param is ignored)
+  snwRenderPage();
+}
+// Product Info header sort indicator (asc -> desc -> none); the API always returns Product Code asc
+function snwSort(){
+  snwSortDir=snwSortDir==='asc'?'desc':snwSortDir==='desc'?null:'asc';
+  PAGERS.snw.page=1;snwRenderPage();
+}
+// WMS block shown when any row has it (or when there is no row, to keep the layout stable)
+function snwGroups(){
+  const show=!snwRows.length||snwRows.some(r=>r.wms||r.boWmsDiff);
+  return show?SNW_GROUPS:SNW_GROUPS.filter(g=>!g.wms).map(g=>({...g,leaves:g.leaves.filter(l=>!SNW_WMS_DEP.has(l[0]))}));
+}
+function snwRenderPage(){
+  const total=snwRows.length,groups=snwGroups();
+  document.getElementById('snw-total').textContent=total;
+  document.getElementById('snw-diff').checked=snwDiffOnly;
+  const [s,e]=pgRange('snw',total),page=snwRows.slice(s,e);
+  document.getElementById('snw-excel').hidden=!page.length;
+  document.getElementById('snw-legend').innerHTML=groups.map(g=>`<button type="button" onclick="snwGoTo('${g.id}')" title="Go to this column." aria-label="${g.label} — Go to this column."${total?'':' disabled'}><i style="background:${g.bg}"></i>${g.label}</button>`).join('');
+  let left=0;
+  const pins=SNW_PIN.map(([,w],i)=>{const st=`left:${left}px;min-width:${w}px;max-width:${w}px;`;left+=w;return {st,cls:'snw-pin'+(i===SNW_PIN.length-1?' snw-pin-last':'')};});
+  const r1=`<th rowspan="2" class="${pins[0].cls}" style="${pins[0].st}">Saved Date</th>`
+    +`<th rowspan="2" class="${pins[1].cls} snw-sort tl${snwSortDir?' on':''}" style="${pins[1].st}" onclick="snwSort()">Product Info<br><span class="sub">(Code / Name / Barcode)</span><span class="arr">${snwSortDir==='asc'?'↑':snwSortDir==='desc'?'↓':'↕'}</span></th>`
+    +`<th rowspan="2" class="${pins[2].cls}" style="${pins[2].st}">Category 1</th><th rowspan="2" class="${pins[3].cls}" style="${pins[3].st}">Category 2</th><th rowspan="2" class="${pins[4].cls}" style="${pins[4].st}">Collection</th>`
+    +groups.map(g=>`<th class="snw-g" data-g="${g.id}" colspan="${g.leaves.length}" style="background:${g.bg};">${g.label}</th>`).join('');
+  const r2=groups.map(g=>g.leaves.map(([,label,tot])=>`<th class="snw-leaf" style="background:${tot?g.totalBg:(g.leafBg||'#fff')};">${label}</th>`).join('')).join('');
+  document.getElementById('snw-head').innerHTML=`<tr class="hdr">${r1}</tr><tr class="hdr">${r2}</tr>`;
+  const n=v=>v==null?'-':v.toLocaleString('en-US'),cols=5+groups.reduce((a,g)=>a+g.leaves.length,0);
+  document.getElementById('snw-body').innerHTML=page.length?page.map(r=>`<tr>
+    <td class="${pins[0].cls}" style="${pins[0].st}">${r.at} (${r.tz})</td>
+    <td class="${pins[1].cls} tl" style="${pins[1].st}">${r.product.code} / ${snEsc(r.product.name)} / ${r.product.barcode}</td>
+    <td class="${pins[2].cls}" style="${pins[2].st}">${r.product.cat1}</td><td class="${pins[3].cls}" style="${pins[3].st}">${r.product.cat2}</td>
+    <td class="${pins[4].cls}" style="${pins[4].st}">${r.product.collection||'-'}</td>
+    ${groups.map(g=>g.leaves.map(([k,,tot])=>{const q=r[g.src],v=q?q[k]:null,bg=tot?g.totalBg:g.leafBg;
+      return `<td class="${tot?'snw-tot':''}${g.neg&&v<0?' snw-neg':''}"${bg?` style="background:${bg};"`:''}>${n(v)}</td>`;}).join('')).join('')}</tr>`).join('')
+    :`<tr><td colspan="${cols}" class="dp-empty">No rows</td></tr>`;
+}
+// Legend click: scroll so the group's first column sits right after the pinned block
+function snwGoTo(id){
+  const th=document.querySelector(`#snw-head th[data-g="${id}"]`),wrap=document.getElementById('snw-wrap');
+  if(!th||!wrap) return;
+  const pinned=SNW_PIN.reduce((a,[,w])=>a+w,0);
+  wrap.scrollTo({left:Math.max(0,th.offsetLeft-pinned),behavior:'smooth'});
+}
+// Excel: backend column set (No column added by ExcelUtil); group header row + leaf row; BO / NS order differs from the screen
+function snwExport(){
+  if(typeof XLSX==='undefined'){showToast('Excel Export','Excel library failed to load. Check network and reload.','error');return;}
+  if(!snwRows.length){showToast('Excel Export','No data to export.','error');return;}
+  const hasWms=snwRows.some(r=>r.wms);
+  const info=['No','Saved Date','Timezone Code','Saved Date (UTC)','BP Code','BP Name','Store Code','Store Name','Product Code','Product Name','Barcode','Product Category_1','Product Category_2','Collection'];
+  const whCols=[['available','WH'],['onlineSale','Online'],['onlineDamage','Online DMG'],['damage','DMG'],['holding','HOLDING'],['lost','LOST'],['discontinued','DISC'],['psAvailable','PS'],['tiktok','TIKTOK'],['total','Total']];
+  const wmsCols=[['available','AVL'],['damage','DMG'],['holding','HOLDING'],['lost','LOST'],['total','Total']];
+  const groups=[['BO','bo',whCols],['NS (ERP)','erp',whCols],['BO-NS Diff','boErpDiff',whCols]].concat(hasWms?[['WMS','wms',wmsCols],['BO-WMS Diff','boWmsDiff',wmsCols]]:[]);
+  const top=info.map(()=>''),leaf=[...info],merges=[];
+  groups.forEach(([name,,cols])=>{merges.push({s:{r:0,c:top.length},e:{r:0,c:top.length+cols.length-1}});cols.forEach((c,i)=>{top.push(i?'':name);leaf.push(c[1]);});});
+  const aoa=[top,leaf];
+  snwRows.forEach((r,i)=>aoa.push([i+1,r.at,r.tz,r.utc,r.bp,SN_BP_DBNAME[r.bp]||'',r.storeCode,r.storeName,r.product.code,r.product.name,r.product.barcode,r.product.cat1,r.product.cat2,r.product.collection]
+    .concat(...groups.map(([,src,cols])=>cols.map(([k])=>r[src]?r[src][k]:'')))));
+  const ws=XLSX.utils.aoa_to_sheet(aoa);ws['!merges']=merges;
+  const wb=XLSX.utils.book_new();XLSX.utils.book_append_sheet(wb,ws,'WH Inventory Snapshot');
+  const d=new Date(),fn='snapshot_wh_list_'+d.getFullYear()+'_'+(d.getMonth()+1)+'_'+d.getDate()+'.xlsx';
+  XLSX.writeFile(wb,fn);showToast('Excel Export',fn+' — '+snwRows.length+' rows');
+}
+// ===== Inventory > Monitoring > Inventory In/Out History (read only) =====
+// Source: iic-bo-frontend features/(inventory)/inventoryTransferHistory (route /inventory/inventory-transfer-history,
+//         title key menu_inventory_transfer_history = "Inventory In/Out History", menu INVENTORY_MONITORING_TRANSFER_LIST)
+//         iic-bo inventory/transfer: GET /api/v1/inventory-transfers (+ /excel), InventoryTransferRepositoryCustomImpl
+// A history row (one per product) is created when an S2S / L2S / S2L outbound is completed and its inbound is created
+// (C2C is not recorded). Confirmed Inbound Qty / Approved By are filled when the receiving store confirms the inbound.
+// Requires sn.js (store master / time zone helpers: snSource, snLocalToUtc, snUtcToLocal, snParts, snAddDays, snHash, snEsc, SN_*).
+// Seed: [type, from store, from loc, to store, to loc, completed days ago, completed time, via Outbound Request,
+//        inbound confirm (days after completion | 'auto' = S2L auto confirm | null = not yet), created by, approved by,
+//        items [[product index, outbound qty, short received qty]], days between registration and completion]
+const IOH_SEED=[
+  ['L2S','US1006','1110','US1001','1000',1,'10:12',0,null,'PANTOS',null,[[0,6],[3,4],[7,2]],1],
+  ['S2S','US1001','1000','US1007','1000',2,'15:40',1,1,'jane.park','alex.kim',[[1,2],[5,1]],0],
+  ['S2L','US1002','1030','US1006','1120',3,'11:05',0,'auto','chris.lee','SYSTEM',[[2,1],[9,2]],0],
+  ['L2S','US1006','1110','US1002','1000',4,'09:30',1,2,'PANTOS','chris.lee',[[4,5],[6,3],[10,4]],1],
+  ['S2S','US1003','1000','US1001','1010',6,'13:20',0,1,'alex.kim','jane.park',[[8,1]],0],
+  ['S2S','US1008','1000','US1002','1000',8,'16:45',1,2,'monster1437','chris.lee',[[11,3,1],[12,2]],0],
+  ['L2S','US1006','1110','US1009','1000',10,'08:55',0,3,'PANTOS','alex.kim',[[13,6],[14,4]],1],
+  ['S2L','US1007','1000','US1006','1110',12,'14:10',1,'auto','jane.park','SYSTEM',[[15,2],[16,1],[17,1]],0],
+  ['S2S','AU1002','1000','AU1004','1000',13,'11:30',1,1,'monster1437','jane.park',[[0,2],[18,1]],0],
+  ['L2S','US1006','1110','US1003','1000',15,'10:05',1,2,'PANTOS','alex.kim',[[19,10],[20,5]],1],
+  ['S2S','US1002','1010','US1008','1000',18,'17:25',0,null,'chris.lee',null,[[3,1]],0],
+  ['S2L','US1009','1030','US1006','1120',21,'12:00',0,'auto','alex.kim','SYSTEM',[[5,1]],0],
+  ['L2S','US1006','1110','US1007','1000',25,'09:40',1,2,'PANTOS','jane.park',[[6,4],[9,3],[12,2]],1],
+  ['S2S','AU1004','1000','AU1002','1010',27,'15:15',0,1,'jane.park','monster1437',[[1,1]],0],
+  // Registered 31 days ago, completed 29 days ago: shown with a Registration Date inside the default range, but the REGISTERED filter excludes it
+  ['L2S','US1006','1110','US1008','1000',29,'11:20',0,3,'PANTOS','chris.lee',[[10,3],[11,2]],2],
+  ['L2S','US1006','1110','US1001','1000',34,'10:30',1,2,'PANTOS','chris.lee',[[2,8],[4,6]],1],
+  ['S2S','US1001','1000','US1003','1000',38,'13:50',0,1,'jane.park','alex.kim',[[7,2]],0]
+];
+let iohData=null,iohInited=false,iohApplied=null,iohRows=[],iohError='';
+
+const iohUtcToday=()=>new Date().toISOString().split('T')[0];
+const iohFmt=(ms,zone)=>snUtcToLocal(ms,zone).slice(0,16);   // yyyy-MM-dd HH:mm
+function iohSource(){
+  if(iohData) return iohData;
+  const S=snSource(),st=c=>S.stores.find(s=>s.code===c),loc=(s,c)=>s.locs.find(l=>l.code===c)||{code:c,name:c};
+  let itemId=0;
+  iohData=IOH_SEED.map((t,ti)=>{
+    const [type,fc,fl,tc,tl,days,hm,viaReq,conf,createdBy,confirmedBy,items,regLag]=t,from=st(fc),to=st(tc);
+    const p=snParts(Date.now(),from.zone),fromToday=p.year+'-'+p.month+'-'+p.day;
+    const compMs=snLocalToUtc(snAddDays(fromToday,-days)+' '+hm+':00',from.zone);
+    const regMs=compMs-regLag*864e5-2*36e5,reqMs=viaReq?regMs-864e5+36e5:null;
+    const confMs=conf==null?null:conf==='auto'?compMs:compMs+conf*864e5+5*36e5;
+    const tr={id:ti+1,type,brand:'1100',bp:from.bp,from,fromLoc:loc(from,fl),to,toLoc:loc(to,tl),createdBy,confirmedBy:conf==null?null:confirmedBy,
+      // Request Date: Outbound Request registered (from-store time zone) / Registration Date column: outbound COMPLETED time / Confirmed Inbound Date: to-store time zone
+      req:reqMs&&{ymd:snUtcToLocal(reqMs,from.zone).slice(0,10),txt:iohFmt(reqMs,from.zone)+' ('+from.tz+')'},
+      reg:{ymd:snUtcToLocal(regMs,from.zone).slice(0,10)},
+      comp:{txt:iohFmt(compMs,from.zone)+' ('+from.tz+')'},
+      conf:confMs&&{ymd:snUtcToLocal(confMs,to.zone).slice(0,10),txt:iohFmt(confMs,to.zone)+' ('+to.tz+')'}};
+    tr.items=items.map(([pi,shipped,short])=>{
+      const pr=S.products[pi%S.products.length];
+      return {id:++itemId,transfer:tr,product:pr,
+        requested:viaReq?shipped+(snHash('rq'+ti+pi)<0.3?1:0):null,shipped,
+        // S2L is auto-confirmed before the history row is saved, so the received qty is never written (stays empty)
+        received:conf==null||conf==='auto'?null:shipped-(short||0)};
+    });
+    return tr;
+  });
+  return iohData;
+}
+function iohEnter(){
+  if(iohInited) return;
+  iohInited=true;
+  PAGERS.ioh={page:1,render:()=>iohRenderPage()};
+  const brands='<option value="">All</option>'+Object.entries(SN_BRANDS).map(([c,n])=>`<option value="${c}">${n}</option>`).join('');
+  document.getElementById('ioh-brand').innerHTML=brands;document.getElementById('ioh-tbrand').innerHTML=brands;
+  // Frontend defaults: Registration Date, today-30 ~ today (UTC dates from toISOString)
+  const d=new Date();d.setDate(d.getDate()-30);
+  document.getElementById('ioh-from').value=d.toISOString().split('T')[0];
+  document.getElementById('ioh-to').value=iohUtcToday();
+  ['ioh-brand','ioh-bp','ioh-fstore','ioh-floc','ioh-tbrand','ioh-tbp','ioh-tstore','ioh-tloc','ioh-type','ioh-dtype','ioh-rpp'].forEach(id=>{const s=document.getElementById(id);csBuild(s);csRefresh(s);});
+  iohBrandChange('f');iohBrandChange('t');
+  iohSearch();   // runs on first entry (no required field)
+}
+const IOH_IDS={f:['ioh-brand','ioh-bp','ioh-fstore','ioh-floc'],t:['ioh-tbrand','ioh-tbp','ioh-tstore','ioh-tloc']};
+function iohSetOptions(id,html,enabled){const s=document.getElementById(id);s.innerHTML='<option value="">All</option>'+html;s.disabled=!enabled;csRefresh(s);}
+// Cascade per side: Brand -> BP -> Store -> Location (each is disabled until the level above is chosen)
+function iohBrandChange(side){
+  const [b,bp]=IOH_IDS[side],brand=document.getElementById(b).value;
+  const bps=brand?[...new Set(snSource().stores.filter(s=>s.brand===brand).map(s=>s.bp))]:[];
+  iohSetOptions(bp,bps.map(c=>`<option value="${c}">${SN_BP_LABEL[c]||c}</option>`).join(''),bps.length);
+  iohBpChange(side);
+}
+function iohBpChange(side){
+  const [,bp,st]=IOH_IDS[side],code=document.getElementById(bp).value;
+  const stores=code?snSource().stores.filter(s=>s.bp===code):[];
+  // Grouped store list (RETAIL STORES / ONLINE / WAREHOUSE / ETC), label = store name
+  const html=SN_GROUPS.map(g=>{const l=stores.filter(s=>snStoreGroup(s.name)===g);return l.length?`<optgroup label="${g}">`+l.map(s=>`<option value="${s.code}">${snEsc(s.name)}</option>`).join('')+'</optgroup>':'';}).join('');
+  iohSetOptions(st,html,stores.length);
+  iohStoreChange(side);
+}
+function iohStoreChange(side){
+  const [,,st,lc]=IOH_IDS[side],code=document.getElementById(st).value,s=code&&snSource().stores.find(x=>x.code===code);
+  iohSetOptions(lc,s?s.locs.map(l=>`<option value="${l.code}">${snEsc(l.name)}</option>`).join(''):'',!!s);
+}
+function iohSearch(){
+  const v=id=>document.getElementById(id).value,q=v('ioh-q'),err=document.getElementById('ioh-q-err');
+  if(q&&q.length<2){err.hidden=false;return;}
+  err.hidden=true;
+  // To Brand / To BP only drive the To Store options: they are not sent to the API
+  iohApplied={brand:v('ioh-brand'),bp:v('ioh-bp'),fromStore:v('ioh-fstore'),fromLoc:v('ioh-floc'),toBrand:v('ioh-tbrand'),toBp:v('ioh-tbp'),
+    toStore:v('ioh-tstore'),toLoc:v('ioh-tloc'),type:v('ioh-type'),dateType:v('ioh-dtype'),start:v('ioh-from'),end:v('ioh-to'),query:q};
+  PAGERS.ioh.page=1;
+  iohQuery();
+}
+// Backend filtering (InventoryTransferListSearchRequest + buildPredicate)
+function iohFilter(a){
+  // Empty date params are not sent -> backend defaults (today-30 / today)
+  const start=a.start||snAddDays(iohUtcToday(),-30),end=a.end||iohUtcToday();
+  if(start>end) return {error:'startDate cannot be after endDate.'};
+  const kw=(a.query||'').toLowerCase(),inRange=d=>!!d&&d>=start&&d<=end,rows=[];
+  iohSource().forEach(t=>{
+    if(a.brand&&t.brand!==a.brand) return;
+    if(a.bp&&t.bp!==a.bp) return;                                   // BP = sending BP (outbound branch)
+    if(a.fromStore&&!t.from.code.toLowerCase().includes(a.fromStore.toLowerCase())) return;   // store code "contains" match
+    if(a.fromStore&&a.fromLoc&&t.fromLoc.code!==a.fromLoc) return;  // location only applied with a store
+    if(a.toStore&&!t.to.code.toLowerCase().includes(a.toStore.toLowerCase())) return;
+    if(a.toStore&&a.toLoc&&t.toLoc.code!==a.toLoc) return;
+    if(a.type&&t.type!==a.type) return;
+    // REQUESTED = Outbound Request registered, COMPLETED = inbound confirmed, REGISTERED = outbound REGISTERED (the grid shows the outbound completed time)
+    const d=a.dateType==='REQUESTED'?t.req&&t.req.ymd:a.dateType==='COMPLETED'?t.conf&&t.conf.ymd:t.reg.ymd;
+    if(!inRange(d)) return;
+    t.items.forEach(it=>{
+      if(kw&&![it.product.code,it.product.name,it.product.barcode,t.createdBy,t.confirmedBy||''].some(x=>x.toLowerCase().includes(kw))) return;
+      rows.push(it);
+    });
+  });
+  return {rows};
+}
+function iohQuery(){
+  const r=iohFilter(iohApplied);
+  iohError=r.error||'';
+  document.getElementById('ioh-err').hidden=!iohError;
+  document.getElementById('ioh-result').hidden=!!iohError;
+  document.getElementById('ioh-err-m').textContent=iohError;
+  // Backend order: Created By DESC (account id, case-insensitive), then history item id ASC
+  iohRows=(r.rows||[]).sort((x,y)=>y.transfer.createdBy.localeCompare(x.transfer.createdBy,'en',{sensitivity:'base'})||x.id-y.id);
+  iohRenderPage();
+}
+function iohRenderPage(){
+  const total=iohRows.length;
+  document.getElementById('ioh-total').textContent=total;
+  if(iohError) return;
+  const [s,e]=pgRange('ioh',total),q=v=>v||'-';
+  document.getElementById('ioh-body').innerHTML=total?iohRows.slice(s,e).map(it=>{const t=it.transfer;return `<tr>
+    <td>${t.req?t.req.txt:'-'}</td><td>${t.conf?t.conf.txt:'-'}</td><td>${t.comp.txt}</td><td>${t.type}</td><td class="tl">${SN_BRANDS[t.brand]}</td>
+    <td class="tl">${t.from.code} / ${snEsc(t.from.name)}</td><td class="tl">${t.fromLoc.code} / ${snEsc(t.fromLoc.name)}</td>
+    <td class="tl">${t.to.code} / ${snEsc(t.to.name)}</td><td class="tl">${t.toLoc.code} / ${snEsc(t.toLoc.name)}</td>
+    <td class="tl">${it.product.code} / ${snEsc(it.product.name)} / ${it.product.barcode}</td><td>${it.product.cat1}</td><td>${it.product.cat2}</td>
+    <td class="tr">${q(it.requested)}</td><td class="tr">${q(it.shipped)}</td><td class="tr">${q(it.received)}</td><td>${t.createdBy}</td><td>${t.confirmedBy||'-'}</td></tr>`;}).join('')
+    :'<tr><td colspan="17" class="dp-empty">No rows</td></tr>';
+}
+// Excel: same filters (applied search). Mirrors the backend export query: ordered by Created By only, and the Outbound Request item join
+// has no product match, so a request-based outbound repeats every product once per request line (with that line's request qty).
+function iohExport(){
+  if(typeof XLSX==='undefined'){showToast('Excel Export','Excel library failed to load. Check network and reload.','error');return;}
+  const r=iohFilter(iohApplied);
+  // Any download failure shows this fixed snackbar text in the real frontend
+  if(r.error){showToast('Excel Export','(Code / Name / Barcode)<br>Please reduce the range to a maximum of 200 and try again.','error');return;}
+  const aoa=[['No','Requested Date','Timezone Code','Confirmed Inbound Date','Timezone Code','Created Date','Timezone Code','Inbound /Outbound Type','Brand',
+    'Outbound Store Code','Outbound Store Name','Outbound Location Code','Outbound Location Name','Inbound Store Code','Inbound Store Name','Inbound Location Code','Inbound Location Name',
+    'Product Code','Product Name','Barcode','Product Category_1','Product Category_2','Requested Outbound Qty','Outbound Qty','Confirmed Inbound Qty','Updated By','Confirmed By']];
+  const split=txt=>{if(!txt) return ['',''];const m=txt.match(/^(.*) \((.*)\)$/);return [m[1]+':00',m[2]];};
+  const rows=[...r.rows].sort((x,y)=>y.transfer.createdBy.localeCompare(x.transfer.createdBy,'en',{sensitivity:'base'}));
+  rows.forEach(it=>{const t=it.transfer,lines=t.req?t.items.map(x=>x.requested):[null];
+    lines.forEach(reqQty=>{
+      const [rq,rqTz]=split(t.req&&t.req.txt),[cf,cfTz]=split(t.conf&&t.conf.txt),[cp,cpTz]=split(t.comp.txt);
+      aoa.push([aoa.length,rq,rqTz,cf,cfTz,cp,cpTz,t.type,SN_BRANDS[t.brand],t.from.code,t.from.name,t.fromLoc.code,t.fromLoc.name,t.to.code,t.to.name,t.toLoc.code,t.toLoc.name,
+        it.product.code,it.product.name,it.product.barcode,it.product.cat1,it.product.cat2,reqQty??'',it.shipped??'',it.received??'',t.createdBy,t.confirmedBy||'']);
+    });});
+  const ws=XLSX.utils.aoa_to_sheet(aoa),wb=XLSX.utils.book_new();XLSX.utils.book_append_sheet(wb,ws,'Inventory Transfer List');
+  const d=new Date(),fn='inventory_transfer_history_list_'+d.getFullYear()+'_'+(d.getMonth()+1)+'_'+d.getDate()+'.xlsx';
+  XLSX.writeFile(wb,fn);showToast('Excel Export',fn+' — '+(aoa.length-1)+' rows');
+}
 const HOME_LINKS=[
   {menu:'Inventory',title:'Outbound List',desc:'Outbound / Outbound Request list, detail, registration (Outbound Order Tag)',path:'/inventory/outbound'},
   {menu:'Master Information',title:'Store',desc:'Store master list (SAP) and store detail / edit history',path:'/master/store'},
@@ -8485,13 +10684,13 @@ const MENU_PAGES={
   '/rx/prescription-review':{bc:['RX (Lens)'],title:'Rx Prescription Review',open:['rx']},
   '/rx/work-management':{bc:['RX (Lens)'],title:'Rx Work Management',open:['rx']},
   '/inventory/inbound':{bc:['Inventory'],title:'Inbound List',open:['inv'],view:'ib-view',onEnter:()=>ibEnter()},
-  '/inventory/outbound-order':{bc:['Inventory'],title:'Outbound Order List',open:['inv']},
-  '/inventory/movement':{bc:['Inventory'],title:'Inventory Movement',open:['inv']},
+  '/inventory/outbound-order':{bc:['Inventory'],title:'Outbound Order List',open:['inv'],view:'oo-view',onEnter:()=>ooEnter()},
+  '/inventory/movement':{bc:['Inventory'],title:'Inventory Movement',open:['inv'],view:'mv-view',onEnter:()=>mvEnter()},
   '/inventory/monitoring/inventory-list':{bc:['Inventory','Monitoring'],title:'Inventory List',open:['inv','inv-mon'],view:'il-view',onEnter:()=>ilEnter()},
   '/inventory/monitoring/inventory-ledger':{bc:['Inventory','Monitoring'],title:'Inventory Ledger',open:['inv','inv-mon'],view:'lg-view',onEnter:()=>lgEnter()},
-  '/inventory/monitoring/snapshot':{bc:['Inventory','Monitoring'],title:'Inventory Snapshot',open:['inv','inv-mon']},
-  '/inventory/monitoring/snapshot-wh':{bc:['Inventory','Monitoring'],title:'Inventory Snapshot (WH)',open:['inv','inv-mon']},
-  '/inventory/monitoring/in-out-history':{bc:['Inventory','Monitoring'],title:'Inventory In/Out History',open:['inv','inv-mon']},
+  '/inventory/monitoring/snapshot':{bc:['Inventory','Monitoring'],title:'Inventory Snapshot',open:['inv','inv-mon'],view:'sn-view',onEnter:()=>snEnter()},
+  '/inventory/monitoring/snapshot-wh':{bc:['Inventory','Monitoring'],title:'Inventory Snapshot (WH)',open:['inv','inv-mon'],view:'snw-view',onEnter:()=>snwEnter()},
+  '/inventory/monitoring/in-out-history':{bc:['Inventory','Monitoring'],title:'Inventory In/Out History',open:['inv','inv-mon'],view:'ioh-view',onEnter:()=>iohEnter()},
   '/report/report-board':{bc:['Global Report'],title:'Report Board',open:['rpt']},
   '/store/offline-name-tag':{bc:['Store Management'],title:'Offline Name Tag',open:['store']},
   '/system/account/employee-account':{bc:['System Setting','Account'],title:'Employee Account',open:['sys','sys-account']},
@@ -8566,6 +10765,10 @@ function route(){
       const pg=MENU_PAGES['/inventory/inbound'];
       setPageHeader({...pg,menu:'/inventory/inbound'});showPlaceholder(pg);
       if(!ibOpenDetail(m[1])) return redirect('#/inventory/inbound');
+    }else if((m=path.match(/^\/inventory\/outbound-order\/([^/]+)$/))){
+      const pg=MENU_PAGES['/inventory/outbound-order'];
+      setPageHeader({...pg,menu:'/inventory/outbound-order'});showPlaceholder(pg);
+      if(!ooOpenDetail(m[1])) return redirect('#/inventory/outbound-order');
     }else if(ROUTE_ALIASES[path]){
       return redirect('#'+ROUTE_ALIASES[path]);
     }else if(MENU_PAGES[path]){
