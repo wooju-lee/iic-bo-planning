@@ -1328,6 +1328,33 @@ a.ib-trk:hover{border-color:#ff6b35;color:#ff6b35;}
 .ioh-err[hidden]{display:none;}
 .ioh-err-t{color:#ef4444;margin-bottom:8px;font-size:14px;}
 .ioh-err-m{color:#6b7280;font-size:13px;margin-bottom:16px;}
+/* ===== RX Sales View (Sales > RX Sales View) ===== */
+#rxs-view .search-table th.rxs-th-wrap{white-space:normal;line-height:1.4;}
+.rxs-sub{font-size:10px;font-weight:400;opacity:.85;}
+.rxs-kw-err{color:#d32f2f;font-size:12px;margin-top:4px;}
+#rxs-view [hidden]{display:none!important;}
+.grid th.rxs-sort{cursor:pointer;user-select:none;}
+.rxs-sort-ico{display:inline-block;width:10px;margin-left:4px;font-size:10px;}
+.grid th.rxs-sort[data-dir="asc"] .rxs-sort-ico::after{content:'▲';}
+.grid th.rxs-sort[data-dir="desc"] .rxs-sort-ico::after{content:'▼';}
+#rxs-view table.grid tbody tr{cursor:default;}
+#rxs-view table.grid tbody tr:hover td{background:#fff!important;}
+#rxs-view table.grid td{vertical-align:middle;}
+/* One line per sale item: same height in every item column so values stay aligned */
+.rxs-lines{display:flex;flex-direction:column;gap:5px;}
+.rxs-lines div{height:20px;line-height:20px;}
+.rxs-tag{display:inline-flex;align-items:center;padding:2px 8px;border-radius:4px;font-size:10px;font-weight:700;}
+.rxs-tag.sales{background:#E3F2FD;color:#1565C0;}
+.rxs-tag.refund{background:#FFEBEE;color:#C62828;}
+.rxs-chip{display:inline-flex;align-items:center;height:22px;padding:0 10px;border-radius:11px;font-size:11px;white-space:nowrap;}
+.rxs-chip.working{background:#FFF3E0;color:#E65100;}
+.rxs-chip.done{background:#E8F5E9;color:#2E7D32;font-weight:700;}
+.rxs-dd-grp{padding:6px 12px 4px;font-size:11px;font-weight:700;color:#999;letter-spacing:.3px;background:#fafafa;border-top:1px solid #f0f0f0;cursor:default;}
+.rxs-dd-grp:first-child{border-top:none;}
+/* ErrorDisplay (API error replaces the grid) */
+.rxs-err{padding:40px 0!important;text-align:center!important;}
+.rxs-err-t{color:#ef4444;font-size:13px;margin-bottom:8px;}
+.rxs-err-m{color:#6b7280;font-size:12px;margin-bottom:16px;white-space:normal;}
 </style>
 <!-- SheetJS: client-side Excel (.xlsx) export -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
@@ -3528,6 +3555,94 @@ a.ib-trk:hover{border-color:#ff6b35;color:#ff6b35;}
     </div>
   </div>
 
+  <!-- ===== RX SALES VIEW (Sales > RX Sales View) ===== -->
+  <div class="detail-view" id="rxs-view">
+    <div class="search-box">
+      <table class="search-table">
+        <tr>
+          <th>BP</th>
+          <td><div class="field-row"><div class="field-inline"><select id="rxs-bp" style="min-width:360px;" onchange="rxsBpChange()"><option value="">All</option></select></div></div></td>
+        </tr>
+        <tr>
+          <th>Store</th>
+          <td><div class="field-row"><div class="multi-select-wrap">
+            <div class="multi-select-trigger disabled" id="rxsStore-trigger" style="min-width:360px;">Store (All)</div>
+            <div class="multi-select-dropdown hidden" id="rxsStore-dropdown"></div>
+          </div></div></td>
+        </tr>
+        <tr>
+          <th>Sales Type</th>
+          <td><div class="field-row"><div class="field-inline"><select id="rxs-type" style="min-width:360px;">
+            <option value="">All</option><option value="RX">Sales</option><option value="REFUND">Refund</option>
+          </select></div></div></td>
+        </tr>
+        <tr>
+          <th>RX Status</th>
+          <td><div class="field-row"><div class="field-inline"><select id="rxs-status" style="min-width:360px;"><option value="">All</option></select></div></div></td>
+        </tr>
+        <tr>
+          <th>Search Period</th>
+          <td><div class="field-row">
+            <div class="field-inline"><select id="rxs-dtype" style="min-width:170px;">
+              <option value="SOLD" selected>Sales Date</option><option value="CONFIRMED">Confirm Date</option>
+            </select></div>
+            <div class="field-inline"><input type="date" id="rxs-from" style="min-width:170px;"></div>
+            <span style="color:#999;font-size:13px;">~</span>
+            <div class="field-inline"><input type="date" id="rxs-to" style="min-width:170px;"></div>
+          </div></td>
+        </tr>
+        <tr>
+          <th class="rxs-th-wrap">Receipt No., Product Code,<br>Product Name, Barcode</th>
+          <td><div class="field-row"><div class="field-inline" style="flex:1;max-width:360px;flex-direction:column;align-items:stretch;">
+            <input type="text" id="rxs-kw" placeholder="Please enter at least 2 characters." style="width:100%;" onkeydown="if(event.key==='Enter')rxsSearch()">
+            <div class="rxs-kw-err" id="rxs-kw-err" hidden>Please enter at least 2 characters.</div>
+          </div></div></td>
+        </tr>
+      </table>
+      <div class="search-action">
+        <button class="btn-search" onclick="rxsSearch()"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><use href="#i-search"/></svg>Search</button>
+      </div>
+    </div>
+    <div class="table-box">
+      <div class="table-toolbar">
+        <div class="table-toolbar-left">Total <b id="rxs-total">0</b> Count</div>
+        <div class="table-toolbar-right"><button class="btn-action btn-outline" id="rxs-excel" onclick="rxsExport()"><svg width="14" height="14" viewBox="0 0 24 24" fill="#555"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>Excel Export</button></div>
+      </div>
+      <div class="grid-wrap"><table class="grid">
+        <thead><tr class="hdr">
+          <th class="rxs-sort" data-sort="saleDateTime" onclick="rxsSort('saleDateTime')" style="min-width:150px;">Sales Date<span class="rxs-sort-ico"></span></th>
+          <th class="rxs-sort" data-sort="saleCheckOutDateTime" onclick="rxsSort('saleCheckOutDateTime')" style="min-width:150px;">Confirm Date<span class="rxs-sort-ico"></span></th>
+          <th style="min-width:90px;">Sales Type</th>
+          <th style="min-width:100px;">RX Status</th>
+          <th class="tl" style="min-width:160px;">Receipt No.<br><span class="rxs-sub">Original Receipt No. (for Return)</span></th>
+          <th class="rxs-sort tl" data-sort="storeCode" onclick="rxsSort('storeCode')" style="min-width:230px;">Store Information<br><span class="rxs-sub">(Code / Name)</span><span class="rxs-sort-ico"></span></th>
+          <th class="rxs-sort tl" data-sort="productCode" onclick="rxsSort('productCode')" style="min-width:300px;">Product Info<br><span class="rxs-sub">(Code / Name / Barcode)</span><span class="rxs-sort-ico"></span></th>
+          <th style="min-width:110px;">Product Category 1</th>
+          <th style="min-width:120px;">Product Category 2</th>
+          <th style="min-width:70px;">Currency</th>
+          <th style="min-width:130px;">Gift Card</th>
+          <th class="rxs-sort tr" data-sort="totalQuantity" onclick="rxsSort('totalQuantity')" style="min-width:80px;">Total Qty<span class="rxs-sort-ico"></span></th>
+          <th class="rxs-sort tr" data-sort="totalPrice" onclick="rxsSort('totalPrice')" style="min-width:90px;">Total<span class="rxs-sort-ico"></span></th>
+          <th class="rxs-sort tr" data-sort="netPrice" onclick="rxsSort('netPrice')" style="min-width:90px;">Net<span class="rxs-sort-ico"></span></th>
+          <th class="rxs-sort tr" data-sort="taxPrice" onclick="rxsSort('taxPrice')" style="min-width:80px;">VAT<span class="rxs-sort-ico"></span></th>
+        </tr></thead>
+        <tbody id="rxs-body"></tbody>
+      </table></div>
+      <div class="pg-bar">
+        <div class="rpp"><span>Rows per page:</span>
+          <select id="rxs-rpp" style="width:72px;" onchange="pgState('rxs').page=1;rxsRenderPage();">
+            <option value="10">10</option><option value="30" selected>30</option><option value="50">50</option><option value="100">100</option><option value="300">300</option>
+          </select>
+        </div>
+        <span id="rxs-range">0–0 of 0</span>
+        <div class="pg-nav">
+          <button class="pg-btn" id="rxs-prev" onclick="pgGo('rxs',-1)"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg></button>
+          <button class="pg-btn" id="rxs-next" onclick="pgGo('rxs',1)"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg></button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- ===== STORE VIEW (Master Information > Store) ===== -->
   <div class="detail-view" id="st-view">
     <div class="psv-tabs">
@@ -4195,7 +4310,7 @@ function selectMulti(id,el){
   el.classList.toggle('selected');
   const sel=[...document.querySelectorAll('#'+id+'-dropdown .dd-item.selected')];
   const t=document.getElementById(id+'-trigger');
-  const labels={ilStore:'Store',ilLoc:'Location',lgStore:'Store',lgLoc:'Location',lgType:'Inventory Transaction Type',olBp:'BP',olStore:'Store',olStatus:'Order Status',rlBp:'BP',rlStore:'Store',rlStatus:'Refund Type',bp:'BP',fromStore:'From Store',toStore:'To Store',dpCat2:'Product Category 2',dpStore:'Store',stStore:'Store',sthStore:'Store',ibFrom:'From Store',ibTo:'To Store',ibType:'Type',ibChannel:'Channel',ibStatus:'Inbound Status',ooStore:'Store',ooStatus:'Outbound Status',ooType:'Type',mvStore:'Store',snStore:'Store',snLoc:'Location',drvBp:'BP',drvStore:'Store',psvBp:'BP',psvStore:'Store',prsvBp:'BP',prsvStore:'Store'};
+  const labels={ilStore:'Store',ilLoc:'Location',lgStore:'Store',lgLoc:'Location',lgType:'Inventory Transaction Type',olBp:'BP',olStore:'Store',olStatus:'Order Status',rlBp:'BP',rlStore:'Store',rlStatus:'Refund Type',bp:'BP',fromStore:'From Store',toStore:'To Store',dpCat2:'Product Category 2',dpStore:'Store',stStore:'Store',sthStore:'Store',ibFrom:'From Store',ibTo:'To Store',ibType:'Type',ibChannel:'Channel',ibStatus:'Inbound Status',ooStore:'Store',ooStatus:'Outbound Status',ooType:'Type',mvStore:'Store',snStore:'Store',snLoc:'Location',rxsStore:'Store',drvBp:'BP',drvStore:'Store',psvBp:'BP',psvStore:'Store',prsvBp:'BP',prsvStore:'Store'};
   if(!sel.length) t.textContent=labels[id]+' (All)';
   else if(sel.length===1) t.textContent=sel[0].textContent.replace('✓','').trim();
   else t.textContent=sel[0].textContent.replace('✓','').trim()+' +'+(sel.length-1);
@@ -4976,7 +5091,7 @@ function csRefresh(sel){
   trg.classList.toggle('disabled',sel.disabled);
 }
 function csSyncModal(){
-  document.querySelectorAll('#ob-reg-modal select, #dp-view select, #sp-view select, #drv-view select, #psv-view select, #prsv-view select, #label-modal select, #st-view select, #st-modal select, #bpk-view select, #cp-view select, #ib-view select, #ib-reg-modal select, #sn-view select, #snw-view select, #ioh-view select, .pg-bar select').forEach(s=>{csBuild(s);csRefresh(s);});
+  document.querySelectorAll('#ob-reg-modal select, #dp-view select, #sp-view select, #drv-view select, #psv-view select, #prsv-view select, #label-modal select, #st-view select, #st-modal select, #bpk-view select, #cp-view select, #ib-view select, #ib-reg-modal select, #sn-view select, #snw-view select, #ioh-view select, #rxs-view select, .pg-bar select').forEach(s=>{csBuild(s);csRefresh(s);});
 }
 // Re-sync whenever step content / options / disabled state change (ignore the custom UI's own mutations)
 new MutationObserver(muts=>{
@@ -10651,6 +10766,225 @@ function iohExport(){
   const d=new Date(),fn='inventory_transfer_history_list_'+d.getFullYear()+'_'+(d.getMonth()+1)+'_'+d.getDate()+'.xlsx';
   XLSX.writeFile(wb,fn);showToast('Excel Export',fn+' — '+(aoa.length-1)+' rows');
 }
+// ===== Sales > RX Sales View =====
+// Source: iic-bo-frontend features/(sales)/rx (RxSalesSearch / RxSalesTable / searchState / apis)
+//         iic-bo salesorder/sale/rxsale RxSaleListController / RxSaleListReadService / RxSaleListRepositoryCustomImpl / RxSaleListRequest
+// Backend marks the whole API @Deprecated (to be replaced by Lens Work Management / Order / Sales views).
+// Lists legacy RxSale rows only: POS offline sales that contain a lens (one row per receipt, one line per sale item).
+// Dummy data: confirmed RX_ORDERS receipts (US1007, Jul-Aug) + generated receipts in the last 30 days (default search range).
+const RXS_STATUS={  // RxProcessStatus enum (dropdown order); label = lokaliseKey (stt_progress / stt_done), excel = enum.excel
+  WORKING:{label:'In Progress',excel:'In Progress',cls:'working'},
+  DELIVERY_COMPLETE:{label:'Completed',excel:'Completed',cls:'done'}
+};
+const RXS_STORE_GROUPS=['RETAIL STORES','ONLINE / WAREHOUSE','ETC'];
+const RXS_MAX_EXCEL=10000;  // RxSaleListReadService.MAX_EXCEL_RECORDS (counted in item rows)
+let RXS_DATA=null,RXS_STORES=null,rxsInited=false,rxsRows=[],rxsApplied=null,rxsError='',rxsSortKey=null,rxsSortDir=null;
+const rxsEsc=v=>String(v??'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+const rxsPad=n=>String(n).padStart(2,'0');
+const rxsYmd=d=>d.getFullYear()+'-'+rxsPad(d.getMonth()+1)+'-'+rxsPad(d.getDate());
+const rxsR2=n=>Math.round(n*100)/100;
+// Amounts: frontend toLocaleString("ko-KR") -> grouping, up to 3 decimals, no fixed 2 decimals
+const rxsNum=n=>Number(n).toLocaleString('en-US');
+function rxsCs(ids){ids.forEach(id=>{const s=document.getElementById(id);if(s){csBuild(s);csRefresh(s);}});}
+// Store dropdown group (shared/utils/getStoreGroup.ts): name tokens split by "_"
+function rxsGroupOf(name){
+  const t=name.toUpperCase().split('_');
+  if(t.some(x=>x==='ONLINE'||x==='WH')) return RXS_STORE_GROUPS[1];
+  if(t.some(x=>['PS','RX','OFFICE','LOST'].includes(x))) return RXS_STORE_GROUPS[2];
+  return RXS_STORE_GROUPS[0];
+}
+// Stores: REG_DATA (C1002 GM_United States) + AU stores used by the inventory screens (LG_STORES, C1012)
+function rxsStores(){
+  if(RXS_STORES) return RXS_STORES;
+  const list=[];
+  Object.values(REG_DATA).forEach(b=>Object.entries(b.companies).forEach(([bp,c])=>Object.entries(c.stores).forEach(([code,s])=>
+    list.push({code,name:s.name,bp,wh:s.storeType==='WH'}))));
+  LG_STORES.filter(s=>!list.some(x=>x.code===s.code)).forEach(s=>list.push({code:s.code,name:s.name,bp:s.bp,wh:!!s.wh}));
+  return RXS_STORES=list;
+}
+const rxsStore=code=>rxsStores().find(s=>s.code===code);
+// Product Category 1 / 2 (product master sub / leaf category)
+function rxsCats(code){
+  if(code.startsWith('14')) return ['COMPONENT','LENS'];
+  if(code.startsWith('15')) return ['PACKAGE','PACKAGE'];
+  const p=PRODUCT_MASTER.find(x=>x.code===code);
+  return p?[p.cat1,p.cat2]:['OPTICAL','OPTICAL COMBI'];
+}
+// Sale item: totalPrice = lineTotalAmount (tax incl.), taxPrice = lineTaxAmount, netPrice = total - tax
+function rxsItem(code,name,barcode,price,qty,rate,currency,giftCard){
+  const [cat1,cat2]=rxsCats(code),net=rxsR2(qty*price),tax=rxsR2(net*rate);
+  return {code,name,barcode:barcode&&barcode!=='-'?barcode:null,cat1,cat2,currency,giftCard:giftCard||null,qty,total:rxsR2(net+tax),net,tax};
+}
+// ----- Dummy data -----
+function rxsInitData(){
+  if(RXS_DATA) return;
+  let seed=4417;const rnd=()=>(seed=(seed*16807)%2147483647)/2147483647,ri=(a,b)=>a+Math.floor(rnd()*(b-a+1)),pick=a=>a[Math.floor(rnd()*a.length)];
+  const num=n=>Array.from({length:n},()=>ri(0,9)).join('');
+  const rows=[];let seq=0;
+  const addDays=(ymd,n)=>{const d=new Date(ymd+'T00:00:00');d.setDate(d.getDate()+n);return rxsYmd(d);};
+  const time=()=>rxsPad(ri(10,20))+':'+rxsPad(ri(0,59))+':'+rxsPad(ri(0,59));
+  const mk=(storeCode,saleDateTime,invoiceNo,status,confirm,items)=>{const s=rxsStore(storeCode);rows.push({
+    id:String(746182017383720000+(++seq)*137),saleDateTime,confirm,category:'RX',status,invoiceNo,originInvoiceNo:null,
+    storeCode,storeName:s.name,bp:s.bp,items});};
+  // A) Confirmed RX_ORDERS receipts (POS > Rx Operation List), store US1007, USD, tax 10% (same rate as DRV_STORES)
+  RX_ORDERS.filter(o=>o.invoiceNo&&o.invoiceNo!=='-').forEach(o=>{
+    const sale=o.saveDate.slice(0,16)+':'+rxsPad(ri(0,59)),done=['Completed','Finalized'].includes(o.workStatus);
+    const confirm=done?addDays(sale.slice(0,10),ri(3,6))+' '+time():null;
+    const gc=rnd()<0.15?num(12):null;
+    mk('US1007',sale,o.invoiceNo,done?'DELIVERY_COMPLETE':'WORKING',confirm,
+      o.products.map((p,i)=>rxsItem(p.code,p.name,p.barcode,p.price,1,0.1,'USD',i===0?gc:null)));
+  });
+  // B) Generated receipts in the last 30 days (default search range); frames / lenses / packages from RX_ORDERS
+  const uniq=list=>list.filter((p,i)=>list.findIndex(x=>x.code===p.code)===i);
+  const all=RX_ORDERS.flatMap(o=>o.products);
+  const frames=uniq(all.filter(p=>p.code.startsWith('11'))),lenses=uniq(all.filter(p=>p.code.startsWith('14'))),pkgs=uniq(all.filter(p=>p.code.startsWith('15')));
+  const auFrames=PRODUCT_MASTER.filter(p=>p.cat1==='OPTICAL').slice(0,8).map(p=>({code:p.code,name:p.name,barcode:p.barcode,price:430+ri(0,8)*10}));
+  const auLenses=[['14000240','CR39-AR',320],['14000241','POLY-AR',420],['14000242','167-AR',520],['14000243','174-AR',560],['14000245','167-PF-AR',560]].map(([code,name,price])=>({code,name,barcode:'-',price}));
+  const plan=['US1001','US1002','US1007','US1009','US1011','US1001','US1002','US1007','US1009','US1011','US1001','US1002','US1007','US1009','US1007','US1001','US1002','US1011','US1007','AU1002','AU1002','AU1004'];
+  const today=new Date();today.setHours(0,0,0,0);
+  plan.forEach((sc,i)=>{
+    const back=Math.round(i*29/(plan.length-1))+(i%3===1?-1:0),day=new Date(today);day.setDate(day.getDate()-Math.max(0,Math.min(29,29-back)));
+    const ymd=rxsYmd(day),au=sc.startsWith('AU'),cur=au?'AUD':'USD',rate=0.1;
+    const f=pick(au?auFrames:frames),l=pick(au?auLenses:lenses),pk=pick(pkgs);
+    const age=Math.round((today-day)/864e5);
+    const done=age>=4&&rnd()<0.8,confirm=done?addDays(ymd,ri(1,Math.min(age,5)))+' '+time():null;
+    const gc=rnd()<0.15?num(12):null;
+    const items=[rxsItem(f.code,f.name,f.barcode,f.price,1,rate,cur,gc),rxsItem(l.code,l.name,l.barcode,l.price,1,rate,cur)];
+    if(rnd()<0.8) items.push(rxsItem(pk.code,pk.name,pk.barcode,0,1,rate,cur));
+    mk(sc,ymd+' '+time(),'STM'+ymd.slice(2).replace(/-/g,'')+num(4),done?'DELIVERY_COMPLETE':'WORKING',confirm,items);
+  });
+  RXS_DATA=rows.sort((a,b)=>b.saleDateTime.localeCompare(a.saleDateTime));
+}
+// ----- Enter / filters -----
+function rxsEnter(){
+  if(!PAGERS.rxs) PAGERS.rxs={render:()=>rxsRenderPage()};
+  rxsInitData();
+  if(rxsInited) return;
+  document.getElementById('rxs-bp').innerHTML='<option value="">All</option>'+Object.entries(ST_BPS).map(([c,n])=>`<option value="${c}">${rxsEsc(n)}</option>`).join('');
+  document.getElementById('rxs-status').innerHTML='<option value="">All</option>'+Object.entries(RXS_STATUS).map(([v,s])=>`<option value="${v}">${s.label}</option>`).join('');
+  rxsBpChange();rxsDefaultDates();
+  rxsCs(['rxs-bp','rxs-type','rxs-status','rxs-dtype','rxs-rpp']);
+  rxsInited=true;rxsSearch();
+}
+// Default: Sales Date, today - 30 days ~ today (frontend computes it in UTC; prototype uses local date)
+function rxsDefaultDates(){
+  const t=new Date(),f=new Date();f.setDate(t.getDate()-30);
+  document.getElementById('rxs-from').value=rxsYmd(f);document.getElementById('rxs-to').value=rxsYmd(t);
+}
+// Store options load only after a BP is chosen (storeFlag: true); changing BP clears the store selection
+function rxsBpChange(){
+  const bp=document.getElementById('rxs-bp').value,trg=document.getElementById('rxsStore-trigger'),dd=document.getElementById('rxsStore-dropdown');
+  const list=bp?rxsStores().filter(s=>s.bp===bp):[];
+  dd.innerHTML=RXS_STORE_GROUPS.map(g=>{const ss=list.filter(s=>rxsGroupOf(s.name)===g);return ss.length?`<div class="rxs-dd-grp">${g}</div>`+ss.map(s=>
+    `<div class="dd-item" onclick="selectMulti('rxsStore',this)" data-val="${s.code}"><span class="check-ico">✓</span>${rxsEsc(s.name)}</div>`).join(''):'';}).join('');
+  dd.classList.add('hidden');
+  trg.textContent='Store (All)';trg.classList.toggle('disabled',!list.length);
+  if(list.length) trg.setAttribute('onclick',"toggleMulti('rxsStore')"); else trg.removeAttribute('onclick');
+}
+// ----- Search -----
+function rxsSearch(){
+  const v=id=>document.getElementById(id).value;
+  const kw=v('rxs-kw');
+  // Frontend: query.length < 2 (not trimmed) -> inline error, no request
+  const bad=!!kw&&kw.length<2;
+  document.getElementById('rxs-kw-err').hidden=!bad;
+  if(bad) return;
+  rxsApplied={bp:v('rxs-bp'),stores:[...document.querySelectorAll('#rxsStore-dropdown .dd-item.selected')].map(el=>el.dataset.val),
+    type:v('rxs-type'),status:v('rxs-status'),dtype:v('rxs-dtype'),from:v('rxs-from'),to:v('rxs-to'),kw};
+  rxsSortKey=null;rxsSortDir=null;  // new search resets sort to default
+  rxsRun();
+}
+// Backend: RxSaleListRequest.validate() + RxSaleListRepositoryCustomImpl predicate
+function rxsQuery(p){
+  if(!p.from||!p.to) return {err:'시작 및 종료 날짜는 필수입니다.'};
+  if(p.from>p.to) return {err:'Start date must not be after end date'};
+  const q=(p.kw||'').trim().toLowerCase(),has=x=>String(x||'').toLowerCase().includes(q);
+  return {rows:RXS_DATA.filter(r=>{
+    // RX sales, or REFUND whose original receipt is an RX sale (inner join on RxSale -> refunds have no RxSale row)
+    if(!(r.category==='RX'||r.category==='REFUND')) return false;
+    if(p.bp&&r.bp!==p.bp) return false;
+    if(p.stores.length&&!p.stores.includes(r.storeCode)) return false;
+    if(p.type&&r.category!==p.type) return false;
+    if(p.status&&r.status!==p.status) return false;
+    const d=p.dtype==='CONFIRMED'?(r.confirm||'').slice(0,10):r.saleDateTime.slice(0,10);  // store-local dates
+    if(!d||d<p.from||d>p.to) return false;
+    if(q&&!(has(r.invoiceNo)||has(r.originInvoiceNo)||r.items.some(it=>has(it.name)||has(it.code)||has(it.barcode)))) return false;
+    return true;
+  })};
+}
+function rxsRun(){
+  const res=rxsQuery(rxsApplied);
+  rxsError=res.err||'';rxsRows=res.rows||[];
+  PAGERS.rxs.page=1;rxsRenderPage();
+}
+// Sortable (server sort, MUI cycle asc -> desc -> none). No sort -> API default: storeCode DESC
+function rxsSort(key){
+  if(rxsSortKey!==key){rxsSortKey=key;rxsSortDir='asc';}
+  else if(rxsSortDir==='asc') rxsSortDir='desc';
+  else {rxsSortKey=null;rxsSortDir=null;}
+  PAGERS.rxs.page=1;rxsRenderPage();
+}
+const rxsSum=(r,k)=>rxsR2(r.items.reduce((a,it)=>a+it[k],0));
+// Qty / amount sorts use the receipt totals (sale.totalQuantity / totalAmount / taxAmount), not the item lines shown
+const RXS_SORT_VAL={saleDateTime:r=>r.saleDateTime,saleCheckOutDateTime:r=>r.confirm,storeCode:r=>r.storeCode,productCode:r=>r.items[0]?.code||'',
+  totalQuantity:r=>rxsSum(r,'qty'),totalPrice:r=>rxsSum(r,'total'),netPrice:r=>rxsSum(r,'net'),taxPrice:r=>rxsSum(r,'tax')};
+function rxsSorted(rows){
+  const key=rxsSortKey||'storeCode',dir=rxsSortKey?(rxsSortDir==='asc'?1:-1):-1,f=RXS_SORT_VAL[key];
+  return [...rows].sort((a,b)=>{
+    const x=f(a),y=f(b);
+    if(x==null||y==null) return x==null&&y==null?0:(x==null?-1:1)*dir;  // MySQL: NULL first in ASC, last in DESC
+    return (typeof x==='number'?x-y:String(x).localeCompare(String(y)))*dir;
+  });
+}
+function rxsTypeTag(c){return c==='REFUND'?'<span class="rxs-tag refund">Refund</span>':'<span class="rxs-tag sales">Sales</span>';}
+// Frontend: WORKING -> In Progress, anything else (incl. null) -> Completed
+function rxsStatusChip(st){const s=st==='WORKING'?RXS_STATUS.WORKING:RXS_STATUS.DELIVERY_COMPLETE;return `<span class="rxs-chip ${s.cls}">${s.label}</span>`;}
+function rxsLines(items,f){return '<div class="rxs-lines">'+items.map(it=>'<div>'+f(it)+'</div>').join('')+'</div>';}
+function rxsRenderPage(){
+  document.querySelectorAll('#rxs-view th.rxs-sort').forEach(th=>{if(th.dataset.sort===rxsSortKey) th.dataset.dir=rxsSortDir; else delete th.dataset.dir;});
+  const body=document.getElementById('rxs-body');
+  if(rxsError){
+    // ErrorDisplay replaces the grid; TotalResult shows 0
+    document.getElementById('rxs-total').textContent=0;pgRange('rxs',0);
+    body.innerHTML=`<tr><td colspan="15" class="rxs-err"><div class="rxs-err-t">Failed to load data.</div><div class="rxs-err-m">${rxsEsc(rxsError)}</div>
+      <button class="btn-action btn-outline" onclick="rxsRun()">다시 시도</button></td></tr>`;
+    return;
+  }
+  const rows=rxsSorted(rxsRows);
+  document.getElementById('rxs-total').textContent=rows.length;
+  const [s,e]=pgRange('rxs',rows.length);
+  body.innerHTML=rows.length?rows.slice(s,e).map(r=>`<tr>
+    <td>${r.saleDateTime||'-'}</td><td>${r.confirm||'-'}</td><td>${rxsTypeTag(r.category)}</td><td>${rxsStatusChip(r.status)}</td>
+    <td class="tl">${rxsEsc(r.invoiceNo)||'-'}</td>
+    <td class="tl">${r.storeCode||'-'} / ${rxsEsc(r.storeName)||'-'}</td>
+    <td class="tl">${rxsLines(r.items,it=>`${it.code} / ${rxsEsc(it.name)} / ${it.barcode??''}`)}</td>
+    <td>${rxsLines(r.items,it=>it.cat1)}</td><td>${rxsLines(r.items,it=>it.cat2)}</td><td>${rxsLines(r.items,it=>it.currency)}</td>
+    <td>${rxsLines(r.items,it=>it.giftCard||'-')}</td>
+    <td class="tr num">${rxsLines(r.items,it=>rxsNum(it.qty))}</td><td class="tr num">${rxsLines(r.items,it=>rxsNum(it.total))}</td>
+    <td class="tr num">${rxsLines(r.items,it=>rxsNum(it.net))}</td><td class="tr num">${rxsLines(r.items,it=>rxsNum(it.tax))}</td></tr>`).join('')
+    :'<tr><td colspan="15" class="dp-empty">No data found.</td></tr>';
+}
+// ----- Excel Export (GET /api/v1/sales/rx/excel with the last searched params; sort is not sent) -----
+// One row per sale item; amounts negated for REFUND (qty is not); any API error shows the generic Excel snackbar
+function rxsExport(){
+  if(typeof XLSX==='undefined'){showToast('Excel Export','Excel library failed to load. Check network and reload.','error');return;}
+  const fail=()=>showToast('(Code / Name / Barcode)','Please reduce the range to a maximum of 200 and try again.','error');
+  const res=rxsQuery(rxsApplied);
+  if(res.err){fail();return;}
+  const lines=res.rows.flatMap(r=>r.items.map(it=>[r,it]));
+  if(lines.length>RXS_MAX_EXCEL){fail();return;}
+  const head=['Sales Date','Sales Confirm Date','Type','RX Sales Status','Receipt No. (Origin)','Receipt No. (Refund)','Store Code','Store Name','Product Code','Product Name','Barcode',
+    'Product Category_1','Product Category_2','Currency','Total Qty','Total Price','Net Price','Tax Amount'];
+  const aoa=[head].concat(lines.map(([r,it])=>{const sg=r.category==='REFUND'?-1:1,amt=n=>rxsR2(n*sg);
+    return [r.saleDateTime,r.confirm||'',r.category==='RX'?'SALE':'REFUND',(RXS_STATUS[r.status]||{}).excel||'',r.invoiceNo,r.originInvoiceNo||'',r.storeCode,r.storeName,
+      it.code,it.name,it.barcode||'',it.cat1,it.cat2,it.currency||'',it.qty,amt(it.total),amt(it.net),amt(it.tax)];}));
+  const ws=XLSX.utils.aoa_to_sheet(aoa);
+  for(let i=1;i<aoa.length;i++)[15,16,17].forEach(c=>{const cell=ws[XLSX.utils.encode_cell({r:i,c})];if(cell)cell.z='#,##0.00';});
+  ws['!cols']=[{wch:20},{wch:20},{wch:8},{wch:15},{wch:18},{wch:18},{wch:11},{wch:30},{wch:12},{wch:20},{wch:15},{wch:18},{wch:18},{wch:9},{wch:9},{wch:12},{wch:12},{wch:12}];
+  const wb=XLSX.utils.book_new();XLSX.utils.book_append_sheet(wb,ws,'RxSales List');
+  const d=new Date();  // frontend file name: rx_sales_YYYY_M_D.xlsx (not zero-padded)
+  XLSX.writeFile(wb,'rx_sales_'+d.getFullYear()+'_'+(d.getMonth()+1)+'_'+d.getDate()+'.xlsx');
+}
 const HOME_LINKS=[
   {menu:'Inventory',title:'Outbound List',desc:'Outbound / Outbound Request list, detail, registration (Outbound Order Tag)',path:'/inventory/outbound'},
   {menu:'Master Information',title:'Store',desc:'Store master list (SAP) and store detail / edit history',path:'/master/store'},
@@ -10678,7 +11012,7 @@ const MENU_PAGES={
   '/sales/daily-record-view':{bc:['Sales'],title:'Daily Record View',open:['sales'],view:'drv-view',onEnter:()=>{if(!drvRendered)searchDailyRecord();}},
   '/sales/period-sales-view':{bc:['Sales'],title:'Period Sales View',open:['sales'],view:'psv-view',onEnter:()=>psvEnter()},
   '/sales/product-sales-view':{bc:['Sales'],title:'Product Sales View',open:['sales'],view:'prsv-view',onEnter:()=>prsvEnter()},
-  '/sales/rx-sales-view':{bc:['Sales'],title:'RX Sales View',open:['sales']},
+  '/sales/rx-sales-view':{bc:['Sales'],title:'RX Sales View',open:['sales'],view:'rxs-view',onEnter:()=>rxsEnter()},
   '/order/order-list':{bc:['Order'],title:'Order List',open:['order'],view:'ol-view',onEnter:()=>olEnter('ol')},
   '/order/refund-list':{bc:['Order'],title:'Refund List',open:['order'],view:'rl-view',onEnter:()=>olEnter('rl')},
   '/rx/prescription-review':{bc:['RX (Lens)'],title:'Rx Prescription Review',open:['rx']},
