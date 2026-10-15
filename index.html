@@ -1533,23 +1533,12 @@ a.ib-trk:hover{border-color:#ff6b35;color:#ff6b35;}
 .rxw-dbtn{height:34px!important;min-width:84px;}
 .multi-select-dropdown .rxw-dd-grp{padding:6px 12px;font-size:11px;font-weight:700;color:#999;background:#fafafa;cursor:default;white-space:nowrap;}
 /* Statistics (processing period cards) */
-/* Tab + Processing Period count: one compact bar (no cards) */
-.rxw-bar{display:flex;align-items:center;flex-wrap:wrap;gap:12px 20px;border:1px solid #e5e5e5;border-radius:8px;background:#fff;padding:12px 16px;margin-bottom:16px;}
-.rxw-stats{display:flex;flex-direction:column;gap:6px;font-size:12px;color:#555;}
-.rxw-stats .grp{display:flex;align-items:center;flex-wrap:wrap;gap:4px 14px;}
-.rxw-stats .gl{width:34px;font-size:11px;font-weight:700;color:#888;}
-.rxw-stats .it{display:inline-flex;align-items:center;gap:5px;white-space:nowrap;}
-.rxw-stats .it i{width:6px;height:6px;border-radius:50%;background:#F9C56D;}
-.rxw-stats .grp.tint .it i{background:#4ED17E;}
-.rxw-stats .it b{color:#222;font-weight:700;font-variant-numeric:tabular-nums;}
-.rxw-stats .it small{color:#aaa;font-size:10px;}
-.rxw-stats .it.zero b{color:#bbb;}
+.rxw-bar{display:flex;align-items:center;border:1px solid #e5e5e5;border-radius:8px;background:#fff;padding:12px 16px;margin-bottom:16px;}
 /* To Customer / To Store switch: compact pill segment */
 .rxw-seg{display:inline-flex;flex-shrink:0;gap:2px;padding:3px;height:34px;box-sizing:border-box;background:#f2f2f2;border-radius:8px;}
 .rxw-seg button{min-width:112px;padding:0 14px;border:none;border-radius:6px;background:transparent;font-size:12px;font-weight:600;color:#777;cursor:pointer;}
 .rxw-seg button:hover{color:#333;}
 .rxw-seg button.on{background:#fff;color:#ed6c02;box-shadow:0 1px 3px rgba(0,0,0,.12);}
-.rxw-bar .sep{width:1px;align-self:stretch;background:#ececec;}
 /* List grid */
 #rxw-view table.grid th.rxw-sort{cursor:pointer;user-select:none;}
 .rxw-sort-ico{display:inline-block;width:10px;margin-left:4px;font-size:10px;}
@@ -1751,6 +1740,8 @@ table.rxw-tbl .tl{text-align:left;}
 .rxw-lbl-sheet{width:288px;height:432px;margin:0 auto 16px;background:#fff;border:1px solid #333;display:flex;flex-direction:column;font-size:10px;}
 .rxw-lbl-sheet>div{padding:8px;border-bottom:2px solid #000;}
 .rxw-lbl-sheet .bcz{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;}
+/* Grid date columns: left-aligned on every grid (header + value). Applied at runtime by gridAlignDates() */
+table.grid th.dt-l,table.grid td.dt-l{text-align:left!important;}
 </style>
 <!-- SheetJS: client-side Excel (.xlsx) export -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
@@ -4228,14 +4219,12 @@ table.rxw-tbl .tl{text-align:left;}
         </div>
       </div>
 
-      <!-- receivingMethod switch + Statistics (order count by Processing Period, same conditions as the list) -->
+      <!-- receivingMethod switch (Processing Period statistics excluded by planning decision) -->
       <div class="rxw-bar">
         <div class="rxw-seg">
           <button id="rxw-tab-B2C_DELIVERY" class="on" onclick="rxwSetRecv('B2C_DELIVERY')">To Customer</button>
           <button id="rxw-tab-STORE_PICKUP" onclick="rxwSetRecv('STORE_PICKUP')">To Store</button>
         </div>
-        <span class="sep"></span>
-        <div class="rxw-stats" id="rxw-stats"></div>
       </div>
 
       <div class="table-box">
@@ -12797,16 +12786,7 @@ function rxwRunQuery(){
   if(!rxwApplied) return;
   rxwErr=rxwApiValidate(rxwApplied);
   rxwRows=rxwErr?[]:rxwFilter(rxwApplied,rxwRecv);
-  rxwRenderStats();rxwRenderPage();
-}
-// Statistics: GET /rx/works/statistics — same conditions as the list (incl. tab); all 6 durations, null duration not counted
-function rxwRenderStats(){
-  const el=document.getElementById('rxw-stats');
-  if(rxwErr){el.innerHTML=`<span style="color:#C62828;font-size:12px;">${rxwEsc(rxwErr)}</span>`;return;}
-  const grp=(pre,cls,lbl)=>`<div class="grp ${cls}"><span class="gl">${lbl}</span>${Object.entries(RXW_DUR).filter(([k])=>k.startsWith(pre)).map(([k,m])=>{
-    const n=rxwRows.filter(r=>r.dur===k).length;
-    return `<span class="it${n?'':' zero'}" title="${m[0]} · ${m[1]}"><i></i>${m[0].replace(/^\(\w+\)\s*/,'')} <b>${n}</b><small>${m[1].replace(/^\D+/,'')}</small></span>`;}).join('')}</div>`;
-  el.innerHTML=grp('BASIC','','Basic')+grp('TINT','tint','Tint');
+  rxwRenderPage();
 }
 // Server-side sort (RX_WORK_MANAGEMENT_SORT_FIELD_MAP). Default (no sort) = orderedAt desc. asc -> desc -> none.
 const RXW_SORT_VAL={orderedAt:r=>r.orderedAt,convertedConfirmDecidedAt:r=>r.confirmAt,expectedCompleteDate:r=>r.eta,workProgressStatus:r=>r.status,
@@ -13487,6 +13467,35 @@ function rxpReset(){rxResetBox('rxp-view',['rxpStore','rxpStatus']);rxpFillStore
   document.getElementById('rxp-from').value=rxpYmd(new Date(Date.now()-30*864e5));document.getElementById('rxp-to').value=rxpYmd(new Date());
   document.getElementById('rxp-q-err').hidden=true;rxpSearch();}
 function rxwReset(){rxResetBox('rxw-view',['rxwStore','rxwDur']);rxwFillStores();rxwDefaultDates();document.getElementById('rxw-kw-err').hidden=true;rxwSearch();}
+// Grid date columns (header text has Date / Datetime / ETA): left-align header + values on every grid, incl. screens added later
+const GRID_DATE_RE=/\b(Date|Datetime|ETA)\b/i;
+function gridMatrix(rows){
+  const m=[];
+  rows.forEach((tr,ri)=>{m[ri]=m[ri]||[];let c=0;
+    [...tr.cells].forEach(td=>{while(m[ri][c]) c++;
+      const rs=td.rowSpan||1,cs=td.colSpan||1;
+      for(let y=0;y<rs;y++){m[ri+y]=m[ri+y]||[];for(let x=0;x<cs;x++) m[ri+y][c+x]=td;}
+      td._col=c;td._cs=cs;c+=cs;});
+  });
+}
+function gridAlignDates(){
+  document.querySelectorAll('table.grid').forEach(t=>{
+    const hr=t.tHead?[...t.tHead.rows]:[];if(!hr.length) return;
+    gridMatrix(hr);
+    const cols=new Set();
+    hr.forEach(tr=>[...tr.cells].forEach(th=>{
+      const on=th._cs===1&&GRID_DATE_RE.test(th.textContent);
+      th.classList.toggle('dt-l',on);if(on) cols.add(th._col);
+    }));
+    [...t.tBodies].forEach(tb=>{
+      const br=[...tb.rows];gridMatrix(br);
+      br.forEach(tr=>[...tr.cells].forEach(td=>td.classList.toggle('dt-l',td._cs===1&&cols.has(td._col))));
+    });
+  });
+}
+let gridAlignQueued=false;
+new MutationObserver(()=>{if(gridAlignQueued) return;gridAlignQueued=true;requestAnimationFrame(()=>{gridAlignQueued=false;gridAlignDates();});})
+  .observe(document.documentElement,{childList:true,subtree:true});
 const HOME_LINKS=[
   {menu:'Inventory',title:'Outbound List',desc:'Outbound / Outbound Request list, detail, registration (Outbound Order Tag)',path:'/inventory/outbound'},
   {menu:'Master Information',title:'Store',desc:'Store master list (SAP) and store detail / edit history',path:'/master/store'},
