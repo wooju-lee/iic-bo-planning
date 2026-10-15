@@ -13699,7 +13699,6 @@ function rxwSnRender(){
           ${e?`<span class="em">${rxwEsc(e)}</span>`:''}</div>
         <span class="ck">${m.ok[id]?'&#10003;':''}</span></div>`;}).join('')}</div>
     <div class="rxw-mfoot" style="gap:8px;">
-      <button class="btn-action btn-outline" onclick="rxwSnClose()">Cancel</button>
       <button class="btn-action btn-primary" ${done===m.ids.length?'':'disabled'} onclick="rxwSnConfirm()">${ok}</button></div>`;
 }
 // Prototype: any non-empty value passes. Real validation (format / already mapped / duplicate / SPM registered) is TBD.
