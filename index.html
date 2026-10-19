@@ -4567,14 +4567,6 @@ table.grid th.dt-l,table.grid td.dt-l{text-align:left!important;}
     </div>
   </div>
 
-  <!-- RXW: IE Serial Scan modal (prototype addition) — To Customer IE orders, before Outbound Inspection / label registration -->
-  <div class="modal-overlay" id="rxw-sn-modal" onclick="if(event.target===this)rxwSnClose();">
-    <div class="modal-box" style="width:640px;max-width:94vw;">
-      <div class="modal-header"><span class="modal-title">IE Serial Scan</span><button class="modal-close" onclick="rxwSnClose()">&times;</button></div>
-      <div class="modal-body rxw-mbody" id="rxw-sn-body"></div>
-    </div>
-  </div>
-
   <!-- RXW: Comment delete confirm -->
   <div class="modal-overlay" id="rxw-cd-modal" onclick="if(event.target===this)rxwCloseModal('cd');">
     <div class="modal-box" style="width:400px;">
@@ -13265,10 +13257,7 @@ function rxwChangeStatusConfirm(){
     if(r.claim) return rxwToast(`Cannot modify claimed work. (claimStatus: ${r.claim})`,'','error');
     if(RXW_CS_EXCLUDED.includes(r.status)) return rxwToast(`Cannot modify in current work status. (current: ${r.status})`,'','error');
   }
-  // IE serial gate 1: To Customer IE orders cannot move to Outbound Inspection without a scanned serial
-  const need=target==='OUTBOUND_INSPECTION'?orders.filter(r=>r.status!==target&&rxwSnRequired(r)&&!rxwSnDone(r)):[];
   rxwCloseModal('cs');
-  if(need.length) return rxwSnOpen('cs',need.map(r=>r.id),()=>rxwApplyStatus(target,ids));
   rxwApplyStatus(target,ids);
 }
 function rxwApplyStatus(target,ids){
@@ -13283,9 +13272,9 @@ function rxwApplyStatus(target,ids){
 function rxwOpenLabelReg(id){
   const single=!!id,rows=single?[rxwById(id)]:rxwSelPageRows();
   if(!rows.length) return;
-  // IE serial gate 2: missing serials are scanned here before the label request can be sent
+  // IE serial check: every IE unit must have a serial (entered in Order Info). Any missing -> nothing is registered.
   const miss=rows.filter(r=>r.status==='OUTBOUND_INSPECTION'&&rxwSnRequired(r)&&!rxwSnDone(r));
-  if(miss.length) return rxwSnOpen('lr',miss.map(r=>r.id),()=>rxwOpenLabelReg(id));
+  if(miss.length) return rxwToast('IE serial is required before label registration.',`Order: ${miss.map(r=>r.ssid).join(', ')}`,'error');
   rxwModal={type:'lr',single,ids:rows.map(r=>r.id)};
   const opts=single?rxwCarrierOptions([rows[0].storeCode]):rxwCarrierOptions(rows.map(r=>r.storeCode));
   const s=document.getElementById('rxw-lr-carrier');
@@ -13305,7 +13294,7 @@ function rxwLabelRegValidate(rows,carrier){
     if(r.claim) return `Cannot register label for claimed work. (claimStatus: ${r.claim})`;
     if(r.status!=='OUTBOUND_INSPECTION') return `Label registration requires OUTBOUND_INSPECTION status. (current: ${r.status})`;
     // Prototype: code preconditions (B2B outbound to Lab completed / shippingStep LABEL_REGISTRABLE) are skipped
-    if(rxwSnRequired(r)&&!rxwSnDone(r)) return `IE serial is required before label registration. Order: ${r.orderNo}`;
+    if(rxwSnRequired(r)&&!rxwSnDone(r)) return `IE serial is required before label registration. Order: ${r.ssid}`;
   }
   const cs=[...new Set(rows.map(r=>rxwCountry(r.storeCode)))];
   if(cs.length>1) return `All orders in a bulk label registration must have the same country. found: [${cs.join(', ')}]`;
@@ -13765,8 +13754,6 @@ function rxwWsSave(){
   // "Please make a selection." sends "" once a value existed -> enum parse error on BE
   if(f.exec===''&&r.exec) return rxwToast('Invalid work execution type: ','','error');
   if(f.dur===''&&r.dur) return rxwToast('Invalid expected working duration: ','','error');
-  // IE serial gate 1 (detail): scan first, then the same save continues
-  if(f.status==='OUTBOUND_INSPECTION'&&r.status!=='OUTBOUND_INSPECTION'&&rxwSnRequired(r)&&!rxwSnDone(r)) return rxwSnOpen('cs',[r.id],()=>rxwWsSave());
   const exec=f.exec||null,dur=f.dur||null,worker=f.worker||null,eta=f.eta||null,items=[];
   let newEta=r.eta;
   if(eta){
@@ -13900,11 +13887,10 @@ function rxwPurchaserBox(r){
 }
 // ===== IE serial (prototype addition) =====
 // Scope: To Customer (B2C_DELIVERY) RX orders that include an IE frame. Ship to Store serials are handled in POS RX Operation at pickup.
-// One serial per IE unit (qty 2 -> 2 serials): r.serials[u] = {no,at,by} | null. Offline: r.posSerials[u] received from POS in advance.
-// Where: Order Info product table — an IE Serial field per unit, saved with the Order Info Save button.
-// Gate 1: moving to Outbound Inspection (Change Status / detail Save) opens the scan modal. Gate 2: Label Registration blocks missing serials.
+// One serial per IE unit (qty 2 -> 2 serials): r.serials[u] = {no,at,by} | null.
+// Where: Order Info product table — a required IE Serial field per unit (editable at Outbound Inspection), saved with the Order Info Save button.
+// Status change to Outbound Inspection is not blocked (2026-10-19). Label Registration checks the serials: any missing -> the whole request is blocked.
 // SPM takes the serial itself when the sale is created -> BO shows no SPM status. Re Do keeps the serials. Refund: scan each returned unit.
-let rxwSn=null;
 function rxwSnRequired(r){return !!r.ie&&r.recv==='B2C_DELIVERY'&&!r.claim;}
 function rxwIeUnits(r){return r.ie?Math.max(1,r.items[0].qty||1):0;}
 function rxwSnDone(r){return !!r.serials&&r.serials.filter(Boolean).length>=rxwIeUnits(r);}
@@ -13920,8 +13906,6 @@ function rxwIeSeed(){
     r.ie=true;r.items[0].ie=true;r.items[0].leafName='INTELLIGENT';   // Type = product category; IE frames are in the "Intelligent" category
     const n=rxwIeUnits(r);r.serials=Array(n).fill(null);
     if(r.recv!=='B2C_DELIVERY'||r.claim==='CANCELED') return;
-    // Offline only: serials are received from the external POS (Shopify) with the sale -> verified by scan at Outbound Inspection
-    if(r.channel==='OFFLINE') r.posSerials=Array.from({length:n},(_,u)=>rxwSnGen(i*7919+u*101));
     const at=r.completedAt||r.confirmAt,by=r.worker||'monster1437',fill=()=>{r.serials=Array.from({length:n},(_,u)=>({no:rxwSnGen(i*7919+u*101),at,by}));};
     if(['COMPLETED','FINALIZED'].includes(r.status)) fill();
     else if(oi&&n===1&&oiScanned++===0) fill();
@@ -13933,14 +13917,6 @@ function rxwSnBadge(r){
 }
 // Order Info field: editable at Outbound Inspection only (before the label is issued)
 function rxwSnEditable(r){return rxwSnRequired(r)&&r.status==='OUTBOUND_INSPECTION';}
-function rxwPosHint(pos,v){
-  if(!pos) return '';
-  return v?(v===pos?'<span class="mt">&#10003; Matches the POS serial</span>':'<span class="wn">&#9888; Different from the POS serial — the scanned serial will be used.</span>'):`<span class="pos">POS serial<b>${rxwEsc(pos)}</b></span>`;
-}
-function rxwSnHelp(r,u){
-  const v=(rxwDs.sn[u]||'').trim(),saved=r.serials&&r.serials[u];
-  return rxwPosHint(r.posSerials&&r.posSerials[u],v)+(!saved&&!v?'<span class="em">Required before Label Registration</span>':'');
-}
 function rxwSnCells(r,it){
   if(r.recv!=='B2C_DELIVERY') return '<span class="rxw-sn-ro off">Scanned at POS pickup</span>';
   const n=rxwIeUnits(r),multi=n>1,out=[];
@@ -13957,9 +13933,8 @@ function rxwSnCells(r,it){
 function rxwSnSync(u){
   const r=rxwCur,b=document.getElementById('rxw-sn-save'),v=(rxwDs.sn[u]||'').trim();
   if(b) b.disabled=!rxwSnDirty(r);
-  const f=document.getElementById('rxw-sn-field-'+u),h=document.getElementById('rxw-sn-help-'+u);
+  const f=document.getElementById('rxw-sn-field-'+u);
   if(f) f.classList.toggle('need',!(r.serials&&r.serials[u])&&!v);
-  if(h) h.innerHTML=rxwSnHelp(r,u);
 }
 // Enter: move to the next empty unit field; on the last one, save
 function rxwSnNext(u){
@@ -13971,78 +13946,10 @@ function rxwSnSave(){
   if(!rxwSnDirty(r)) return rxwDs.sn.every(v=>!v.trim())?rxwToast('Please scan the serial.','','error'):undefined;   // Prototype: any non-empty value passes
   const now=rxwFmt(new Date()),items=[];
   rxwDs.sn.forEach((raw,u)=>{const v=raw.trim().toUpperCase(),cur=r.serials[u];if(!v||(cur&&cur.no===v)) return;
-    const old=cur?cur.no:(r.posSerials&&r.posSerials[u])||null;r.serials[u]={no:v,at:now,by:'monster1437'};items.push(['IE_SERIAL',old,rxwIeUnits(r)>1?`${v} (${u+1}/${rxwIeUnits(r)})`:v]);});
+    const old=cur?cur.no:null;r.serials[u]={no:v,at:now,by:'monster1437'};items.push(['IE_SERIAL',old,rxwIeUnits(r)>1?`${v} (${u+1}/${rxwIeUnits(r)})`:v]);});
   rxwDs.sn=rxwSnSaved(r);
   if(items.length) rxwAddHistory(r,items);
   rxwToast('IE serial has been saved.','');rxwAfterChange();
-}
-// ----- scan modal: one row per IE unit (key = orderId~unit) -----
-function rxwSnKeys(mode,ids){
-  const keys=[];
-  ids.forEach(id=>{const r=rxwById(id);for(let u=0;u<rxwIeUnits(r);u++) if(mode==='edit'||!(r.serials&&r.serials[u])) keys.push(id+'~'+u);});
-  return keys;
-}
-const rxwSnKey=k=>{const [id,u]=k.split('~');return {r:rxwById(id),u:+u};};
-function rxwSnOpen(mode,ids,then){
-  rxwSn={mode,ids,keys:rxwSnKeys(mode,ids),then:then||null,vals:{},errs:{},ok:{}};
-  rxwSn.keys.forEach(k=>{const {r,u}=rxwSnKey(k);if(r.serials&&r.serials[u]){rxwSn.vals[k]=r.serials[u].no;rxwSn.ok[k]=true;}});
-  rxwSnRender();rxwOpenModal('sn');rxwSnFocus();
-}
-function rxwSnClose(){rxwCloseModal('sn');rxwSn=null;}
-function rxwSnFocus(){
-  if(!rxwSn) return;
-  const next=rxwSn.keys.find(k=>!rxwSn.ok[k])||rxwSn.keys[0];
-  const el=document.getElementById('rxw-sn-in-'+next);if(el){el.focus();el.select();}
-}
-function rxwSnRender(){
-  const m=rxwSn,done=m.keys.filter(k=>m.ok[k]).length,cur=m.keys.find(k=>!m.ok[k]);
-  // Callout: 2 lines (what is required / what happens next)
-  const head={cs:['IE orders require a serial scan before moving to <b>Outbound Inspection</b>.','The status changes after all serials are scanned.'],
-    lr:['Serial scan is required before <b>Label Registration</b>.','Scan the orders below to continue.'],
-    edit:['Scan the IE serial attached to the frame.','The serial is saved to the order.']}[m.mode];
-  if(m.ids.some(id=>rxwById(id).posSerials)) head[1]+=' Offline orders: scan the frame to check it against the serial received from POS.';
-  const ok={cs:'Save &amp; Change Status',lr:'Save &amp; Continue',edit:'Save'}[m.mode];
-  document.getElementById('rxw-sn-body').innerHTML=`
-    <div class="rxw-sn-alert" style="background:#fff4e5;color:#8a4b00;">&#9888;<span>${head[0]}<br>${head[1]}</span></div>
-    <div style="margin-bottom:8px;"><span class="rxw-sn-prog">Scanned <b>${done}</b> / ${m.keys.length}</span></div>
-    <div class="rxw-sn-list">${m.keys.map(k=>{const {r,u}=rxwSnKey(k),n=rxwIeUnits(r),fr=rxwFlatRows(r.items).map(x=>x.it).find(it=>it.ie),e=m.errs[k],pos=r.posSerials&&r.posSerials[u];
-      return `<div class="rxw-sn-row${m.ok[k]?' ok':e?' err':''}${k===cur?' cur':''}">
-        <div class="o"><b>${rxwEsc(r.ssid)}${n>1?`<span class="rxw-sn-unit">${u+1}/${n}</span>`:''}</b><small>${fr?rxwEsc(fr.code+' / '+fr.name):''}</small>${pos?`<span class="pos">POS serial<b>${rxwEsc(pos)}</b></span>`:''}</div>
-        <div class="in"><div><input id="rxw-sn-in-${k}" value="${rxwEsc(m.vals[k]||'')}" placeholder="Scan IE serial" autocomplete="off"
-            oninput="rxwSn.vals['${k}']=this.value.toUpperCase().trim();rxwSn.ok['${k}']=false;"
-            onkeydown="if(event.key==='Enter'){event.preventDefault();rxwSnCommit('${k}');}">
-          <button class="rxw-sn-sim" title="Prototype only" onclick="rxwSnSim('${k}')">Simulate Scan<span class="rxw-demo">DEMO</span></button></div>
-          ${e?`<span class="em">${rxwEsc(e)}</span>`:m.ok[k]&&pos?rxwPosHint(pos,m.vals[k]):''}</div>
-        <span class="ck">${m.ok[k]?'&#10003;':''}</span></div>`;}).join('')}</div>
-    <div class="rxw-mfoot" style="gap:8px;">
-      <button class="btn-action btn-primary" ${done===m.keys.length?'':'disabled'} onclick="rxwSnConfirm()">${ok}</button></div>`;
-}
-// Prototype: any non-empty value passes. Real validation (format / already mapped / duplicate) is TBD.
-function rxwSnCheck(k,v){
-  if(!v) return 'Please scan the serial.';
-  return null;
-}
-function rxwSnCommit(k){
-  const m=rxwSn,v=(m.vals[k]||'').toUpperCase().trim();m.vals[k]=v;
-  const e=rxwSnCheck(k,v);
-  if(e){m.errs[k]=e;m.ok[k]=false;}else{delete m.errs[k];m.ok[k]=true;}
-  rxwSnRender();
-  if(e){const el=document.getElementById('rxw-sn-in-'+k);if(el){el.focus();el.select();}}else rxwSnFocus();
-}
-function rxwSnSim(k){const {r,u}=rxwSnKey(k),pos=r.posSerials&&r.posSerials[u];rxwSn.vals[k]=pos&&!(r.serials&&r.serials[u])?pos:rxwSnGen(Date.now()+u*977+Math.floor(Math.random()*1e6));rxwSnCommit(k);}
-function rxwSnConfirm(){
-  const m=rxwSn;if(!m) return;
-  for(const k of m.keys){const e=rxwSnCheck(k,m.vals[k]);if(e){m.errs[k]=e;m.ok[k]=false;rxwSnRender();return;}}
-  const now=rxwFmt(new Date()),hist={};
-  m.keys.forEach(k=>{const {r,u}=rxwSnKey(k),cur=r.serials[u],v=m.vals[k];
-    if(cur&&cur.no===v) return;
-    const old=cur?cur.no:(r.posSerials&&r.posSerials[u])||null,n=rxwIeUnits(r);
-    r.serials[u]={no:v,at:now,by:'monster1437'};(hist[r.id]=hist[r.id]||[]).push(['IE_SERIAL',old,n>1?`${v} (${u+1}/${n})`:v]);});
-  Object.entries(hist).forEach(([id,items])=>rxwAddHistory(rxwById(id),items));
-  if(rxwCur&&hist[rxwCur.id]) rxwDs.sn=rxwSnSaved(rxwCur);
-  const then=m.then;rxwSnClose();
-  if(then) then();
-  else{rxwToast('IE serial has been saved.','');rxwAfterChange();}
 }
 // ----- refund: scan each returned IE unit -----
 function rxwRetNeeded(){const r=rxwCur;return !!(r&&rxwDs.claimMode==='refund'&&r.ie&&r.serials&&r.serials.some(Boolean));}
