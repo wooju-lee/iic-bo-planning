@@ -13392,7 +13392,7 @@ function rxwFlatRows(items){
   items.forEach(it=>walk(it,null));
   return out;
 }
-function rxwTypeCell(it){const lens=it.leafCode==='111010',pkg=/PACKAGE/.test(it.leafName);return `<span class="rxw-type ${lens?'lens':pkg?'pkg':''}"><i></i>${rxwEsc((it.leafName||'-').toUpperCase())}</span>${it.ie?'<span class="rxw-ie-chip">IE</span>':''}`;}
+function rxwTypeCell(it){const lens=it.leafCode==='111010',pkg=/PACKAGE/.test(it.leafName);return `<span class="rxw-type ${lens?'lens':pkg?'pkg':''}"><i></i>${rxwEsc((it.leafName||'-').toUpperCase())}</span>`;}
 // Barcode graphic (visual only, deterministic from the text)
 function rxwBarcode(text,w,h){
   let x=0,bars='',seed=0;for(const c of String(text)) seed=(seed*31+c.charCodeAt(0))>>>0;
@@ -13401,7 +13401,7 @@ function rxwBarcode(text,w,h){
   return `<svg width="${w}" height="${h}" viewBox="0 0 ${w} ${h}" fill="#111">${bars}</svg>`;
 }
 const RXW_PRINT_ICO='<svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M19 8H5c-1.66 0-3 1.34-3 3v6h4v4h12v-4h4v-6c0-1.66-1.34-3-3-3zm-3 11H8v-5h8v5zm3-7c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1zm-1-9H6v4h12V3z"/></svg>';
-const rxwTypeName=it=>it.leafCode==='111010'?'Lens':/PACKAGE/.test(it.leafName||'')?'Package':'Frame';
+const rxwTypeName=it=>it.leafCode==='111010'?'Lens':/PACKAGE/.test(it.leafName||'')?'Package':it.leafName==='INTELLIGENT'?'Intelligent':'Frame';
 const rxwCodeName=v=>{if(!v||v==='-') return '—';const p=String(v).split(' / ');return rxwEsc(p[0]+(p[1]?' | '+p[1]:''));};
 // ----- Picking List (one sheet per order, 2 per row) -----
 function rxwPicking(ids){
@@ -13917,7 +13917,7 @@ function rxwIeSeed(){
     const oi=r.recv==='B2C_DELIVERY'&&r.status==='OUTBOUND_INSPECTION';
     if(!r.storeCode.startsWith('US')||(i%3===1&&!oi)) return;   // IE launch: US (all To Customer Outbound Inspection orders are IE for the demo)
     if(r.items[0].cof) return;   // C.O.F = customer's own frame: no IE frame sold in this order
-    r.ie=true;r.items[0].ie=true;
+    r.ie=true;r.items[0].ie=true;r.items[0].leafName='INTELLIGENT';   // Type = product category; IE frames are in the "Intelligent" category
     const n=rxwIeUnits(r);r.serials=Array(n).fill(null);
     if(r.recv!=='B2C_DELIVERY'||r.claim==='CANCELED') return;
     // Offline only: serials are received from the external POS (Shopify) with the sale -> verified by scan at Outbound Inspection
