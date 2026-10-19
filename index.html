@@ -13913,11 +13913,9 @@ function rxwIeSeed(){
     else if(r.status==='OUTBOUND_INSPECTION'&&oiScanned++===0) r.serial={no:rxwSnGen(i*7919),at,by};
   });
 }
-// List: IE marker + "S/N Required" only when the serial is missing at Outbound Inspection
+// List: IE marker only (serial save / send status is not shown in the list)
 function rxwSnBadge(r){
-  if(!r.ie) return '';
-  const need=rxwSnRequired(r)&&r.status==='OUTBOUND_INSPECTION'&&!r.serial;
-  return `<span class="rxw-sn-b ${need?'need':'off'}" style="display:flex;"><span class="ie">IE</span>${need?'S/N Required':''}</span>`;
+  return r.ie?'<span class="rxw-sn-b off" style="display:flex;"><span class="ie">IE</span></span>':'';
 }
 // Order Info field: editable at Outbound Inspection only (before the label is issued)
 function rxwSnEditable(r){return rxwSnRequired(r)&&r.status==='OUTBOUND_INSPECTION';}
