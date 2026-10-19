@@ -13945,12 +13945,12 @@ function rxwSnCells(r,it){
   if(r.recv!=='B2C_DELIVERY') return '<span class="rxw-sn-ro off">Scanned at POS pickup</span>';
   const n=rxwIeUnits(r),multi=n>1,out=[];
   for(let u=0;u<n;u++){
-    const lbl=multi?`<span class="rxw-sn-unit">${u+1}</span>`:'',saved=r.serials&&r.serials[u];
+    const lbl='',saved=r.serials&&r.serials[u];   // fields only (no unit number / helper text)
     if(!rxwSnEditable(r)){out.push(`<div class="rxw-sn-cell">${lbl}<span class="rxw-sn-ro${saved?'':' off'}">${saved?rxwEsc(saved.no):'Scan at Outbound Inspection'}</span></div>`);continue;}
     const v=(rxwDs.sn[u]||'').trim();
-    out.push(`<div class="rxw-sn-cell">${lbl}<div style="flex:1;min-width:0;"><input class="rxw-sn-in${!saved&&!v?' need':''}" id="rxw-sn-field-${u}" value="${rxwEsc(rxwDs.sn[u]||'')}" placeholder="Scan IE serial${multi?' ('+(u+1)+'/'+n+')':''}" autocomplete="off"
+    out.push(`<div class="rxw-sn-cell">${lbl}<div style="flex:1;min-width:0;"><input class="rxw-sn-in${!saved&&!v?' need':''}" id="rxw-sn-field-${u}" value="${rxwEsc(rxwDs.sn[u]||'')}" placeholder="Scan IE serial" autocomplete="off"
         oninput="rxwDs.sn[${u}]=this.value.toUpperCase();rxwSnSync(${u})" onkeydown="if(event.key==='Enter'){event.preventDefault();rxwSnNext(${u});}">
-      <div class="rxw-sn-help" id="rxw-sn-help-${u}">${rxwSnHelp(r,u)}</div></div></div>`);
+      </div></div>`);
   }
   return out.join('');
 }
