@@ -12925,7 +12925,7 @@ function rxwItems(frame,lens,pkg,cof){
   const L={id:'L',code:lens.code,name:lens.name,barcode:lens.barcode||'-',qty:1,amount:lens.price,leafCode:'111010',leafName:'LENS',cof:false,components:[]};
   if(cof) return [{...L,id:'M',cof:true,components:[{id:'F',code:frame.code,name:frame.name,barcode:frame.barcode,qty:0,amount:0,leafCode:'',leafName:'FRAME',cof:false,components:[]}]}];
   return [{id:'M',code:frame.code,name:frame.name,barcode:frame.barcode,qty:1,amount:frame.price,leafCode:'',leafName:'FRAME',cof:false,components:[
-    L,{id:'P',code:pkg.code,name:pkg.name,barcode:'-',qty:1,amount:0,leafCode:'',leafName:'RX PACKAGE',cof:false,components:[]}]}];
+    L,{id:'P',code:pkg.code,name:pkg.name,barcode:'-',qty:1,amount:0,leafCode:'',leafName:'PACKAGE',cof:false,components:[]}]}];
 }
 // Multiply the main item (and its components) by qty — used for the IE qty 2 test order
 function rxwQty(items,q){
