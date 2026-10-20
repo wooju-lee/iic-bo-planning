@@ -700,7 +700,8 @@ table.grid td input[type="checkbox"]:disabled{opacity:0.35;cursor:not-allowed;}
 .pa-acre-row.all{background:#fafafa;font-weight:600;}
 .pa-acre-row input{width:16px;height:16px;accent-color:#ff6b35;}
 .pa-acre-row .t{flex:1;min-width:0;}.pa-acre-row .t small{display:block;font-size:10px;color:#999;margin-top:2px;}
-.pa-acre-row .q{font-size:12px;font-weight:600;color:#555;white-space:nowrap;}
+.pa-acre-row .q{display:inline-flex;align-items:baseline;gap:6px;min-width:56px;justify-content:flex-end;font-size:18px;font-weight:700;color:#222;white-space:nowrap;}
+.pa-acre-row .q small{font-size:11px;font-weight:600;color:#888;}
 .pa-acre-note{font-size:11px;color:#888;margin-top:10px;}
 .pa-outline{flex:1;height:40px;border:1px solid #ff6b35;border-radius:8px;background:#fff;color:#ff6b35;font-size:12px;font-weight:700;cursor:pointer;}
 .pa-outline:hover:not(:disabled){background:#FFF5EF;}
@@ -8307,7 +8308,7 @@ function posAcRender(){
   const v=pos.view,items=v?v.items:pos.items,all=items.length>0&&items.every((_,i)=>posAcSel.has(i));
   document.getElementById('pa-acre-list').innerHTML=`<label class="pa-acre-row all"><input type="checkbox" ${all?'checked':''} onchange="posAcAll(this.checked)"><span>Select All</span></label>`
     +items.map((it,i)=>{const p=PRODUCTS.find(x=>x.code===it.code);return `<label class="pa-acre-row"><input type="checkbox" ${posAcSel.has(i)?'checked':''} onchange="posAcToggle(${i},this.checked)">
-      <span class="t"><b>${p.code}</b> / ${p.name}<small>${p.barcode}</small></span><span class="q">Qty ${it.qty}</span></label>`;}).join('');
+      <span class="t"><b>${p.code}</b> / ${p.name}<small>${p.barcode}</small></span><span class="q"><small>Qty</small>${it.qty}</span></label>`;}).join('');
   const n=[...posAcSel].reduce((a,i)=>a+items[i].qty,0),b=document.getElementById('pa-acre-ok');
   b.disabled=!posAcSel.size;b.textContent=posAcSel.size?`RE Print (${n})`:'RE Print';
 }
