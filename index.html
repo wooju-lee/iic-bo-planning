@@ -2213,7 +2213,7 @@ table.grid th.dt-l,table.grid td.dt-l{text-align:left!important;}
   <div class="modal-box" style="width:520px;">
     <div class="modal-header"><span class="modal-title">AC Card RE Print</span><button class="modal-close" onclick="posAcClose()">&times;</button></div>
     <div class="modal-body" style="padding:20px 24px;">
-      <div class="pa-acre-desc">Select the products to reprint the AC card.<span id="pa-acre-sub"></span></div>
+      <div class="pa-acre-desc">Select the products to reprint the AC card.</div>
       <div class="pa-acre-list" id="pa-acre-list"></div>
       <div class="pa-acre-note">A product bought in 2 or more is reprinted for its full quantity.</div>
       <div style="display:flex;justify-content:flex-end;margin-top:16px;"><button class="btn-action btn-primary" id="pa-acre-ok" style="height:36px;padding:0 20px;" onclick="posAcConfirm()" disabled>RE Print</button></div>
@@ -8300,7 +8300,6 @@ function posAcPrint(re){
 let posAcSel=null;
 function posAcOpen(){
   const v=pos.view,items=v?v.items:pos.items;posAcSel=new Set();
-  document.getElementById('pa-acre-sub').textContent='Invoice No. '+(v?v.inv:pos.invoice);
   posAcRender();document.getElementById('pa-acre-modal').classList.add('show');
 }
 function posAcClose(){document.getElementById('pa-acre-modal').classList.remove('show');posAcSel=null;}
