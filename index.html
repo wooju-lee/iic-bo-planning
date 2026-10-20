@@ -692,6 +692,16 @@ table.grid td input[type="checkbox"]:disabled{opacity:0.35;cursor:not-allowed;}
 .pa-ac-head{display:flex;align-items:center;justify-content:space-between;margin:16px 0 8px;padding-top:14px;border-top:1px solid #f0f0f0;}
 .pa-ac-head>span{font-size:11px;font-weight:700;color:#999;letter-spacing:.6px;}
 .pa-ac-head .pa-check{margin:0;}
+.pa-acre-desc{font-size:13px;color:#222;margin-bottom:12px;display:flex;flex-direction:column;gap:4px;}
+.pa-acre-desc span{font-size:11px;color:#888;}
+.pa-acre-list{border:1px solid #e5e5e5;border-radius:8px;overflow:hidden;}
+.pa-acre-row{display:flex;align-items:center;gap:12px;padding:12px 14px;border-top:1px solid #f0f0f0;cursor:pointer;font-size:12px;}
+.pa-acre-row:first-child{border-top:none;}
+.pa-acre-row.all{background:#fafafa;font-weight:600;}
+.pa-acre-row input{width:16px;height:16px;accent-color:#ff6b35;}
+.pa-acre-row .t{flex:1;min-width:0;}.pa-acre-row .t small{display:block;font-size:10px;color:#999;margin-top:2px;}
+.pa-acre-row .q{font-size:12px;font-weight:600;color:#555;white-space:nowrap;}
+.pa-acre-note{font-size:11px;color:#888;margin-top:10px;}
 .pa-outline{flex:1;height:40px;border:1px solid #ff6b35;border-radius:8px;background:#fff;color:#ff6b35;font-size:12px;font-weight:700;cursor:pointer;}
 .pa-outline:hover:not(:disabled){background:#FFF5EF;}
 .pa-outline.gray{border-color:#bbb;color:#555;}
@@ -2198,6 +2208,18 @@ table.grid th.dt-l,table.grid td.dt-l{text-align:left!important;}
 </nav>
 
 <!-- FRONT POS (production: opens in a new window / prototype: in-app route #/pos covering the BO layout) -->
+<!-- POS: AC Card RE Print — product selection (only when the sale has 2+ different products) -->
+<div class="modal-overlay" id="pa-acre-modal" style="z-index:1450;" onclick="if(event.target===this)posAcClose();">
+  <div class="modal-box" style="width:520px;">
+    <div class="modal-header"><span class="modal-title">AC Card RE Print</span><button class="modal-close" onclick="posAcClose()">&times;</button></div>
+    <div class="modal-body" style="padding:20px 24px;">
+      <div class="pa-acre-desc">Select the products to reprint the AC card.<span id="pa-acre-sub"></span></div>
+      <div class="pa-acre-list" id="pa-acre-list"></div>
+      <div class="pa-acre-note">A product bought in 2 or more is reprinted for its full quantity.</div>
+      <div style="display:flex;justify-content:flex-end;margin-top:16px;"><button class="btn-action btn-primary" id="pa-acre-ok" style="height:36px;padding:0 20px;" onclick="posAcConfirm()" disabled>RE Print</button></div>
+    </div>
+  </div>
+</div>
 <div class="pos-app" id="pos-app" hidden>
   <div class="pa-header">
     <div class="pa-store"><div class="code" id="pa-store-code"></div><div class="name" id="pa-store-name"></div></div>
@@ -8032,6 +8054,7 @@ const POS_SALES=[
   ['US1007','2610050K7M2Q','2026-10-05 14:22',0,'M100231',[[0,1],[12,1]]],
   ['US1007','2610040R4TX8','2026-10-04 11:05',1,null,[[5,2]]],
   ['US1007','2610010B9HQ3','2026-10-01 18:40',2,'M100587',[[20,1]]],
+  ['US1007','2610060P3L2A','2026-10-06 15:10',1,'M100231',[[0,2],[12,1]]],   // test: 2 products, one of them qty 2 (AC card RE Print selection)
   ['CA2003','261005073WMP','2026-10-05 16:10',1,'M100912',[[3,1]]],
   ['CA2003','2610030NC5V7','2026-10-03 12:30',0,null,[[8,1],[16,1]]]
 ].map(([store,inv,date,c,mid,items])=>({store,inv,date,cashier:POS_CASHIERS[c],member:POS_MEMBERS.find(m=>m.id===mid)||null,
@@ -8265,11 +8288,37 @@ function posConfirm(){
   showToast('Sales Confirmed','Invoice No. '+pos.invoice+(v?' (registered)':' (auto-generated)')+' · Total '+POS_STORE.currency+' '+posFmt(t.total)+(skip?'<br>AC Card print skipped.':''));
   posRender();
 }
+// AC Card RE Print: 2+ different products -> choose the products to reprint (modal).
+// One product only (any qty) -> prints right away as before. Serials are not kept per unit, so a product is reprinted for its full qty.
 function posAcPrint(re){
-  const v=pos.view;
+  const v=pos.view,items=v?v.items:pos.items;
+  if(re&&items.length>1) return posAcOpen();
   if(!v) pos.acPrinted=true;
   showToast(re?'AC Card RE Print':'AC Card Print','AC card printed: '+posTotals(v?v.items:pos.items).qty+' item(s)<br>Invoice No. '+(v?v.inv:pos.invoice));
   posRender();
+}
+let posAcSel=null;
+function posAcOpen(){
+  const v=pos.view,items=v?v.items:pos.items;posAcSel=new Set();
+  document.getElementById('pa-acre-sub').textContent='Invoice No. '+(v?v.inv:pos.invoice);
+  posAcRender();document.getElementById('pa-acre-modal').classList.add('show');
+}
+function posAcClose(){document.getElementById('pa-acre-modal').classList.remove('show');posAcSel=null;}
+function posAcRender(){
+  const v=pos.view,items=v?v.items:pos.items,all=items.length>0&&items.every((_,i)=>posAcSel.has(i));
+  document.getElementById('pa-acre-list').innerHTML=`<label class="pa-acre-row all"><input type="checkbox" ${all?'checked':''} onchange="posAcAll(this.checked)"><span>Select All</span></label>`
+    +items.map((it,i)=>{const p=PRODUCTS.find(x=>x.code===it.code);return `<label class="pa-acre-row"><input type="checkbox" ${posAcSel.has(i)?'checked':''} onchange="posAcToggle(${i},this.checked)">
+      <span class="t"><b>${p.code}</b> / ${p.name}<small>${p.barcode}</small></span><span class="q">Qty ${it.qty}</span></label>`;}).join('');
+  const n=[...posAcSel].reduce((a,i)=>a+items[i].qty,0),b=document.getElementById('pa-acre-ok');
+  b.disabled=!posAcSel.size;b.textContent=posAcSel.size?`RE Print (${n})`:'RE Print';
+}
+function posAcToggle(i,on){on?posAcSel.add(i):posAcSel.delete(i);posAcRender();}
+function posAcAll(on){const v=pos.view,items=v?v.items:pos.items;posAcSel=new Set(on?items.map((_,i)=>i):[]);posAcRender();}
+function posAcConfirm(){
+  const v=pos.view,items=v?v.items:pos.items,sel=[...posAcSel].map(i=>items[i]);if(!sel.length) return;
+  const n=sel.reduce((a,x)=>a+x.qty,0);
+  posAcClose();
+  showToast('AC Card RE Print','AC card printed: '+n+' item(s) ('+sel.map(x=>x.code).join(', ')+')<br>Invoice No. '+(v?v.inv:pos.invoice));
 }
 function posFocCheck(){
   const v=document.getElementById('pa-gift').value.trim();if(!v) return;
