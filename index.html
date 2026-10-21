@@ -83,7 +83,7 @@ body{background:#f8f8f8;color:#222;font-size:13px;overflow-x:hidden;zoom:0.8;}
 .search-table td .field-row{display:flex;gap:10px;align-items:center;flex-wrap:wrap;}
 
 .field-inline{display:flex;flex-direction:column;gap:0;min-width:0;}
-.field-inline select,.field-inline input[type="text"],.field-inline input[type="date"]{height:34px;border:1px solid #d5d5d5;border-radius:4px;padding:0 10px;font-size:12px;background:#fff;outline:none;color:#222;transition:border-color .2s;}
+.field-inline select,.field-inline input[type="text"],.field-inline input[type="date"],.field-inline input[type="month"]{height:34px;border:1px solid #d5d5d5;border-radius:4px;padding:0 10px;font-size:12px;background:#fff;outline:none;color:#222;transition:border-color .2s;}
 .field-inline select{padding:0 28px 0 10px;appearance:none;-webkit-appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24'%3E%3Cpath d='M7 10l5 5 5-5z' fill='%23666'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 8px center;}
 .field-inline select:focus,.field-inline input:focus{border-color:#ff6b35;box-shadow:0 0 0 2px rgba(255,107,53,0.12);}
 
@@ -5255,9 +5255,9 @@ table.grid th.dt-l,table.grid td.dt-l{text-align:left!important;}
         <tr><th>Sales Type</th><td><div class="field-row"><div class="field-inline"><select id="psv-type" style="min-width:360px;"><option value="">All</option><option value="NORMAL">NORMAL</option><option value="REFUND">REFUND</option></select></div></div></td></tr>
         <tr><th>Currency</th><td><div class="field-row"><div class="field-inline"><select id="psv-currency" style="min-width:360px;"><option value="">All</option></select></div></div></td></tr>
         <tr><th>Sales Date</th><td><div class="field-row">
-          <div class="field-inline"><input type="date" id="psv-from" style="min-width:170px;"></div>
+          <div class="field-inline"><input type="date" lang="en" id="psv-from" style="min-width:170px;"></div>
           <span style="color:#999;font-size:13px;">~</span>
-          <div class="field-inline"><input type="date" id="psv-to" style="min-width:170px;"></div>
+          <div class="field-inline"><input type="date" lang="en" id="psv-to" style="min-width:170px;"></div>
         </div></td></tr>
       </table>
       <div class="search-action">
