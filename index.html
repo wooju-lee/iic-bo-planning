@@ -8048,10 +8048,12 @@ const POS_CASHIERS=['[250005] monster1437 이우주','[250011] jane.park','[2500
 const POS_SELLERS=['[250011] jane.park','[250017] alex.kim','[250023] chris.lee'];
 // Daily Record View: cashier / seller (POS account) saved on every POS receipt — sales and refunds alike (refund = the account that processed it).
 // Online (OMS) receipts have no POS account -> '-'.
+// Shown as "employee no. / account" (e.g. 250011 / jane.park)
+const drvAcct=v=>{const m=/^\[(\d+)\]\s*(\S+)/.exec(v||'');return m?m[1]+' / '+m[2]:'';};
 DRV_DATA.forEach((r,i)=>{
   if(r.storeCode==='US1004'||r.storeCode==='US1005') return;
-  r.cashier=POS_CASHIERS[(i*7+(r.type==='REFUND'?1:0))%POS_CASHIERS.length];
-  r.seller=i%4===3?'':POS_SELLERS[(i*5)%POS_SELLERS.length];   // seller is optional at POS
+  r.cashier=drvAcct(POS_CASHIERS[(i*7+(r.type==='REFUND'?1:0))%POS_CASHIERS.length]);
+  r.seller=i%4===3?'':drvAcct(POS_SELLERS[(i*5)%POS_SELLERS.length]);   // seller is optional at POS
 });
 // Country -> Continent (same values as Daily Record View customer info)
 const POS_COUNTRIES={'United States':'North America','Canada':'North America','Korea':'Asia/Pacific','Japan':'Asia/Pacific','China':'Asia/Pacific','France':'Europe','United Kingdom':'Europe'};
