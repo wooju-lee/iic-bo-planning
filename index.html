@@ -85,6 +85,10 @@ body{background:#f8f8f8;color:#222;font-size:13px;overflow-x:hidden;zoom:0.8;}
 .field-inline{display:flex;flex-direction:column;gap:0;min-width:0;}
 .field-inline select,.field-inline input[type="text"],.field-inline input[type="date"],.field-inline input[type="month"]{height:34px;border:1px solid #d5d5d5;border-radius:4px;padding:0 10px;font-size:12px;background:#fff;outline:none;color:#222;transition:border-color .2s;}
 .field-inline select{padding:0 28px 0 10px;appearance:none;-webkit-appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24'%3E%3Cpath d='M7 10l5 5 5-5z' fill='%23666'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 8px center;}
+.psv-mwrap{position:relative;}
+.psv-mnative{position:absolute!important;left:0;bottom:0;width:100%;height:100%;opacity:0;pointer-events:none;}
+.psv-mdisp{display:flex;align-items:center;justify-content:space-between;gap:8px;min-width:170px;height:34px;border:1px solid #d5d5d5;border-radius:4px;padding:0 10px;font-size:12px;background:#fff;color:#222;cursor:pointer;font-family:inherit;}
+.psv-mdisp:hover{border-color:#bbb;}
 .field-inline select:focus,.field-inline input:focus{border-color:#ff6b35;box-shadow:0 0 0 2px rgba(255,107,53,0.12);}
 
 /* Toggle button group */
@@ -5255,9 +5259,9 @@ table.grid th.dt-l,table.grid td.dt-l{text-align:left!important;}
         <tr><th>Sales Type</th><td><div class="field-row"><div class="field-inline"><select id="psv-type" style="min-width:360px;"><option value="">All</option><option value="NORMAL">NORMAL</option><option value="REFUND">REFUND</option></select></div></div></td></tr>
         <tr><th>Currency</th><td><div class="field-row"><div class="field-inline"><select id="psv-currency" style="min-width:360px;"><option value="">All</option></select></div></div></td></tr>
         <tr><th>Sales Date</th><td><div class="field-row">
-          <div class="field-inline"><input type="date" lang="en" id="psv-from" style="min-width:170px;"></div>
+          <div class="field-inline psv-mwrap"><input type="date" lang="en" id="psv-from" style="min-width:170px;" onchange="psvMonthSync()"><button type="button" class="psv-mdisp" id="psv-from-m" hidden onclick="psvMonthPick('psv-from')"><span></span><svg width="14" height="14" viewBox="0 0 24 24" fill="#222"><path d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V9h14v11z"/></svg></button></div>
           <span style="color:#999;font-size:13px;">~</span>
-          <div class="field-inline"><input type="date" lang="en" id="psv-to" style="min-width:170px;"></div>
+          <div class="field-inline psv-mwrap"><input type="date" lang="en" id="psv-to" style="min-width:170px;" onchange="psvMonthSync()"><button type="button" class="psv-mdisp" id="psv-to-m" hidden onclick="psvMonthPick('psv-to')"><span></span><svg width="14" height="14" viewBox="0 0 24 24" fill="#222"><path d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V9h14v11z"/></svg></button></div>
         </div></td></tr>
       </table>
       <div class="search-action">
@@ -7684,6 +7688,7 @@ function psvApplyTab(tab){
   document.querySelectorAll('.psv-tab').forEach(t=>t.classList.toggle('active',t.dataset.tab===tab));
   const [f,t]=psvDefaultRange(tab),type=tab==='monthly'?'month':'date';
   ['psv-from','psv-to'].forEach((id,i)=>{const el=document.getElementById(id);el.type=type;el.value=i?t:f;});
+  psvMonthSync();
   // Customer mix (Customer Type / Continent) on every tab: Hourly / Daily / Monthly
   const mix=true,rs=' rowspan="2"';
   const hr=tab==='hourly'?`<th${rs} class="tl">Sales Date</th><th${rs} class="tl">Time Slot</th>`:'';
@@ -7695,6 +7700,13 @@ function psvApplyTab(tab){
     :`<tr class="hdr">${base}</tr>`;
   searchPeriodSales();
 }
+// Monthly: the native month input shows the OS locale ("2026년 10월") -> show "2026. 10" in a button that opens the native picker
+function psvMonthSync(){
+  const m=psvTab==='monthly';
+  ['psv-from','psv-to'].forEach(id=>{const el=document.getElementById(id),d=document.getElementById(id+'-m');
+    el.classList.toggle('psv-mnative',m);d.hidden=!m;d.querySelector('span').textContent=el.value?el.value.replace('-','. '):'YYYY. MM';});
+}
+function psvMonthPick(id){const el=document.getElementById(id);try{el.showPicker();}catch(e){el.focus();}}
 function refreshPsvStores(){
   const bps=[...document.querySelectorAll('#psvBp-dropdown .dd-item.selected')].map(el=>el.dataset.val);
   const trg=document.getElementById('psvStore-trigger'),dd=document.getElementById('psvStore-dropdown');
