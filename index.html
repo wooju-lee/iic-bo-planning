@@ -5391,11 +5391,11 @@ table.grid th.dt-l,table.grid td.dt-l{text-align:left!important;}
               <th rowspan="2" class="tr">VAT</th>
               <th rowspan="2">Tax-Free Type</th>
               <th rowspan="2">Gift Card</th>
-              <th rowspan="2" class="tl">Cashier</th>
-              <th rowspan="2" class="tl">Seller</th>
+              <th colspan="2" class="drv-cust-group">Employee Information</th>
               <th colspan="5" class="drv-cust-group">Customer Information</th>
             </tr>
             <tr class="hdr">
+              <th class="tl drv-cust-first">Cashier</th><th class="tl">Seller</th>
               <th class="drv-cust-first">Country</th><th>Continent</th><th>Customer Type</th><th>Gender</th><th>Usage Type</th>
             </tr>
           </thead>
@@ -7599,7 +7599,7 @@ function renderDrvPage(){
     <td class="tl">${r.dateTime}</td><td class="tl">${r.store}</td>
     <td><span class="drv-receipt">${r.receiptNo}</span>${r.origReceiptNo?'<span class="drv-orig">'+r.origReceiptNo+'</span>':''}</td>
     <td>${salesTypeTag(r.type)}</td><td>${r.currency}</td><td class="tr num">${r.qty}</td><td class="tr num">${fmtAmt2(r.total)}</td><td class="tr num">${fmtAmt2(r.net)}</td><td class="tr num">${fmtAmt2(r.vat)}</td>
-    <td>${r.taxFree}</td><td>${r.giftCard}</td><td class="tl">${r.cashier||'-'}</td><td class="tl">${r.seller||'-'}</td>${drvCustCells(r)}</tr>`).join('')
+    <td>${r.taxFree}</td><td>${r.giftCard}</td><td class="tl drv-cust-first">${r.cashier||'-'}</td><td class="tl">${r.seller||'-'}</td>${drvCustCells(r)}</tr>`).join('')
     :'<tr class="empty-row"><td colspan="18" class="dp-empty">No data found.</td></tr>';
 }
 // Receipt detail modal: same layout as production BO (title = Receipt No., info, items with Net / VAT / Total, Total Sum row)
