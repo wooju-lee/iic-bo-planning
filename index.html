@@ -5387,6 +5387,8 @@ table.grid th.dt-l,table.grid td.dt-l{text-align:left!important;}
               <th rowspan="2" class="tr">VAT</th>
               <th rowspan="2">Tax-Free Type</th>
               <th rowspan="2">Gift Card</th>
+              <th rowspan="2" class="tl">Cashier</th>
+              <th rowspan="2" class="tl">Seller</th>
               <th colspan="5" class="drv-cust-group">Customer Information</th>
             </tr>
             <tr class="hdr">
@@ -7593,8 +7595,8 @@ function renderDrvPage(){
     <td class="tl">${r.dateTime}</td><td class="tl">${r.store}</td>
     <td><span class="drv-receipt">${r.receiptNo}</span>${r.origReceiptNo?'<span class="drv-orig">'+r.origReceiptNo+'</span>':''}</td>
     <td>${salesTypeTag(r.type)}</td><td>${r.currency}</td><td class="tr num">${r.qty}</td><td class="tr num">${fmtAmt2(r.total)}</td><td class="tr num">${fmtAmt2(r.net)}</td><td class="tr num">${fmtAmt2(r.vat)}</td>
-    <td>${r.taxFree}</td><td>${r.giftCard}</td>${drvCustCells(r)}</tr>`).join('')
-    :'<tr class="empty-row"><td colspan="16" class="dp-empty">No data found.</td></tr>';
+    <td>${r.taxFree}</td><td>${r.giftCard}</td><td class="tl">${r.cashier||'-'}</td><td class="tl">${r.seller||'-'}</td>${drvCustCells(r)}</tr>`).join('')
+    :'<tr class="empty-row"><td colspan="18" class="dp-empty">No data found.</td></tr>';
 }
 // Receipt detail modal: same layout as production BO (title = Receipt No., info, items with Net / VAT / Total, Total Sum row)
 function openReceipt(idx){const r=drvLastRows[idx];if(r)renderReceipt(r);}
@@ -7609,7 +7611,7 @@ function renderReceipt(r){
   const dl=list=>'<div class="rc-dl">'+list.map(([k,val])=>'<div><div class="k">'+k+'</div><div class="v">'+val+'</div></div>').join('')+'</div>';
   const orig=r.origReceiptNo||'-';
   const salesInfo=[['Receipt No.',r.receiptNo],['Original Receipt No.',orig],['Sales Type',salesTypeTag(r.type)],
-    ['Sales Date',r.dateTime],['Store Information',r.store],['Currency',r.currency],['Gift Card',r.giftCard==='Y'?'Y':'-']];
+    ['Sales Date',r.dateTime],['Store Information',r.store],['Currency',r.currency],['Gift Card',r.giftCard==='Y'?'Y':'-'],['Cashier',r.cashier||'-'],['Seller',r.seller||'-']];
   const c=r.customer||{};
   const customerInfo=[['Country',v(c.country)],['Continent',v(c.continent)],['Customer Type',v(c.customerType)],['Gender',v(c.gender)],['Usage Type',v(c.usageType)]];
   const noCustomer=customerInfo.every(([,val])=>val==='-');
@@ -7643,11 +7645,11 @@ function resetDailyRecord(){
 function exportDailyRecord(){
   if(typeof XLSX==='undefined'){showToast('Excel Export','Excel library failed to load. Check network and reload.','error');return;}
   if(!drvLastRows.length){showToast('Excel Export','No data to export.','error');return;}
-  const head=['Sales Date','Store Information (Code / Name)','Receipt No.','Original Receipt No. (for Refund)','Sales Type','Currency','Total Qty','Total','Net','VAT','Tax-Free Type','Gift Card','Country','Continent','Customer Type','Gender','Usage Type'];
-  const aoa=[head].concat(drvLastRows.map(r=>[r.dateTime,r.store,r.receiptNo,r.origReceiptNo,r.type,r.currency,r.qty,r.total,r.net,r.vat,r.taxFree,r.giftCard].concat(DRV_CUST_KEYS.map(k=>(r.customer||{})[k]||''))));
+  const head=['Sales Date','Store Information (Code / Name)','Receipt No.','Original Receipt No. (for Refund)','Sales Type','Currency','Total Qty','Total','Net','VAT','Tax-Free Type','Gift Card','Cashier','Seller','Country','Continent','Customer Type','Gender','Usage Type'];
+  const aoa=[head].concat(drvLastRows.map(r=>[r.dateTime,r.store,r.receiptNo,r.origReceiptNo,r.type,r.currency,r.qty,r.total,r.net,r.vat,r.taxFree,r.giftCard,r.cashier||'',r.seller||''].concat(DRV_CUST_KEYS.map(k=>(r.customer||{})[k]||''))));
   const ws=XLSX.utils.aoa_to_sheet(aoa);
   for(let i=1;i<aoa.length;i++)[7,8,9].forEach(c=>{const cell=ws[XLSX.utils.encode_cell({r:i,c})];if(cell)cell.z=Number.isInteger(cell.v)?'#,##0':'#,##0.00';});
-  ws['!cols']=[{wch:28},{wch:36},{wch:22},{wch:26},{wch:12},{wch:10},{wch:10},{wch:12},{wch:12},{wch:10},{wch:13},{wch:10},{wch:16},{wch:14},{wch:14},{wch:10},{wch:12}];
+  ws['!cols']=[{wch:28},{wch:36},{wch:22},{wch:26},{wch:12},{wch:10},{wch:10},{wch:12},{wch:12},{wch:10},{wch:13},{wch:10},{wch:26},{wch:22},{wch:16},{wch:14},{wch:14},{wch:10},{wch:12}];
   const wb=XLSX.utils.book_new();XLSX.utils.book_append_sheet(wb,ws,'Daily Record View');
   const d=new Date(),pad=n=>String(n).padStart(2,'0');
   const fileName='Daily_Record_View_'+d.getFullYear()+pad(d.getMonth()+1)+pad(d.getDate())+'_'+pad(d.getHours())+pad(d.getMinutes())+'.xlsx';
@@ -7682,8 +7684,9 @@ function psvApplyTab(tab){
   document.querySelectorAll('.psv-tab').forEach(t=>t.classList.toggle('active',t.dataset.tab===tab));
   const [f,t]=psvDefaultRange(tab),type=tab==='monthly'?'month':'date';
   ['psv-from','psv-to'].forEach((id,i)=>{const el=document.getElementById(id);el.type=type;el.value=i?t:f;});
-  const hr=tab==='hourly'?'<th class="tl">Sales Date</th><th class="tl">Time Slot</th>':'';
-  const mix=tab==='daily',rs=mix?' rowspan="2"':'';
+  // Customer mix (Customer Type / Continent) on every tab: Hourly / Daily / Monthly
+  const mix=true,rs=' rowspan="2"';
+  const hr=tab==='hourly'?`<th${rs} class="tl">Sales Date</th><th${rs} class="tl">Time Slot</th>`:'';
   const lead=tab==='hourly'?hr:`<th${rs} class="tl">Brand</th><th${rs} class="tl">Sales Date</th>`;
   const base=`${lead}<th${rs} class="tl">Store Information<br><span style="font-size:10px;font-weight:400;opacity:.85;">(Code / Name)</span></th><th${rs}>Currency</th><th${rs}>Sales Type</th><th${rs} class="tr">Transaction Count</th><th${rs} class="tr">Total Qty</th><th${rs} class="tr">Average Unit</th><th${rs} class="tr">Total Sales Amount</th><th${rs} class="tr">Total Refund Amount</th><th${rs} class="tr">Net Qty</th><th${rs} class="tr">Net Amount</th>`;
   document.getElementById('psv-head').innerHTML=mix
@@ -7725,7 +7728,7 @@ function searchPeriodSales(){
   document.getElementById('psv-total').textContent=psvLastRows.length;
   renderPsvSum(recs,cur);renderPsvPage();
 }
-// Customer mix columns (Daily Total): ratio of sales receipts in the row, "77.8% (7)"
+// Customer mix columns (all tabs): ratio of sales receipts in the row, "77.8% (7)"
 const PSV_CTYPES=['N/A','LOCAL','FOREIGN'];
 const PSV_CONTS=['N/A'].concat([...new Set(DRV_DATA.map(r=>(r.customer||{}).continent).filter(Boolean))].sort());
 function psvMixCells(g){
@@ -7744,8 +7747,8 @@ function renderPsvPage(){
       <td><div class="psv-lines">${ls.map(l=>'<div>'+salesTypeTag(l.type)+'</div>').join('')}</div></td>
       <td class="tr num">${col(ls,l=>l.cnt)}</td><td class="tr num">${col(ls,l=>l.qty)}</td><td class="tr num">${col(ls,l=>psvAvg(l))}</td>
       <td class="tr num">${col(ls,l=>l.sales)}</td><td class="tr num">${col(ls,l=>l.ret)}</td>
-      <td class="tr num psv-net"${neg(nq)}>${nq}</td><td class="tr num psv-net"${neg(na)}>${fmtAmt2(na)}</td>${psvTab==='daily'?psvMixCells(g):''}</tr>`;}).join('')
-    :'<tr><td colspan="'+(hr?12:psvTab==='daily'?12+PSV_CTYPES.length+PSV_CONTS.length:12)+'" class="dp-empty">No data found.</td></tr>';
+      <td class="tr num psv-net"${neg(nq)}>${nq}</td><td class="tr num psv-net"${neg(na)}>${fmtAmt2(na)}</td>${psvMixCells(g)}</tr>`;}).join('')
+    :'<tr><td colspan="'+(12+PSV_CTYPES.length+PSV_CONTS.length)+'" class="dp-empty">No data found.</td></tr>';
 }
 // Total Sum: only when a single currency is selected
 function renderPsvSum(recs,currency){
@@ -7770,7 +7773,7 @@ function exportPeriodSales(){
   if(typeof XLSX==='undefined'){showToast('Excel Export','Excel library failed to load. Check network and reload.','error');return;}
   if(!psvLastRows.length){showToast('Excel Export','No data to export.','error');return;}
   const hr=psvTab==='hourly';
-  const mix=psvTab==='daily';
+  const mix=true;   // customer mix on every tab (Excel too)
   const head=(hr?['Sales Date','Time Slot']:['Brand','Sales Date']).concat(['Store Information (Code / Name)','Currency','Sales Type','Transaction Count','Total Qty','Average Unit','Total Sales Amount','Total Refund Amount','Net Qty','Net Amount'],
     mix?PSV_CTYPES.map(k=>'Customer Type: '+k).concat(PSV_CONTS.map(k=>'Continent: '+k)):[]);
   const mixVals=g=>{const n=g.NORMAL.cnt,f=(m,k)=>{const c=(m||{})[k]||0;return (n?Math.round(c/n*1000)/10:0)+'% ('+c+')';};return PSV_CTYPES.map(k=>f(g.ctype,k)).concat(PSV_CONTS.map(k=>f(g.cont,k)));};
@@ -8031,6 +8034,13 @@ const POS_TABS=[
 ];
 const POS_CASHIERS=['[250005] monster1437 이우주','[250011] jane.park','[250017] alex.kim'];
 const POS_SELLERS=['[250011] jane.park','[250017] alex.kim','[250023] chris.lee'];
+// Daily Record View: cashier / seller (POS account) saved on every POS receipt — sales and refunds alike (refund = the account that processed it).
+// Online (OMS) receipts have no POS account -> '-'.
+DRV_DATA.forEach((r,i)=>{
+  if(r.storeCode==='US1004'||r.storeCode==='US1005') return;
+  r.cashier=POS_CASHIERS[(i*7+(r.type==='REFUND'?1:0))%POS_CASHIERS.length];
+  r.seller=i%4===3?'':POS_SELLERS[(i*5)%POS_SELLERS.length];   // seller is optional at POS
+});
 // Country -> Continent (same values as Daily Record View customer info)
 const POS_COUNTRIES={'United States':'North America','Canada':'North America','Korea':'Asia/Pacific','Japan':'Asia/Pacific','China':'Asia/Pacific','France':'Europe','United Kingdom':'Europe'};
 const POS_MEMBERS=[
