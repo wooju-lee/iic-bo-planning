@@ -12897,7 +12897,7 @@ const RXW_DUR={
   TINT_OUTSOURCE_LAB2:['(Tint) Lab 2','Standard processing 14 ~ 18 D',18]
 };
 const RXW_EXEC=['IN_HOUSE','OUTSOURCED'];   // dropdown label = code
-const RXW_BPS={C1002:'C1002 / GM_미국법인',C1012:'C1012 / GM_Australia'};
+const RXW_BPS={C1002:'C1002 / GM_미국법인',C1003:'C1003 / GM_캐나다법인',C1012:'C1012 / GM_Australia'};   // C1003 (Canada) = dummy code
 // Order stores used by the dummy RX orders (tz = Store master time zone name)
 const RXW_STORES={
   US1001:{name:'GM_LosAngeles_FS_Downtown',bp:'C1002',tz:'PST',online:false},
@@ -12907,6 +12907,8 @@ const RXW_STORES={
   US1007:{name:'GM_CostaMesa_MALL_SCP',bp:'C1002',tz:'PST',online:false},
   US1008:{name:'GM_NewJersey_MALL_AD',bp:'C1002',tz:'EST',online:false},
   US1009:{name:'GM_Houston_MALL_Galleria',bp:'C1002',tz:'CST',online:false},
+  CA1001:{name:'GM_Toronto_MALL_Yorkdale',bp:'C1003',tz:'EST',online:false},   // CA stores = dummy (label registration test)
+  CA1003:{name:'GM_ONLINE_Canada_Official',bp:'C1003',tz:'EST',online:true},
   AU1002:{name:'GM_Sydney_MALL_DJ',bp:'C1012',tz:'AET_SYD',online:false},
   AU1003:{name:'GM_ONLINE_Australia_DJ',bp:'C1012',tz:'UTC',online:true}
 };
@@ -12950,7 +12952,7 @@ const rxwPad=n=>String(n).padStart(2,'0');
 const rxwIso=d=>d.getFullYear()+'-'+rxwPad(d.getMonth()+1)+'-'+rxwPad(d.getDate());
 const rxwFmt=d=>rxwIso(d)+' '+rxwPad(d.getHours())+':'+rxwPad(d.getMinutes());
 const rxwParse=s=>s?new Date(s.replace(' ','T')):null;
-const rxwMoney=(n,cur)=>(cur==='AUD'?'A$':'$')+Number(n||0).toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
+const rxwMoney=(n,cur)=>(cur==='AUD'?'A$':cur==='CAD'?'CA$':'$')+Number(n||0).toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
 const rxwAmt=n=>n===0?'0':Number(n).toLocaleString('en-US');
 const rxwCountry=code=>String(code||'').slice(0,2).toUpperCase();
 const rxwStatusLabel=s=>RXW_STATUS[s]?RXW_STATUS[s][0]:s;
@@ -13011,6 +13013,7 @@ function rxwGenData(){
   const AU_NAMES=['Charlotte Smith','Jack Wilson','Ruby Taylor'];
   let addrs=[{addr:'123 Main St',city:'Los Angeles',state:'CA',zip:'90012'},{addr:'789 Broadway',city:'New York',state:'NY',zip:'10003'},{addr:'456 New Plaza Dr',city:'Fremont',state:'CA',zip:'94538'}];
   try{if(RX_ADDRESSES&&RX_ADDRESSES.length) addrs=RX_ADDRESSES;}catch(e){}
+  const CA_ADDR=[{addr:'220 Yonge St',city:'Toronto',state:'ON',zip:'M5B 2H1'},{addr:'1455 Peel St',city:'Montreal',state:'QC',zip:'H3A 1T5'}];
   const AU_ADDR=[{addr:'330 George St',city:'Sydney',state:'NSW',zip:'2000'},{addr:'1 Martin Pl',city:'Sydney',state:'NSW',zip:'2000'}];
   const CMTS=[['GENERAL','Customer asked to be contacted before shipping.'],['LENS','Please double check PD (single PD measured at store).'],['FRAME','Frame has a small scratch on the left temple - checked with customer.'],
     ['DELIVERY','Customer requested signature on delivery.'],['PRESCRIPTION','Prescription image is a bit blurry, values confirmed by phone.']];
@@ -13039,7 +13042,10 @@ function rxwGenData(){
     ['US1003','STORE_PICKUP','COMPLETED',15,{}],['US1004','B2C_DELIVERY','FINALIZED',18,{}],['US1001','STORE_PICKUP','FINALIZED',20,{}],
     ['US1004','B2C_DELIVERY','IN_PROGRESS',16,{claim:'CANCELED'}],['AU1003','B2C_DELIVERY','OUTBOUND_INSPECTION',6,{}],['AU1002','STORE_PICKUP','PENDING',2,{noInv:true}],
     ['AU1003','B2C_DELIVERY','COMPLETED',14,{}],['US1004','B2C_DELIVERY','PENDING',26,{}],['US1007','STORE_PICKUP','INBOUND_INSPECTION',2,{pre:true,addrHist:true}],
-    ['US1002','B2C_DELIVERY','OUTBOUND_INSPECTION',4,{ieQty:2}]   // test: offline, IE frame qty 2
+    ['US1002','B2C_DELIVERY','OUTBOUND_INSPECTION',4,{ieQty:2}],   // test: offline, IE frame qty 2
+    // CA (FedEx only / Service Type default Express)
+    ['CA1003','B2C_DELIVERY','OUTBOUND_INSPECTION',3,{}],['CA1001','B2C_DELIVERY','OUTBOUND_INSPECTION',5,{}],['CA1003','B2C_DELIVERY','COMPLETED',12,{}],
+    ['CA1001','STORE_PICKUP','IN_PROGRESS',6,{}],['CA1003','B2C_DELIVERY','PENDING',1,{}]
   ];
   NEW.forEach(([store,recv,status,ago,o])=>{
     const d=new Date(now.getTime()-ago*864e5);d.setHours(ago?ri(9,20):Math.max(0,now.getHours()-2),ri(0,59));
@@ -13049,7 +13055,7 @@ function rxwGenData(){
   });
   // ---- build rows ----
   return plan.map((p,i)=>{
-    const st=RXW_STORES[p.store],ord=rxwParse(p.orderedAt),au=p.store.startsWith('AU'),online=p.ch==='ONLINE';
+    const st=RXW_STORES[p.store],ord=rxwParse(p.orderedAt),au=p.store.startsWith('AU'),ca=p.store.startsWith('CA'),online=p.ch==='ONLINE';
     const ymd=rxwIso(ord).slice(2).replace(/-/g,''),hms=rxwPad(ord.getHours())+rxwPad(ord.getMinutes())+rxwPad(ri(0,59));
     const orderNo=p.pos?p.pos.id:online?ymd+'0RS'+code(10):'SL'+p.store+ymd+hms+code(5);
     const ssid=online?'GM'+rxwCountry(p.store)+String(10000000+ri(0,8999999)):'#'+(20000+i*37+ri(0,30));
@@ -13079,12 +13085,12 @@ function rxwGenData(){
     const email=first+'.'+nm.split(' ')[1].toLowerCase()+(i%3?'@gmail.com':'@outlook.com');
     const phone=au?'+61 4'+ri(10,99)+' '+ri(100,999)+' '+ri(100,999):'+1 '+ri(201,989)+'-'+ri(200,999)+'-'+ri(1000,9999);
     const member=online||i%4!==1;
-    const a=au?pick(AU_ADDR):pick(addrs);
+    const a=au?pick(AU_ADDR):ca?pick(CA_ADDR):pick(addrs);
     const recipient={name:nm,phone,email,address:p.recv==='B2C_DELIVERY'?{countryCode:rxwCountry(p.store),line1:a.addr,line2:i%3===0?'Apt '+ri(1,30)+'B':'',city:a.city,state:a.state,zip:a.zip}:null};
     const sph=()=>-(ri(1,24)*0.25),cyl=()=>-(ri(0,8)*0.25),pdv=ri(60,68)/2;
     const issue=new Date(ord.getTime()-ri(30,400)*864e5),exp=new Date(issue.getTime()+(i%7===3?300:ri(400,730))*864e5);
     const files=[{filename:'prescription_'+(i+1)+'.jpg',ext:'jpg'}].concat(i%3===0?[{filename:'rx_form_'+(i+1)+'.pdf',ext:'pdf'}]:[]);
-    const r={id:'8198443481441'+String(63600+i).padStart(5,'0'),orderNo,ssid,channel:p.ch,storeCode:p.store,storeName:st.name,bp:st.bp,tz:st.tz,currency:au?'AUD':'USD',
+    const r={id:'8198443481441'+String(63600+i).padStart(5,'0'),orderNo,ssid,channel:p.ch,storeCode:p.store,storeName:st.name,bp:st.bp,tz:st.tz,currency:au?'AUD':ca?'CAD':'USD',
       orderedAt:p.orderedAt,confirmAt:rxwFmt(conf),eta:rxwIso(eta),completedAt:completed,status:p.status,claim:p.claim,exec,dur,worker,
       recv:p.recv,step,invoiceNo,tags:p.tags,launchedAt:p.tags.includes('PREORDER')?rxwIso(new Date(ord.getTime()+ri(14,40)*864e5)):null,labIn,transit:!!opt.transit,
       member:member?{country:rxwCountry(p.store),email:first.slice(0,4)+'****@'+(i%3?'gmail.com':'outlook.com'),phone}:null,
@@ -13092,8 +13098,8 @@ function rxwGenData(){
       recipient,agree:{rxTerms:true,hipaa:true,marketing:i%2===0},signature:!online,items:p.items,
       comments:[],history:[],trackings:[]};
     // Delivery tracking: inbound = order store (or online WH) -> RX Lab, outbound = Lab -> customer / Lab -> store
-    if(invoiceNo){const c=online||au?'FEDEX':pick(['UPS','FEDEX']);r.trackings.push({dir:'INBOUND',carrier:c,no:c==='UPS'?'1Z'+code(6)+String(ri(10000000,99999999)):String(ri(100000000,999999999))+ri(100,999)});}
-    if(step==='LABEL_PRINTABLE'){const c=au?'AUSPOST':pick(['FEDEX','UPS']);r.trackings.push({dir:'OUTBOUND',carrier:c,svc:au?'GROUND':'EXPRESS',no:c==='UPS'?'1Z'+code(6)+String(ri(10000000,99999999)):String(ri(100000000,999999999))+ri(100,999)});}
+    if(invoiceNo){const c=online||au||ca?'FEDEX':pick(['UPS','FEDEX']);r.trackings.push({dir:'INBOUND',carrier:c,no:c==='UPS'?'1Z'+code(6)+String(ri(10000000,99999999)):String(ri(100000000,999999999))+ri(100,999)});}
+    if(step==='LABEL_PRINTABLE'){const c=au?'AUSPOST':ca?'FEDEX':pick(['FEDEX','UPS']);r.trackings.push({dir:'OUTBOUND',carrier:c,svc:au?'GROUND':'EXPRESS',no:c==='UPS'?'1Z'+code(6)+String(ri(10000000,99999999)):String(ri(100000000,999999999))+ri(100,999)});}
     // Comments
     if(i%3!==2){const n=i%4===0?2:1;for(let k=0;k<n;k++){const c=CMTS[(i+k)%CMTS.length],t=new Date(conf.getTime()+(k+1)*5*36e5);if(t>now) t.setTime(now.getTime()-5*60e3);
       r.comments.unshift({id:'c'+i+'_'+k,type:c[0],content:c[1],createdBy:k?pick(RXW_WORKERS):'monster1437',createdAt:rxwFmt(t),tz:st.tz});}}
@@ -13516,7 +13522,7 @@ function rxwInvoice(ids){
   ids=ids||[...rxwSel];if(!ids.length) return;
   const rows=ids.map(rxwById);
   document.getElementById('rxw-iv-body').innerHTML=rows.map(r=>{
-    const au=r.currency==='AUD',rate=au?0:0.0825,cur=v=>(au?'AU$':'$')+Number(v||0).toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
+    const au=r.currency==='AUD',rate=au?0:0.0825,cur=v=>(au?'AU$':r.currency==='CAD'?'CA$':'$')+Number(v||0).toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
     const lines=r.items.flatMap(it=>[it].concat(it.cof?[]:it.components));
     const sub=lines.reduce((s,x)=>s+x.amount,0),tax=Math.round(sub*rate*100)/100,a=r.recipient&&r.recipient.address,rc=r.recipient||{},p=r.purchaser||rc;
     const sublabel=x=>x.leafCode==='111010'?'Prescription Lenses':/PACKAGE/.test(x.leafName)?'Package':'Frame Used for Prescription Lenses';
