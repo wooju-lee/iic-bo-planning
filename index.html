@@ -13989,7 +13989,6 @@ function rxwSnSaved(r){return Array.from({length:rxwIeUnits(r)},(_,u)=>r.serials
 function rxwSnDirty(r){const sv=rxwSnSaved(r);return rxwDs.sn.some((v,u)=>v.trim()&&v.trim()!==sv[u]);}
 function rxwSnGen(seed){const A='0123456789ABCDEFGHJKLMNPQRSTUVWXYZ';let x=seed>>>0||7,o='';for(let k=0;k<10;k++){x=(x*1103515245+12345)>>>0;o+=A[x%A.length];}return 'GMIE'+o;}
 function rxwIeSeed(){
-  let oiScanned=0;
   RXW_DATA.forEach((r,i)=>{
     const oi=r.recv==='B2C_DELIVERY'&&r.status==='OUTBOUND_INSPECTION';
     if(!r.storeCode.startsWith('US')||(i%3===1&&!oi)) return;   // IE launch: US (all To Customer Outbound Inspection orders are IE for the demo)
@@ -13999,7 +13998,8 @@ function rxwIeSeed(){
     if(r.recv!=='B2C_DELIVERY'||r.claim==='CANCELED') return;
     const at=r.completedAt||r.confirmAt,by=r.worker||'monster1437',fill=()=>{r.serials=Array.from({length:n},(_,u)=>({no:rxwSnGen(i*7919+u*101),at,by}));};
     if(['COMPLETED','FINALIZED'].includes(r.status)) fill();
-    else if(oi&&n===1&&oiScanned++===0) fill();
+    // US offline: Shopify sends the serials per product / qty with the sale -> saved with the order (still editable at Outbound Inspection)
+    else if(r.channel==='OFFLINE'){fill();r.serials.forEach(x=>{x.at=r.orderedAt;x.by='SHOPIFY';});}
   });
 }
 // List: IE marker only (serial save / send status is not shown in the list)
@@ -14015,8 +14015,8 @@ function rxwSnCells(r,it){
     const lbl='',saved=r.serials&&r.serials[u];   // fields only (no unit number / helper text)
     if(!rxwSnEditable(r)){out.push(`<div class="rxw-sn-cell">${lbl}<span class="rxw-sn-ro${saved?'':' off'}">${saved?rxwEsc(saved.no):'Scan at Outbound Inspection'}</span></div>`);continue;}
     const v=(rxwDs.sn[u]||'').trim();
-    out.push(`<div class="rxw-sn-cell">${lbl}<div style="flex:1;min-width:0;"><input class="rxw-sn-in${!saved&&!v?' need':''}" id="rxw-sn-field-${u}" value="${rxwEsc(rxwDs.sn[u]||'')}" placeholder="Scan IE serial" autocomplete="off"
-        oninput="rxwDs.sn[${u}]=this.value.toUpperCase();rxwSnSync(${u})" onkeydown="if(event.key==='Enter'){event.preventDefault();rxwSnNext(${u});}">
+    out.push(`<div class="rxw-sn-cell">${lbl}<div style="flex:1;min-width:0;"><input class="rxw-sn-in${!saved&&!v?' need':''}" id="rxw-sn-field-${u}" value="${rxwEsc(rxwDs.sn[u]||'')}" placeholder="Scan IE serial" autocomplete="off" maxlength="50"
+        oninput="this.value=this.value.replace(/[^A-Za-z0-9]/g,'');rxwDs.sn[${u}]=this.value.toUpperCase();rxwSnSync(${u})" onkeydown="if(event.key==='Enter'){event.preventDefault();rxwSnNext(${u});}">
       </div></div>`);
   }
   return out.join('');
@@ -14034,9 +14034,10 @@ function rxwSnNext(u){
 }
 function rxwSnSave(){
   const r=rxwCur;if(!rxwSnEditable(r)) return;
-  if(!rxwSnDirty(r)) return rxwDs.sn.every(v=>!v.trim())?rxwToast('Please scan the serial.','','error'):undefined;   // Prototype: any non-empty value passes
-  // Every IE unit must have a serial before saving
+  if(!rxwSnDirty(r)) return rxwDs.sn.every(v=>!v.trim())?rxwToast('Please scan the serial.','','error'):undefined;
+  // Every IE unit must have a serial before saving (alphanumeric, max 50)
   if(rxwDs.sn.some(v=>!v.trim())) return rxwToast('Please enter the IE serial for every item.','','error');
+  if(rxwDs.sn.some(v=>!/^[A-Za-z0-9]{1,50}$/.test(v.trim()))) return rxwToast('IE serial must be up to 50 letters and numbers.','','error');
   const now=rxwFmt(new Date()),items=[];
   rxwDs.sn.forEach((raw,u)=>{const v=raw.trim().toUpperCase(),cur=r.serials[u];if(!v||(cur&&cur.no===v)) return;
     const old=cur?cur.no:null;r.serials[u]={no:v,at:now,by:'monster1437'};items.push(['IE_SERIAL',old,rxwIeUnits(r)>1?`${v} (${u+1}/${rxwIeUnits(r)})`:v]);});
