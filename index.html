@@ -13291,8 +13291,8 @@ function rxwRenderButtons(rows){
   show('rxw-g-label',b2c);show('rxw-g-ob',!b2c);
   // Divider before every visible group except the first one
   [...document.querySelectorAll('#rxw-view .rxw-tg')].filter(g=>g.style.display!=='none').forEach((g,i)=>g.classList.toggle('sep',i>0));
-  // IE orders: enabled only after every IE serial is saved (any selected IE order without saved serials disables the button)
-  dis('rxw-b-lr',!sel.some(r=>r.status==='OUTBOUND_INSPECTION')||sel.some(r=>r.status==='OUTBOUND_INSPECTION'&&rxwSnRequired(r)&&!rxwSnDone(r)));
+  // Enabled only when every selected order is Outbound Inspection (FE dev 6fb10aef) and every selected IE order has all serials saved
+  dis('rxw-b-lr',!sel.length||!sel.every(r=>r.status==='OUTBOUND_INSPECTION')||sel.some(r=>rxwSnRequired(r)&&!rxwSnDone(r)));
   dis('rxw-b-lp',!sel.some(r=>r.status==='COMPLETED'));
   dis('rxw-b-cs',!has);dis('rxw-b-pk',!has);dis('rxw-b-iv',!has);
   dis('rxw-b-ob',!has||!sel.some(r=>r.step==='OUTBOUND_NOT_REGISTERED')||!sel.some(r=>r.status==='OUTBOUND_INSPECTION'));
