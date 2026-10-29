@@ -488,6 +488,8 @@ table.grid td input[type="checkbox"]:disabled{opacity:0.35;cursor:not-allowed;}
 .pa-header{height:56px;display:flex;align-items:center;justify-content:space-between;padding:0 16px 0 24px;background:#fff;border-bottom:1px solid #eee;position:sticky;top:0;z-index:6;}
 .pa-store .code{font-size:13px;font-weight:600;color:#ff6b35;line-height:1.2;}
 .pa-store .name{font-size:17px;font-weight:700;color:#222;line-height:1.3;}
+.pa-proto-store{display:flex;align-items:center;gap:6px;font-size:11px;color:#999;border:1px dashed #ccc;border-radius:6px;padding:3px 6px;}
+.pa-proto-store select{height:28px;font-size:12px;border:1px solid #ddd;border-radius:4px;}
 .pa-header-r{display:flex;align-items:center;gap:8px;}
 .pa-back{display:flex;align-items:center;gap:2px;height:30px;padding:0 12px 0 8px;border:1px solid #ddd;border-radius:6px;font-size:11px;color:#555;text-decoration:none;background:#fff;}
 .pa-back:hover{background:#f7f7f7;}
@@ -2228,6 +2230,7 @@ table.grid th.dt-l,table.grid td.dt-l{text-align:left!important;}
   <div class="pa-header">
     <div class="pa-store"><div class="code" id="pa-store-code"></div><div class="name" id="pa-store-name"></div></div>
     <div class="pa-header-r">
+      <label class="pa-proto-store" title="Prototype only: switch the POS store">Store (prototype)<select id="pa-store-sel" onchange="posSwitchStore(this.value)"></select></label>
       <a class="pa-back" href="#/"><svg width="18" height="18" viewBox="0 0 24 24" fill="#555"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>Back to BO</a>
       <button class="lang-btn">Language <b>English</b><svg width="20" height="20" viewBox="0 0 24 24" fill="#222"><use href="#i-chevron-down"/></svg></button>
       <button class="user-btn">monster1437 (SUPERADMIN)<svg width="20" height="20" viewBox="0 0 24 24" fill="#fff"><use href="#i-chevron-down"/></svg></button>
@@ -2267,7 +2270,7 @@ table.grid th.dt-l,table.grid td.dt-l{text-align:left!important;}
           </div>
           <div class="pa-table-wrap">
             <table class="pa-table">
-              <thead><tr><th style="width:40px;">#</th><th>Product Information<br>(Name)</th><th>Qty</th><th>Currency</th><th>Customer Price</th><th>Discount Price</th><th>Total</th><th>Stock<br>(SALES)</th><th style="width:36px;"></th></tr></thead>
+              <thead><tr><th style="width:40px;">#</th><th>Product Information<br>(Name)</th><th>Qty</th><th>Currency</th><th>Customer Price</th><th>Discount Price</th><th class="pa-vat-col">VAT</th><th>Total</th><th>Stock<br>(SALES)</th><th style="width:36px;"></th></tr></thead>
               <tbody id="pa-items"></tbody>
             </table>
           </div>
@@ -2276,6 +2279,7 @@ table.grid th.dt-l,table.grid td.dt-l{text-align:left!important;}
             <div class="pa-sum-sub">
               <div><span>Customer Price</span><b id="pa-t-cp">0</b></div>
               <div><span>Discount Price</span><b id="pa-t-dp" class="disc">0</b></div>
+              <div class="pa-vat-col"><span>VAT</span><b id="pa-t-vat">0</b></div>
             </div>
             <div class="pa-sum-total"><span>Total</span><div><small id="pa-t-cur">USD</small><b id="pa-t-total">0</b></div></div>
           </div>
@@ -8029,7 +8033,15 @@ function printLabel(idx){
 
 // ===== Front POS =====
 // Production: Front POS opens in a new window. Prototype: same app via #/pos (covers the BO layout)
-const POS_STORE={code:'US1007',name:'GM_CostaMesa_MALL_SCP',currency:'USD',country:'US'};
+// vat: tax added on top of the price (external tax, store setting). Stores with vat show Customer Price (before tax) / VAT / Total (with tax) separately.
+// Store switch is prototype only (production: the POS opens for the logged-in store)
+const POS_STORES=[
+  {code:'US1007',name:'GM_CostaMesa_MALL_SCP',currency:'USD',country:'US'},
+  {code:'CA1006',name:'GM_Vancouver MALL_Holt Renfrew',currency:'CAD',country:'CA',vat:0.12}   // CA1006: 12% as set (exception store)
+];
+const POS_STORE={...POS_STORES[0]};
+// Rx Operation List dummy orders belong to US1007
+const POS_RX_STORE=POS_STORES[0];
 // Invoice No. field mode by store country (Store master setting)
 // LOOKUP: scan the receipt's Invoice No. to look up a past sale / REGISTER: enter the Invoice No. for this sale (blank -> auto-generated)
 // modes: allowed modes (a single mode = fixed, no toggle) / def: mode on entry and after All Clear
@@ -8082,7 +8094,9 @@ const POS_SALES=[
   ['US1007','2610010B9HQ3','2026-10-01 18:40',2,'M100587',[[20,1]]],
   ['US1007','2610060P3L2A','2026-10-06 15:10',1,'M100231',[[0,2],[12,1]]],   // test: 2 products, one of them qty 2 (AC card RE Print selection)
   ['CA2003','261005073WMP','2026-10-05 16:10',1,'M100912',[[3,1]]],
-  ['CA2003','2610030NC5V7','2026-10-03 12:30',0,null,[[8,1],[16,1]]]
+  ['CA2003','2610030NC5V7','2026-10-03 12:30',0,null,[[8,1],[16,1]]],
+  ['CA1006','2610270VC4K1','2026-10-27 13:20',0,'M100912',[[1,1]]],          // CA1006 (VAT 12%): 1 product
+  ['CA1006','2610280VD8M5','2026-10-28 17:05',2,null,[[3,2],[6,1]]]          // CA1006: discounted product qty 2 + 1 product
 ].map(([store,inv,date,c,mid,items])=>({store,inv,date,cashier:POS_CASHIERS[c],member:POS_MEMBERS.find(m=>m.id===mid)||null,
   items:items.map(([i,qty])=>({code:PRODUCTS[i].code,qty}))}));
 // invMode: LOOKUP / REGISTER, view: past sale being looked up, invMsg: message under the field, invChecked: validated Invoice No. (REGISTER)
@@ -8116,6 +8130,7 @@ function posLeave(){
 function posInit(){
   document.getElementById('pa-store-code').textContent='['+POS_STORE.code+']';
   document.getElementById('pa-store-name').textContent=POS_STORE.name;
+  document.getElementById('pa-store-sel').innerHTML=POS_STORES.map(s=>`<option value="${s.code}"${s.code===POS_STORE.code?' selected':''}>${s.code}</option>`).join('');
   pos.invMode=posInvCfg().def;
   document.getElementById('pa-cashier').innerHTML='<option value="">Please Select.</option>'+POS_CASHIERS.map((c,i)=>`<option${i===0?' selected':''}>${c}</option>`).join('');
   document.getElementById('pa-seller').innerHTML='<option value="">Please enter a value.</option>'+POS_SELLERS.map(c=>`<option>${c}</option>`).join('');
@@ -8159,11 +8174,22 @@ function posAddItem(code){
 }
 function posQty(i,d){if(pos.confirmed)return;pos.items[i].qty=Math.max(1,pos.items[i].qty+d);posRender();}
 function posRemove(i){if(pos.confirmed)return;pos.items.splice(i,1);posRender();}
+// VAT per line: (price after discount x qty) x store rate (discount is taken before tax). Total = price after discount x qty + VAT
+const posRound=n=>Math.round(n*100)/100;
+function posLineVat(unit,qty){return POS_STORE.vat?posRound(unit*qty*POS_STORE.vat):0;}
 function posTotals(items=pos.items){
-  return items.reduce((a,it)=>{
-    const pr=posPrice(PRODUCTS.find(p=>p.code===it.code)),unit=pr.dp??pr.cp;
-    a.cp+=pr.cp*it.qty;a.disc+=(pr.cp-unit)*it.qty;a.total+=unit*it.qty;a.qty+=it.qty;return a;
-  },{cp:0,disc:0,total:0,qty:0});
+  const t=items.reduce((a,it)=>{
+    const pr=posPrice(PRODUCTS.find(p=>p.code===it.code)),unit=pr.dp??pr.cp,vat=posLineVat(unit,it.qty);
+    a.cp+=pr.cp*it.qty;a.disc+=(pr.cp-unit)*it.qty;a.vat+=vat;a.total+=unit*it.qty+vat;a.qty+=it.qty;return a;
+  },{cp:0,disc:0,vat:0,total:0,qty:0});
+  t.vat=posRound(t.vat);t.total=posRound(t.total);return t;
+}
+function posSwitchStore(code){
+  Object.assign(POS_STORE,{vat:undefined},POS_STORES.find(s=>s.code===code));
+  document.getElementById('pa-store-code').textContent='['+POS_STORE.code+']';
+  document.getElementById('pa-store-name').textContent=POS_STORE.name;
+  const sel=document.getElementById('pa-store-sel');sel.value=code;csRefresh(sel);
+  posClear();
 }
 // ----- Customer -----
 function posMemberMatches(q){
@@ -8363,20 +8389,22 @@ function posClear(){
 // ----- Render -----
 function posRender(){
   // view: past sale looked up by Invoice No. (read-only, replaces the cart)
-  const view=pos.view,lock=pos.confirmed||!!view,items=view?view.items:pos.items;
+  const view=pos.view,lock=pos.confirmed||!!view,items=view?view.items:pos.items,vatOn=!!POS_STORE.vat;
+  document.querySelectorAll('#pos-app .pa-vat-col').forEach(e=>e.hidden=!vatOn);
   document.getElementById('pa-items').innerHTML=items.length?items.map((it,i)=>{
     const p=PRODUCTS.find(x=>x.code===it.code),pr=posPrice(p),unit=pr.dp??pr.cp;let pk;
     if(view) pr.stock=Infinity;  // stock is not shown for a past sale
     return `<tr class="${pr.stock<it.qty?'over':''}${posPackage(p)?' has-pkg':''}"><td>${i+1}</td><td class="l"><b>${p.code}</b> / ${p.name}<div class="sub">${p.barcode}</div></td>
       <td><span class="pa-qty"><button ${lock||it.qty<=1?'disabled':''} onclick="posQty(${i},-1)">−</button><span>${it.qty}</span><button ${lock?'disabled':''} onclick="posQty(${i},1)">+</button></span></td>
-      <td>${POS_STORE.currency}</td><td>${posFmt(pr.cp)}</td><td>${pr.dp!=null?posFmt(pr.dp):'-'}</td><td><b>${posFmt(unit*it.qty)}</b></td>
+      <td>${POS_STORE.currency}</td><td>${posFmt(pr.cp)}</td><td>${pr.dp!=null?posFmt(pr.dp):'-'}</td>${vatOn?`<td>${posFmt(posLineVat(unit,it.qty))}</td>`:''}<td><b>${posFmt(posRound(unit*it.qty+posLineVat(unit,it.qty)))}</b></td>
       <td class="${pr.stock<it.qty?'neg':''}">${view?'-':pr.stock}</td><td>${lock?'':`<button class="pa-del" title="Remove (with package)" onclick="posRemove(${i})">×</button>`}</td></tr>`
       +((pk=posPackage(p))?`<tr class="pa-pkg"><td></td><td class="l"><span class="pa-pkg-tag">PACKAGE</span><b>${pk.code}</b> / ${pk.name}</td>
-      <td>${it.qty}</td><td>${POS_STORE.currency}</td><td>0</td><td>-</td><td><b>0</b></td><td>-</td><td></td></tr>`:'');
-  }).join(''):`<tr class="pa-empty"><td colspan="9"><svg class="ic" viewBox="0 0 24 24"><path d="M2 6h2v12H2V6zm3 0h1v12H5V6zm2 0h3v12H7V6zm4 0h1v12h-1V6zm3 0h2v12h-2V6zm3 0h1v12h-1V6zm2 0h3v12h-3V6z"/></svg><div class="t">No rows</div>Scan a product barcode or search by product name / code to start.</td></tr>`;
+      <td>${it.qty}</td><td>${POS_STORE.currency}</td><td>0</td><td>-</td>${vatOn?'<td>0</td>':''}<td><b>0</b></td><td>-</td><td></td></tr>`:'');
+  }).join(''):`<tr class="pa-empty"><td colspan="${vatOn?10:9}"><svg class="ic" viewBox="0 0 24 24"><path d="M2 6h2v12H2V6zm3 0h1v12H5V6zm2 0h3v12H7V6zm4 0h1v12h-1V6zm3 0h2v12h-2V6zm3 0h1v12h-1V6zm2 0h3v12h-3V6z"/></svg><div class="t">No rows</div>Scan a product barcode or search by product name / code to start.</td></tr>`;
   const t=posTotals(items);
   document.getElementById('pa-t-cp').textContent=posFmt(t.cp);
   document.getElementById('pa-t-dp').textContent=t.disc?'-'+posFmt(t.disc):'0';
+  document.getElementById('pa-t-vat').textContent=posFmt(t.vat);
   document.getElementById('pa-t-meta').textContent=items.length+' item(s) · Qty '+t.qty;
   document.getElementById('pa-t-cur').textContent=POS_STORE.currency;
   document.getElementById('pa-confirm-amt').textContent=POS_STORE.currency+' '+posFmt(t.total);
@@ -8550,7 +8578,7 @@ function rxOpenOutbound(){
   document.getElementById('rx-ob-rows').innerHTML=RX_ORDERS.filter(d=>rx.checked.has(d.id)).map(d=>`<tr>
     <td style="font-weight:500;">${d.invoiceNo!=='-'?d.invoiceNo:d.id.slice(-10)}</td>
     <td style="text-align:center;">${d.orderType==='PREORDER'?'<span class="rx-tag-pre">PREORDER</span>':'<span style="color:#999;">—</span>'}</td>
-    <td>${POS_STORE.code} / ${POS_STORE.name}</td></tr>`).join('');
+    <td>${POS_RX_STORE.code} / ${POS_RX_STORE.name}</td></tr>`).join('');
   document.getElementById('rx-ob-modal').classList.add('show');
 }
 function rxCloseOutbound(){document.getElementById('rx-ob-modal').classList.remove('show');}
@@ -8780,7 +8808,7 @@ function rdRenderDlvCheck(){
       <button class="rd-btn primary" onclick="rdApplySuggestion()">Apply</button></div>`:'');
 }
 function rdRender(){
-  const s=rd,o=rdOrder,ro=rdRO(),fr=rdFrame(o),ln=rdLens(o),pk=rdPkg(o),store=POS_STORE.code+' / '+POS_STORE.name;
+  const s=rd,o=rdOrder,ro=rdRO(),fr=rdFrame(o),ln=rdLens(o),pk=rdPkg(o),store=POS_RX_STORE.code+' / '+POS_RX_STORE.name;
   const prodRow=(p,type,color,mapped,cof)=>p?`<tr><td><span class="rd-type"><i style="background:${color}"></i>${type}</span></td>
     <td style="text-align:left;">${p.code} / ${p.name} / ${p.barcode}</td><td>${mapped||'<span style="color:#999">-</span>'}</td><td>1</td><td style="font-weight:600;">${p.price}</td><td>${cof||'<span style="color:#999">-</span>'}</td></tr>`:'';
   const valSel=(eye,col,i)=>{
@@ -8892,7 +8920,7 @@ function rdRender(){
           <div><div class="t">Ship to Address</div><div class="d">Deliver to the customer's address</div></div></div>
         <div class="rd-ship-card${s.dlvType==='store'?' on':''}${ro?' ro':''}" onclick="if(!rdRO()){rd.dlvType='store';rdRender();}">
           <span class="ic"><svg viewBox="0 0 24 24"><path d="M20 4H4v2h16V4zm1 10v-2l-1-5H4l-1 5v2h1v6h10v-6h4v6h2v-6h1zm-9 4H6v-4h6v4z"/></svg></span>
-          <div><div class="t">Ship to Store</div><div class="d">Pick up at ${POS_STORE.code}</div></div></div>
+          <div><div class="t">Ship to Store</div><div class="d">Pick up at ${POS_RX_STORE.code}</div></div></div>
       </div>
       ${s.dlvType==='address'?rdL('Shipping Address',1):''}
       ${s.dlvType==='store'?`<div>${rdL('Pickup Store')}<input class="rd-in" value="${store}" disabled style="font-size:10px;"></div>`
