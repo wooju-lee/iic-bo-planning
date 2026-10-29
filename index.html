@@ -485,7 +485,7 @@ table.grid td input[type="checkbox"]:disabled{opacity:0.35;cursor:not-allowed;}
 /* ===== FRONT POS (production: new window / prototype: in-app route #/pos, BO layout covered) ===== */
 .pos-app [hidden],.pos-app[hidden]{display:none!important;}
 .pos-app{position:fixed;inset:0;z-index:1300;background:#fff;overflow-y:auto;color:#222;}
-.pa-header{height:56px;display:flex;align-items:center;justify-content:space-between;padding:0 16px 0 24px;background:#fff;border-bottom:1px solid #eee;position:sticky;top:0;z-index:6;}
+.pa-header{height:56px;display:flex;align-items:center;justify-content:space-between;padding:0 16px 0 24px;background:#fff;border-bottom:1px solid #eee;position:sticky;top:0;z-index:7;}
 .pa-store .code{font-size:13px;font-weight:600;color:#ff6b35;line-height:1.2;}
 .pa-store .name{font-size:17px;font-weight:700;color:#222;line-height:1.3;}
 .pa-proto-store{display:flex;align-items:center;gap:6px;font-size:11px;color:#999;border:1px dashed #ccc;border-radius:6px;padding:3px 6px;}
@@ -2230,7 +2230,7 @@ table.grid th.dt-l,table.grid td.dt-l{text-align:left!important;}
   <div class="pa-header">
     <div class="pa-store"><div class="code" id="pa-store-code"></div><div class="name" id="pa-store-name"></div></div>
     <div class="pa-header-r">
-      <label class="pa-proto-store" title="Prototype only: switch the POS store">Store (prototype)<select id="pa-store-sel" onchange="posSwitchStore(this.value)"></select></label>
+      <div class="pa-proto-store" title="Prototype only: switch the POS store">Store (prototype)<select id="pa-store-sel" style="width:96px;" onchange="posSwitchStore(this.value)"></select></div>
       <a class="pa-back" href="#/"><svg width="18" height="18" viewBox="0 0 24 24" fill="#555"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>Back to BO</a>
       <button class="lang-btn">Language <b>English</b><svg width="20" height="20" viewBox="0 0 24 24" fill="#222"><use href="#i-chevron-down"/></svg></button>
       <button class="user-btn">monster1437 (SUPERADMIN)<svg width="20" height="20" viewBox="0 0 24 24" fill="#fff"><use href="#i-chevron-down"/></svg></button>
