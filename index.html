@@ -8076,7 +8076,8 @@ const POS_MEMBERS=[
   {id:'M100587',name:'Daniel Kim',email:'daniel.kim@outlook.com',phone:'+1 714-555-0199',country:'Korea',gender:'MALE'},
   {id:'M100912',name:'Sophie Martin',email:'sophie.m@yahoo.fr',phone:'+33 6 12 34 56 78',country:'France',gender:'FEMALE'}
 ];
-// Dummy prices: Customer Price (selling price) / Discount Price (Store Customer Price master, applied instead of selling price)
+// Dummy prices: cp = Customer Price (selling price) / dp = Store Customer Price master price, applied instead of selling price.
+// Grid Discount Price column = discount amount per unit (cp - dp), same as FE (total = (Customer Price - Discount Price) x qty)
 function posPrice(p){
   const n=parseInt(p.code.slice(-2),10),cp=280+(n%8)*20;
   return {cp,dp:[3,10,17].includes(n)?Math.round(cp*0.8):null,stock:n%9===4?0:2+(n*7)%11};
@@ -8396,10 +8397,10 @@ function posRender(){
     if(view) pr.stock=Infinity;  // stock is not shown for a past sale
     return `<tr class="${pr.stock<it.qty?'over':''}${posPackage(p)?' has-pkg':''}"><td>${i+1}</td><td class="l"><b>${p.code}</b> / ${p.name}<div class="sub">${p.barcode}</div></td>
       <td><span class="pa-qty"><button ${lock||it.qty<=1?'disabled':''} onclick="posQty(${i},-1)">−</button><span>${it.qty}</span><button ${lock?'disabled':''} onclick="posQty(${i},1)">+</button></span></td>
-      <td>${POS_STORE.currency}</td><td>${posFmt(pr.cp)}</td>${vatOn?`<td>${posFmt(posLineVat(unit,it.qty))}</td>`:''}<td>${pr.dp!=null?posFmt(pr.dp):'-'}</td><td><b>${posFmt(posRound(unit*it.qty+posLineVat(unit,it.qty)))}</b></td>
+      <td>${POS_STORE.currency}</td><td>${posFmt(pr.cp)}</td>${vatOn?`<td>${posFmt(posLineVat(unit,it.qty))}</td>`:''}<td>${posFmt(pr.cp-unit)}</td><td><b>${posFmt(posRound(unit*it.qty+posLineVat(unit,it.qty)))}</b></td>
       <td class="${pr.stock<it.qty?'neg':''}">${view?'-':pr.stock}</td><td>${lock?'':`<button class="pa-del" title="Remove (with package)" onclick="posRemove(${i})">×</button>`}</td></tr>`
       +((pk=posPackage(p))?`<tr class="pa-pkg"><td></td><td class="l"><span class="pa-pkg-tag">PACKAGE</span><b>${pk.code}</b> / ${pk.name}</td>
-      <td>${it.qty}</td><td>${POS_STORE.currency}</td><td>0</td>${vatOn?'<td>0</td>':''}<td>-</td><td><b>0</b></td><td>-</td><td></td></tr>`:'');
+      <td>${it.qty}</td><td>${POS_STORE.currency}</td><td>0</td>${vatOn?'<td>0</td>':''}<td>0</td><td><b>0</b></td><td>-</td><td></td></tr>`:'');
   }).join(''):`<tr class="pa-empty"><td colspan="${vatOn?10:9}"><svg class="ic" viewBox="0 0 24 24"><path d="M2 6h2v12H2V6zm3 0h1v12H5V6zm2 0h3v12H7V6zm4 0h1v12h-1V6zm3 0h2v12h-2V6zm3 0h1v12h-1V6zm2 0h3v12h-3V6z"/></svg><div class="t">No rows</div>Scan a product barcode or search by product name / code to start.</td></tr>`;
   const t=posTotals(items);
   document.getElementById('pa-t-cp').textContent=posFmt(t.cp);
