@@ -2270,7 +2270,7 @@ table.grid th.dt-l,table.grid td.dt-l{text-align:left!important;}
           </div>
           <div class="pa-table-wrap">
             <table class="pa-table">
-              <thead><tr><th style="width:40px;">#</th><th>Product Information<br>(Name)</th><th>Qty</th><th>Currency</th><th>Customer Price</th><th class="pa-vat-col">VAT</th><th>Discount Price</th><th>Total</th><th>Stock<br>(SALES)</th><th style="width:36px;"></th></tr></thead>
+              <thead><tr><th style="width:40px;">#</th><th>Product Information<br>(Name)</th><th>Qty</th><th>Currency</th><th>Customer Price</th><th>VAT</th><th>Discount Price</th><th>Total</th><th>Stock<br>(SALES)</th><th style="width:36px;"></th></tr></thead>
               <tbody id="pa-items"></tbody>
             </table>
           </div>
@@ -2278,7 +2278,7 @@ table.grid th.dt-l,table.grid td.dt-l{text-align:left!important;}
             <div class="pa-sum-meta" id="pa-t-meta">0 item(s) · Qty 0</div>
             <div class="pa-sum-sub">
               <div><span>Customer Price</span><b id="pa-t-cp">0</b></div>
-              <div class="pa-vat-col"><span>VAT</span><b id="pa-t-vat">0</b></div>
+              <div><span>VAT</span><b id="pa-t-vat">0</b></div>
               <div><span>Discount Price</span><b id="pa-t-dp" class="disc">0</b></div>
             </div>
             <div class="pa-sum-total"><span>Total</span><div><small id="pa-t-cur">USD</small><b id="pa-t-total">0</b></div></div>
@@ -8033,7 +8033,7 @@ function printLabel(idx){
 
 // ===== Front POS =====
 // Production: Front POS opens in a new window. Prototype: same app via #/pos (covers the BO layout)
-// vat: tax added on top of the price (external tax, store setting). Stores with vat show Customer Price (before tax) / VAT / Total (with tax) separately.
+// vat: tax rate added on top of the price (store setting). The VAT column is shown for every store: Customer Price (before tax) / VAT / Total (with tax). No rate -> VAT 0
 // Store switch is prototype only (production: the POS opens for the logged-in store)
 const POS_STORES=[
   {code:'US1007',name:'GM_CostaMesa_MALL_SCP',currency:'USD',country:'US'},
@@ -8390,18 +8390,17 @@ function posClear(){
 // ----- Render -----
 function posRender(){
   // view: past sale looked up by Invoice No. (read-only, replaces the cart)
-  const view=pos.view,lock=pos.confirmed||!!view,items=view?view.items:pos.items,vatOn=!!POS_STORE.vat;
-  document.querySelectorAll('#pos-app .pa-vat-col').forEach(e=>e.hidden=!vatOn);
+  const view=pos.view,lock=pos.confirmed||!!view,items=view?view.items:pos.items;
   document.getElementById('pa-items').innerHTML=items.length?items.map((it,i)=>{
     const p=PRODUCTS.find(x=>x.code===it.code),pr=posPrice(p),unit=pr.dp??pr.cp;let pk;
     if(view) pr.stock=Infinity;  // stock is not shown for a past sale
     return `<tr class="${pr.stock<it.qty?'over':''}${posPackage(p)?' has-pkg':''}"><td>${i+1}</td><td class="l"><b>${p.code}</b> / ${p.name}<div class="sub">${p.barcode}</div></td>
       <td><span class="pa-qty"><button ${lock||it.qty<=1?'disabled':''} onclick="posQty(${i},-1)">−</button><span>${it.qty}</span><button ${lock?'disabled':''} onclick="posQty(${i},1)">+</button></span></td>
-      <td>${POS_STORE.currency}</td><td>${posFmt(pr.cp)}</td>${vatOn?`<td>${posFmt(posLineVat(unit,it.qty))}</td>`:''}<td>${posFmt(pr.cp-unit)}</td><td><b>${posFmt(posRound(unit*it.qty+posLineVat(unit,it.qty)))}</b></td>
+      <td>${POS_STORE.currency}</td><td>${posFmt(pr.cp)}</td><td>${posFmt(posLineVat(unit,it.qty))}</td><td>${posFmt(pr.cp-unit)}</td><td><b>${posFmt(posRound(unit*it.qty+posLineVat(unit,it.qty)))}</b></td>
       <td class="${pr.stock<it.qty?'neg':''}">${view?'-':pr.stock}</td><td>${lock?'':`<button class="pa-del" title="Remove (with package)" onclick="posRemove(${i})">×</button>`}</td></tr>`
       +((pk=posPackage(p))?`<tr class="pa-pkg"><td></td><td class="l"><span class="pa-pkg-tag">PACKAGE</span><b>${pk.code}</b> / ${pk.name}</td>
-      <td>${it.qty}</td><td>${POS_STORE.currency}</td><td>0</td>${vatOn?'<td>0</td>':''}<td>0</td><td><b>0</b></td><td>-</td><td></td></tr>`:'');
-  }).join(''):`<tr class="pa-empty"><td colspan="${vatOn?10:9}"><svg class="ic" viewBox="0 0 24 24"><path d="M2 6h2v12H2V6zm3 0h1v12H5V6zm2 0h3v12H7V6zm4 0h1v12h-1V6zm3 0h2v12h-2V6zm3 0h1v12h-1V6zm2 0h3v12h-3V6z"/></svg><div class="t">No rows</div>Scan a product barcode or search by product name / code to start.</td></tr>`;
+      <td>${it.qty}</td><td>${POS_STORE.currency}</td><td>0</td><td>0</td><td>0</td><td><b>0</b></td><td>-</td><td></td></tr>`:'');
+  }).join(''):`<tr class="pa-empty"><td colspan="10"><svg class="ic" viewBox="0 0 24 24"><path d="M2 6h2v12H2V6zm3 0h1v12H5V6zm2 0h3v12H7V6zm4 0h1v12h-1V6zm3 0h2v12h-2V6zm3 0h1v12h-1V6zm2 0h3v12h-3V6z"/></svg><div class="t">No rows</div>Scan a product barcode or search by product name / code to start.</td></tr>`;
   const t=posTotals(items);
   document.getElementById('pa-t-cp').textContent=posFmt(t.cp);
   document.getElementById('pa-t-dp').textContent=t.disc?'-'+posFmt(t.disc):'0';
