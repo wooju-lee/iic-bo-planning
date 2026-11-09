@@ -1505,6 +1505,101 @@ a.ib-trk:hover{border-color:#ff6b35;color:#ff6b35;}
 .rxw-sub{font-size:10px;font-weight:400;opacity:.85;}
 .rxw-err-txt{color:#d32f2f;font-size:12px;margin-top:4px;}
 .rxw-dbtn{height:34px!important;min-width:84px;}
+/* ===== Offline Name Tag ===== */
+.nt-err-txt{font-size:12px;color:#d32f2f;margin-top:4px;}
+.grid th.nt-sort{cursor:pointer;user-select:none;}
+.nt-sort-ico{margin-left:4px;font-size:9px;color:#999;}
+.nt-back{display:inline-flex;align-items:center;gap:4px;font-size:14px;color:#222;cursor:pointer;margin-bottom:16px;}
+.nt-back:hover{text-decoration:underline;}
+.nt-info,.nt-card{border:1px solid #E5E5E5;border-radius:8px;background:#fff;padding:24px;margin-bottom:16px;}
+.nt-info{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px 24px;}
+.nt-info .l{font-size:11px;letter-spacing:.04em;text-transform:uppercase;color:#939393;margin-bottom:6px;}
+.nt-info .v{font-size:14px;font-weight:600;color:#222;}
+.nt-d-bar{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;}
+.nt-chip{border:1px solid #E5E5E5;border-radius:6px;padding:6px 12px;font-size:12px;color:#222;}
+table.grid.nt-edit-grid tbody tr{cursor:default;}
+table.grid.nt-edit-grid td{padding:10px 16px;}
+.nt-in{height:30px;border:1px solid #ddd;border-radius:4px;padding:0 8px;font-size:12px;box-sizing:border-box;}
+.nt-in:focus{outline:none;border-color:#ff6b35;}
+.nt-in.num{width:80px;text-align:center;}
+.nt-reg-box{width:min(1180px,92vw);max-height:92vh;display:flex;flex-direction:column;}
+.nt-reg-body{padding:16px 40px 0;overflow:auto;flex:1;}
+.nt-tabs{display:flex;border-bottom:1px solid #e8e8e8;margin-bottom:20px;}
+.nt-tabs button{border:none;background:none;padding:10px 18px;font-size:13px;color:#777;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px;}
+.nt-tabs button.on{color:#ff6b35;border-bottom-color:#ff6b35;font-weight:600;}
+.nt-steps{display:flex;justify-content:center;gap:0;margin:4px 0 24px;}
+.nt-step{display:flex;flex-direction:column;align-items:center;gap:6px;width:220px;position:relative;font-size:14px;font-weight:500;color:#999;}
+.nt-step .no{width:24px;height:24px;border-radius:50%;background:#bdbdbd;color:#fff;font-size:13px;font-weight:600;display:flex;align-items:center;justify-content:center;z-index:1;}
+.nt-step.on,.nt-step.done{color:#222;}
+.nt-step.on .no,.nt-step.done .no{background:#22A565;}
+.nt-step+.nt-step::before{content:'';position:absolute;top:12px;right:50%;width:100%;height:1px;background:#d6d6d6;}
+.nt-f3{display:flex;gap:15px;flex-wrap:wrap;margin-bottom:16px;}
+.nt-f3>div{flex:1;min-width:180px;display:flex;flex-direction:column;gap:8px;font-size:13px;}
+.nt-f3 select{height:38px;}
+.nt-req{color:#d32f2f;}
+.nt-srch{display:flex;flex-direction:column;gap:5px;font-size:13px;margin-bottom:16px;}
+.nt-srch>div{display:flex;gap:10px;align-items:flex-start;}
+.nt-srch input{flex:1;height:38px;border:1px solid #ddd;border-radius:4px;padding:0 12px;font-size:13px;}
+.nt-srch input:disabled{background:#f5f5f5;}
+.nt-box{border:1px solid #E5E5E5;border-radius:8px;padding:20px;}
+.nt-box-hd{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;font-size:11px;}
+.nt-box-hd strong{color:#D97706;}
+.nt-empty{height:160px;display:flex;align-items:center;justify-content:center;font-size:13px;color:#9e9e9e;}
+.nt-pg{display:flex;justify-content:flex-end;align-items:center;gap:14px;font-size:12px;color:#555;margin-top:10px;}
+.nt-pg select{height:28px;font-size:12px;}
+.nt-pg button{border:none;background:none;cursor:pointer;font-size:16px;color:#555;padding:2px 6px;}
+.nt-pg button:disabled{color:#ccc;cursor:default;}
+.nt-sum{display:flex;justify-content:space-between;align-items:center;gap:16px;margin-bottom:16px;font-size:12px;}
+.nt-sum .tot{border:1px solid #E5E5E5;border-radius:4px;padding:8px 14px;}
+.nt-sum .tot strong{color:#D97706;}
+.nt-sum .hint{color:#757575;}
+.nt-bulkbar{display:flex;flex-wrap:wrap;align-items:center;gap:16px;border:1px solid #FDE6C8;background:#FFF9F1;border-radius:8px;padding:12px 16px;margin-bottom:16px;font-size:12px;}
+.nt-bulkbar .ttl{color:#D97706;font-weight:700;font-size:13px;}
+.nt-bulkbar .sep{width:1px;height:20px;background:#FDE6C8;}
+.nt-bulkbar .grp{display:flex;align-items:center;gap:8px;}
+.nt-seg{min-width:48px;height:28px;border:1px solid #bbb;background:#fff;border-radius:4px;font-size:12px;cursor:pointer;}
+.nt-seg.on{background:#555;color:#fff;border-color:#555;}
+.nt-seg:disabled{opacity:.4;cursor:default;}
+.nt-foot{position:sticky;bottom:0;background:#fff;display:flex;align-items:center;gap:12px;padding:20px 0 16px;margin-top:8px;}
+.nt-foot .sp{flex:1;}
+.nt-foot label{display:flex;align-items:center;gap:6px;font-size:12px;cursor:pointer;}
+.nt-tmpl{display:block;text-align:right;font-size:12px;font-weight:600;color:#222;text-decoration:underline;cursor:pointer;margin-bottom:8px;}
+.nt-drop{border:1px dashed #D4D4D4;border-radius:8px;min-height:140px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;cursor:pointer;padding:28px 20px;}
+.nt-drop:hover,.nt-drop.drag{border-color:#D97706;background:#FFF7ED;}
+.nt-drop .t{font-size:14px;font-weight:600;color:#222;text-decoration:underline;}
+.nt-drop .s{font-size:12px;color:#A3A3A3;}
+.nt-file{display:flex;justify-content:space-between;align-items:center;margin-top:12px;border:1px solid #E5E5E5;background:#FAFAFA;border-radius:8px;padding:8px 12px;font-size:12px;}
+.nt-file button{border:none;background:none;color:#999;cursor:pointer;font-size:16px;}
+.nt-errbox{margin-top:12px;background:#fef2f2;border-radius:8px;padding:16px;text-align:center;font-size:14px;font-weight:600;color:#991b1b;}
+.nt-info-line{margin-top:12px;font-size:12px;color:#737373;}
+.nt-errgrid td .e{color:#d32f2f;}
+/* A4 print preview */
+#nt-print-overlay{position:fixed;inset:0;z-index:1500;display:flex;flex-direction:column;background:#525252;zoom:1.25;}   /* body zoom 0.8 x 1.25 = real mm size */
+#nt-print-overlay[hidden]{display:none;}
+.nt-pv-hd{display:flex;justify-content:space-between;align-items:center;background:#fff;padding:10px 24px;box-shadow:0 1px 3px rgba(0,0,0,.1);}
+.nt-pv-hd .t{font-size:15px;font-weight:600;}
+.nt-pv-hd .m{font-size:11px;color:#757575;}
+.nt-pv-hd .r{display:flex;align-items:center;gap:12px;}
+.nt-pv-hd label{display:flex;align-items:center;gap:6px;font-size:12px;cursor:pointer;}
+.nt-pv-scroll{flex:1;overflow:auto;padding:28px 0;}
+.nt-sheet{width:210mm;padding:25mm 35mm;box-sizing:border-box;margin:0 auto;background:#fff;box-shadow:0 4px 16px rgba(0,0,0,.3);}
+.nt-rows{position:relative;display:flex;flex-direction:column;row-gap:6.5mm;}
+.nt-vcut{position:absolute;top:-25mm;bottom:-25mm;left:0;right:0;pointer-events:none;}
+.nt-vcut i{position:absolute;top:0;bottom:0;border-left:.2mm solid #8a8a8a;}
+.nt-row{position:relative;height:13mm;break-inside:avoid;page-break-inside:avoid;}
+.nt-row-grid{display:grid;grid-template-columns:repeat(2,65mm);column-gap:10mm;}
+.nt-hcut{position:absolute;left:-35mm;right:-35mm;border-top:.2mm solid #8a8a8a;pointer-events:none;}
+.nt-lbl{position:relative;box-sizing:border-box;width:65mm;height:13mm;display:flex;align-items:center;color:#000;}
+.nt-lbl .in{width:100%;display:flex;justify-content:space-between;align-items:center;}
+.nt-lbl .lt{min-width:0;flex:1 1 auto;}
+.nt-lbl .ttl,.nt-lbl .pr{font-family:'GentleSans',serif;line-height:1;white-space:nowrap;}
+.nt-lbl .ttl{overflow:hidden;text-overflow:ellipsis;}
+.nt-lbl .pr{font-size:11pt;}
+.nt-lbl .note,.nt-lbl .rx{font-family:Helvetica,Arial,sans-serif;font-size:5.8pt;line-height:1;margin-top:1.3mm;white-space:nowrap;}
+.nt-lbl .note{overflow:hidden;text-overflow:ellipsis;}
+.nt-lbl .rt{flex-shrink:0;text-align:right;}
+.nt-lbl img{position:absolute;right:9mm;top:50%;transform:translateY(-50%);width:6.5mm;height:6.5mm;}
+.nt-pv-wait{height:300px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:13px;}
 .multi-select-dropdown .rxw-dd-grp{padding:6px 12px;font-size:11px;font-weight:700;color:#999;background:#fafafa;cursor:default;white-space:nowrap;}
 /* To Customer / To Store: underline tabs (same look as .psv-tabs; own classes so other screens' tab handlers don't touch them) */
 .rxw-bar{display:flex;border-bottom:1px solid #e8e8e8;margin-bottom:16px;}
@@ -2045,6 +2140,7 @@ table.grid th.dt-l,table.grid td.dt-l{text-align:left!important;}
 </style>
 <!-- SheetJS: client-side Excel (.xlsx) export -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js"></script>
 </head>
 <body>
 
@@ -2891,6 +2987,126 @@ table.grid th.dt-l,table.grid td.dt-l{text-align:left!important;}
       </div>
     </div>
   </div>
+
+  <!-- ===== OFFLINE NAME TAG (Store Management > Offline Name Tag) — built from iic-bo-frontend features/(store-management)/nameTag + nameTagDetail ===== -->
+  <div class="detail-view" id="nt-view">
+    <!-- Pane 1: Name Tag print list (route #/store/offline-name-tag) -->
+    <div id="nt-list-pane">
+      <div class="search-box">
+        <table class="search-table">
+          <tr>
+            <th>Brand</th>
+            <td><div class="field-row"><div class="field-inline"><select id="nt-brand" style="min-width:360px;"><option value="">All</option></select></div></div></td>
+          </tr>
+          <tr>
+            <th>Registration Date</th>
+            <td><div class="field-row">
+              <div class="field-inline"><input type="date" lang="en" id="nt-from" style="min-width:170px;"></div>
+              <span style="color:#999;font-size:13px;">~</span>
+              <div class="field-inline"><input type="date" lang="en" id="nt-to" style="min-width:170px;"></div>
+              <button class="btn-action btn-outline rxw-dbtn" onclick="ntQuickDate(0)">Today</button>
+              <button class="btn-action btn-outline rxw-dbtn" onclick="ntQuickDate(7)">1 Week</button>
+              <button class="btn-action btn-outline rxw-dbtn" onclick="ntQuickDate(30)">1 Month</button>
+              <button class="btn-action btn-outline rxw-dbtn" onclick="ntQuickDate(90)">3 Months</button>
+            </div></td>
+          </tr>
+          <tr>
+            <th>Keyword<br><span style="font-weight:400;font-size:10px;color:#999;">Model Code / Model Name,<br>Registered Account</span></th>
+            <td><div class="field-row"><div class="field-inline" style="flex:1;max-width:700px;">
+              <input type="text" id="nt-kw" placeholder="Please enter at least 2 characters." style="width:100%;" onkeydown="if(event.key==='Enter')ntSearch()">
+              <div class="nt-err-txt" id="nt-kw-err" hidden>Please enter at least 2 characters.</div>
+            </div></div></td>
+          </tr>
+        </table>
+        <div class="search-action">
+          <button class="btn-search" onclick="ntSearch()"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><use href="#i-search"/></svg>Search</button>
+        </div>
+      </div>
+      <div class="table-box">
+        <div class="table-toolbar">
+          <div class="table-toolbar-left">Total <b id="nt-total">0</b> Count</div>
+          <div class="table-toolbar-right">
+            <button class="btn-action btn-primary" onclick="ntOpenReg()">+ Register NameTAG</button>
+          </div>
+        </div>
+        <div class="grid-wrap">
+          <table class="grid">
+            <thead>
+              <tr class="hdr">
+                <th class="tl nt-sort" id="nt-sort-id" onclick="ntSortClick()" style="min-width:150px;">ID<span class="nt-sort-ico"></span></th>
+                <th class="tl" style="min-width:150px;">Registration Date</th>
+                <th class="tl" style="min-width:220px;">Brand<br><span style="font-weight:400;font-size:11px;">(Code / Name)</span></th>
+                <th class="tl" style="min-width:280px;">Store Information<br><span style="font-weight:400;font-size:11px;">(Code / Name)</span></th>
+                <th style="min-width:110px;">Total Model</th>
+                <th style="min-width:150px;">Registered By</th>
+              </tr>
+            </thead>
+            <tbody id="nt-body"></tbody>
+          </table>
+        </div>
+        <div class="pg-bar">
+          <div class="rpp"><span>Rows per page:</span>
+            <select id="nt-rpp" style="width:72px;" onchange="pgState('nt').page=1;ntRenderPage();">
+              <option value="10">10</option><option value="30" selected>30</option><option value="50">50</option><option value="100">100</option><option value="300">300</option>
+            </select>
+          </div>
+          <span id="nt-range">0–0 of 0</span>
+          <div class="pg-nav">
+            <button class="pg-btn" id="nt-prev" onclick="pgGo('nt',-1)"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg></button>
+            <button class="pg-btn" id="nt-next" onclick="pgGo('nt',1)"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg></button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Pane 2: Print Record Detail (route #/store/offline-name-tag/{id}) -->
+    <div id="nt-detail-pane" hidden>
+      <a class="nt-back" onclick="ntBackToList()"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>Back To List</a>
+      <div class="nt-info" id="nt-d-info"></div>
+      <div class="nt-card">
+        <div class="nt-d-bar">
+          <span class="nt-chip" id="nt-d-sel">0 selected</span>
+          <button class="btn-action btn-primary" id="nt-d-reprint" onclick="ntDetailReprint()" disabled>🖨 Reprint</button>
+        </div>
+        <div class="grid-wrap">
+          <table class="grid nt-edit-grid">
+            <thead>
+              <tr class="hdr">
+                <th style="width:44px;"><input type="checkbox" id="nt-d-all" onclick="ntDetailAll(this.checked)"></th>
+                <th class="tl" style="min-width:140px;">Brand</th>
+                <th class="tl" style="min-width:110px;">Model Code</th>
+                <th class="tl" style="min-width:150px;">Model Name</th>
+                <th class="tl" style="min-width:240px;">Additional Note</th>
+                <th style="min-width:90px;">Currency</th>
+                <th class="tr" style="min-width:90px;">Price</th>
+                <th style="min-width:100px;">Prescription</th>
+                <th style="min-width:110px;">Print Qty (max 10)</th>
+              </tr>
+            </thead>
+            <tbody id="nt-d-body"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- NAME TAG: Register NameTAG modal (Individual Print / Bulk Upload) -->
+  <div class="modal-overlay" id="nt-reg-modal">
+    <div class="modal-box nt-reg-box">
+      <div class="modal-header"><span class="modal-title">Register NameTAG</span><button class="modal-close" onclick="ntCloseReg()">&times;</button></div>
+      <div class="nt-reg-body">
+        <div class="nt-tabs" id="nt-tabs">
+          <button class="on" data-tab="individual" onclick="ntTab('individual')">Individual Print</button>
+          <button data-tab="bulk" onclick="ntTab('bulk')">Bulk Upload</button>
+        </div>
+        <div id="nt-ind"></div>
+        <div id="nt-bulk" hidden></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- NAME TAG: A4 print preview overlay (full screen; the only thing printed) -->
+  <div id="nt-print-overlay" hidden></div>
 
   <!-- ===== STORE CUSTOMER PRICE VIEW (Master > Price > Store Customer Price) ===== -->
   <div class="detail-view" id="dp-view">
@@ -6429,7 +6645,7 @@ function csRefresh(sel){
   trg.classList.toggle('disabled',sel.disabled);
 }
 function csSyncModal(){
-  document.querySelectorAll('#ob-reg-modal select, #dp-view select, #sp-view select, #drv-view select, #psv-view select, #prsv-view select, #label-modal select, #st-view select, #st-modal select, #bpk-view select, #cp-view select, #ib-view select, #ib-reg-modal select, #sn-view select, #snw-view select, #ioh-view select, #rxp-list-pane select, #rxp-rej-modal select, #rxw-view select, #rxw-cs-modal select, #rxw-lr-modal select, #rxw-rs-modal select, #stk-view select, #stk-start-modal select, #adj-view select, #adj-dt-modal select, .pg-bar select').forEach(s=>{csBuild(s);csRefresh(s);});
+  document.querySelectorAll('#ob-reg-modal select, #dp-view select, #sp-view select, #drv-view select, #psv-view select, #prsv-view select, #label-modal select, #st-view select, #st-modal select, #bpk-view select, #cp-view select, #ib-view select, #ib-reg-modal select, #sn-view select, #snw-view select, #ioh-view select, #rxp-list-pane select, #rxp-rej-modal select, #rxw-view select, #rxw-cs-modal select, #rxw-lr-modal select, #rxw-rs-modal select, #stk-view select, #stk-start-modal select, #adj-view select, #adj-dt-modal select, #nt-view select, #nt-reg-modal select, .pg-bar select').forEach(s=>{csBuild(s);csRefresh(s);});
 }
 // Re-sync whenever step content / options / disabled state change (ignore the custom UI's own mutations)
 new MutationObserver(muts=>{
@@ -9967,6 +10183,477 @@ function bpkExport(kind){
   XLSX.writeFile(wb,file);
   showToast('Excel Export',file+' — '+count+' rows');
 }
+// ===== Offline Name Tag (Store Management > Offline Name Tag) =====
+// Source: iic-bo-frontend (dev) features/(store-management)/nameTag + nameTagDetail, iic-bo (develop) pos/nametag.
+// List  GET  /api/v1/name-tags/prints (brandCode, startDate, endDate, query, sort=printNo:asc|desc; default id DESC)
+// Prod  GET  /api/v1/name-tags/products (brand + BP + store required) -> model rows: price = Store Customer Price ?? Customer Price
+//           (store currency, valid today). Package (105000) / lens (111010) excluded. One row per model + price (same model, other price = other row).
+// Save  POST /api/v1/name-tags/prints (price re-validated at save) / Bulk POST .../prints/upload-excel (all-or-nothing) / Reprint POST .../prints/{id}/reprint (in place, no history)
+const NT_BRANDS={'1100':'GENTLE MONSTER'};
+const NT_BPS={C1002:'GM_미국법인',C1003:'GM_캐나다법인',C1012:'GM_Australia'};
+const NT_STORES=[
+  {code:'US1001',name:'GM_LosAngeles_FS_Downtown',bp:'C1002',currency:'USD'},
+  {code:'US1007',name:'GM_CostaMesa_MALL_SCP',bp:'C1002',currency:'USD'},
+  {code:'CA1006',name:'GM_Vancouver MALL_Holt Renfrew',bp:'C1003',currency:'CAD'},
+  {code:'AU1002',name:'GM_Sydney_MALL_DJ',bp:'C1012',currency:'AUD'},
+  {code:'AU1004',name:'GM_Melbourne_MALL_Chadstone',bp:'C1012',currency:'AUD'}
+];
+const NT_MAX_SELECT=50,NT_MAX_QTY=10,NT_MAX_SHEETS=500,NT_MAX_FILE=5*1024*1024;
+const NT_USER='monster1437';
+const NT_XLS_COLS=['Brand Code *','Store Code *','Product Code *','Additional Note','Prescription *','Qty *'];
+let ntInited=false,NT_DATA=[],ntSeq=1000,ntItemSeq=50000,ntParams=null,ntRows=[],ntSort=null,ntCur=null,ntDEdit={},ntDChecked=new Set();
+let ntReg=null,ntBulk=null,ntPv=null;
+const ntEsc=v=>String(v??'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+const ntIso=d=>d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+const ntStore=c=>NT_STORES.find(s=>s.code===c);
+const ntFmt=n=>Number(n??0).toLocaleString();
+
+// ----- products (model rows) -----
+// Model = representative product of the variant (productCode == modelCode); model name comes from it.
+// Prototype: products sharing a name are one model, the first code is the model code.
+function ntModelOf(p){const m=PRODUCT_MASTER.find(x=>x.name===p.name);return {modelCode:m.code,modelName:m.name};}
+function ntPriceRows(currency){
+  if(typeof cpData!=='undefined'&&!cpData.length&&typeof cpInitData==='function') cpInitData();
+  return (typeof cpData!=='undefined'?cpData:[]).filter(r=>r.brandCode==='1100'&&r.currency===currency);
+}
+function ntProducts(storeCode,query){
+  const s=ntStore(storeCode);if(!s) return [];
+  const q=(query||'').trim().toLowerCase(),map=new Map();
+  ntPriceRows(s.currency).forEach(r=>{
+    const m=ntModelOf(r);
+    if(q&&!(m.modelCode.toLowerCase().includes(q)||m.modelName.toLowerCase().includes(q))) return;
+    const key=m.modelCode+'__'+r.price;
+    if(!map.has(key)) map.set(key,{rowKey:key,modelCode:m.modelCode,modelName:m.modelName,price:r.price,currency:s.currency,brandName:NT_BRANDS['1100']});
+  });
+  return [...map.values()].sort((a,b)=>a.modelName.localeCompare(b.modelName)||a.price-b.price);
+}
+// Bulk upload: product code -> model / name / price of the store currency (null = not a valid product / price)
+function ntResolveProduct(storeCode,productCode){
+  const s=ntStore(storeCode);if(!s) return null;
+  const r=ntPriceRows(s.currency).find(x=>x.code===productCode);
+  return r?{...ntModelOf(r),price:r.price}:null;
+}
+
+// ----- data -----
+function ntNewRecord(storeCode,createdAt,createdBy,items){
+  const s=ntStore(storeCode),id=++ntSeq;
+  return {id:String(id),printNo:'NT'+id,createdAt,brandCode:'1100',branchCode:s.bp,storeCode,currency:s.currency,createdBy,
+    items:items.map(it=>({id:++ntItemSeq,...it}))};
+}
+function ntGenData(){
+  const users=[NT_USER,'jane.park','alex.kim'],notes=['','','NEW','BEST','Limited','',''];
+  const stores=['US1007','US1001','CA1006','AU1002','US1007','AU1004','US1001','US1007','CA1006','AU1002','US1007','US1001'];
+  NT_DATA=stores.map((sc,i)=>{
+    const d=new Date();d.setDate(d.getDate()-(stores.length-i)*3);
+    const prods=ntProducts(sc,""),n=Math.min(prods.length,1+(i*5)%6);
+    const items=Array.from({length:n},(_,k)=>{const p=prods[(i*5+k*3)%prods.length];
+      return {modelCode:p.modelCode,modelName:p.modelName,price:p.price,additionalNote:notes[(i+k)%notes.length],quantity:1+(i+k)%3,prescriptionAvailable:(i+k)%4===1};});
+    return ntNewRecord(sc,ntIso(d),users[i%users.length],items);
+  });
+}
+function ntInit(){
+  if(ntInited) return;ntInited=true;
+  ntGenData();
+  if(!PAGERS.nt) PAGERS.nt={page:1,render:()=>ntRenderPage()};
+  document.getElementById('nt-brand').innerHTML='<option value="">All</option>'+Object.entries(NT_BRANDS).map(([c,n])=>`<option value="${c}">${ntEsc(n)}</option>`).join('');
+  ntQuickDate(30);
+  // The preview is printed alone: it must be a direct child of body
+  document.body.appendChild(document.getElementById('nt-print-overlay'));
+  ntSearch();
+}
+function ntEnter(){ntInit();ntShowPane('list');}
+function ntShowPane(p){
+  document.getElementById('nt-list-pane').hidden=p!=='list';
+  document.getElementById('nt-detail-pane').hidden=p!=='detail';
+}
+
+// ----- list -----
+function ntQuickDate(days){
+  document.getElementById('nt-from').value=ntIso(new Date(Date.now()-days*864e5));
+  document.getElementById('nt-to').value=ntIso(new Date());
+}
+function ntSearch(){
+  const kw=document.getElementById('nt-kw').value.trim();
+  // Keyword: at least 2 characters (otherwise no search)
+  const err=kw&&kw.length<2;document.getElementById('nt-kw-err').hidden=!err;if(err) return;
+  ntParams={brand:document.getElementById('nt-brand').value,from:document.getElementById('nt-from').value,to:document.getElementById('nt-to').value,q:kw.toLowerCase()};
+  ntSort=null;pgState('nt').page=1;ntRunQuery();
+}
+function ntRunQuery(){
+  const p=ntParams;if(!p) return;
+  // Keyword: registered account, or any item's model code / model name
+  ntRows=NT_DATA.filter(r=>(!p.brand||r.brandCode===p.brand)&&(!p.from||r.createdAt>=p.from)&&(!p.to||r.createdAt<=p.to)
+    &&(!p.q||r.createdBy.toLowerCase().includes(p.q)||r.items.some(i=>i.modelCode.toLowerCase().includes(p.q)||i.modelName.toLowerCase().includes(p.q))));
+  ntRenderPage();
+}
+// Only ID (printNo) is sortable: none (ID DESC) -> asc -> desc -> none
+function ntSortClick(){
+  ntSort=ntSort==null?'asc':ntSort==='asc'?'desc':null;
+  pgState('nt').page=1;ntRenderPage();
+}
+function ntRenderPage(){
+  const rows=[...ntRows].sort((a,b)=>ntSort==='asc'?a.id-b.id:b.id-a.id);
+  document.getElementById('nt-sort-id').querySelector('.nt-sort-ico').textContent=ntSort==='asc'?'▲':ntSort==='desc'?'▼':'';
+  document.getElementById('nt-total').textContent=rows.length.toLocaleString();
+  const [s,e]=pgRange('nt',rows.length);
+  document.getElementById('nt-body').innerHTML=rows.length?rows.slice(s,e).map(r=>{const st=ntStore(r.storeCode);
+    return `<tr onclick="ntOpenDetail('${r.id}')"><td class="tl">${r.printNo}</td><td class="tl">${r.createdAt}</td><td class="tl">${r.brandCode} / ${ntEsc(NT_BRANDS[r.brandCode])}</td>
+      <td class="tl">${r.storeCode} / ${ntEsc(st?st.name:'')}</td><td>${r.items.length.toLocaleString()}</td><td>${ntEsc(r.createdBy||'-')}</td></tr>`;}).join('')
+    :'<tr><td colspan="6" style="padding:60px;color:#999;">No rows</td></tr>';
+}
+
+// ----- detail -----
+function ntOpenDetail(id){
+  ntInit();
+  const r=NT_DATA.find(x=>x.id===String(id));if(!r) return false;
+  ntCur=r;ntDChecked=new Set();ntDEdit={};
+  r.items.forEach(i=>{ntDEdit[i.id]={additionalNote:i.additionalNote||'',quantity:i.quantity||1,prescriptionAvailable:!!i.prescriptionAvailable};});
+  if(typeof setRoute==='function') setRoute('#/store/offline-name-tag/'+r.id);
+  ntShowPane('detail');ntRenderDetail();window.scrollTo(0,0);
+  return true;
+}
+function ntBackToList(){ntCur=null;if(typeof setRoute==='function') setRoute('#/store/offline-name-tag');ntShowPane('list');ntRunQuery();}
+function ntRenderDetail(){
+  const r=ntCur,s=ntStore(r.storeCode),f=(l,v)=>`<div><div class="l">${l}</div><div class="v">${ntEsc(v||'-')}</div></div>`;
+  document.getElementById('nt-d-info').innerHTML=f('ID',r.printNo)+f('Registration Date',r.createdAt)+f('Registered By',r.createdBy)
+    +f('Brand',r.brandCode+' / '+NT_BRANDS[r.brandCode])+f('BP (Corporation)',r.branchCode+' / '+NT_BPS[r.branchCode])+f('Store',r.storeCode+' / '+(s?s.name:''));
+  document.getElementById('nt-d-body').innerHTML=r.items.map(i=>{const e=ntDEdit[i.id];
+    return `<tr><td><input type="checkbox" ${ntDChecked.has(i.id)?'checked':''} onclick="ntDetailCheck(${i.id},this.checked)"></td>
+      <td class="tl">${ntEsc(NT_BRANDS[r.brandCode])}</td><td class="tl">${i.modelCode}</td><td class="tl"><b>${ntEsc(i.modelName)}</b></td>
+      <td class="tl"><input class="nt-in" style="width:100%;" placeholder="Note (optional)" value="${ntEsc(e.additionalNote)}" oninput="ntDEdit[${i.id}].additionalNote=this.value"></td>
+      <td>${r.currency}</td><td class="tr">${i.price}</td>
+      <td><input type="checkbox" ${e.prescriptionAvailable?'checked':''} onclick="ntDEdit[${i.id}].prescriptionAvailable=this.checked"></td>
+      <td><input class="nt-in num" type="number" min="1" max="${NT_MAX_QTY}" value="${e.quantity}" onchange="this.value=ntDEdit[${i.id}].quantity=ntClampQty(this.value)"></td></tr>`;}).join('');
+  ntDetailSync();
+}
+const ntClampQty=v=>Math.max(1,Math.min(NT_MAX_QTY,Number(v)||1));
+function ntDetailCheck(id,on){on?ntDChecked.add(id):ntDChecked.delete(id);ntDetailSync();}
+function ntDetailAll(on){ntDChecked=new Set(on?ntCur.items.map(i=>i.id):[]);ntRenderDetail();}
+function ntDetailSync(){
+  document.getElementById('nt-d-sel').textContent=ntDChecked.size+' selected';
+  document.getElementById('nt-d-reprint').disabled=!ntDChecked.size;
+  const all=document.getElementById('nt-d-all');all.checked=ntCur.items.length>0&&ntDChecked.size===ntCur.items.length;
+}
+// Reprint: preview of the checked rows (with the edited values) -> Print & Save = reprint API (overwrites the items in place) -> auto print
+function ntDetailReprint(){
+  if(!ntDChecked.size) return;
+  const r=ntCur,sel=r.items.filter(i=>ntDChecked.has(i.id));
+  const rows=sel.map(i=>({rowKey:String(i.id),modelCode:i.modelCode,modelName:i.modelName,price:i.price,currency:r.currency,brandName:NT_BRANDS[r.brandCode]}));
+  const settings={};sel.forEach(i=>{const e=ntDEdit[i.id];settings[String(i.id)]={additionalNote:e.additionalNote,prescription:e.prescriptionAvailable,printQty:e.quantity};});
+  if(ntSheets(rows,settings)>NT_MAX_SHEETS) return ntSheetToast(ntSheets(rows,settings));
+  ntOpenPreview({rows,settings,storeCode:r.storeCode,
+    onPrintSave:()=>{
+      sel.forEach(i=>{const e=ntDEdit[i.id];Object.assign(i,{additionalNote:e.additionalNote,quantity:e.quantity,prescriptionAvailable:e.prescriptionAvailable});});
+      showToast('Reprint','Reprint requested successfully.');
+      return true;
+    },
+    onAfterPrint:()=>{ntDChecked=new Set();ntRenderDetail();}});
+}
+
+// ----- register modal -----
+const ntSheets=(rows,settings)=>rows.reduce((a,r)=>a+((settings[r.rowKey]||{}).printQty??1),0);
+function ntSheetToast(n){showToast('Print limit exceeded',`Up to ${NT_MAX_SHEETS} labels can be printed at once (current: ${n}).`,'error');}
+function ntOpenReg(){
+  ntReg={step:0,brand:'',bp:'',store:'',kw:'',query:'',page:0,size:30,sel:[],settings:{},includeQr:true,s2q:'',checked:new Set(),bulkRx:null,bulkQty:'1',saving:false};
+  ntBulk={file:null,rows:[],msg:null};
+  ntTab('individual');
+  document.getElementById('nt-reg-modal').classList.add('show');
+}
+function ntCloseReg(){document.getElementById('nt-reg-modal').classList.remove('show');ntReg=null;ntBulk=null;}
+function ntTab(t){
+  document.querySelectorAll('#nt-tabs button').forEach(b=>b.classList.toggle('on',b.dataset.tab===t));
+  document.getElementById('nt-ind').hidden=t!=='individual';
+  document.getElementById('nt-bulk').hidden=t!=='bulk';
+  t==='individual'?ntRenderInd():ntRenderBulk();
+}
+function ntRenderInd(){
+  const g=ntReg,steps=['Select Products','Additional Note & Qty'];
+  const stepper=`<div class="nt-steps">${steps.map((l,i)=>`<div class="nt-step${i===g.step?' on':i<g.step?' done':''}"><span class="no">${i<g.step?'✓':i+1}</span>${l}</div>`).join('')}</div>`;
+  document.getElementById('nt-ind').innerHTML=stepper+(g.step===0?ntStep1Html():ntStep2Html());
+  if(typeof csSyncModal==='function') csSyncModal();
+  if(g.step===1) ntS2Sync();
+}
+// Step 1: Brand -> BP -> Store (cascading, all required) -> product search
+function ntStep1Html(){
+  const g=ntReg,on=!!(g.brand&&g.bp&&g.store);
+  const opt=(list,v)=>list.map(([c,n])=>`<option value="${c}"${c===v?' selected':''}>${ntEsc(n)}</option>`).join('');
+  const bps=g.brand?[...new Set(NT_STORES.map(s=>s.bp))].map(c=>[c,NT_BPS[c]]):[];
+  const stores=g.bp?NT_STORES.filter(s=>s.bp===g.bp).map(s=>[s.code,s.name]):[];
+  let grid='<div class="nt-empty">Select Brand → BP → Store to load products.</div>',total=0;
+  if(on){
+    const all=ntProducts(g.store,g.query);total=all.length;
+    const last=Math.max(0,Math.ceil(total/g.size)-1);g.page=Math.min(g.page,last);
+    const rows=all.slice(g.page*g.size,(g.page+1)*g.size),selKeys=new Set(g.sel.map(r=>r.rowKey));
+    const allOn=rows.length&&rows.every(r=>selKeys.has(r.rowKey));
+    ntReg.pageRows=rows;
+    grid=`<div class="grid-wrap"><table class="grid nt-edit-grid"><thead><tr class="hdr"><th style="width:44px;"><input type="checkbox" ${allOn?'checked':''} onclick="ntS1All(this.checked)"></th>
+      <th class="tl">Brand</th><th class="tl">Model Code</th><th class="tl">Model Name</th><th>Currency</th><th class="tr">Sales Price</th></tr></thead><tbody>`
+      +(rows.length?rows.map(r=>`<tr><td><input type="checkbox" ${selKeys.has(r.rowKey)?'checked':''} onclick="ntS1Pick('${r.rowKey}',this)"></td><td class="tl">${ntEsc(r.brandName)}</td>
+        <td class="tl">${r.modelCode}</td><td class="tl">${ntEsc(r.modelName)}</td><td>${r.currency}</td><td class="tr">${ntFmt(r.price)}</td></tr>`).join('')
+        :'<tr><td colspan="6" style="padding:40px;color:#999;">No rows</td></tr>')+'</tbody></table></div>'
+      +`<div class="nt-pg"><span>Rows per page:</span><select onchange="ntReg.size=+this.value;ntReg.page=0;ntRenderInd()">${[10,30,50,100].map(n=>`<option${n===g.size?' selected':''}>${n}</option>`).join('')}</select>
+        <span>${total?g.page*g.size+1:0}–${Math.min((g.page+1)*g.size,total)} of ${total}</span>
+        <button ${g.page<=0?'disabled':''} onclick="ntReg.page--;ntRenderInd()">‹</button><button ${(g.page+1)*g.size>=total?'disabled':''} onclick="ntReg.page++;ntRenderInd()">›</button></div>`;
+  }
+  return `<div class="nt-f3">
+      <div><span>Brand<span class="nt-req"> *</span></span><select style="width:100%;" onchange="ntS1Set('brand',this.value)"><option value="">Select brand</option>${opt(Object.entries(NT_BRANDS),g.brand)}</select></div>
+      <div><span>BP (Corporation)<span class="nt-req"> *</span></span><select style="width:100%;" ${g.brand?'':'disabled'} onchange="ntS1Set('bp',this.value)"><option value="">Select BP</option>${opt(bps,g.bp)}</select></div>
+      <div><span>Store<span class="nt-req"> *</span></span><select style="width:100%;" ${g.bp?'':'disabled'} onchange="ntS1Set('store',this.value)"><option value="">Select store</option>${opt(stores,g.store)}</select></div>
+    </div>
+    <div class="nt-srch">Search (Model Code / Model Name)<div><div style="flex:1;"><input id="nt-s1-kw" placeholder="Please enter a keyword to search." value="${ntEsc(g.kw)}" ${on?'':'disabled'} oninput="ntReg.kw=this.value" onkeydown="if(event.key==='Enter')ntS1Search()" style="width:100%;box-sizing:border-box;">
+      <div class="nt-err-txt" id="nt-s1-err" hidden>Please enter at least 2 characters.</div></div>
+      <button class="btn-search" ${on?'':'disabled'} onclick="ntS1Search()"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><use href="#i-search"/></svg>Search</button></div></div>
+    <div class="nt-box"><div class="nt-box-hd"><span>Total <b>${on?total:0}</b> Count</span><strong>${g.sel.length} selected</strong></div>${grid}</div>
+    <div class="nt-foot"><span class="sp"></span><button class="btn-action btn-primary" ${g.sel.length?'':'disabled'} onclick="ntS1Next()">Next →</button></div>`;
+}
+// Cascading reset: brand -> BP + store, BP -> store; store change -> page 1 (selected products are kept, same as the FE)
+function ntS1Set(k,v){
+  const g=ntReg;g[k]=v;
+  if(k==='brand'){g.bp='';g.store='';}
+  if(k==='bp') g.store='';
+  g.page=0;ntRenderInd();
+}
+function ntS1Search(){
+  const q=(ntReg.kw||'').trim();
+  if(q&&q.length<2){document.getElementById('nt-s1-err').hidden=false;return;}
+  ntReg.query=q;ntReg.page=0;ntRenderInd();
+}
+// Selection is kept across pages; max 50 products (over the limit -> the change is not applied)
+function ntS1Apply(next){
+  if(next.length>NT_MAX_SELECT){showToast('Select Products',`You can select up to ${NT_MAX_SELECT} products.`,'error');ntRenderInd();return;}
+  ntReg.sel=next;ntRenderInd();
+}
+function ntS1Pick(key,el){
+  const g=ntReg,row=g.pageRows.find(r=>r.rowKey===key);
+  ntS1Apply(el.checked?g.sel.concat(row):g.sel.filter(r=>r.rowKey!==key));
+}
+function ntS1All(on){
+  const g=ntReg,keys=new Set(g.pageRows.map(r=>r.rowKey)),kept=g.sel.filter(r=>!keys.has(r.rowKey));
+  ntS1Apply(on?kept.concat(g.pageRows):kept);
+}
+function ntS1Next(){
+  const g=ntReg;g.sel.forEach(r=>{if(!g.settings[r.rowKey]) g.settings[r.rowKey]={additionalNote:'',prescription:false,printQty:1};});
+  g.step=1;g.checked=new Set();g.s2q='';ntRenderInd();
+}
+// Step 2: Additional Note / Prescription / Print Qty per product, bulk edit for checked rows
+function ntStep2Html(){
+  const g=ntReg,q=g.s2q.trim().toLowerCase();
+  const rows=g.sel.filter(r=>!q||r.modelCode.toLowerCase().includes(q)||r.modelName.toLowerCase().includes(q));
+  g.s2Rows=rows;
+  const dis=g.checked.size?'':'disabled';
+  return `<div class="nt-srch">Search (Model Code / Model Name)<div><input placeholder="Please enter a keyword to search." value="${ntEsc(g.s2q)}" oninput="ntReg.s2q=this.value;ntRenderInd();const i=document.querySelector('#nt-ind .nt-srch input');i.focus();i.setSelectionRange(i.value.length,i.value.length);"></div></div>
+    <div class="nt-sum"><div class="tot">Total: <strong id="nt-s2-sheets"></strong> sheets · <strong>${g.sel.length}</strong> items</div><span class="hint">Set Additional Note and Print Qty per item.</span></div>
+    <div class="nt-bulkbar"><span class="ttl">✎ Bulk edit</span><span style="color:#757575;" id="nt-s2-fmt"></span><span class="sep"></span>
+      <div class="grp">Prescription<button class="nt-seg${g.bulkRx===true?' on':''}" ${dis} onclick="ntS2BulkRx(true)">On</button><button class="nt-seg${g.bulkRx===false?' on':''}" ${dis} onclick="ntS2BulkRx(false)">Off</button></div>
+      <span class="sep"></span>
+      <div class="grp">Print Qty<input class="nt-in num" style="width:70px;" type="number" min="1" max="${NT_MAX_QTY}" value="${ntEsc(g.bulkQty)}" oninput="if(this.value!==''){this.value=ntClampQty(this.value);}ntReg.bulkQty=this.value"></div>
+      <button class="btn-action btn-primary" ${dis} onclick="ntS2Apply()">Apply</button></div>
+    <div class="grid-wrap"><table class="grid nt-edit-grid"><thead><tr class="hdr"><th style="width:44px;"><input type="checkbox" ${rows.length&&rows.every(r=>g.checked.has(r.rowKey))?'checked':''} onclick="ntS2All(this.checked)"></th>
+      <th class="tl">Model Code</th><th class="tl">Model Name</th><th>Currency</th><th class="tr">Sales Price</th><th class="tl">Additional Note</th><th>Prescription</th><th>Print Qty (max 10)</th></tr></thead><tbody>`
+    +(rows.length?rows.map(r=>{const s=g.settings[r.rowKey];return `<tr><td><input type="checkbox" ${g.checked.has(r.rowKey)?'checked':''} onclick="ntS2Check('${r.rowKey}',this.checked)"></td>
+      <td class="tl">${r.modelCode}</td><td class="tl"><b>${ntEsc(r.modelName)}</b></td><td>${r.currency}</td><td class="tr">${ntFmt(r.price)}</td>
+      <td class="tl"><input class="nt-in" style="width:180px;" placeholder="Note (optional)" value="${ntEsc(s.additionalNote)}" oninput="ntReg.settings['${r.rowKey}'].additionalNote=this.value"></td>
+      <td><input type="checkbox" ${s.prescription?'checked':''} onclick="ntReg.settings['${r.rowKey}'].prescription=this.checked"></td>
+      <td><input class="nt-in num" type="number" min="1" max="${NT_MAX_QTY}" value="${s.printQty}" onchange="this.value=ntReg.settings['${r.rowKey}'].printQty=ntClampQty(this.value);ntS2Sync()"></td></tr>`;}).join('')
+      :'<tr><td colspan="8" style="padding:40px;color:#999;">No rows</td></tr>')+'</tbody></table></div>'
+    +`<div class="nt-foot"><button class="btn-action btn-outline" onclick="ntReg.step=0;ntRenderInd()">← Back</button><span class="sp"></span>
+      <label><input type="checkbox" ${g.includeQr?'checked':''} onchange="ntReg.includeQr=this.checked">Include product QR</label>
+      <button class="btn-action btn-outline" onclick="ntS2Preview()">👁 Preview</button>
+      <button class="btn-action btn-primary" ${g.sel.length&&!g.saving?'':'disabled'} onclick="ntS2PrintSave()">🖨 Print &amp; Save</button></div>`;
+}
+function ntS2Sync(){
+  const n=ntSheets(ntReg.sel,ntReg.settings);
+  document.getElementById('nt-s2-sheets').textContent=n;
+  document.getElementById('nt-s2-fmt').textContent=`Total: ${n} sheets · ${ntReg.sel.length} items`;
+}
+function ntS2Check(k,on){on?ntReg.checked.add(k):ntReg.checked.delete(k);ntRenderInd();}
+function ntS2All(on){const g=ntReg;g.checked=new Set(on?g.s2Rows.map(r=>r.rowKey):[]);ntRenderInd();}
+// On / Off: applied to the checked rows right away (and remembered for Apply)
+function ntS2BulkRx(v){const g=ntReg;g.bulkRx=v;g.checked.forEach(k=>{g.settings[k].prescription=v;});ntRenderInd();}
+function ntS2Apply(){
+  const g=ntReg;if(!g.checked.size) return;
+  const qty=Number(g.bulkQty);
+  g.checked.forEach(k=>{if(g.bulkRx!==null) g.settings[k].prescription=g.bulkRx;if(qty>=1) g.settings[k].printQty=Math.min(NT_MAX_QTY,qty);});
+  ntRenderInd();
+}
+function ntS2Preview(){
+  const g=ntReg,n=ntSheets(g.sel,g.settings);
+  if(n>NT_MAX_SHEETS) return ntSheetToast(n);
+  ntOpenPreview({rows:g.sel,settings:g.settings,storeCode:g.store,includeQr:g.includeQr,onToggleQr:v=>{g.includeQr=v;},
+    onPrintSave:()=>ntS2Save(),onAfterPrint:()=>ntCloseReg()});
+}
+// Print & Save: save first (prices re-validated on the server) -> preview opens and prints automatically -> modal closes
+function ntS2PrintSave(){
+  const g=ntReg;if(!g.sel.length) return;
+  const n=ntSheets(g.sel,g.settings);if(n>NT_MAX_SHEETS) return ntSheetToast(n);
+  if(!ntS2Save()) return;
+  ntOpenPreview({rows:g.sel,settings:g.settings,storeCode:g.store,includeQr:g.includeQr,onToggleQr:v=>{g.includeQr=v;},autoPrint:true,onAfterPrint:()=>ntCloseReg()});
+}
+function ntS2Save(){
+  const g=ntReg;
+  const rec=ntNewRecord(g.store,ntIso(new Date()),NT_USER,g.sel.map(r=>{const s=g.settings[r.rowKey];
+    return {modelCode:r.modelCode,modelName:r.modelName,price:r.price,additionalNote:s.additionalNote||'',quantity:s.printQty||1,prescriptionAvailable:!!s.prescription};}));
+  NT_DATA.push(rec);ntRunQuery();
+  showToast('Register NameTAG','Name tag print info has been saved.');
+  return true;
+}
+
+// ----- bulk upload (Excel) -----
+function ntRenderBulk(){
+  const b=ntBulk;
+  document.getElementById('nt-bulk').innerHTML=`<a class="nt-tmpl" onclick="ntBulkTemplate()">Download Upload Template</a>
+    <div class="nt-box"><div class="nt-drop" onclick="document.getElementById('nt-bulk-file').click()" ondragover="event.preventDefault();this.classList.add('drag')" ondragleave="this.classList.remove('drag')" ondrop="event.preventDefault();this.classList.remove('drag');ntBulkPick(event.dataTransfer.files[0])">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="#A3A3A3"><path d="M13 11h-2v3H8v2h3v3h2v-3h3v-2h-3zm1-9H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6zm4 18H6V4h7v5h5v11z"/></svg>
+      <span class="t">Drag &amp; Drop or File Upload</span><span class="s">.xlsx, .xls (max 5 MB)</span></div>
+      <input type="file" id="nt-bulk-file" accept=".xlsx,.xls" hidden onchange="ntBulkPick(this.files[0]);this.value=''">
+      ${b.file?`<div class="nt-file"><span>${ntEsc(b.file.name)}</span><button onclick="ntBulk.file=null;ntBulk.rows=[];ntBulk.msg=null;ntRenderBulk()">✕</button></div>`:''}</div>
+    ${!b.rows.length&&b.msg?`<div class="nt-errbox">${ntEsc(b.msg)}</div>`:''}
+    ${b.rows.length?`<div class="nt-box" style="margin-top:12px;"><div class="grid-wrap"><table class="grid nt-edit-grid nt-errgrid"><thead><tr class="hdr"><th>#</th><th>Brand Code</th><th>Store Code</th><th>Product Code</th><th>Additional Note</th><th>Prescription</th><th>Qty</th></tr></thead><tbody>`
+      +b.rows.map(r=>{const c=(err,v)=>err?`<span class="e">${ntEsc(err)}</span>`:ntEsc(v??'-');
+        return `<tr><td>${r.index}</td><td>${c(r.brandCodeError,r.brandCode)}</td><td>${c(r.storeCodeError,r.storeCode)}</td><td>${c(r.productCodeError,r.productCode)}</td>
+          <td>${ntEsc(r.additionalNote||'-')}</td><td>${c(r.prescriptionError,r.prescriptionAvailable?'Y':'N')}</td><td>${c(r.quantityError,r.quantity)}</td></tr>`;}).join('')+'</tbody></table></div></div>':''}
+    <div class="nt-info-line">ⓘ Print quantity per item is auto-capped at <b>MAX 10</b>.</div>
+    <div class="nt-foot"><span class="sp"></span><button class="btn-action btn-primary" ${b.file?'':'disabled'} onclick="ntBulkSubmit()">🖨 Register</button></div>`;
+}
+function ntBulkPick(f){
+  if(!f) return;
+  if(!/\.(xlsx|xls)$/i.test(f.name)) return showToast('Bulk Upload','Only .xlsx, .xls files can be uploaded.','error');
+  if(f.size>NT_MAX_FILE) return showToast('Bulk Upload','File is too large. Up to 5 MB is allowed.','error');
+  ntBulk={file:f,rows:[],msg:null};ntRenderBulk();
+}
+function ntBulkTemplate(){
+  const ws=XLSX.utils.aoa_to_sheet([NT_XLS_COLS]),wb=XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(wb,ws,'NameTag');XLSX.writeFile(wb,'NameTag_upload_form.xlsx');
+}
+function ntBulkSubmit(){
+  const f=ntBulk.file;if(!f) return showToast('Bulk Upload','Please upload a file.','error');
+  const rd=new FileReader();
+  rd.onload=e=>{
+    let aoa=[];
+    try{const wb=XLSX.read(e.target.result,{type:'array'});aoa=XLSX.utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]],{header:1,defval:'',raw:false});}
+    catch(err){ntBulk.msg='Only Excel files (.xlsx, .xls) can be uploaded.';ntRenderBulk();return;}
+    ntBulkValidate(aoa.slice(1).filter(r=>r.some(v=>String(v).trim()!=='')));
+  };
+  rd.readAsArrayBuffer(f);
+}
+// Server-side rules (NameTagPrintExcelUploadFacade): one brand + one store per file, every row valid, total qty <= 500 -> one print record (all-or-nothing).
+// Messages are the server's (Korean) messages as-is.
+function ntBulkValidate(data){
+  const fail=msg=>{ntBulk.rows=[];ntBulk.msg=msg;showToast('Bulk Upload',msg,'error');ntRenderBulk();};
+  const str=v=>String(v??'').trim();
+  const rows=data.map(r=>({brandCode:str(r[0]),storeCode:str(r[1]),productCode:str(r[2]),additionalNote:str(r[3]),prescription:str(r[4]),quantity:str(r[5])}));
+  if(!rows.length) return fail('업로드 파일에 데이터 행이 없습니다.');
+  const brands=[...new Set(rows.map(r=>r.brandCode).filter(Boolean))];
+  if(brands.length>1) return fail('엑셀의 브랜드 코드는 1개만 허용됩니다.');
+  if(!brands.length) return fail('브랜드 코드는 필수입니다.');
+  const stores=[...new Set(rows.map(r=>r.storeCode).filter(Boolean))];
+  if(stores.length>1) return fail('엑셀의 매장 코드는 1개만 허용됩니다.');
+  if(!stores.length) return fail('매장 코드는 필수입니다.');
+  const brand=brands[0],storeCode=stores[0],store=ntStore(storeCode);
+  if(!store) return fail('매장을 찾을 수 없습니다: '+storeCode);
+  const res=rows.map((r,i)=>{
+    const rx={Y:true,YES:true,TRUE:true,'1':true,N:false,NO:false,FALSE:false,'0':false}[r.prescription.toUpperCase()];
+    const qty=r.quantity===''?null:parseInt(r.quantity,10);
+    const p=brand==='1100'?ntResolveProduct(storeCode,r.productCode):null;
+    const o={index:i+1,brandCode:r.brandCode,storeCode:r.storeCode,productCode:r.productCode,additionalNote:r.additionalNote,prescriptionAvailable:rx,quantity:qty,
+      modelCode:p?.modelCode,modelName:p?.modelName,price:p?.price,
+      brandCodeError:r.brandCode!==brand?'브랜드 코드가 일치하지 않습니다.':null,
+      storeCodeError:r.storeCode!==storeCode?'매장 코드가 일치하지 않습니다.':null,
+      productCodeError:p?null:'유효한 제품 코드/판매가가 아닙니다.',
+      prescriptionError:rx===undefined?'Prescription 은 Y 또는 N 이어야 합니다.':null,
+      quantityError:qty==null||isNaN(qty)?'출력 수량은 필수입니다.':qty<1||qty>10?'출력 수량은 1~10 사이여야 합니다.':null};
+    o.isValid=!(o.brandCodeError||o.storeCodeError||o.productCodeError||o.prescriptionError||o.quantityError);
+    return o;
+  });
+  const total=res.reduce((a,r)=>a+(r.quantity||0),0),errors=res.filter(r=>!r.isValid).length;
+  if(errors||total>NT_MAX_SHEETS){
+    const msg=total>NT_MAX_SHEETS?`총 출력 수량이 ${NT_MAX_SHEETS}개를 초과했습니다. (총 ${total})`:null;
+    ntBulk.rows=res;ntBulk.msg=msg;showToast('Bulk Upload',msg||'Bulk upload failed.','error');ntRenderBulk();return;
+  }
+  // Saved on upload -> list refreshed -> preview ("Register" = print only)
+  const rec=ntNewRecord(storeCode,ntIso(new Date()),NT_USER,res.map(r=>({modelCode:r.modelCode,modelName:r.modelName,price:r.price,additionalNote:r.additionalNote,quantity:r.quantity,prescriptionAvailable:r.prescriptionAvailable})));
+  NT_DATA.push(rec);ntRunQuery();
+  ntBulk.rows=[];ntBulk.msg=null;ntRenderBulk();
+  const pvRows=rec.items.map(i=>({rowKey:String(i.id),modelCode:i.modelCode,modelName:i.modelName,price:i.price,currency:rec.currency,brandName:rec.brandCode}));
+  const settings={};rec.items.forEach(i=>{settings[String(i.id)]={additionalNote:i.additionalNote,prescription:i.prescriptionAvailable,printQty:i.quantity};});
+  ntOpenPreview({rows:pvRows,settings,storeCode,printLabel:'Register',onPrintSave:()=>true,onAfterPrint:()=>ntCloseReg(),onClose:()=>ntCloseReg()});
+}
+
+// ----- A4 print preview (labels 65 x 13 mm, 2 per row, cut lines) -----
+const NT_CUR_SYM={USD:'$',CAD:'$',GBP:'£',EUR:'€'};
+const ntPriceText=(cur,p)=>(NT_CUR_SYM[cur]??cur)+' '+Number(p).toLocaleString();
+// QR (product search page): built on screen from the store code's country prefix; unsupported country -> int
+function ntQrUrl(storeCode,modelName){
+  const raw=(storeCode||'').slice(0,2).toLowerCase(),c=['kr','us','jp','ca','au','cn'].includes(raw)?raw:'int';
+  return `https://www.gentlemonster.com/${c}/${({kr:'ko',jp:'ja',cn:'zh-CN'})[c]||'en'}?search=${encodeURIComponent(modelName)}`;
+}
+function ntQrImg(url){
+  if(typeof qrcode!=='function') return '';
+  const q=qrcode(0,'M');q.addData(url);q.make();return q.createDataURL(4,0);
+}
+// Model name font: 11pt, shrunk to 9.8pt / 7.8pt when wider than the space left by the price column (max 28 mm)
+let ntCtx=null;
+function ntTextW(t,pt,family){ntCtx=ntCtx||document.createElement('canvas').getContext('2d');ntCtx.font=(pt*96/72)+'px '+family;return ntCtx.measureText(t).width;}
+function ntTitleLayout(name,priceText,rx,qr){
+  const mm=96/25.4,right=Math.max(ntTextW(priceText,11,'GentleSans'),rx?ntTextW('Prescription Available',5.8,'Helvetica'):0);
+  const max=Math.min((qr?65-8-16.5:65-8-8)*mm-right-4*mm,28*mm)-2;   // -2px: rounding margin (prototype fonts differ from production)
+  if(ntTextW(name,11,'GentleSans')<=max) return {pt:11,drop:false};
+  if(ntTextW(name,9.8,'GentleSans')<=max) return {pt:9.8,drop:false};
+  return {pt:7.8,drop:rx||qr};
+}
+function ntOpenPreview(o){
+  ntPv={includeQr:true,printLabel:'Print & Save',autoPrint:false,...o};
+  document.getElementById('nt-print-overlay').hidden=false;
+  document.getElementById('nt-print-overlay').innerHTML='<div class="nt-pv-wait">Loading…</div>';
+  // Model name width is measured with the label font: wait until it is loaded (otherwise the fallback font is measured)
+  const go=()=>{if(!ntPv) return;ntRenderPreview();if(ntPv.autoPrint) setTimeout(ntDoPrint,200);};
+  (document.fonts?document.fonts.load('11pt GentleSans'):Promise.resolve()).then(go,go);
+}
+function ntClosePreview(){
+  const p=ntPv;document.getElementById('nt-print-overlay').hidden=true;ntPv=null;
+  if(p&&p.onClose) p.onClose();
+}
+function ntRenderPreview(){
+  const p=ntPv,labels=p.rows.flatMap(r=>{const s=p.settings[r.rowKey]||{};return Array.from({length:Math.max(1,s.printQty??1)},()=>({...r,note:s.additionalNote||'',rx:!!s.prescription}));});
+  const qr={};if(p.includeQr) p.rows.forEach(r=>{if(!qr[r.modelCode]) qr[r.modelCode]=ntQrImg(ntQrUrl(p.storeCode,r.modelName));});
+  const lbl=l=>{const showQr=!!qr[l.modelCode],pt=ntPriceText(l.currency,l.price),lay=ntTitleLayout(l.modelName,pt,l.rx,showQr);
+    return `<div class="nt-lbl" style="padding:0 ${showQr?'16.5mm':'8mm'} 0 8mm;"><div class="in"><div class="lt"><div class="ttl" style="font-size:${lay.pt}pt;">${ntEsc(l.modelName)}</div>${l.note?`<div class="note">${ntEsc(l.note)}</div>`:''}</div>
+      <div class="rt" style="padding-left:${lay.drop?0:'4mm'};"><div class="pr">${ntEsc(pt)}</div>${l.rx?'<div class="rx">Prescription Available</div>':''}</div></div>${showQr?`<img src="${qr[l.modelCode]}" alt="product qr">`:''}</div>`;};
+  let rowsHtml='';
+  for(let i=0;i<labels.length;i+=2) rowsHtml+=`<div class="nt-row"><div class="nt-row-grid">${labels.slice(i,i+2).map(lbl).join('')}</div><i class="nt-hcut" style="top:0"></i><i class="nt-hcut" style="top:13mm"></i></div>`;
+  document.getElementById('nt-print-overlay').innerHTML=`<div class="nt-pv-hd"><div><div class="t">A4 Print Preview</div><div class="m">${ntEsc(p.rows[0]?.brandName||'')} · ${p.rows.length} items</div></div>
+    <div class="r"><label><input type="checkbox" ${p.includeQr?'checked':''} onchange="ntPv.includeQr=this.checked;if(ntPv.onToggleQr)ntPv.onToggleQr(this.checked);ntRenderPreview()">Include product QR</label>
+      <button class="btn-action btn-outline" onclick="ntClosePreview()">Close</button>
+      <button class="btn-action btn-primary" onclick="ntPvPrint()">🖨 ${ntEsc(p.printLabel)}</button></div></div>
+    <div class="nt-pv-scroll"><div class="nt-sheet"><div class="nt-rows"><div class="nt-vcut">${[0,65,75,140].map(x=>`<i style="left:${x}mm"></i>`).join('')}</div>${rowsHtml}</div></div></div>`;
+}
+// Manual preview: Print & Save = save (onPrintSave) then auto print / auto-print path or bulk: print only
+function ntPvPrint(){
+  const p=ntPv;
+  if(p.autoPrint) return ntDoPrint();
+  if(p.onPrintSave&&!p.onPrintSave()) return;
+  p.autoPrint=true;setTimeout(ntDoPrint,200);
+}
+// Only the A4 sheet is printed (A4 portrait, top/bottom margin 25 mm, left/right 0 so the cut lines reach the paper edge)
+function ntDoPrint(){
+  const p=ntPv;if(!p) return;
+  const st=document.createElement('style');
+  st.textContent=`@media print{@page{size:A4 portrait;margin:25mm 0;}
+    html,body.nt-printing{zoom:1!important;background:#fff!important;}
+    body.nt-printing>*:not(#nt-print-overlay){display:none!important;}
+    body.nt-printing #nt-print-overlay,body.nt-printing #nt-print-overlay *{visibility:visible!important;}
+    body.nt-printing #nt-print-overlay{position:static!important;display:block!important;zoom:1!important;background:#fff!important;overflow:visible!important;}
+    body.nt-printing .nt-pv-hd{display:none!important;}
+    body.nt-printing .nt-pv-scroll{padding:0!important;overflow:visible!important;}
+    body.nt-printing .nt-sheet{padding:0 35mm!important;box-shadow:none!important;}
+    html{-webkit-print-color-adjust:exact;print-color-adjust:exact;}}`;
+  document.head.appendChild(st);document.body.classList.add('nt-printing');
+  try{window.print();}finally{document.body.classList.remove('nt-printing');st.remove();}
+  // After the print dialog closes: close the preview, then the caller's follow-up (close modal / clear selection)
+  document.getElementById('nt-print-overlay').hidden=true;ntPv=null;
+  if(p.onAfterPrint) p.onAfterPrint();
+}
+
 // ===== Customer Price (Master Information > Price > Customer Price) =====
 // Source: iic-bo-frontend features/(master)/price/sales (route master/price/sales-price) + iic-bo GET /api/v1/customer-prices
 // Customer Price = SAP standard price (ZP01, no customer code) per Brand + Product + Currency, valid today. Package products (105000) are excluded.
@@ -15607,7 +16294,7 @@ const MENU_PAGES={
   '/inventory/monitoring/snapshot-wh':{bc:['Inventory','Monitoring'],title:'Inventory Snapshot (WH)',open:['inv','inv-mon'],view:'snw-view',onEnter:()=>snwEnter()},
   '/inventory/monitoring/in-out-history':{bc:['Inventory','Monitoring'],title:'Inventory In/Out History',open:['inv','inv-mon'],view:'ioh-view',onEnter:()=>iohEnter()},
   '/report/report-board':{bc:['Global Report'],title:'Report Board',open:['rpt']},
-  '/store/offline-name-tag':{bc:['Store Management'],title:'Offline Name Tag',open:['store']},
+  '/store/offline-name-tag':{bc:['Store Management'],title:'Offline Name Tag',open:['store'],view:'nt-view',onEnter:()=>ntEnter()},
   '/system/account/employee-account':{bc:['System Setting','Account'],title:'Employee Account',open:['sys','sys-account']},
   '/system/account/auth-group':{bc:['System Setting','Account'],title:'Auth Group',open:['sys','sys-account']},
   '/system/package-master/hq-package-master':{bc:['System Setting','Package Master'],title:'HQ Package Master',open:['sys','sys-package']},
@@ -15692,6 +16379,10 @@ function route(){
       const pg=MENU_PAGES['/rx/work-management'];
       setPageHeader({...pg,menu:'/rx/work-management'});showPlaceholder(pg);
       if(!rxwOpenDetail(m[1])) return redirect('#/rx/work-management');
+    }else if((m=path.match(/^\/store\/offline-name-tag\/([^/]+)$/))){
+      const pg=MENU_PAGES['/store/offline-name-tag'];
+      setPageHeader({...pg,menu:'/store/offline-name-tag'});showPlaceholder(pg);
+      if(!ntOpenDetail(m[1])) return redirect('#/store/offline-name-tag');
     }else if((m=path.match(/^\/inventory\/stocktaking\/([^/]+)$/))){
       const pg=MENU_PAGES['/inventory/stocktaking'];
       setPageHeader({...pg,menu:'/inventory/stocktaking'});showPlaceholder(pg);
