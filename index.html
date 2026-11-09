@@ -1440,6 +1440,18 @@ a.ib-trk:hover{border-color:#ff6b35;color:#ff6b35;}
 .rxp-file{display:flex;align-items:center;justify-content:space-between;border:1px solid #eee;border-radius:6px;padding:6px 10px;font-size:12px;color:#1976d2;margin-top:6px;}
 .rxp-file button{border:none;background:none;color:#e53935;cursor:pointer;font-size:12px;}
 .rxp-badge-ocr{border-radius:999px;background:#e0f2fe;color:#0369a1;font-size:10px;font-weight:600;padding:2px 8px;}
+.rxp-step-hd{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;}
+.rxp-step-hd .rxp-step{margin-bottom:0;}
+.rxp-ocr-act{display:flex;align-items:center;gap:8px;}
+.rxp-file button.x{width:22px;height:22px;border-radius:50%;color:#999;font-size:18px;line-height:1;padding:0;display:inline-flex;align-items:center;justify-content:center;}
+.rxp-file button.x:hover{background:#f3f3f3;color:#e53935;}
+.rxp-ocr-note{margin-top:8px;border:1px solid #bae6fd;background:#f0f9ff;border-radius:6px;padding:8px 12px;font-size:12px;font-weight:600;color:#0369a1;}
+.rxp-ocr-note span{display:block;font-weight:400;color:#555;margin-top:2px;}
+.rxp-ocr-done{font-size:11px;color:#888;}
+.rxp-ocr-btn{border:1px solid #0369a1;background:#fff;color:#0369a1;border-radius:6px;font-size:12px;font-weight:600;padding:4px 10px;cursor:pointer;}
+.rxp-ocr-btn:disabled{opacity:.45;cursor:not-allowed;}
+.rxp-ocr-warn{border:1px solid #f5c26b;background:#fff8e6;border-radius:6px;padding:8px 12px;font-size:12px;color:#7a5200;margin:8px 0 10px;}
+.rxp-ocr-warn ul{margin:4px 0 0 16px;padding:0;}
 .rxp-seg{display:inline-flex;border:1px solid #d5d5d5;border-radius:4px;overflow:hidden;margin-top:4px;}
 .rxp-seg button{border:none;background:#fff;font-size:10px;padding:2px 8px;cursor:pointer;}
 .rxp-seg button.on{background:#ff6b35;color:#fff;}
@@ -12965,7 +12977,7 @@ const RXP_EXTRA=[
   ['US1001',28,'12:25','CONFIRMED',9,9,1,{by:'jane.park',tz:'PST'}]
 ];
 let RXP_DATA=null,rxpInited=false,rxpApplied=null,rxpLastRows=[],rxpPage=1,rxpSortKey=null,rxpSortDir=null,rxpError='';
-let rxpCur=null,rxpDraft=null,rxpErrors={},rxpOcrBusy=false,rxpOcrFields=[],rxpDlgAction=null,rxpEditCmt=null;
+let rxpCur=null,rxpDraft=null,rxpErrors={},rxpOcrBusy=false,rxpOcrFields=[],rxpOcrOverwrites=[],rxpOcrLast=null,rxpDlgAction=null,rxpEditCmt=null;
 
 const rxpEsc=v=>String(v??'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 const rxpPad=n=>String(n).padStart(2,'0');
@@ -13033,6 +13045,7 @@ function rxpBuildData(){
       if(st==='REJECTED'){r.rejectReason='Prescription Information Needs Verification';r.rejectSub='Missing prescription information';}
     }
     r.d=genDetail(r,i,{});
+    r.ocrDone=!['UNREADY','REQUESTED'].includes(st);
     rows.push(r);
   });
   // 2) LMS-only orders (online US1004 / AU1003 from OMS, offline stores)
@@ -13051,6 +13064,8 @@ function rxpBuildData(){
       decidedAt:null,decidedTz:null,decidedBy:null,rejectReason:opt.reason||null,rejectSub:opt.sub||null};
     if(opt.by){r.decidedAt=rxpAddDays(r.orderedAt,ago>1?1:0,rxpPad(9+k%9)+':'+rxpPad((k*17)%60));r.decidedTz=opt.tz;r.decidedBy=opt.by;}
     r.d=genDetail(r,k+3,opt);
+    // ocrDone (BE flag, proposed): set once the order is saved / confirmed / rejected -> OCR no longer runs on entry
+    r.ocrDone=!['UNREADY','REQUESTED'].includes(st);
     rows.push(r);
   });
   return rows;
@@ -13213,10 +13228,13 @@ function rxpOpenDetail(id){
   const r=RXP_DATA.find(x=>x.id===String(id));
   // Detail API excludes UNREADY orders (404)
   if(!r||rxpStatus(r)==='UNREADY') return false;
-  rxpCur=r;rxpErrors={};rxpOcrFields=[];rxpOcrBusy=false;rxpEditCmt=null;
+  rxpCur=r;rxpErrors={};rxpOcrFields=[];rxpOcrOverwrites=[];rxpOcrLast=null;rxpOcrBusy=false;rxpEditCmt=null;
   rxpLoadDraft();
   if(typeof setRoute==='function') setRoute('#/rx/prescription-review/'+r.id);
   rxpShowPane('detail');rxpRenderDetail();window.scrollTo(0,0);
+  // ONLINE order: OCR runs on the stored prescription (last file) on the first entry only.
+  // After Save / Confirm / Reject (ocrDone) it no longer runs; use Re-run OCR if more info is needed.
+  if(rxpOnline()&&rxpEditable()&&rxpDraft.files.length&&!r.ocrDone) rxpRunOcr('entry');
   return true;
 }
 function rxpCloseDetail(){
@@ -13373,15 +13391,18 @@ function rxpRenderDetail(){
       <div class="rxp-sec" id="rxp-sec-prescription">
         <div class="rxp-sec-t">Prescription</div>
         <div id="rxp-sec-documents" style="scroll-margin-top:20px;">
-          <div class="rxp-step"><span class="no">1</span>Scan Prescription</div>
+          <div class="rxp-step-hd"><div class="rxp-step"><span class="no">1</span>Scan Prescription</div>
+            <div class="rxp-ocr-act">${r.ocrDone?'<span class="rxp-ocr-done">OCR processed · auto-run off</span>':''}${ed&&d.files.length?`<button class="rxp-ocr-btn" ${rxpOcrBusy?'disabled':''} onclick="rxpRunOcr('manual')">&#8635; Re-run OCR</button>`:''}</div></div>
           ${rxpOcrBusy?`<div class="rxp-upload busy"><div class="rxp-spin"></div><div><div class="t">Upload Prescription</div><div class="s">JPG, PNG, PDF (max 10MB, 1 page) · OCR auto-filling supported</div></div></div>`
             :`<label class="rxp-upload${!ed||d.files.length>=3?' dis':''}"><input type="file" hidden accept=".jpg,.jpeg,.png,.pdf" ${!ed||d.files.length>=3?'disabled':''} onchange="rxpUpload(this)">${RXP_ICON.upload}
               <div><div class="t">Upload Prescription</div><div class="s">JPG, PNG, PDF (max 10MB, 1 page) · OCR auto-filling supported</div></div></label>`}
-          ${d.files.map((f,i)=>`<div class="rxp-file"><span>${rxpEsc(f)}</span>${ed&&!rxpOcrBusy?`<button onclick="rxpRemoveFile(${i})">Delete</button>`:''}</div>`).join('')}
+          ${d.files.map((f,i)=>`<div class="rxp-file"><span>${rxpEsc(f)}</span>${ed&&!rxpOcrBusy?`<button class="x" title="Remove" aria-label="Remove" onclick="rxpRemoveFile(${i})">&times;</button>`:''}</div>`).join('')}
+          ${!rxpOcrBusy&&rxpOcrLast?`<div class="rxp-ocr-note">&#10003; OCR auto-fill completed${rxpOcrLast.mode==='entry'?' on entry':rxpOcrLast.mode==='manual'?' (Re-run)':''} &middot; ${rxpOcrLast.at}<span>Highlighted fields were filled from the prescription. Review and click Save to keep them.</span></div>`:''}
           ${rxpErrors.files?`<div class="rxp-err">${rxpErrors.files}</div>`:''}
         </div>
         <div class="rxp-divider"></div>
         <div style="display:flex;align-items:center;justify-content:space-between;"><div class="rxp-step"><span class="no">2</span>Prescription Values</div>${rxpOcrFields.length?'<span class="rxp-badge-ocr">OCR Auto-filled</span>':''}</div>
+        ${rxpOcrOverwrites.length?`<div class="rxp-ocr-warn"><b>Some fields were updated from the prescription OCR. Please review.</b><ul>${rxpOcrOverwrites.map(o=>`<li>${rxpEsc(o.label)}: <s>${rxpEsc(o.before)}</s> → <strong>${rxpEsc(o.after)}</strong></li>`).join('')}</ul></div>`:''}
         <div class="rxp-sublbl">Basic Info</div>
         <div class="rxp-g2" style="margin-bottom:14px;">
           <div class="rxp-box"><div class="rxp-sublbl" style="margin:0;">Patient</div>
@@ -13491,11 +13512,38 @@ function rxpUpload(input){
     const o=RXP_OCR,d=rxpDraft;
     ['patientName','patientDob','prescriberName','license','prescriberAddress','prescriberPhone','prescriberFax','signed','issueDate','expiryDate'].forEach(k=>{if(rxpBlank(d[k])){d[k]=o[k];rxpOcrFields.push(k);}});
     Object.entries(o.rx).forEach(([k,v])=>{if(rxpBlank(d.rx[k])&&!(k==='pdType'&&!rxpBlank(d.rx.odPd))){d.rx[k]=v;rxpOcrFields.push('rx.'+k);}});
+    rxpOcrLast={mode:'upload',at:rxpNow()};
     rxpRenderDetail();
     showToast('Auto-fill Complete !','');
   },1500);
 }
 function rxpRemoveFile(i){rxpDraft.files.splice(i,1);rxpRenderDetail();}
+// Stored-file OCR (entry / manual Re-run): reads the last stored prescription and overwrites the form values.
+// Changed values are listed as a warning. Fields stay unsaved until Save.
+const RXP_OCR_LABELS={patientName:'Patient Name',patientDob:'Date of Birth',prescriberName:'Prescriber',license:'License No.',prescriberAddress:'Prescriber Address',
+  prescriberPhone:'Prescriber Phone',prescriberFax:'Prescriber Fax',signed:'Signature',issueDate:'Issue Date',expiryDate:'Expiry Date',
+  'rx.odSph':'OD Sphere','rx.odCyl':'OD Cylinder','rx.odAxis':'OD Axis','rx.osSph':'OS Sphere','rx.osCyl':'OS Cylinder','rx.osAxis':'OS Axis','rx.odPd':'PD','rx.pdType':'PD Type'};
+function rxpRunOcr(mode){
+  if(rxpOcrBusy||!rxpCur||!rxpEditable()||!rxpDraft.files.length) return;
+  const cur=rxpCur;
+  rxpOcrBusy=true;rxpOcrOverwrites=[];rxpRenderDetail();
+  setTimeout(()=>{
+    if(rxpCur!==cur) return;
+    rxpOcrBusy=false;rxpOcrFields=[];
+    const o=RXP_OCR,d=rxpDraft,ow=[];
+    const put=(path,obj,k,v)=>{
+      const before=String(obj[k]??'').trim();
+      if(before&&before!==String(v)) ow.push({label:RXP_OCR_LABELS[path]||path,before,after:v});
+      obj[k]=v;rxpOcrFields.push(path);
+    };
+    ['patientName','patientDob','prescriberName','license','prescriberAddress','prescriberPhone','prescriberFax','signed','issueDate','expiryDate'].forEach(k=>put(k,d,k,o[k]));
+    if(o.rx.pdType==='SINGLE') d.rx.osPd='';
+    Object.entries(o.rx).forEach(([k,v])=>put('rx.'+k,d.rx,k,v));
+    rxpOcrOverwrites=ow;rxpOcrLast={mode,at:rxpNow()};
+    rxpRenderDetail();
+    showToast('Auto-fill Complete !',mode==='manual'?'OCR was run again on the stored prescription.':'');
+  },1500);
+}
 // ----- Comments (saved immediately, separate API) -----
 function rxpAddComment(){
   const text=document.getElementById('rxp-cmt-text').value.trim(),type=document.getElementById('rxp-cmt-type').value;
@@ -13534,16 +13582,17 @@ function rxpDlgOk(){
     rxpCur.d={...JSON.parse(JSON.stringify(rxpDraft)),comments};
     // Online orders: only the prescription is saved; customer / receiving method / item components are ignored by the API (fields are disabled)
     if(rxpCur.pos&&rxpStatus(rxpCur)==='UNREADY') rxpSetStatus(rxpCur,'REQUESTED');
-    rxpOcrFields=[];rxpCloseDlg();rxpLoadDraft();rxpRenderDetail();
+    rxpCur.ocrDone=true;
+    rxpOcrFields=[];rxpOcrOverwrites=[];rxpOcrLast=null;rxpCloseDlg();rxpLoadDraft();rxpRenderDetail();
     showToast('The save has been completed.','');
     return;
   }
   if(a.type==='confirm'){
     if(rxpStatus(rxpCur)!=='REQUESTED'){rxpCloseDlg();showToast('REQUESTED 상태에서만 확정/거절할 수 있습니다.','','error');return;}
     rxpSetStatus(rxpCur,'CONFIRMED');
-    rxpCur.decidedAt=rxpNow();rxpCur.decidedTz=RXP_ME.tz;rxpCur.decidedBy=RXP_ME.username;
+    rxpCur.decidedAt=rxpNow();rxpCur.decidedTz=RXP_ME.tz;rxpCur.decidedBy=RXP_ME.username;rxpCur.ocrDone=true;
     // Only the status is sent: unsaved form changes are discarded (detail is reloaded)
-    rxpCloseDlg();rxpErrors={};rxpOcrFields=[];rxpLoadDraft();rxpRenderDetail();
+    rxpCloseDlg();rxpErrors={};rxpOcrFields=[];rxpOcrOverwrites=[];rxpOcrLast=null;rxpLoadDraft();rxpRenderDetail();
     showToast('Prescription confirmation has been requested.','Prescription confirmation has been requested.');
   }
 }
@@ -13576,8 +13625,8 @@ function rxpSubmitReject(){
   if(!reason||(RXP_REJECT_SUBS[reason]&&!sub)||!rxpCur) return;
   if(rxpStatus(rxpCur)!=='REQUESTED'){rxpCloseReject();showToast('REQUESTED 상태에서만 확정/거절할 수 있습니다.','','error');return;}
   rxpSetStatus(rxpCur,'REJECTED');
-  Object.assign(rxpCur,{decidedAt:rxpNow(),decidedTz:RXP_ME.tz,decidedBy:RXP_ME.username,rejectReason:reason,rejectSub:RXP_REJECT_SUBS[reason]?sub:null});
-  rxpCloseReject();rxpErrors={};rxpOcrFields=[];rxpLoadDraft();rxpRenderDetail();
+  Object.assign(rxpCur,{decidedAt:rxpNow(),decidedTz:RXP_ME.tz,decidedBy:RXP_ME.username,rejectReason:reason,rejectSub:RXP_REJECT_SUBS[reason]?sub:null,ocrDone:true});
+  rxpCloseReject();rxpErrors={};rxpOcrFields=[];rxpOcrOverwrites=[];rxpOcrLast=null;rxpLoadDraft();rxpRenderDetail();
   showToast('The rejection was successful.','Please check the status.');
 }
 // ===== RX (Lens) > Rx Work Management (prefix rxw) =====
