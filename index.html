@@ -484,16 +484,16 @@ table.grid td input[type="checkbox"]:disabled{opacity:0.35;cursor:not-allowed;}
 .toast.show{transform:translateY(0);}
 /* ===== FRONT POS (production: new window / prototype: in-app route #/pos, BO layout covered) ===== */
 .pos-app [hidden],.pos-app[hidden]{display:none!important;}
-.pos-app{position:fixed;inset:0;z-index:1300;background:#fff;overflow-y:auto;color:#222;}
-.pa-header{height:56px;display:flex;align-items:center;justify-content:space-between;padding:0 16px 0 24px;background:#fff;border-bottom:1px solid #eee;position:sticky;top:0;z-index:7;}
+.pos-app{position:fixed;inset:0;z-index:1300;background:#fff;overflow-y:auto;color:#222;zoom:1.1;}   /* POS is 10% larger than BO: body 0.8 x 1.1 = 0.88 */
+.pa-header{height:56px;display:flex;align-items:center;justify-content:space-between;padding:0 32px;background:#fff;border-bottom:1px solid #eee;position:sticky;top:0;z-index:7;}
 .pa-store .code{font-size:13px;font-weight:600;color:#ff6b35;line-height:1.2;}
 .pa-store .name{font-size:17px;font-weight:700;color:#222;line-height:1.3;}
-.pa-proto-store{display:flex;align-items:center;gap:6px;font-size:11px;color:#999;border:1px dashed #ccc;border-radius:6px;padding:3px 6px;}
+.pa-proto-store{display:flex;align-items:center;gap:6px;font-size:11px;color:#999;}
 .pa-proto-store select{height:28px;font-size:12px;border:1px solid #ddd;border-radius:4px;}
 .pa-header-r{display:flex;align-items:center;gap:8px;}
 .pa-back{display:flex;align-items:center;gap:2px;height:30px;padding:0 12px 0 8px;border:1px solid #ddd;border-radius:6px;font-size:11px;color:#555;text-decoration:none;background:#fff;}
 .pa-back:hover{background:#f7f7f7;}
-.pa-tabs{display:flex;gap:2px;padding:0 24px;background:#fff;border-bottom:1px solid #e8e8e8;position:sticky;top:56px;z-index:6;}
+.pa-tabs{display:flex;gap:2px;padding:0 16px;background:#fff;border-bottom:1px solid #e8e8e8;position:sticky;top:56px;z-index:6;}
 .pa-tab{display:flex;align-items:center;gap:8px;height:44px;padding:0 16px;font-size:13px;font-weight:500;color:#444;text-decoration:none;border-bottom:3px solid transparent;margin-bottom:-1px;}
 .pa-tab svg{width:20px;height:20px;fill:#666;}
 .pa-tab:hover{color:#222;background:#fafafa;}
@@ -589,8 +589,8 @@ table.grid td input[type="checkbox"]:disabled{opacity:0.35;cursor:not-allowed;}
 /* POS layout v2: sticky cart (left) + grouped right panel */
 .pa-grid{align-items:flex-start;}
 .pa-left{position:sticky;top:123px;}
-/* body has zoom:0.8 -> divide vh by 0.8 so the cart fills the visible viewport */
-.pa-cart{display:flex;flex-direction:column;height:calc(100vh / 0.8 - 146px);min-height:560px;padding:16px 22px 18px;}
+/* body zoom 0.8 x POS zoom 1.1 -> divide vh by 0.88 so the cart fills the visible viewport */
+.pa-cart{display:flex;flex-direction:column;height:calc(100vh / 0.88 - 146px);min-height:560px;padding:16px 22px 18px;}
 .pa-cart-head{display:flex;align-items:center;gap:16px;min-height:32px;margin-bottom:14px;}
 .pa-cart-head .pa-mode{margin:0;}
 .pa-cart-head .pa-done{margin:0 0 0 auto;padding:7px 12px;}
@@ -714,7 +714,7 @@ table.grid td input[type="checkbox"]:disabled{opacity:0.35;cursor:not-allowed;}
 .pa-outline.gray:hover:not(:disabled){background:#f7f7f7;}
 .pa-outline:disabled{border-color:#e6e6e6;color:#c4c4c4;background:#fafafa;cursor:not-allowed;}
 /* ===== POS > Rx Operation List (merged from bo_pos_rx_operation prototype) ===== */
-.rx-body{padding:22px 32px 40px;background:#f5f5f5;min-height:calc(100vh / 0.8 - 101px);}
+.rx-body{padding:22px 32px 40px;background:#f5f5f5;min-height:calc(100vh / 0.88 - 101px);}
 .rx-search{background:#fff;border:1px solid #e0e0e0;border-radius:8px;margin-bottom:24px;}
 .rx-search table{width:100%;border-collapse:collapse;}
 .rx-search tr{border-bottom:1px solid #f0f0f0;}
@@ -760,8 +760,8 @@ table.grid td input[type="checkbox"]:disabled{opacity:0.35;cursor:not-allowed;}
 .rx-grid td.l{text-align:left;}
 .rx-grid tbody tr{cursor:pointer;}
 .rx-grid tbody tr:hover td{background:#f5f9ff;}
-.rx-grid tbody tr.dim td{background:#f5f5f5;color:#bbb;}
-.rx-grid tbody tr.dim .rx-badge{opacity:.4;}
+.rx-grid tbody tr.dim td{background:#fbfbfb;color:#999;}
+.rx-grid tbody tr.dim .rx-badge{opacity:.6;}
 .rx-chk{appearance:none;-webkit-appearance:none;width:16px;height:16px;border:1.5px solid #ccc;border-radius:4px;background:#fff;cursor:pointer;position:relative;vertical-align:middle;margin:0;}
 .rx-chk:checked{background:#ff6b35;border-color:#ff6b35;}
 .rx-chk:checked::after{content:'';position:absolute;left:4.5px;top:1.5px;width:4px;height:8px;border:solid #fff;border-width:0 1.5px 1.5px 0;transform:rotate(45deg);}
@@ -773,10 +773,21 @@ table.grid td input[type="checkbox"]:disabled{opacity:0.35;cursor:not-allowed;}
 .rx-badge.none{background:#FAFAFA;color:#bbb;}
 .rx-mail{width:28px;height:28px;display:inline-flex;align-items:center;justify-content:center;border-radius:50%;border:none;background:none;cursor:pointer;}
 .rx-mail:hover{background:rgba(0,0,0,.06);}
+.rx-btn.rx-ful{height:26px;padding:0 14px;font-size:11px;border-color:#ff6b35;color:#ff6b35;}
+.rx-btn.rx-ful:hover:not(:disabled){background:#fff4ef;}
+.rx-btn.rx-ful:disabled{border-color:#e0e0e0;color:#bbb;cursor:default;}
+.rx-ful-done{font-size:11px;color:#4CAF50;font-weight:600;}
+.rx-ful-row{display:flex;gap:16px;padding:8px 0;border-bottom:1px solid #f0f0f0;font-size:12px;}
+.rx-ful-row span{width:90px;color:#888;flex-shrink:0;}
+.rx-ful-row b{font-weight:500;color:#222;}
+.rx-ful-note{margin-top:14px;padding:10px 12px;background:#f7f7f7;border-radius:6px;font-size:12px;color:#555;line-height:1.6;}
 .rx-mail svg{width:18px;height:18px;fill:none;stroke-width:2;}
 .rx-mail.on svg{stroke:#4CAF50;}
 .rx-mail.off{opacity:.3;cursor:default;}.rx-mail.off svg{stroke:#888;}.rx-mail.off:hover{background:none;}
 .rx-pg{display:flex;align-items:center;justify-content:flex-end;gap:12px;padding-top:10px;font-size:11px;color:#888;}
+.rx-pg>span:first-child{display:inline-flex;align-items:center;gap:8px;}
+.rx-pg .cs-wrap{width:72px;}
+.rx-pg .cs-wrap .multi-select-trigger{height:28px;min-height:28px;padding-top:0;padding-bottom:0;display:flex;align-items:center;font-size:11px;}
 .rx-pg select{height:28px;border:1px solid #ddd;border-radius:4px;font-size:11px;padding:0 4px;outline:none;}
 .rx-pg button{min-width:28px;height:28px;border:1px solid #ddd;background:#fff;border-radius:4px;font-size:13px;color:#555;cursor:pointer;}
 .rx-pg button:disabled{opacity:.4;cursor:not-allowed;}
@@ -793,6 +804,141 @@ table.grid td input[type="checkbox"]:disabled{opacity:0.35;cursor:not-allowed;}
 .rx-ob-note{display:flex;gap:8px;background:#f7f7f8;border-radius:6px;padding:14px;margin-top:14px;font-size:11px;color:#777;line-height:1.7;}
 .rx-ob-note svg{width:14px;height:14px;fill:#999;flex-shrink:0;margin-top:2px;}
 .rx-tag-reg{display:inline-block;background:#FFFBEB;color:#B45309;border:1px solid #FDE68A;border-radius:4px;font-size:10px;padding:0 6px;margin:0 2px;}
+/* ----- POS > Store Pickup List ----- */
+.spk-top{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;margin-bottom:12px;}
+.spk-h1{font-size:17px;font-weight:700;color:#111;}
+.spk-h1s{font-size:11px;color:#888;margin-top:3px;}
+.spk-top-r{display:flex;gap:8px;align-items:center;}
+.spk-qr2{display:flex;align-items:center;gap:8px;width:360px;height:34px;padding:0 12px;border:1px solid #ddd;border-radius:6px;background:#fff;box-sizing:border-box;}
+.spk-qr2:focus-within{border-color:#ff6b35;box-shadow:0 0 0 3px rgba(255,107,53,.12);}
+.spk-qr2 svg{width:16px;height:16px;fill:#666;flex-shrink:0;}
+.spk-qr2 input{flex:1;border:none;outline:none;font-size:12px;background:none;}
+.spk-obtn{display:inline-flex;align-items:center;gap:6px;height:34px;padding:0 12px;border:1px solid #ddd;border-radius:6px;background:#fff;font-size:12px;font-weight:500;color:#222;cursor:pointer;white-space:nowrap;}
+.spk-obtn:hover{background:#fafafa;}
+.spk-obtn svg{width:14px;height:14px;}
+.spk-obtn .cnt{display:inline-flex;min-width:16px;height:16px;padding:0 4px;border-radius:8px;background:#ff6b35;color:#fff;font-size:11px;font-weight:700;align-items:center;justify-content:center;}
+.spk-bar{display:flex;align-items:center;gap:8px;background:#fff;border:1px solid #e0e0e0;border-radius:8px;padding:10px 12px;margin-bottom:16px;}
+.spk-kw{flex:1;display:flex;align-items:center;gap:8px;height:34px;padding:0 12px;border:1px solid #ddd;border-radius:6px;box-sizing:border-box;}
+.spk-kw:focus-within{border-color:#ff6b35;}
+.spk-kw svg{width:14px;height:14px;color:#777;flex-shrink:0;}
+.spk-kw input{flex:1;border:none;outline:none;font-size:12px;}
+.spk-seg{display:flex;background:#f3f3f3;border-radius:6px;padding:3px;height:34px;box-sizing:border-box;}
+.spk-seg button{border:none;background:none;padding:0 12px;font-size:12px;color:#555;border-radius:4px;cursor:pointer;}
+.spk-seg button.on{background:#fff;color:#111;font-weight:700;box-shadow:0 1px 2px rgba(0,0,0,.08);}
+.spk-pop-wrap{position:relative;}
+.spk-pop{position:absolute;top:calc(100% + 6px);right:0;z-index:50;width:340px;background:#fff;border:1px solid #e0e0e0;border-radius:10px;box-shadow:0 10px 28px rgba(0,0,0,.12);padding:16px;}
+.spk-pop-t{font-size:12px;font-weight:600;color:#555;margin:0 0 8px;}
+.spk-pop-n{font-size:12px;color:#999;}
+.spk-pop-f{display:flex;justify-content:flex-end;margin-top:14px;}
+/* Reset: outline button, same frame as the other bar controls (Order Date / More filters) */
+.spk-reset{display:inline-flex;align-items:center;gap:6px;height:34px;padding:0 12px;border:1px solid #ddd;border-radius:6px;background:#fff;font-size:12px;font-weight:500;color:#222;cursor:pointer;white-space:nowrap;}
+.spk-reset svg{width:14px;height:14px;}
+.spk-reset:hover{border-color:#bbb;}
+.spk-search{display:inline-flex;align-items:center;gap:6px;height:34px;padding:0 14px;border:none;border-radius:6px;background:#111;color:#fff;font-size:12px;font-weight:500;cursor:pointer;white-space:nowrap;}
+.spk-search:hover{background:#333;}
+.spk-search svg{width:13px;height:13px;}
+.spk-err{font-size:12px;color:#ef4444;margin-top:4px;}
+.spk-qr{display:flex;align-items:center;gap:8px;background:#fff;border:1px solid #e0e0e0;border-radius:8px;padding:14px 18px;margin-bottom:20px;font-size:13px;}
+.spk-qr svg{width:26px;height:26px;fill:#888;}
+.spk-qr .rx-input{min-width:340px;height:38px;margin-left:6px;}
+.spk-tb-l{display:flex;align-items:center;gap:16px;}
+.spk-tabs{display:flex;gap:4px;}
+.spk-tabs button{display:flex;align-items:center;gap:6px;height:40px;padding:0 16px;margin-bottom:-1px;border:none;border-bottom:2px solid transparent;background:none;font-size:13px;font-weight:500;color:#777;cursor:pointer;}
+.spk-tabs button:hover{color:#111;}
+.spk-tabs button svg{width:14px;height:14px;fill:currentColor;}
+.spk-tabs button .cnt{font-size:11px;font-weight:500;color:#999;}
+.spk-tabs button.on{color:#111;font-weight:700;border-bottom-color:#ff6b35;}
+/* Underline tabs: a hairline runs the full table width under the tabs; right-side buttons sit just above it */
+.rx-toolbar:has(.spk-tabs){align-items:flex-end;border-bottom:1px solid #e5e5e5;margin-bottom:20px;}
+.rx-toolbar:has(.spk-tabs)>:not(.spk-tb-l){margin-bottom:8px;}
+.spk-chips{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 12px;}
+.spk-chips button{display:inline-flex;align-items:center;gap:8px;height:28px;padding:0 12px;border:1px solid #e0e0e0;border-radius:999px;background:#fff;font-size:11px;font-weight:500;color:#222;cursor:pointer;}
+.spk-chips button:hover{border-color:#bbb;}
+.spk-chips button i{width:8px;height:8px;border-radius:50%;}
+.spk-chips button span{color:#888;font-weight:400;}
+.spk-chips button.on{background:#111;border-color:#111;color:#fff;}
+.spk-chips button.on span{color:#ccc;}
+.spk-chips button.on i{box-shadow:0 0 0 2px #fff;}
+.spk-actions{display:flex;gap:8px;min-height:32px;margin-left:auto;}
+.spk-exp{gap:6px;padding:0 14px;}.spk-exp svg{width:14px;height:14px;}
+/* Second row: status chips (left) + tab actions (right) */
+.spk-row2{display:flex;align-items:center;gap:12px;margin:0 0 12px;}
+.spk-row2[hidden]{display:none;}
+.spk-row2 .spk-chips{margin:0;}
+.spk-actions .rx-btn{height:32px;padding:0 16px;font-size:12px;}
+.spk-actions .rx-btn.fill{background:#ed6c02;border-color:#ed6c02;color:#fff;font-weight:500;}
+.spk-actions .rx-btn.fill:disabled{background:#e0e0e0;border-color:#e0e0e0;color:#a5a5a5;}
+.spk-grid th.sort{cursor:pointer;}
+.spk-grid th .ar{margin-left:4px;font-size:12px;}
+.spk-actions .rx-btn:disabled{opacity:.45;cursor:not-allowed;background:#fff;}
+.spk-grid td{white-space:normal;padding:12px 10px;line-height:1.9;}
+.spk-grid th{height:30px;}
+.spk-grid td .ln{display:block;white-space:nowrap;line-height:1.9;}
+.spk-grid th .ic{display:inline-flex;width:15px;height:15px;border-radius:50%;background:#fff;color:#ff6b35;font-size:10px;font-weight:700;align-items:center;justify-content:center;margin-left:4px;cursor:help;vertical-align:middle;position:relative;}
+/* Header info tooltip: dark bubble below the icon (replaces the native title tooltip) */
+.spk-grid th .ic::after{content:attr(data-tip);position:absolute;top:calc(100% + 10px);left:-12px;width:260px;padding:9px 12px;border-radius:6px;background:#222;color:#fff;font-size:11px;font-weight:400;line-height:1.55;text-align:left;white-space:normal;box-shadow:0 4px 14px rgba(0,0,0,.18);z-index:20;opacity:0;visibility:hidden;transition:opacity .12s;pointer-events:none;}
+.spk-grid th .ic::before{content:'';position:absolute;top:calc(100% + 4px);left:3px;border:6px solid transparent;border-top:none;border-bottom-color:#222;z-index:21;opacity:0;visibility:hidden;transition:opacity .12s;}
+.spk-grid th .ic:hover::after,.spk-grid th .ic:hover::before{opacity:1;visibility:visible;}
+.spk-chip{display:inline-block;padding:2px 12px;line-height:1.7;vertical-align:middle;border-radius:999px;font-size:11px;font-weight:500;color:#fff;white-space:nowrap;}
+/* Date warning: date text stays in place, a small pill tag sits under it */
+.spk-flag{display:inline-flex;flex-direction:column;align-items:flex-start;gap:3px;line-height:1.4;}
+.spk-flag b{display:inline-flex;align-items:center;gap:4px;height:18px;padding:0 7px 0 5px;border-radius:9px;font-size:10px;font-weight:600;line-height:1;}
+.spk-flag b svg{width:11px;height:11px;fill:currentColor;flex:none;}
+.spk-flag.red{color:#dc2626;}.spk-flag.red b{background:#fdecec;color:#dc2626;}
+.spk-flag.org{color:#c2410c;}.spk-flag.org b{background:#fff1e6;color:#ea580c;}
+.spk-grid tbody tr.nosel td{color:#bbb;}
+.spk-grid tbody tr.noclick{cursor:default;}
+.spk-ttl-ic{margin-right:8px;font-size:18px;}
+.spk-box{max-width:94vw;max-height:calc(90vh / 0.88);display:flex;flex-direction:column;}   /* POS zoom 0.88 */
+/* Order Detail: no inner scroll so the reason dropdown can open downward past the modal; the overlay scrolls instead for long orders */
+#spk-dt-modal{overflow-y:auto;padding:24px 0;}
+#spk-dt-modal .modal-box{overflow:visible;max-height:none;margin:auto;}
+#spk-dt-modal .modal-body{overflow:visible;}
+.spk-box .modal-body{max-height:none;flex:1;overflow-y:auto;padding:24px;}
+.spk-meta{display:grid;grid-template-columns:auto 1fr;column-gap:20px;row-gap:8px;margin-bottom:20px;align-items:baseline;}
+.spk-meta span{font-size:12px;color:#888;}.spk-meta b{font-size:13px;font-weight:600;color:#222;}
+.spk-meta2{display:grid;grid-template-columns:1fr 1fr;gap:14px 20px;background:#fafafa;border:1px solid #eee;border-radius:8px;padding:14px 16px;}
+.spk-meta2 span{display:block;font-size:11px;color:#888;margin-bottom:4px;}.spk-meta2 b{font-size:13px;font-weight:700;color:#222;}.spk-meta2 b.o{color:#ed6c02;}
+.spk-sec-t{font-size:14px;font-weight:700;color:#222;margin:0 0 10px;}
+.spk-tbl{width:100%;border-collapse:collapse;border:1px solid #eee;border-radius:6px;font-size:12px;}
+.spk-tbl th{background:#fafafa;font-size:11px;font-weight:700;color:#777;padding:8px 12px;text-align:left;border-bottom:1px solid #eee;}
+.spk-tbl td{padding:9px 12px;border-bottom:1px solid #f3f3f3;color:#333;}
+.spk-tbl .tr{text-align:right;white-space:nowrap;}.spk-tbl .tc{text-align:center;}
+.spk-total{margin-top:16px;padding:12px 16px;border:1px solid rgba(251,146,60,.22);border-radius:8px;background:#FFF4ED;}
+.spk-total div{display:flex;align-items:center;justify-content:space-between;font-size:14px;font-weight:700;color:#222;}
+.spk-total div b{font-size:19px;color:#C2410C;}
+.spk-total p{margin:6px 0 0;font-size:12px;font-weight:500;color:#20b62d;}
+.spk-foot{display:flex;justify-content:flex-end;align-items:center;gap:12px;margin-top:24px;flex-wrap:wrap;}
+.spk-btn{display:inline-flex;align-items:center;gap:6px;height:32px;padding:0 16px;border:none;border-radius:4px;font-size:12px;font-weight:600;color:#fff;cursor:pointer;}
+.spk-btn.err{background:#d32f2f;}.spk-btn.warn{background:#ed6c02;}
+.spk-btn:disabled{background:#e0e0e0;color:#a5a5a5;cursor:not-allowed;}
+.spk-btn.line{background:#fff;color:#444;border:1px solid #d5d5d5;}
+/* IE pickup: IE marker + serial scan step */
+.spk-ie{display:inline-flex;align-items:center;height:16px;margin-left:8px;padding:0 5px;border-radius:3px;background:#111;color:#fff;font-size:9px;font-weight:700;letter-spacing:.3px;vertical-align:1px;}
+.spk-sn-in{height:30px;}
+.spk-sn-stack{display:flex;flex-direction:column;gap:6px;}
+.spk-rt-tbl td{vertical-align:middle;}
+.spk-rt-tbl td.spk-rs,.spk-rt-tbl td.spk-rs+td{border-right:1px solid #f3f3f3;}
+
+.spk-info{width:20px;height:20px;border-radius:50%;background:#b62028;color:#fff;font-size:12px;font-weight:700;display:inline-flex;align-items:center;justify-content:center;cursor:help;}
+.spk-guide{font-size:12px;color:#777;margin-bottom:14px;}
+.spk-scan{display:flex;align-items:center;gap:10px;}
+.spk-scan .rx-input{flex:1;min-width:340px;height:40px;}
+/* Return QR guide: example illustration + instruction above the scan field */
+.spk-qr-guide{display:flex;align-items:center;gap:20px;margin-bottom:16px;padding:16px 20px;border:1px solid #eee;border-radius:8px;background:#fafafa;}
+.spk-qr-ill{width:64px;height:96px;flex:none;}
+.spk-qr-guide b{display:block;font-size:13px;font-weight:600;color:#222;margin-bottom:4px;}
+.spk-qr-guide p{margin:0;font-size:12px;color:#777;line-height:1.6;}
+.spk-hint{font-size:11px;color:#aaa;margin-top:10px;}
+.spk-grade{display:inline-flex;gap:6px;}
+/* Grade colour comes from SPK_GRADES via --g; unselected = tinted outline, selected = filled */
+.spk-grade button{--g:#888;min-width:84px;height:32px;padding:0 14px;border:1px solid color-mix(in srgb,var(--g) 45%,#fff);border-radius:6px;background:#fff;color:var(--g);font-size:12px;font-weight:600;cursor:pointer;transition:background .1s;}
+.spk-grade button:hover{background:color-mix(in srgb,var(--g) 10%,#fff);}
+.spk-grade button.on{background:var(--g);border-color:var(--g);color:#fff;}
+.spk-sel-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;}
+.spk-sel-grid label{display:block;font-size:13px;font-weight:700;color:#222;margin-bottom:8px;}.spk-sel-grid label i{color:#ef4444;font-style:normal;}
+.spk-divider{height:1px;background:#eee;margin:20px 0;}
+.spk-grid th.tl{text-align:left;}
 /* ----- Rx Operation Detail ----- */
 .rd-head{display:flex;align-items:center;gap:10px;padding:8px 0 24px;}
 .rd-back{width:28px;height:28px;display:flex;align-items:center;justify-content:center;border-radius:50%;text-decoration:none;}
@@ -1646,6 +1792,8 @@ table.grid.nt-edit-grid td{padding:10px 16px;}
 .rxw-sn-in:focus{border-color:#ff6b35;box-shadow:0 0 0 2px rgba(255,107,53,.12);}
 .rxw-sn-in.need{border-color:#ef9a9a;background:#fffafa;}
 .rxw-sn-in:disabled{background:#f5f5f5;}
+.rxw-sn-in.bad{border-color:#d32f2f;background:#fff5f5;}
+.spk-sn-err{font-size:11px;color:#d32f2f;margin-top:4px;text-align:left;}
 .rxw-sn-help{display:flex;flex-direction:column;gap:2px;margin-top:4px;font-size:10px;}
 .rxw-sn-help:empty{display:none;}
 .rxw-sn-help .pos{display:inline-flex;align-items:center;gap:6px;white-space:nowrap;color:#1565c0;font-weight:600;}.rxw-sn-help .pos b{font-size:11px;color:#0d47a1;}
@@ -2149,8 +2297,24 @@ table.grid th.dt-l,table.grid td.dt-l{text-align:left!important;}
 .adj-dt-row input:disabled{background:#f5f5f5;color:#999;}
 .adj-dt-row select{height:32px;min-width:200px;}
 .adj-dt-foot{display:flex;justify-content:flex-end;gap:10px;padding:16px 20px;border-top:1px solid #e5e5e5;background:#fff;}
+/* Empty date inputs: hide the browser-locale placeholder (e.g. "연도. 월. 일.") and show YYYY-MM-DD instead */
+input[type=date][data-empty]::-webkit-datetime-edit{color:transparent;}
+input[type=date][data-empty]:focus::-webkit-datetime-edit{color:inherit;}
+input[type=date][data-empty]:not(:focus)::before{content:'YYYY-MM-DD';color:#aaa;position:absolute;pointer-events:none;}
+input[type=date]{position:relative;}
 </style>
 <!-- SheetJS: client-side Excel (.xlsx) export -->
+<script>
+// Date placeholder: keep [data-empty] in sync with the value (user input, JS value set, dynamically rendered inputs)
+(function(){
+  const sync=el=>{if(el&&el.type==='date') el.toggleAttribute('data-empty',!el.value);};
+  const d=Object.getOwnPropertyDescriptor(HTMLInputElement.prototype,'value');
+  Object.defineProperty(HTMLInputElement.prototype,'value',{get(){return d.get.call(this);},set(v){d.set.call(this,v);sync(this);},configurable:true});
+  ['input','change'].forEach(t=>document.addEventListener(t,e=>sync(e.target),true));
+  const scan=root=>root.querySelectorAll&&root.querySelectorAll('input[type=date]').forEach(sync);
+  document.addEventListener('DOMContentLoaded',()=>{scan(document);new MutationObserver(ms=>ms.forEach(m=>m.addedNodes.forEach(n=>{if(n.nodeType===1){sync(n);scan(n);}}))).observe(document.body,{childList:true,subtree:true});});
+})();
+</script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js"></script>
 </head>
@@ -2338,8 +2502,8 @@ table.grid th.dt-l,table.grid td.dt-l{text-align:left!important;}
   <div class="pa-header">
     <div class="pa-store"><div class="code" id="pa-store-code"></div><div class="name" id="pa-store-name"></div></div>
     <div class="pa-header-r">
-      <div class="pa-proto-store" title="Prototype only: switch the POS store">Store (prototype)<select id="pa-store-sel" style="width:96px;" onchange="posSwitchStore(this.value)"></select></div>
       <a class="pa-back" href="#/"><svg width="18" height="18" viewBox="0 0 24 24" fill="#555"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>Back to BO</a>
+      <div class="pa-proto-store" title="Prototype only: switch the POS store">Store (prototype)<select id="pa-store-sel" style="width:96px;" onchange="posSwitchStore(this.value)"></select></div>
       <button class="lang-btn">Language <b>English</b><svg width="20" height="20" viewBox="0 0 24 24" fill="#222"><use href="#i-chevron-down"/></svg></button>
       <button class="user-btn">monster1437 (SUPERADMIN)<svg width="20" height="20" viewBox="0 0 24 24" fill="#fff"><use href="#i-chevron-down"/></svg></button>
     </div>
@@ -2470,39 +2634,95 @@ table.grid th.dt-l,table.grid td.dt-l{text-align:left!important;}
     <div class="pa-soon"><div class="t">Coming Soon</div><span id="pa-soon-name"></span> is not included in this prototype yet.</div>
   </div>
 
+  <!-- POS > Store Pickup List (prefix spk) -->
+  <div class="rx-body" id="pa-spk" hidden>
+    <div class="spk-top">
+      <div><div class="spk-h1">Store Pickup</div><div class="spk-h1s">All dates in store local time (PST)</div></div>
+      <div class="spk-top-r">
+        <label class="spk-qr2"><svg viewBox="0 0 24 24"><path d="M3 11h8V3H3v8zm2-6h4v4H5V5zm-2 16h8v-8H3v8zm2-6h4v4H5v-4zm8-12v8h8V3h-8zm6 6h-4V5h4v4zm0 10h2v2h-2zm-6-6h2v2h-2zm2 2h2v2h-2zm-2 2h2v2h-2zm2 2h2v2h-2zm2-2h2v2h-2zm0-4h2v2h-2zm2 2h2v2h-2z"/></svg>
+          <input id="spk-qr" autocomplete="off" placeholder="Scan pickup QR or order no." onkeydown="if(event.key==='Enter')spkScan(this)"></label>
+      </div>
+    </div>
+    <div class="spk-bar">
+      <label class="spk-kw"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+        <input id="spk-f-kw" placeholder="Order no., product code or name" onkeydown="if(event.key==='Enter')spkSearch()"></label>
+      <div class="spk-seg" id="spk-shortcuts"></div>
+      <div class="spk-pop-wrap">
+        <button class="spk-obtn" id="spk-date-btn" onclick="spkTogglePop('date')"></button>
+        <div class="spk-pop" id="spk-pop-date" hidden>
+          <div class="spk-pop-t">Search Period</div>
+          <select id="spk-f-datetype" style="width:100%;height:33px;" onchange="spk.f.dateType=this.value"></select>
+          <div style="display:flex;align-items:center;gap:8px;margin-top:10px;">
+            <input type="date" lang="en" class="rx-input" id="spk-f-from" style="flex:1;" oninput="spk.shortcut=null">
+            <span style="color:#aaa;">~</span>
+            <input type="date" lang="en" class="rx-input" id="spk-f-to" style="flex:1;" oninput="spk.shortcut=null"></div>
+          <div class="spk-pop-f"><button class="rx-btn primary" onclick="spkSearch()">Apply</button></div>
+        </div>
+      </div>
+      <div class="spk-pop-wrap">
+        <button class="spk-obtn" id="spk-more-btn" onclick="spkTogglePop('more')"></button>
+        <div class="spk-pop" id="spk-pop-more" hidden style="width:360px;">
+          <div id="spk-f-disp-row" hidden><div class="spk-pop-t">Stock Disposition</div><select id="spk-f-disp" style="width:100%;height:33px;" onchange="spk.f.disp=this.value"></select></div>
+          <div class="spk-pop-f"><button class="rx-btn primary" onclick="spkSearch()">Apply</button></div>
+        </div>
+      </div>
+      <button class="spk-reset" onclick="spkReset();spkSearch()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 4v5h5"/></svg>Reset</button>
+      <button class="spk-search" onclick="spkSearch()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>Search</button>
+    </div>
+    <div class="spk-err" id="spk-f-kw-err" hidden style="margin:-12px 0 14px 4px;">Please enter at least 2 characters.</div>
+
+    <div class="rx-box">
+      <div class="rx-toolbar">
+        <div class="spk-tb-l"><div class="spk-tabs" id="spk-tabs"></div></div>
+      </div>
+      <div class="spk-row2" id="spk-row2"><div class="spk-chips" id="spk-chips"></div><div class="spk-actions" id="spk-actions"></div></div>
+      <div class="rx-grid-wrap"><table class="rx-grid spk-grid"><thead id="spk-head"></thead><tbody id="spk-rows"></tbody></table></div>
+      <div class="rx-pg">
+        <span>Rows per page <select id="spk-size" onchange="spk.size=+this.value;spk.page=1;spkRenderList()"><option>10</option><option selected>30</option><option>50</option><option>100</option><option>300</option></select></span>
+        <span id="spk-range" style="font-size:12px;margin:0 6px;"></span>
+        <span style="display:flex;gap:3px;"><button id="spk-prev" onclick="spk.page--;spkRenderList()">&lsaquo;</button><button id="spk-next" onclick="spk.page++;spkRenderList()">&rsaquo;</button></span>
+      </div>
+    </div>
+  </div>
+
   <!-- POS > Rx Operation List (merged from bo_pos_rx_operation prototype) -->
   <div class="rx-body" id="pa-rx" hidden>
     <div id="rx-list">
-      <div class="rx-search">
-        <table>
-          <tr>
-            <th>Approval Status</th><td><div class="rx-ms" id="rx-f-approval"></div></td>
-            <th>Processing Status</th><td><div class="rx-ms" id="rx-f-work"></div></td>
-          </tr>
-          <tr>
-            <th>Cancel / Refund</th><td><div class="rx-ms" id="rx-f-cancel"></div></td>
-            <th>Search Period</th>
-            <td><div style="display:flex;align-items:center;gap:10px;">
-              <div class="rx-ms" id="rx-f-datetype" style="min-width:140px;"></div>
-              <input type="date" lang="en" class="rx-input" id="rx-f-from" style="min-width:140px;">
+      <div class="spk-top">
+        <div><div class="spk-h1">Rx Operation</div><div class="spk-h1s">All dates in store local time (PST)</div></div>
+      </div>
+      <div class="spk-bar">
+        <label class="spk-kw"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+          <input id="rx-f-kw" placeholder="Order no., invoice no., product code, name or barcode" onkeydown="if(event.key==='Enter')rxSearch()"></label>
+        <div class="spk-seg" id="rx-shortcuts"></div>
+        <div class="spk-pop-wrap">
+          <button class="spk-obtn" id="rx-date-btn" onclick="rxTogglePop('date')"></button>
+          <div class="spk-pop" id="rx-pop-date" hidden>
+            <div class="spk-pop-t">Search Period</div>
+            <div class="rx-ms" id="rx-f-datetype"></div>
+            <div style="display:flex;align-items:center;gap:8px;margin-top:10px;">
+              <input type="date" lang="en" class="rx-input" id="rx-f-from" style="flex:1;" oninput="rx.shortcut=null">
               <span style="color:#aaa;">~</span>
-              <input type="date" lang="en" class="rx-input" id="rx-f-to" style="min-width:140px;">
-            </div></td>
-          </tr>
-          <tr style="border-bottom:none;">
-            <th>Keyword<span class="sub">Order No, Invoice No, Product Code, Product Name, Barcode</span></th>
-            <td colspan="3"><input type="text" class="rx-input" id="rx-f-kw" style="width:100%;" placeholder="Please enter at least 2 characters" onkeydown="if(event.key==='Enter')rxSearch()"></td>
-          </tr>
-        </table>
-        <div class="rx-search-foot">
-          <button class="rx-btn" onclick="rxReset()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/></svg>Reset</button>
-          <button class="rx-btn primary" onclick="rxSearch()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>Search</button>
+              <input type="date" lang="en" class="rx-input" id="rx-f-to" style="flex:1;" oninput="rx.shortcut=null"></div>
+            <div class="spk-pop-f"><button class="rx-btn primary" onclick="rxSearch()">Apply</button></div>
+          </div>
         </div>
+        <div class="spk-pop-wrap">
+          <button class="spk-obtn" id="rx-more-btn" onclick="rxTogglePop('more')"></button>
+          <div class="spk-pop" id="rx-pop-more" hidden style="width:360px;">
+            <div class="spk-pop-t">Approval Status</div><div class="rx-ms" id="rx-f-approval"></div>
+            <div class="spk-pop-t" style="margin-top:12px;">Processing Status</div><div class="rx-ms" id="rx-f-work"></div>
+            <div class="spk-pop-t" style="margin-top:12px;">Cancel / Refund</div><div class="rx-ms" id="rx-f-cancel"></div>
+            <div class="spk-pop-f"><button class="rx-btn primary" onclick="rxSearch()">Apply</button></div>
+          </div>
+        </div>
+        <button class="spk-reset" onclick="rxReset()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 4v5h5"/></svg>Reset</button>
+        <button class="spk-search" onclick="rxSearch()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>Search</button>
       </div>
 
       <div class="rx-box">
         <div class="rx-toolbar">
-          <div>Total <b id="rx-total">0</b> Count</div>
+          <div class="spk-tb-l"><div class="spk-tabs" id="rx-recv-tabs"></div></div>
           <button class="rx-btn primary" id="rx-ob-btn" disabled onclick="rxOpenOutbound()" style="height:28px;padding:0 20px;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M7 10l5 5 5-5"/><path d="M12 15V3"/></svg>Register Outbound</button>
         </div>
         <div class="rx-grid-wrap">
@@ -2511,7 +2731,7 @@ table.grid th.dt-l,table.grid td.dt-l{text-align:left!important;}
               <th style="width:36px;"><input type="checkbox" class="rx-chk" id="rx-chk-all" onchange="rxCheckAll(this.checked)"></th>
               <th style="min-width:120px;">Order Date</th><th style="min-width:120px;">Save Date</th><th>Approval Status</th><th>Processing Status</th><th>Cancel / Refund</th>
               <th style="min-width:150px;">Order No.</th><th style="min-width:150px;">Invoice No.<br><span class="n">(Inbound)</span></th>
-              <th style="min-width:300px;">Product Info<br><span class="n">Code / Name / Barcode</span></th><th>Customer Email</th>
+              <th style="min-width:300px;">Product Info<br><span class="n">Code / Name / Barcode</span></th><th id="rx-th-mail">Customer Email</th><th id="rx-th-ful">Customer Handover</th>
             </tr></thead>
             <tbody id="rx-rows"></tbody>
           </table>
@@ -2528,7 +2748,51 @@ table.grid th.dt-l,table.grid td.dt-l{text-align:left!important;}
     <div id="rx-detail" hidden></div>
   </div>
 
+  <!-- Store Pickup: Order Detail -->
+  <div class="modal-overlay" id="spk-dt-modal" onclick="if(event.target===this)spkCloseModal('dt')">
+    <div class="modal-box spk-box" style="width:720px;">
+      <div class="modal-header"><span class="modal-title" id="spk-dt-title">Order Detail</span><button class="modal-close" onclick="spkCloseModal('dt')">&times;</button></div>
+      <div class="modal-body" id="spk-dt-body"></div>
+    </div>
+  </div>
+  <!-- Store Pickup: Return Processing -->
+  <div class="modal-overlay" id="spk-rt-modal" onclick="if(event.target===this)spkCloseModal('rt')">
+    <div class="modal-box spk-box" style="width:860px;">
+      <div class="modal-header"><span class="modal-title" id="spk-rt-title">Return Processing</span><button class="modal-close" onclick="spkCloseModal('rt')">&times;</button></div>
+      <div class="modal-body" id="spk-rt-body"></div>
+    </div>
+  </div>
+  <!-- Store Pickup: Change Stock -->
+  <div class="modal-overlay" id="spk-cs-modal" onclick="if(event.target===this)spkCloseModal('cs')">
+    <div class="modal-box spk-box" style="width:400px;">
+      <div class="modal-header"><span class="modal-title">Change Stock</span><button class="modal-close" onclick="spkCloseModal('cs')">&times;</button></div>
+      <div class="modal-body" style="padding:24px;">
+        <div style="font-size:13px;color:#666;margin-bottom:24px;" id="spk-cs-text"></div>
+        <div style="display:flex;gap:12px;justify-content:center;">
+          <button class="rx-btn" style="height:36px;" onclick="spkChangeStock('ASSIGN_TO_STORE')">Store Sales</button>
+          <button class="rx-btn primary" style="height:36px;" onclick="spkChangeStock('RETURN_TO_ONLINE')">Return W.H</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Store Pickup: Outbound Registration (Return W.H) -->
+  <div class="modal-overlay" id="spk-ob-modal" onclick="if(event.target===this)spkCloseModal('ob')">
+    <div class="modal-box spk-box" style="width:760px;">
+      <div class="modal-header"><span class="modal-title"><span class="spk-ttl-ic" style="color:#7C3AED;">&#9638;</span>Outbound Registration</span><button class="modal-close" onclick="spkCloseModal('ob')">&times;</button></div>
+      <div class="modal-body" id="spk-ob-body"></div>
+    </div>
+  </div>
+
   <!-- Rx Outbound Registration modal -->
+  <div class="modal-overlay" id="rx-ful-modal" onclick="if(event.target===this)rxCloseFulfill()">
+    <div class="modal-box" style="width:460px;">
+      <div class="modal-header"><span class="modal-title">Customer Handover</span><button class="modal-close" onclick="rxCloseFulfill()">&times;</button></div>
+      <div class="modal-body">
+        <div id="rx-ful-body"></div>
+        <div style="display:flex;justify-content:flex-end;gap:8px;margin-top:20px;"><button class="rx-btn" onclick="rxCloseFulfill()" style="height:32px;">Cancel</button><button class="rx-btn primary" onclick="rxConfirmFulfill()" style="height:32px;">Fulfill</button></div>
+      </div>
+    </div>
+  </div>
   <div class="modal-overlay" id="rx-ob-modal" onclick="if(event.target===this)rxCloseOutbound()">
     <div class="modal-box">
       <div class="modal-header"><span class="modal-title">Outbound Registration</span><button class="modal-close" onclick="rxCloseOutbound()">&times;</button></div>
@@ -6632,6 +6896,7 @@ function csBuild(sel){
     if(!willOpen) return;
     dd.innerHTML='';
     [...sel.options].forEach((o,i)=>{
+      if(o.hidden) return;   // placeholder options (hidden) are not selectable
       var item=document.createElement('div');
       item.className='dd-item'+(i===sel.selectedIndex?' selected':'');
       item.innerHTML='<span class="check-ico">✓</span>';
@@ -8266,7 +8531,8 @@ function printLabel(idx){
 // Store switch is prototype only (production: the POS opens for the logged-in store)
 const POS_STORES=[
   {code:'US1007',name:'GM_CostaMesa_MALL_SCP',currency:'USD',country:'US'},
-  {code:'CA1006',name:'GM_Vancouver MALL_Holt Renfrew',currency:'CAD',country:'CA',vat:0.12}   // CA1006: 12% as set (exception store)
+  {code:'CA1006',name:'GM_Vancouver MALL_Holt Renfrew',currency:'CAD',country:'CA',vat:0.12},  // CA1006: 12% as set (exception store)
+  {code:'AU1004',name:'GM_Melbourne_MALL_Chadstone',currency:'AUD',country:'AU'}                // GST rate not confirmed -> VAT 0
 ];
 const POS_STORE={...POS_STORES[0]};
 // Rx Operation List dummy orders belong to US1007
@@ -8280,6 +8546,9 @@ const POS_INVOICE_MODES={
   AU:{modes:['LOOKUP','REGISTER'],def:'REGISTER'}  // both used (default mode TBD)
 };
 function posInvCfg(){return POS_INVOICE_MODES[POS_STORE.country]||{modes:['REGISTER'],def:'REGISTER'};}
+// Store countries that do not collect Customer Information (Country / Continent / Customer Type / Gender / Usage Type) at POS. AU shows it.
+const POS_HIDE_CUSTOMER_INFO=['US','CA'];
+function posCustInfoVisibility(){document.getElementById('pa-attr').hidden=POS_HIDE_CUSTOMER_INFO.includes(POS_STORE.country);}
 const POS_TABS=[
   {path:'/pos',label:'Front POS Main',icon:'M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63h7.45c.75 0 1.41-.41 1.75-1.03l3.58-6.49A1.003 1.003 0 0020 4H5.21l-.94-2H1zm16 16c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2z'},
   {path:'/pos/daily-sales-summary',label:'Daily Sales Summary',icon:'M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z'},
@@ -8331,6 +8600,526 @@ const POS_SALES=[
   items:items.map(([i,qty])=>({code:PRODUCTS[i].code,qty}))}));
 // invMode: LOOKUP / REGISTER, view: past sale being looked up, invMsg: message under the field, invChecked: validated Invoice No. (REGISTER)
 let pos={mode:'SALES',items:[],member:null,nonMember:false,confirmed:false,acPrinted:false,invoice:'',invMode:'LOOKUP',view:null,invMsg:null,invChecked:''};
+// ===== Front POS > Store Pickup List (prefix spk) =====
+// Source: iic-bo-frontend features/pos/storePickupList (dev) + iic-bo sale/pos PosStorePickup* / order StorePickup (develop)
+// Online orders picked up at the store (BOPIS). Tabs:
+//   Pickup = GET /api/v1/pos/{storeCode}/store-pickups (order rows)
+//   Cancel = GET .../store-pickups/cancels (canceled item rows) / Refund = GET .../store-pickups/returns (store return item rows)
+// Status: WAITING_FOR_ARRIVAL -> (store inbound confirmed) PICKUP_AVAILABLE -> Pickup Complete = COMPLETED
+//         Cancel Order (PICKUP_AVAILABLE only) or auto-cancel = CANCELED
+// Auto-cancel deadline (set at inbound): Pickup Date + 14 days (normal) / Inbound Date + 15 days (late inbound)
+// Dummy data belongs to US1007 (other POS stores show an empty list)
+// [label, dot (filter chip), pastel badge bg, badge text]
+const SPK_STATUS={WAITING_FOR_ARRIVAL:['Waiting for Arrival','#FBBF24','#FEF3C7','#B45309'],PICKUP_AVAILABLE:['Pickup Available','#4ADE80','#DCFCE7','#15803D'],COMPLETED:['Completed','#60A5FA','#DBEAFE','#1D4ED8'],CANCELED:['Canceled','#F87171','#FEE2E2','#B91C1C']};
+// Pickup Status = status chips above the list (FE: multi select; its PICKED_UP option is rejected by the API, which accepts COMPLETED)
+const SPK_DATE_TYPES=[['orderedAt','Order Date'],['scheduledPickupDate','Scheduled Pickup Date'],['arrivedAt','Arrived Date'],['pickedUpAt','Picked Up Date']];
+const SPK_DISPOSITION=[['','All'],['ASSIGN_TO_STORE','Store Sales'],['RETURN_TO_ONLINE','Return W.H']];
+const SPK_SHORTCUTS=[['Today',0,0],['1W',7,0],['1M',0,1],['3M',0,3]];
+const SPK_CANCEL_REASONS=['Change of Mind','Change Payment Method','Purchase Different Product','Fit & Comfort Issue','Appearance Issue','Functional Defect',
+  'Order Mistake','Order Status Issue','Prescription Mismatch','ETC'];
+const SPK_EXPIRED_REASON='Pickup Period Expired Auto Cancellation';
+// Return grading (InspectionGrade: Sellable = A, Resellable = B, Dispose = C)
+const SPK_GRADES=[['Sellable','#10B981','A'],['Resellable','#14B8A6','B'],['Dispose','#EF4444','C']];
+const SPK_WARN_IC='<svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg>';
+const SPK_TIP_PICKUP='Available for pickup within +14 days from the Pickup Date after inbound is completed. Auto-cancelled on day +15.';
+const SPK_TIP_INBOUND='If Pickup Date is exceeded, available for pickup within +14 days from the Inbound Date. Auto-cancelled on day +15.';
+const SPK_TIP_CANCEL='POS cancellation is not available before receiving; only .com customer cancellations are allowed.';
+const SPK_TAB_ICON={pickup:'M19 3H4.99C3.89 3 3 3.9 3 5l.01 14c0 1.1.89 2 1.99 2H19c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 12h-4c0 1.66-1.35 3-3 3s-3-1.34-3-3H4.99V5H19v10zm-3-5h-2V7h-4v3H8l4 4 4-4z',
+  cancel:'M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zM4 12c0-4.42 3.58-8 8-8 1.85 0 3.55.63 4.9 1.69L5.69 16.9C4.63 15.55 4 13.85 4 12zm8 8c-1.85 0-3.55-.63-4.9-1.69L18.31 7.1C19.37 8.45 20 10.15 20 12c0 4.42-3.58 8-8 8z',
+  refund:'M19 7v4H5.83l3.58-3.59L8 6l-6 6 6 6 1.41-1.41L5.83 13H21V7z'};
+let SPK_DATA=null,SPK_CANCELS=[],SPK_RETURNS=[],SPK_CLAIMS={};
+// Prototype stand-in for SPM serial lookup: serial -> 'INACTIVE' (not sold yet) | 'ACTIVE' (already sold)
+let SPK_SPM={};
+let spk={tab:'pickup',sort:['orderedAt','desc'],status:'',f:null,applied:null,page:1,size:30,checked:new Set(),cur:null,cancelMode:false,reason:'',step:'detail',sn:[],snBad:new Map(),rtSn:[],rtBad:new Map(),claim:null,grading:{},obStore:'',obLoc:''},spkInited=false;
+
+const spkPad=n=>String(n).padStart(2,'0');
+const spkYmd=d=>d.getFullYear()+'-'+spkPad(d.getMonth()+1)+'-'+spkPad(d.getDate());
+const spkDt=d=>spkYmd(d)+' '+spkPad(d.getHours())+':'+spkPad(d.getMinutes());
+const spkEsc=v=>String(v??'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+const spkAmt=(n,cur)=>Number(n).toLocaleString('en-US',{maximumFractionDigits:2})+' '+cur;
+const spkTz=v=>v?v+' (PST)':'-';
+const spkStore=()=>POS_STORE.code;
+
+// ----- Dummy data (US1007, orders from GM_ONLINE_USA_Official) -----
+function spkBuildData(){
+  let seed=41;const rnd=()=>(seed=(seed*16807)%2147483647)/2147483647,pick=a=>a[Math.floor(rnd()*a.length)];
+  const A='0123456789ABCDEFGHJKLMNPQRSTUVWXYZ',code=n=>Array.from({length:n},()=>pick(A)).join('');
+  const today=new Date();today.setHours(0,0,0,0);
+  const at=(base,days,h,m)=>{const d=new Date(base);d.setDate(d.getDate()+days);d.setHours(h,m,0,0);return d;};
+  const goods=PRODUCTS.filter(p=>p.barcode&&p.barcode!=='-').slice(0,40),prices=[245,265,275,290,295,310,320,350];
+  // [orderedDaysAgo, status, opts] late = inbound after the Pickup Date / ob = outbound registered / arrived (canceled) / action / iv / claim / returned
+  const SPEC=[
+    [0,'WAITING_FOR_ARRIVAL',{}],[1,'WAITING_FOR_ARRIVAL',{ob:true}],[2,'WAITING_FOR_ARRIVAL',{ob:true,two:true}],
+    [6,'WAITING_FOR_ARRIVAL',{ob:true}],[9,'WAITING_FOR_ARRIVAL',{ob:true,two:true}],
+    [3,'PICKUP_AVAILABLE',{ie:true}],[4,'PICKUP_AVAILABLE',{two:true,ie:true}],[7,'PICKUP_AVAILABLE',{late:true}],[8,'PICKUP_AVAILABLE',{}],
+    [10,'COMPLETED',{claim:true}],[12,'COMPLETED',{ie:true,claim:true}],[13,'COMPLETED',{claim:true,two:true}],[15,'COMPLETED',{late:true}],
+    [24,'COMPLETED',{returned:'A'}],[27,'COMPLETED',{returned:'C',two:true}],
+    [11,'CANCELED',{arrived:false,reason:'Change of Mind'}],
+    [16,'CANCELED',{arrived:true,reason:'Change of Mind',two:true}],
+    [19,'CANCELED',{arrived:true,reason:SPK_EXPIRED_REASON}],
+    [21,'CANCELED',{arrived:true,reason:'Order Mistake',action:'ASSIGN_TO_STORE'}],
+    [23,'CANCELED',{arrived:true,reason:SPK_EXPIRED_REASON,action:'RETURN_TO_ONLINE'}],
+    [26,'CANCELED',{arrived:true,reason:'Purchase Different Product',action:'RETURN_TO_ONLINE',iv:true}]
+  ];
+  const rows=[];let seq=0,claimSeq=1;
+  SPEC.forEach(([ago,st,o],i)=>{
+    const ordered=at(today,-ago,9+(i*5)%11,(i*17)%60),sched=at(ordered,3+i%3,0,0);
+    const items=Array.from({length:o.two?2:1},(_,k)=>{const p=goods[(i*7+k*3)%goods.length];return {code:p.code,name:p.name,barcode:p.barcode,qty:k===0&&i%4===2?2:1,price:pick(prices),ie:!!o.ie&&k===0};});   // IE = first item of an ie order
+    const ymd=spkYmd(ordered).slice(2).replace(/-/g,'');
+    const r={id:'74620117'+String(30100+(seq++)*41).padStart(10,'0'),orderNo:ymd+'0RS'+code(10),status:st,orderedAt:spkDt(ordered),scheduledPickupDate:spkYmd(sched),
+      outboundRegisteredAt:null,arrivedAt:null,pickedUpAt:null,canceledAt:null,cancelReason:null,items,currency:'USD'};
+    if(st!=='WAITING_FOR_ARRIVAL'||o.ob) r.outboundRegisteredAt=spkDt(at(ordered,1,10+i%6,(i*13)%60));
+    const arrived=st==='PICKUP_AVAILABLE'||st==='COMPLETED'||(st==='CANCELED'&&o.arrived);
+    if(arrived) r.arrivedAt=spkDt(at(sched,o.late?2:-1,11+i%5,(i*7)%60));
+    if(st==='COMPLETED') r.pickedUpAt=spkDt(at(new Date(r.arrivedAt.slice(0,10)+'T00:00:00'),1+i%3,13+i%5,(i*11)%60));
+    if(st==='COMPLETED'&&o.ie){r.serials=spkIeUnits(r).map(u=>({...u,no:'IE'+code(10),at:r.pickedUpAt}));r.serials.forEach(x=>SPK_SPM[x.no]='ACTIVE');}
+    // Pickup-available IE: inactive SPM serials to scan (derived from the order no. so the random seed stays the same)
+    if(st==='PICKUP_AVAILABLE'&&o.ie){r.spmSample=spkIeUnits(r).map((u,k)=>'IES'+r.orderNo.slice(-7)+(k+1));r.spmSample.forEach(x=>SPK_SPM[x]='INACTIVE');}
+    if(st==='CANCELED'){
+      r.canceledAt=spkDt(at(r.arrivedAt?new Date(r.arrivedAt.slice(0,10)+'T00:00:00'):ordered,r.reason===SPK_EXPIRED_REASON?15:1,8+i%4,(i*19)%60));
+      r.cancelReason=o.reason;
+      items.forEach((it,k)=>SPK_CANCELS.push({id:'74620118'+String(50200+rows.length*10+k).padStart(10,'0'),pickupId:r.id,orderNo:r.orderNo,orderedAt:r.orderedAt,
+        canceledAt:r.canceledAt,arrivedAt:r.arrivedAt,action:o.action||null,invoiceNo:o.iv?'TO'+String(2611000+i*37):null,code:it.code,name:it.name,barcode:it.barcode,qty:it.qty,reason:o.reason}));
+    }
+    if(o.claim){
+      const no='CLM-'+spkYmd(today).replace(/-/g,'')+'-'+String(claimSeq++).padStart(3,'0');
+      SPK_CLAIMS[no]={pickupId:r.id,returnNo:'RT'+r.orderNo.slice(0,6)+String(100+i),items:items.map(it=>({code:it.code,name:it.name,qty:it.qty,ie:it.ie})),done:false};
+    }
+    if(o.returned){
+      const recv=spkDt(at(new Date(r.pickedUpAt.slice(0,10)+'T00:00:00'),3,15,20));
+      items.forEach((it,k)=>SPK_RETURNS.push({id:'74620119'+String(70300+rows.length*10+k).padStart(10,'0'),pickupId:r.id,orderNo:r.orderNo,orderedAt:r.orderedAt,
+        receivedAt:recv,code:it.code,name:it.name,barcode:it.barcode,qty:it.qty,grade:o.returned,action:null,invoiceNo:null}));
+    }
+    rows.push(r);
+  });
+  return rows;
+}
+const spkPickup=id=>SPK_DATA.find(r=>r.id===id);
+function spkDefaultFilter(){
+  const to=new Date(),from=new Date();from.setDate(from.getDate()-30);
+  return {dateType:'orderedAt',from:spkYmd(from),to:spkYmd(to),disp:'',kw:''};
+}
+
+// ----- Enter / search -----
+function spkEnter(){
+  if(!spkInited){
+    SPK_DATA=spkBuildData();spk.f=spkDefaultFilter();spk.shortcut=2;
+    const dt=document.getElementById('spk-f-datetype');dt.innerHTML=SPK_DATE_TYPES.map(([v,l])=>`<option value="${v}">${l}</option>`).join('');
+    const ds=document.getElementById('spk-f-disp');ds.innerHTML=SPK_DISPOSITION.map(([v,l])=>`<option value="${v}">${l}</option>`).join('');
+    [dt,ds,document.getElementById('spk-size')].forEach(s=>{csBuild(s);csRefresh(s);});
+    document.addEventListener('mousedown',e=>{if(!e.target.closest('.spk-pop-wrap')&&!e.target.closest('.cs-wrap')&&!e.target.closest('.cs-dropdown')) document.querySelectorAll('#pa-spk .spk-pop').forEach(x=>x.hidden=true);});
+    spkInited=true;spkFillFilter();spkSearch();
+  } else spkRender();
+  setTimeout(()=>document.getElementById('spk-qr').focus(),0);
+}
+function spkFillFilter(){
+  const f=spk.f,set=(id,v)=>{const s=document.getElementById(id);s.value=v;if(s.dataset.cs) csRefresh(s);};
+  set('spk-f-datetype',f.dateType);set('spk-f-disp',f.disp);
+  document.getElementById('spk-f-from').value=f.from;document.getElementById('spk-f-to').value=f.to;document.getElementById('spk-f-kw').value=f.kw;
+  document.getElementById('spk-shortcuts').innerHTML=SPK_SHORTCUTS.map(([l,d,m],i)=>`<button class="${spk.shortcut===i?'on':''}" onclick="spkShortcut(${i})">${l}</button>`).join('');
+}
+function spkShortcut(i){
+  const [,d,m]=SPK_SHORTCUTS[i],to=new Date(),from=new Date();
+  if(m) from.setMonth(from.getMonth()-m); else from.setDate(from.getDate()-d);
+  document.getElementById('spk-f-from').value=spkYmd(from);document.getElementById('spk-f-to').value=spkYmd(to);
+  spk.shortcut=i;spkSearch();
+}
+function spkTogglePop(k){
+  const el=document.getElementById('spk-pop-'+k),open=el.hidden;
+  document.querySelectorAll('#pa-spk .spk-pop').forEach(x=>x.hidden=true);
+  el.hidden=!open;
+}
+const spkMd=ymd=>ymd?new Date(ymd+'T00:00:00').toLocaleDateString('en-US',{month:'short',day:'numeric'}):'';
+// Bar labels: date button = applied period, More filters = number of applied tab filters
+function spkBarLabels(){
+  const a=spk.applied||spk.f,t=spk.tab,n=t==='cancel'&&a.disp?1:0;
+  document.getElementById('spk-date-btn').innerHTML=`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M16 3v4M8 3v4M3 10h18"/></svg>${SPK_DATE_TYPES.find(d=>d[0]===a.dateType)[1]} · ${spkMd(a.from)} – ${spkMd(a.to)}`;
+  document.getElementById('spk-more-btn').innerHTML=`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 6h16M7 12h10M10 18h4"/></svg>More filters${n?`<span class="cnt">${n}</span>`:''}`;
+  document.querySelectorAll('#spk-shortcuts button').forEach((b,k)=>b.classList.toggle('on',k===spk.shortcut));
+  document.getElementById('spk-more-btn').parentNode.hidden=t!=='cancel';
+}
+function spkReset(){spk.f=spkDefaultFilter();spk.shortcut=2;spk.status='';spkFillFilter();document.getElementById('spk-f-kw-err').hidden=true;}
+function spkSearch(){
+  const f=spk.f;
+  f.dateType=document.getElementById('spk-f-datetype').value;f.disp=document.getElementById('spk-f-disp').value;
+  f.from=document.getElementById('spk-f-from').value;f.to=document.getElementById('spk-f-to').value;f.kw=document.getElementById('spk-f-kw').value.trim();
+  const bad=f.kw&&f.kw.length<2;document.getElementById('spk-f-kw-err').hidden=!bad;
+  if(bad) return;
+  spk.applied={...f};spk.page=1;spk.checked.clear();
+  document.querySelectorAll('#pa-spk .spk-pop').forEach(x=>x.hidden=true);spkRender();
+}
+// Header click: desc -> asc -> desc (prototype keeps one sort field)
+function spkSort(k){spk.sort=spk.sort[0]===k?[k,spk.sort[1]==='desc'?'asc':'desc']:[k,'desc'];spk.page=1;spkRender();}
+function spkTab(t){spk.tab=t;spk.page=1;spk.checked.clear();spkRender();}
+
+// ----- Rows per tab -----
+function spkDateOf(p,type){return type==='orderedAt'?p.orderedAt:type==='scheduledPickupDate'?p.scheduledPickupDate:type==='arrivedAt'?p.arrivedAt:p.pickedUpAt;}
+function spkRows(anyStatus){
+  if(spkStore()!=='US1007'||!spk.applied) return [];
+  const a=spk.applied,kw=a.kw.toLowerCase();
+  const inPeriod=p=>{const v=spkDateOf(p,a.dateType);if(!v) return false;const d=v.slice(0,10);return (!a.from||d>=a.from)&&(!a.to||d<=a.to);};
+  const kwHit=(orderNo,items)=>!kw||orderNo.toLowerCase().includes(kw)||items.some(it=>it.code.toLowerCase().includes(kw)||it.name.toLowerCase().includes(kw));
+  if(spk.tab==='pickup'){
+    // Status chip filters the period / keyword result (counts on the chips use the same result)
+    const [k,dir]=spk.sort,v=p=>p[k]||'';
+    return SPK_DATA.filter(p=>inPeriod(p)&&(anyStatus||!spk.status||p.status===spk.status)&&kwHit(p.orderNo,p.items)).sort((x,y)=>(dir==='desc'?-1:1)*v(x).localeCompare(v(y)));
+  }
+  const src=spk.tab==='cancel'?SPK_CANCELS:SPK_RETURNS;
+  return src.filter(r=>inPeriod(spkPickup(r.pickupId))&&kwHit(r.orderNo,[r])&&(spk.tab!=='cancel'||!a.disp||r.action===a.disp))
+    .sort((x,y)=>y.orderedAt.localeCompare(x.orderedAt));
+}
+
+// ----- Render -----
+function spkRender(){
+  const t=spk.tab;
+  document.getElementById('spk-f-disp-row').hidden=t!=='cancel';
+  spkBarLabels();
+  const tip=s=>`<span class="ic" data-tip="${spkEsc(s)}" onclick="event.stopPropagation()">i</span>`;
+  const sh=(k,l,tp)=>`<th class="tl sort" onclick="spkSort('${k}')">${l}${tp?tip(tp):''}${spk.sort[0]===k?`<span class="ar">${spk.sort[1]==='desc'?'&darr;':'&uarr;'}</span>`:''}</th>`;
+  const heads={
+    pickup:`<th style="width:56px;">Type</th>${sh('orderedAt','Order Date')}${sh('scheduledPickupDate','Pickup Date',SPK_TIP_PICKUP)}${sh('outboundRegisteredAt','Outbound Date')}${sh('arrivedAt','Inbound Date',SPK_TIP_INBOUND)}
+      ${sh('orderNo','Order No.')}<th>Pickup Status</th><th class="tl" style="min-width:300px;">Product Info<br><span class="n">(Code / Name / Barcode)</span></th><th>Qty</th>${sh('pickedUpAt','Pickup Completed Date')}<th class="tl">Cancel Date</th>`,
+    cancel:`<th style="width:36px;"><input type="checkbox" class="rx-chk" id="spk-chk-all" onchange="spkCheckAll(this.checked)"></th><th class="tl">Order Date</th><th class="tl">Cancel Date</th><th class="tl">Inbound Date</th>
+      <th>Stock Disposition</th><th>Outbound I/V No.(TO)</th><th class="tl">Order No.</th><th class="tl" style="min-width:300px;">Product Info<br><span class="n">(Code / Name / Barcode)</span></th><th>Qty</th><th>Cancel Reason</th>`,
+    refund:`<th class="tl">Order Date</th><th class="tl">Return Date</th><th class="tl">Order No.</th><th class="tl" style="min-width:300px;">Product Info<br><span class="n">(Code / Name / Barcode)</span></th><th>Qty</th><th>Grade</th>`
+  };
+  document.getElementById('spk-head').innerHTML='<tr>'+heads[t]+'</tr>';
+  // Pickup: actions sit on the status chip row; Cancel/Refund (no chips): back on the tab row
+  const row2=document.getElementById('spk-row2'),act=document.getElementById('spk-actions');row2.hidden=t!=='pickup';
+  (t==='pickup'?row2:document.querySelector('#pa-spk .rx-toolbar')).appendChild(act);
+  // Export sits at the right end of every tab's actions
+  const exp=`<button class="rx-btn spk-exp" onclick="spkExcel()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M7 10l5 5 5-5"/><path d="M12 15V3"/></svg>Export</button>`;
+  document.getElementById('spk-actions').innerHTML=(t==='pickup'?`<button class="rx-btn fill" onclick="spkOpenReturn()">Return Processing</button>`
+    :t==='cancel'?`<button class="rx-btn fill" id="spk-cs-btn" onclick="spkOpenChangeStock()">Change Stock</button><button class="rx-btn fill" id="spk-ob-btn" onclick="spkOpenOutbound()">Outbound Registration</button>`:'')+exp;
+  spkRenderList();
+}
+function spkRenderChips(){
+  const el=document.getElementById('spk-chips');el.hidden=spk.tab!=='pickup';
+  if(el.hidden) return;
+  const base=spkRows(true),cnt=st=>base.filter(p=>p.status===st).length;
+  el.innerHTML=`<button class="${spk.status?'':'on'}" onclick="spkPickChip('')">All <span>${base.length}</span></button>`
+    +Object.entries(SPK_STATUS).map(([k,[l,c]])=>`<button class="${spk.status===k?'on':''}" onclick="spkPickChip('${k}')"><i style="background:${c}"></i>${l} <span>${cnt(k)}</span></button>`).join('');
+}
+function spkPickChip(k){spk.status=k;spk.page=1;spkRenderList();}
+// Tab counts = rows each tab would show for the applied search (Pickup counts every status)
+function spkRenderTabs(){
+  const cur=spk.tab,cnt={};
+  ['pickup','cancel','refund'].forEach(k=>{spk.tab=k;cnt[k]=spkRows(true).length;});spk.tab=cur;
+  document.getElementById('spk-tabs').innerHTML=[['pickup','Pickup'],['cancel','Cancel'],['refund','Refund']]
+    .map(([k,l])=>`<button class="${cur===k?'on':''}" onclick="spkTab('${k}')"><svg viewBox="0 0 24 24"><path d="${SPK_TAB_ICON[k]}"/></svg>${l}<span class="cnt">${cnt[k]}</span></button>`).join('');
+}
+function spkRenderList(){
+  spkRenderTabs();spkRenderChips();
+  const rows=spkRows(),total=rows.length,pages=Math.max(1,Math.ceil(total/spk.size));
+  spk.page=Math.min(Math.max(1,spk.page),pages);
+  const s=(spk.page-1)*spk.size,page=rows.slice(s,s+spk.size),t=spk.tab,todayYmd=spkYmd(new Date());
+  const prod=it=>`${spkEsc(it.code)} / ${spkEsc(it.name)} / ${spkEsc(it.barcode)}`;
+  let html='';
+  if(t==='pickup') html=page.map(p=>{
+    const [lbl,,bg,fg]=SPK_STATUS[p.status];
+    const overdue=p.status==='WAITING_FOR_ARRIVAL'&&p.scheduledPickupDate<todayYmd,late=p.arrivedAt&&p.scheduledPickupDate<p.arrivedAt.slice(0,10);
+    return `<tr onclick="spkOpenDetail('${p.id}')">
+      <td>${p.items.some(it=>it.ie)?'<span class="spk-ie" style="margin:0;">IE</span>':'-'}</td>
+      <td class="l">${spkTz(p.orderedAt)}</td>
+      <td class="l">${overdue?`<span class="spk-flag red">${p.scheduledPickupDate}<b>${SPK_WARN_IC}No Inbound</b></span>`:p.scheduledPickupDate}</td>
+      <td class="l">${spkTz(p.outboundRegisteredAt)}</td>
+      <td class="l">${late?`<span class="spk-flag org">${spkTz(p.arrivedAt)}<b>${SPK_WARN_IC}After Pickup Date</b></span>`:spkTz(p.arrivedAt)}</td>
+      <td class="l">${p.orderNo}</td>
+      <td><span class="spk-chip" style="background:${bg};color:${fg};">${lbl}</span></td>
+      <td class="l">${p.items.map(it=>`<span class="ln">${prod(it)}</span>`).join('')}</td>
+      <td>${p.items.map(it=>`<span class="ln">${it.qty}</span>`).join('')}</td>
+      <td class="l">${spkTz(p.pickedUpAt)}</td><td class="l">${spkTz(p.canceledAt)}</td></tr>`;}).join('');
+  else if(t==='cancel') html=page.map(r=>{
+    const can=!!r.arrivedAt;
+    return `<tr class="noclick${can?'':' nosel'}">
+      <td><input type="checkbox" class="rx-chk" ${can?'':'disabled'} ${spk.checked.has(r.id)?'checked':''} onchange="spkCheck('${r.id}',this.checked)"></td>
+      <td class="l">${spkTz(r.orderedAt)}</td><td class="l">${spkTz(r.canceledAt)}</td><td class="l">${spkTz(r.arrivedAt)}</td>
+      <td>${r.action||'-'}</td><td>${r.invoiceNo||'-'}</td><td class="l">${r.orderNo}</td><td class="l">${prod(r)}</td><td>${r.qty}</td><td>${spkEsc(r.reason||'-')}</td></tr>`;}).join('');
+  else html=page.map(r=>`<tr class="noclick"><td class="l">${spkTz(r.orderedAt)}</td><td class="l">${spkTz(r.receivedAt)}</td><td class="l">${r.orderNo}</td><td class="l">${prod(r)}</td><td>${r.qty}</td><td>${r.grade}</td></tr>`).join('');
+  const cols={pickup:11,cancel:10,refund:6}[t];
+  document.getElementById('spk-rows').innerHTML=html||`<tr class="noclick"><td colspan="${cols}" style="padding:40px;color:#999;">No rows</td></tr>`;
+  document.getElementById('spk-range').textContent=total?`${s+1}–${Math.min(s+spk.size,total)} of ${total}`:'0–0 of 0';
+  document.getElementById('spk-prev').disabled=spk.page<=1;document.getElementById('spk-next').disabled=spk.page>=pages;
+  spkSyncActions();
+}
+// Cancel tab: only arrived items are selectable.
+// Change Stock = every selected item arrived and has no disposition yet / Outbound Registration = every selected item is Return W.H without outbound
+function spkSelected(){return SPK_CANCELS.filter(r=>spk.checked.has(r.id));}
+function spkSyncActions(){
+  if(spk.tab!=='cancel') return;
+  const sel=spkSelected();
+  document.getElementById('spk-cs-btn').disabled=!sel.length||!sel.every(r=>r.arrivedAt&&r.action===null);
+  document.getElementById('spk-ob-btn').disabled=!sel.length||!sel.every(r=>r.action==='RETURN_TO_ONLINE'&&r.invoiceNo===null);
+  const all=document.getElementById('spk-chk-all'),selectable=[...document.querySelectorAll('#spk-rows .rx-chk:not(:disabled)')];
+  if(all) all.checked=selectable.length>0&&selectable.every(c=>c.checked);
+}
+function spkCheck(id,on){on?spk.checked.add(id):spk.checked.delete(id);spkSyncActions();}
+function spkCheckAll(on){
+  const s=(spk.page-1)*spk.size;
+  spkRows().slice(s,s+spk.size).filter(r=>r.arrivedAt).forEach(r=>on?spk.checked.add(r.id):spk.checked.delete(r.id));
+  spkRenderList();
+}
+
+// ----- Pickup QR scan: QR value "xxx||{Order No.}" or Order No. Looks up every row of the current search result (all pages) -----
+// (FE looks up the current page only and does nothing when not found)
+function spkScan(input){
+  const raw=input.value.replace(/[\r\n]/g,'').trim();input.value='';
+  if(!raw) return;
+  const parts=raw.split('||'),v=parts.length>=2&&parts[1].trim()?parts[1].trim():raw;
+  const hit=spkRows().find(r=>r.id===v||r.orderNo===v);
+  if(hit) spkOpenDetail(spk.tab==='pickup'?hit.id:hit.pickupId);
+  else showToast('Pickup QR Scan','No matching order in the list.','error');
+}
+
+// ----- Order Detail (GET .../store-pickups/{id}) -----
+function spkOpenDetail(id){
+  spk.cur=spkPickup(id);spk.cancelMode=false;spk.reason='';spk.step='detail';spk.sn=[];spk.snBad=new Map();
+  spkRenderDetail();document.getElementById('spk-dt-modal').classList.add('show');
+}
+function spkRenderDetail(){
+  if(spk.step==='serial') return spkRenderSerial();
+  const p=spk.cur,[lbl,,bg,fg]=SPK_STATUS[p.status],total=p.items.reduce((n,it)=>n+it.price*it.qty,0);
+  document.getElementById('spk-dt-title').innerHTML=`Order Detail <span class="spk-chip" style="margin-left:10px;background:${bg};color:${fg};font-weight:600;">${lbl}</span>`;
+  const avail=p.status==='PICKUP_AVAILABLE',done=p.status==='COMPLETED';
+  document.getElementById('spk-dt-body').innerHTML=`
+    <div class="spk-meta"><span>Order No.</span><b>${p.orderNo}</b><span>Order Date</span><b>${p.orderedAt} (PST)</b><span>Pickup Date</span><b>${p.scheduledPickupDate}</b></div>
+    <div class="spk-sec-t" style="margin-top:32px;">Product List</div>
+    <table class="spk-tbl"><thead><tr><th>Product Code | Product Name</th><th class="tc" style="width:72px;">Qty</th><th class="tr">Unit Price</th><th class="tr" style="width:120px;">Total</th></tr></thead>
+      <tbody>${p.items.map(it=>`<tr><td><b>${spkEsc(it.code)}</b><span style="color:#999;margin:0 6px;">|</span>${spkEsc(it.name)}</td><td class="tc">${it.qty}</td><td class="tr">${spkAmt(it.price,p.currency)}</td><td class="tr">${spkAmt(it.price*it.qty,p.currency)}</td></tr>`).join('')}</tbody></table>
+    <div class="spk-total"><div>Total Amount<b>${spkAmt(total,p.currency)}</b></div><p>Total amount includes product price and VAT.</p></div>
+    ${p.serials?`<div class="spk-sec-t" style="margin-top:20px;">IE Serial</div>
+    <table class="spk-tbl"><thead><tr><th>Product Code | Product Name</th><th class="tc" style="width:72px;">Qty</th><th style="width:300px;">IE Serial</th></tr></thead>
+      <tbody>${p.items.filter(it=>it.ie).map(it=>`<tr><td><b>${spkEsc(it.code)}</b><span style="color:#999;margin:0 6px;">|</span>${spkEsc(it.name)}</td><td class="tc">${it.qty}</td>
+        <td>${p.serials.filter(x=>x.code===it.code).map(x=>`<b style="display:block;">${spkEsc(x.no)}</b>`).join('')}</td></tr>`).join('')}</tbody></table>`:''}
+    ${done?'':`<div class="spk-foot">
+      ${spk.cancelMode?`<select id="spk-dt-reason" style="width:240px;height:32px;" onchange="spk.reason=this.value;spkRenderDetail()"><option value="" ${spk.reason?'':'selected'} disabled hidden>Select reason</option>${SPK_CANCEL_REASONS.map(r=>`<option ${spk.reason===r?'selected':''}>${spkEsc(r)}</option>`).join('')}</select>`:''}
+      ${avail?'':`<span class="spk-info" title="${spkEsc(SPK_TIP_CANCEL)}">!</span>`}
+      <button class="spk-btn err" ${!avail||(spk.cancelMode&&!spk.reason)?'disabled':''} onclick="spkCancelOrder()">&#8856; Cancel Order</button>
+      <button class="spk-btn warn" ${!avail||spk.cancelMode?'disabled':''} onclick="spkPickupComplete()">&#10003; Pickup Complete</button></div>`}`;
+  const s=document.getElementById('spk-dt-reason');if(s){csBuild(s);csRefresh(s);}
+}
+// First click shows the reason select, second click cancels (POST .../cancel). Stock goes to the Cancel tab for disposition.
+function spkCancelOrder(){
+  const p=spk.cur;
+  if(!spk.cancelMode){spk.cancelMode=true;spkRenderDetail();return;}
+  if(!spk.reason) return;
+  const now=spkDt(new Date());
+  Object.assign(p,{status:'CANCELED',canceledAt:now,cancelReason:spk.reason});
+  p.items.forEach((it,k)=>SPK_CANCELS.push({id:'74620118'+String(Date.now()%1e9+k).padStart(10,'0'),pickupId:p.id,orderNo:p.orderNo,orderedAt:p.orderedAt,canceledAt:now,
+    arrivedAt:p.arrivedAt,action:null,invoiceNo:null,code:it.code,name:it.name,barcode:it.barcode,qty:it.qty,reason:spk.reason}));
+  spkCloseModal('dt');spkRenderList();
+  showToast('Order canceled successfully.','Order canceled. Assign inventory from the Cancel tab.');
+}
+// POST .../pickup: reserved stock released and deducted, order completed, GM serial (AC) cards issued
+// IE order: Pickup Complete opens the IE Serial Scan step first; the pickup completes only after every IE unit has a serial.
+function spkPickupComplete(){
+  const p=spk.cur,units=spkIeUnits(p);
+  if(units.length&&spk.step!=='serial'){spk.step='serial';spk.sn=units.map(()=>'');spk.snBad=new Map();spkRenderDetail();spkSnFocus(0);return;}
+  if(!units.length) return spkFinishPickup(p,units);
+  const v=spk.sn.map(x=>x.trim().toUpperCase());
+  if(v.some(x=>!x)) return showToast('IE Serial Scan','Please scan the IE serial for every item.','error');
+  // Format / duplicate errors are marked on the field itself (duplicate = 2nd and later scans of the same serial)
+  const bad=new Map();
+  v.forEach((x,k)=>{if(!/^[A-Z0-9]{1,50}$/.test(x)) bad.set(k,'Letters and numbers only (max 50).');else if(v.indexOf(x)<k) bad.set(k,'This serial is already scanned.');});
+  if(bad.size){spk.snBad=bad;spkRenderSerial();return showToast('IE Serial Scan',`Please check the ${bad.size} highlighted serial(s).`,'error');}
+  // SPM lookup: the serial must exist and still be inactive (not sold); any error blocks the pickup
+  const btn=document.getElementById('spk-sn-done');btn.disabled=true;btn.textContent='Verifying serial...';
+  v.forEach((x,k)=>{const i=document.getElementById('spk-sn-'+k);if(i) i.disabled=true;});
+  setTimeout(()=>{
+    spk.snBad=new Map(v.map((x,k)=>[k,!SPK_SPM[x]?'This serial does not exist.':SPK_SPM[x]==='ACTIVE'?'This serial is already activated.':null]).filter(e=>e[1]));
+    if(spk.snBad.size){spkRenderSerial();showToast('IE Serial Scan',`${spk.snBad.size} serial(s) can't be used. Please check the product and scan again.`,'error');return;}
+    v.forEach(x=>SPK_SPM[x]='ACTIVE');
+    spkFinishPickup(p,units);
+  },800);
+}
+function spkFinishPickup(p,units){
+  const now=spkDt(new Date());
+  Object.assign(p,{status:'COMPLETED',pickedUpAt:now});
+  // Saved in BO with the pickup; SPM takes the serials from BO (same as the sales creation timing)
+  if(units.length) p.serials=units.map((u,k)=>({...u,no:spk.sn[k].trim().toUpperCase(),at:now}));
+  spkCloseModal('dt');spkRenderList();
+  showToast('Pickup completed successfully.',(units.length?'IE serial has been saved. ':'')+'Pickup has been completed. AC card (serial card) is now printing.');
+}
+// One serial per IE unit (qty 2 -> 2 units)
+function spkIeUnits(p){
+  const out=[];p.items.forEach(it=>{if(it.ie) for(let u=1;u<=it.qty;u++) out.push({code:it.code,name:it.name,unit:it.qty>1?`${u}/${it.qty}`:'1'});});
+  return out;
+}
+function spkRenderSerial(){
+  const p=spk.cur;let k=0;   // k = unit index into spk.sn (same order as spkIeUnits)
+  const inp=()=>{const i=k++;return `<div><input class="rxw-sn-in spk-sn-in${spk.snBad.has(i)?' bad':''}" id="spk-sn-${i}" value="${spkEsc(spk.sn[i]||'')}" placeholder="Scan IE serial" autocomplete="off" maxlength="50"
+          oninput="spkSnInput(${i},this.value)" onkeydown="if(event.key==='Enter'){event.preventDefault();spkSnFocus(${i+1});}"><div class="spk-sn-err" id="spk-sn-err-${i}"${spk.snBad.has(i)?'':' hidden'}>${spk.snBad.get(i)||''}</div></div>`;};
+  const active=Object.keys(SPK_SPM).find(x=>SPK_SPM[x]==='ACTIVE');
+  document.getElementById('spk-dt-title').textContent='IE Serial Scan';
+  document.getElementById('spk-dt-body').innerHTML=`
+    <table class="spk-tbl"><thead><tr><th>Product Code | Product Name</th><th class="tc" style="width:72px;">Qty</th><th style="width:300px;">IE Serial <span style="color:#d32f2f;">*</span></th></tr></thead>
+      <tbody>${p.items.filter(it=>it.ie).map(it=>`<tr><td><b>${spkEsc(it.code)}</b><span style="color:#999;margin:0 6px;">|</span>${spkEsc(it.name)}</td><td class="tc">${it.qty}</td>
+        <td><div class="spk-sn-stack">${Array.from({length:it.qty},inp).join('')}</div></td></tr>`).join('')}</tbody></table>
+    <div class="spk-hint">Prototype sample serial (SPM) &middot; Inactive: ${(p.spmSample||[]).filter(x=>SPK_SPM[x]==='INACTIVE').join(', ')||'-'} &middot; Already activated: ${active||'-'}</div>
+    <div class="spk-foot" style="justify-content:space-between;"><button class="spk-btn line" onclick="spk.step='detail';spkRenderDetail()">&#8592; Back</button>
+      <button class="spk-btn warn" id="spk-sn-done" onclick="spkPickupComplete()">&#10003; Complete Pickup</button></div>`;
+  spkSnState();
+}
+function spkSnInput(k,v){
+  spk.sn[k]=v;
+  if(spk.snBad.delete(k)){document.getElementById('spk-sn-'+k).classList.remove('bad');document.getElementById('spk-sn-err-'+k).hidden=true;}
+  spkSnState();
+}
+function spkSnFocus(k){setTimeout(()=>{const i=document.getElementById('spk-sn-'+k);if(i) i.focus();},0);}
+// Button state, updated in place so the scanner keeps focus
+function spkSnState(){
+  document.getElementById('spk-sn-done').disabled=spk.sn.some(x=>!x.trim())||spk.snBad.size>0;
+  spk.sn.forEach((x,k)=>{const i=document.getElementById('spk-sn-'+k);if(i) i.classList.toggle('need',!x.trim());});
+}
+function spkCloseModal(k){document.getElementById('spk-'+k+'-modal').classList.remove('show');}
+
+// ----- Return Processing (store return of a picked-up order: GET /claims?externalClaimNo -> POST /returns/{orderId}/inspect-result) -----
+function spkOpenReturn(){spk.claim=null;spk.grading={};spk.rtSn=[];spk.rtBad=new Map();spkRenderReturn();document.getElementById('spk-rt-modal').classList.add('show');setTimeout(()=>{const i=document.getElementById('spk-rt-in');if(i) i.focus();},0);}
+function spkRenderReturn(){
+  const c=spk.claim,body=document.getElementById('spk-rt-body'),title=document.getElementById('spk-rt-title');
+  if(!c){
+    title.textContent='Return Processing';
+    const open=Object.keys(SPK_CLAIMS).filter(k=>!SPK_CLAIMS[k].done);
+    body.innerHTML=`<div class="spk-qr-guide"><svg class="spk-qr-ill" viewBox="0 0 80 120" aria-hidden="true"><rect x="10" y="4" width="60" height="112" rx="10" fill="#fff" stroke="#cfcfcf" stroke-width="2"/><rect x="32" y="10" width="16" height="3" rx="1.5" fill="#d9d9d9"/><text x="40" y="30" text-anchor="middle" font-size="6" font-weight="700" fill="#888" font-family="inherit">RETURN QR</text><rect x="19" y="40" width="14" height="14" rx="1.5" fill="none" stroke="#222" stroke-width="2"/><rect x="23" y="44" width="6" height="6" fill="#222"/><rect x="47" y="40" width="14" height="14" rx="1.5" fill="none" stroke="#222" stroke-width="2"/><rect x="51" y="44" width="6" height="6" fill="#222"/><rect x="19" y="68" width="14" height="14" rx="1.5" fill="none" stroke="#222" stroke-width="2"/><rect x="23" y="72" width="6" height="6" fill="#222"/><path d="M35 40h2v2h-2zM37 40h2v2h-2zM41 40h2v2h-2zM35 42h2v2h-2zM37 42h2v2h-2zM41 42h2v2h-2zM43 42h2v2h-2zM35 44h2v2h-2zM37 44h2v2h-2zM39 44h2v2h-2zM43 44h2v2h-2zM35 46h2v2h-2zM43 46h2v2h-2zM37 48h2v2h-2zM41 48h2v2h-2zM43 48h2v2h-2zM35 50h2v2h-2zM37 50h2v2h-2zM41 50h2v2h-2zM37 52h2v2h-2zM41 52h2v2h-2zM43 52h2v2h-2zM35 54h2v2h-2zM39 54h2v2h-2zM41 54h2v2h-2zM21 56h2v2h-2zM27 56h2v2h-2zM37 56h2v2h-2zM41 56h2v2h-2zM43 56h2v2h-2zM47 56h2v2h-2zM51 56h2v2h-2zM19 58h2v2h-2zM37 58h2v2h-2zM47 58h2v2h-2zM49 58h2v2h-2zM53 58h2v2h-2zM57 58h2v2h-2zM59 58h2v2h-2zM19 60h2v2h-2zM23 60h2v2h-2zM25 60h2v2h-2zM27 60h2v2h-2zM31 60h2v2h-2zM33 60h2v2h-2zM43 60h2v2h-2zM45 60h2v2h-2zM47 60h2v2h-2zM53 60h2v2h-2zM55 60h2v2h-2zM57 60h2v2h-2zM59 60h2v2h-2zM23 62h2v2h-2zM25 62h2v2h-2zM27 62h2v2h-2zM29 62h2v2h-2zM43 62h2v2h-2zM53 62h2v2h-2zM55 62h2v2h-2zM57 62h2v2h-2zM19 64h2v2h-2zM21 64h2v2h-2zM23 64h2v2h-2zM25 64h2v2h-2zM27 64h2v2h-2zM29 64h2v2h-2zM31 64h2v2h-2zM33 64h2v2h-2zM35 64h2v2h-2zM37 64h2v2h-2zM39 64h2v2h-2zM45 64h2v2h-2zM47 64h2v2h-2zM49 64h2v2h-2zM51 64h2v2h-2zM53 64h2v2h-2zM37 66h2v2h-2zM39 66h2v2h-2zM41 66h2v2h-2zM43 66h2v2h-2zM47 66h2v2h-2zM49 66h2v2h-2zM55 66h2v2h-2zM59 66h2v2h-2zM43 68h2v2h-2zM45 68h2v2h-2zM47 68h2v2h-2zM55 68h2v2h-2zM57 68h2v2h-2zM45 70h2v2h-2zM49 70h2v2h-2zM51 70h2v2h-2zM53 70h2v2h-2zM55 70h2v2h-2zM57 70h2v2h-2zM37 72h2v2h-2zM45 72h2v2h-2zM47 72h2v2h-2zM49 72h2v2h-2zM51 72h2v2h-2zM53 72h2v2h-2zM41 74h2v2h-2zM53 74h2v2h-2zM57 74h2v2h-2zM37 76h2v2h-2zM39 76h2v2h-2zM45 76h2v2h-2zM47 76h2v2h-2zM49 76h2v2h-2zM55 76h2v2h-2zM37 78h2v2h-2zM41 78h2v2h-2zM43 78h2v2h-2zM53 78h2v2h-2zM59 78h2v2h-2zM35 80h2v2h-2zM37 80h2v2h-2zM39 80h2v2h-2zM43 80h2v2h-2zM45 80h2v2h-2zM47 80h2v2h-2zM51 80h2v2h-2zM59 80h2v2h-2z" fill="#222"/><rect x="13" y="62" width="54" height="2" rx="1" fill="#ff6b35" opacity=".85"/><path d="M15 36v-4h4M61 32h4v4M65 84v4h-4M19 88h-4v-4" fill="none" stroke="#ff6b35" stroke-width="2" stroke-linecap="round"/><rect x="20" y="96" width="40" height="4" rx="2" fill="#eee"/><rect x="26" y="104" width="28" height="4" rx="2" fill="#eee"/></svg><div><b>Scan the customer's return QR code</b><p>Hold the QR code on the customer's screen up to the scanner.<br>If it can't be scanned, enter the Return ID instead.</p></div></div>
+      <div class="spk-scan"><input class="rx-input" id="spk-rt-in" placeholder="Scan or enter Return QR / ID" onkeydown="if(event.key==='Enter')spkFindClaim(this.value)"></div>
+      <div class="spk-hint">Prototype sample claim no.: ${open.map(k=>k+(SPK_CLAIMS[k].items.some(it=>it.ie)?' (IE)':'')).join(', ')||'none left'}</div>`;
+    return;
+  }
+  const p=spkPickup(c.pickupId),[lbl,,bg,fg]=SPK_STATUS[p.status],rows=spkRtRows(),hasIe=rows.some(r=>r.ie);
+  // Same layout as Order Detail: status chip in the title, plain meta, Product List style table
+  title.innerHTML=`Return Processing <span class="spk-chip" style="margin-left:10px;background:${bg};color:${fg};font-weight:600;">${lbl}</span>`;
+  // IE item: one row per unit (qty 2 -> 2 rows) with its own serial scan + grading; other items: one row per product
+  const grade=r=>`<span class="spk-grade">${SPK_GRADES.map(([g,col])=>`<button class="${spk.grading[r.key]===g?'on':''}" style="--g:${col};" onclick="spk.grading['${r.key}']='${g}';spkRenderReturn()">${g}</button>`).join('')}</span>`;
+  body.innerHTML=`
+    <div class="spk-meta"><span>Order No.</span><b>${p.orderNo}</b><span>Return ID</span><b>${c.returnNo}</b>
+      <span>Order Date</span><b>${p.orderedAt} (PST)</b><span>Completed Date</span><b>${p.pickedUpAt?p.pickedUpAt+' (PST)':'-'}</b></div>
+    <div class="spk-sec-t" style="margin-top:32px;">Return Items</div>
+    <table class="spk-tbl spk-rt-tbl"><thead><tr><th>Product Code | Product Name</th><th class="tc" style="width:56px;">Qty</th>${hasIe?'<th style="width:220px;">IE Serial <span style="color:#d32f2f;">*</span></th>':''}<th class="tc" style="width:290px;">Grading</th></tr></thead><tbody>
+      ${rows.map(r=>`<tr>${r.first?`<td rowspan="${r.span}"${r.span>1?' class="spk-rs"':''}><b>${spkEsc(r.it.code)}</b><span style="color:#999;margin:0 6px;">|</span>${spkEsc(r.it.name)}</td><td class="tc" rowspan="${r.span}">${r.it.qty}</td>`:''}
+        ${hasIe?`<td>${r.ie?`<input class="rxw-sn-in spk-sn-in${spk.rtBad.has(r.sn)?' bad':''}" id="spk-rsn-${r.sn}" value="${spkEsc(spk.rtSn[r.sn]||'')}" placeholder="Scan IE serial" autocomplete="off" maxlength="50"
+          oninput="spk.rtSn[${r.sn}]=this.value;spkRtSnEdit(${r.sn})" onkeydown="if(event.key==='Enter'){event.preventDefault();spkRtSnFocus(${r.sn+1});}"><div class="spk-sn-err" id="spk-rsn-err-${r.sn}"${spk.rtBad.has(r.sn)?'':' hidden'}>${spk.rtBad.get(r.sn)||''}</div>`:'<span style="color:#bbb;">-</span>'}</td>`:''}
+        <td class="tc">${grade(r)}</td></tr>`).join('')}
+    </tbody></table>
+    ${hasIe?`<div class="spk-hint">Prototype sample serial (picked up with this order): ${(p.serials||[]).map(x=>x.no).join(', ')}</div>`:''}
+    <div class="spk-foot"><button class="spk-btn warn" id="spk-rt-done" onclick="spkConfirmReturn()">Confirm Return</button></div>`;
+  spkRtState();
+}
+// Table rows: IE item -> one row per unit (key code#u, sn = serial index); other item -> one row (key code)
+function spkRtRows(){
+  const out=[];let sn=0;
+  spk.claim.items.forEach(it=>{
+    if(it.ie) for(let u=0;u<it.qty;u++) out.push({it,ie:true,key:it.code+'#'+u,sn:sn++,first:u===0,span:it.qty});
+    else out.push({it,ie:false,key:it.code,first:true,span:1});
+  });
+  return out;
+}
+// Editing a mismatched serial clears its error in place (keeps scanner focus)
+function spkRtSnEdit(k){
+  if(spk.rtBad.delete(k)){document.getElementById('spk-rsn-'+k).classList.remove('bad');document.getElementById('spk-rsn-err-'+k).hidden=true;}
+  spkRtState();
+}
+function spkRtSnFocus(k){setTimeout(()=>{const i=document.getElementById('spk-rsn-'+k);if(i) i.focus();},0);}
+// Confirm enabled once every row is graded, every IE unit has a serial and no SPM mismatch is left (updated in place so the scanner keeps focus)
+function spkRtState(){
+  const rows=spkRtRows(),ok=rows.every(r=>spk.grading[r.key]&&(!r.ie||(spk.rtSn[r.sn]||'').trim()));
+  document.getElementById('spk-rt-done').disabled=!ok||spk.rtBad.size>0;
+  rows.forEach(r=>{if(!r.ie) return;const i=document.getElementById('spk-rsn-'+r.sn);if(i) i.classList.toggle('need',!(spk.rtSn[r.sn]||'').trim());});
+}
+function spkFindClaim(v){
+  const raw=v.replace(/[\r\n]/g,'').trim();if(!raw) return;
+  const parts=raw.split('||'),no=parts.length>=2&&parts[1].trim()?parts[1].trim():raw,c=SPK_CLAIMS[no];
+  if(!c){showToast('Return Processing','Invalid code','error');return;}
+  if(c.done){showToast('Return Processing','This return has already been processed.','error');return;}
+  spk.claim={...c,no};spk.grading={};spk.rtSn=[];spk.rtBad=new Map();spkRenderReturn();
+}
+// Grade -> refund (Refund tab); stock restore location follows the return rule on the BE side
+// IE return: serials are verified against SPM; any mismatch blocks the return (no override)
+function spkConfirmReturn(){
+  const c=spk.claim,p=spkPickup(c.pickupId),rows=spkRtRows(),ie=rows.filter(r=>r.ie),now=spkDt(new Date()),g=Object.fromEntries(SPK_GRADES.map(([n,,code])=>[n,code]));
+  const v=ie.map(r=>(spk.rtSn[r.sn]||'').trim().toUpperCase());
+  if(v.some(x=>!x)) return showToast('IE Serial Scan','Please scan the IE serial for every item.','error');
+  // Format / duplicate errors are marked on the field itself (duplicate = 2nd and later scans of the same serial)
+  const bad=new Map();
+  ie.forEach((r,k)=>{if(!/^[A-Z0-9]{1,50}$/.test(v[k])) bad.set(r.sn,'Letters and numbers only (max 50).');else if(v.indexOf(v[k])<k) bad.set(r.sn,'This serial is already scanned.');});
+  if(bad.size){spk.rtBad=bad;spkRenderReturn();return showToast('IE Serial Scan',`Please check the ${bad.size} highlighted serial(s).`,'error');}
+  if(!ie.length) return spkFinishReturn(c,p,rows,ie,v,now,g);
+  // Prototype: SPM verification simulated with the serials saved at pickup
+  const btn=document.getElementById('spk-rt-done');btn.disabled=true;btn.textContent='Verifying serial...';
+  ie.forEach(r=>{const i=document.getElementById('spk-rsn-'+r.sn);if(i) i.disabled=true;});
+  setTimeout(()=>{
+    spk.rtBad=new Map(ie.filter((r,k)=>!(p.serials||[]).some(x=>x.code===r.it.code&&x.no===v[k])).map(r=>[r.sn,'This serial does not match this order.']));
+    if(spk.rtBad.size){spkRenderReturn();showToast('IE Serial Scan',`${spk.rtBad.size} serial(s) do not match this order. Please check the product and scan again.`,'error');return;}
+    spkFinishReturn(c,p,rows,ie,v,now,g);
+  },800);
+}
+function spkFinishReturn(c,p,rows,ie,v,now,g){
+  ie.forEach((r,k)=>{p.serials.find(x=>x.code===r.it.code&&x.no===v[k]).retAt=now;});
+  // Refund tab rows: one per product, or one per unit for IE (each unit has its own grade)
+  rows.forEach((r,k)=>{const src=p.items.find(x=>x.code===r.it.code)||{};SPK_RETURNS.push({id:'74620119'+String(Date.now()%1e9+k).padStart(10,'0'),pickupId:p.id,orderNo:p.orderNo,orderedAt:p.orderedAt,
+    receivedAt:now,code:r.it.code,name:r.it.name,barcode:src.barcode||'-',qty:r.ie?1:r.it.qty,grade:g[spk.grading[r.key]],action:null,invoiceNo:null});});
+  SPK_CLAIMS[c.no].done=true;
+  spkCloseModal('rt');spkRenderList();
+  showToast('Return has been processed successfully.','');
+}
+
+// ----- Change Stock (POST .../cancels/inventory-actions) -----
+// Store Sales = move OMNI (1050) -> SALES (1000) / Return W.H = keep in OMNI, then Outbound Registration to the online warehouse
+function spkOpenChangeStock(){
+  document.getElementById('spk-cs-text').textContent=`Select where to assign the ${spk.checked.size} selected item.`;
+  document.getElementById('spk-cs-modal').classList.add('show');
+}
+function spkChangeStock(action){
+  const sel=spkSelected();sel.forEach(r=>r.action=action);
+  spkCloseModal('cs');spk.checked.clear();spkRenderList();
+  // FE shows "assigned to Store" for both buttons -> message by disposition (FE change request)
+  showToast('Stock Disposition Updated',action==='ASSIGN_TO_STORE'?`${sel.length} item(s) moved to Store Sales.`
+    :`${sel.length} item(s) set to Return W.H. Register outbound to send them to the online warehouse.`);
+}
+
+// ----- Outbound Registration (GET /online-stores -> POST .../cancels/outbounds). From: this store OMNI (1050) -----
+function spkOnlineStores(){return [{code:'US1004',name:'GM_ONLINE_USA_Official',locs:Object.entries(US_STORE_LOCS)}];}
+function spkOpenOutbound(){
+  const st=spkOnlineStores();spk.obStore=st.length===1?st[0].code:'';spk.obLoc='';
+  spkRenderOutbound();document.getElementById('spk-ob-modal').classList.add('show');
+}
+function spkRenderOutbound(){
+  const items=spkSelected(),qty=items.reduce((n,r)=>n+r.qty,0),stores=spkOnlineStores(),store=stores.find(s=>s.code===spk.obStore);
+  document.getElementById('spk-ob-body').innerHTML=`
+    <div style="font-size:13px;color:#777;margin-bottom:18px;">Register outbound for the selected items to the online warehouse.</div>
+    <div class="spk-sec-t">Outbound Items (${items.length} items, ${qty} qty)</div>
+    <table class="spk-tbl"><thead><tr><th style="width:30%;">Order No.</th><th>Product Info</th><th class="tr" style="width:60px;">Qty</th></tr></thead>
+      <tbody>${items.map(r=>`<tr><td><b>${r.orderNo}</b></td><td style="color:#777;">${spkEsc(r.code)} / ${spkEsc(r.name)} / ${spkEsc(r.barcode)}</td><td class="tr">${r.qty}</td></tr>`).join('')}</tbody></table>
+    <div class="spk-divider"></div>
+    <div class="spk-sel-grid">
+      <div><label>Store Information <i>*</i></label><select id="spk-ob-store" style="width:100%;height:36px;" onchange="spk.obStore=this.value;spk.obLoc='';spkRenderOutbound()">
+        <option value="" disabled ${spk.obStore?'':'selected'} hidden>Select store</option>${stores.map(s=>`<option value="${s.code}" ${s.code===spk.obStore?'selected':''}>${s.code} / ${s.name}</option>`).join('')}</select></div>
+      <div><label>Location <i>*</i></label><select id="spk-ob-loc" style="width:100%;height:36px;" ${store?'':'disabled'} onchange="spk.obLoc=this.value;spkRenderOutbound()">
+        <option value="" disabled ${spk.obLoc?'':'selected'} hidden>Select location</option>${(store?store.locs:[]).map(([c,n])=>`<option value="${c}" ${c===spk.obLoc?'selected':''}>${c} / ${n}</option>`).join('')}</select></div>
+    </div>
+    <div class="spk-foot"><button class="spk-btn warn" ${spk.obStore&&spk.obLoc&&items.length?'':'disabled'} onclick="spkRegisterOutbound()">Register Outbound</button></div>`;
+  ['spk-ob-store','spk-ob-loc'].forEach(id=>{const s=document.getElementById(id);csBuild(s);csRefresh(s);});
+}
+function spkRegisterOutbound(){
+  const iv='TO'+String(2611000+Math.floor(Math.random()*8999));
+  spkSelected().forEach(r=>r.invoiceNo=iv);
+  spkCloseModal('ob');spk.checked.clear();spkRenderList();
+  showToast('Outbound has been registered successfully.',`${iv} · ${spkStore()} 1050 (OMNI) → ${spk.obStore} ${spk.obLoc}`);
+}
+
+// ----- Excel (GET .../excel per tab) -----
+function spkExcel(){
+  const rows=spkRows(),t=spk.tab,aoa=[];
+  if(t==='pickup'){aoa.push(['Order Date','Pickup Date','Outbound Date','Inbound Date','Order No.','Pickup Status','Product Code','Product Name','Barcode','Qty','Pickup Completed Date','Cancel Date']);
+    rows.forEach(p=>p.items.forEach(it=>aoa.push([p.orderedAt,p.scheduledPickupDate,p.outboundRegisteredAt||'',p.arrivedAt||'',p.orderNo,SPK_STATUS[p.status][0],it.code,it.name,it.barcode,it.qty,p.pickedUpAt||'',p.canceledAt||''])));}
+  else if(t==='cancel'){aoa.push(['Order Date','Cancel Date','Inbound Date','Stock Disposition','Outbound I/V No.(TO)','Order No.','Product Code','Product Name','Barcode','Qty','Cancel Reason']);
+    rows.forEach(r=>aoa.push([r.orderedAt,r.canceledAt,r.arrivedAt||'',r.action||'',r.invoiceNo||'',r.orderNo,r.code,r.name,r.barcode,r.qty,r.reason||'']));}
+  else {aoa.push(['Order Date','Return Date','Order No.','Product Code','Product Name','Barcode','Qty','Grade']);
+    rows.forEach(r=>aoa.push([r.orderedAt,r.receivedAt,r.orderNo,r.code,r.name,r.barcode,r.qty,r.grade]));}
+  const wb=XLSX.utils.book_new();XLSX.utils.book_append_sheet(wb,XLSX.utils.aoa_to_sheet(aoa),'Store Pickup');
+  const d=new Date(),fileName=`store_pickup_list_${d.getFullYear()}_${d.getMonth()+1}_${d.getDate()}.xlsx`;
+  XLSX.writeFile(wb,fileName);showToast('Excel Download',fileName+' — '+(aoa.length-1)+' rows');
+}
+
 let posInited=false;
 // Tab of a POS path (sub paths such as /pos/rx-operation-list/{Order No.} belong to their tab)
 function posTabOf(path){return POS_TABS.find(t=>t.path===path||(t.path!=='/pos'&&path.startsWith(t.path+'/')));}
@@ -8340,16 +9129,18 @@ function posEnter(path){
   document.getElementById('pos-app').hidden=false;
   document.body.style.overflow='hidden';
   document.getElementById('pa-tabs').innerHTML=POS_TABS.map(t=>`<a class="pa-tab${t===tab?' active':''}" href="#${t.path}"><svg viewBox="0 0 24 24"><path d="${t.icon}"/></svg>${t.label}</a>`).join('');
-  const isMain=tab.path==='/pos',isRx=tab.path==='/pos/rx-operation-list';
+  const isMain=tab.path==='/pos',isRx=tab.path==='/pos/rx-operation-list',isSpk=tab.path==='/pos/store-pickup-list';
   document.getElementById('pa-main').hidden=!isMain;
   document.getElementById('pa-rx').hidden=!isRx;
-  document.getElementById('pa-soon').hidden=isMain||isRx;
+  document.getElementById('pa-spk').hidden=!isSpk;
+  document.getElementById('pa-soon').hidden=isMain||isRx||isSpk;
   document.getElementById('pa-soon-name').textContent=tab.label;
   if(isRx){
     let id=decodeURIComponent(path.slice(tab.path.length+1))||null;
     if(id&&!RX_ORDERS.some(o=>o.id===id)){history.replaceState(null,'','#'+tab.path);id=null;}
     rxEnter(id);
   }
+  if(isSpk) spkEnter();
   document.getElementById('pos-app').scrollTop=0;
 }
 function posLeave(){
@@ -8362,6 +9153,7 @@ function posInit(){
   document.getElementById('pa-store-name').textContent=POS_STORE.name;
   document.getElementById('pa-store-sel').innerHTML=POS_STORES.map(s=>`<option value="${s.code}"${s.code===POS_STORE.code?' selected':''}>${s.code}</option>`).join('');
   pos.invMode=posInvCfg().def;
+  posCustInfoVisibility();
   document.getElementById('pa-cashier').innerHTML='<option value="">Please Select.</option>'+POS_CASHIERS.map((c,i)=>`<option${i===0?' selected':''}>${c}</option>`).join('');
   document.getElementById('pa-seller').innerHTML='<option value="">Please enter a value.</option>'+POS_SELLERS.map(c=>`<option>${c}</option>`).join('');
   document.getElementById('pa-a-country').innerHTML='<option value="">Please Select.</option>'+Object.keys(POS_COUNTRIES).map(c=>`<option>${c}</option>`).join('');
@@ -8419,7 +9211,9 @@ function posSwitchStore(code){
   document.getElementById('pa-store-code').textContent='['+POS_STORE.code+']';
   document.getElementById('pa-store-name').textContent=POS_STORE.name;
   const sel=document.getElementById('pa-store-sel');sel.value=code;csRefresh(sel);
+  posCustInfoVisibility();
   posClear();
+  if(spkInited){spk.checked.clear();spkRenderList();}
 }
 // ----- Customer -----
 function posMemberMatches(q){
@@ -8692,8 +9486,13 @@ const RX_ORDERS_RAW=[
   ["SLUS10072605082248EMAILB", "2026-08-03 13:45 (PST)", "NORMAL", "Confirm", "Completed", "-", "STM2605297812", "2026-08-03 14:20 (PST)", false, [["11000030", "ORION-02", "8809639024633", 280], ["14000237", "POLY-BG", "-", 290], ["15000002", "RX PACKAGE-02", "-", 0]]],
   ["SLUS10072605082351EMAILC", "2026-08-04 09:10 (PST)", "PREORDER", "Confirm", "Completed", "-", "STM2605308923", "2026-08-04 10:05 (PST)", false, [["11000032", "ATLAS-01", "8809639024746", 320], ["14000238", "174-PF-AR", "-", 360], ["15000001", "RX PACKAGE-01", "-", 0]]]
 ];
+// Receiving method (LensWork receivingMethod): STORE_PICKUP = back to the store, handed over to the customer / B2C_DELIVERY = shipped from the lab, closes on outbound
+const RX_POS_RECV={SLUS1007260508161127VESWH:'STORE_PICKUP',SLUS100726050811264DNNNU:'B2C_DELIVERY',SLUS1007260507144204O85MX:'STORE_PICKUP',SLUS10072605071335063P6PG:'B2C_DELIVERY',
+    SLUS10072605081520ABCDE:'STORE_PICKUP',SLUS10072605081633FGHIJ:'B2C_DELIVERY',SLUS10072605081745KLMNO:'B2C_DELIVERY',SLUS10072605081858PQRST:'STORE_PICKUP',
+    SLUS10072605081911UVWXY:'STORE_PICKUP',SLUS10072605082024ZABCD:'B2C_DELIVERY',SLUS10072605082135EMAILA:'STORE_PICKUP',SLUS10072605082248EMAILB:'STORE_PICKUP',SLUS10072605082351EMAILC:'STORE_PICKUP',
+  SLUS10072605071446QYZMO:'B2C_DELIVERY',SLUS100726050709304QGN03:'B2C_DELIVERY'};
 const RX_ORDERS=RX_ORDERS_RAW.map(([id,orderDate,orderType,approval,workStatus,cancelRefund,invoiceNo,saveDate,emailSent,products])=>
-  ({id,orderDate,orderType,approval,workStatus,cancelRefund,invoiceNo,saveDate,emailSent,products:products.map(([code,name,barcode,price])=>({code,name,barcode,price}))}));
+  ({id,recv:RX_POS_RECV[id]||'STORE_PICKUP',orderDate,orderType,approval,workStatus,cancelRefund,invoiceNo,saveDate,emailSent,products:products.map(([code,name,barcode,price])=>({code,name,barcode,price}))}));
 const RX_OPTS={
   approval:['Unready','Requested','Confirm','Reject','Canceled'],
   work:['Pending','Inbound Inspection','In Progress','Re Do','Outbound Inspection','Completed','Finalized'],
@@ -8705,7 +9504,7 @@ const RX_WORK_CLS={Pending:'y','Inbound Inspection':'o','In Progress':'b','Re Do
 const RX_CANCEL_CLS={Canceled:'gr',Refunded:'r'};
 const RX_CARET='<svg class="rx-caret" viewBox="0 0 24 24"><path d="M7 10l5 5 5-5z"/></svg>';
 const RX_MAIL='<svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 7l-10 6L2 7"/></svg>';
-let rx={f:{approval:new Set(),work:new Set(),cancel:new Set(),dateType:'ORDER'},applied:null,page:1,size:30,checked:new Set(),outbound:new Set()},rxInited=false;
+let rx={f:{approval:new Set(),work:new Set(),cancel:new Set(),dateType:'ORDER'},applied:null,recvTab:'',shortcut:null,page:1,size:30,checked:new Set(),outbound:new Set()},rxInited=false;
 
 // Multi / single select (same behavior as the RX prototype's MultiSelect / SingleSelect)
 function rxRenderSelect(key){
@@ -8729,8 +9528,29 @@ function rxCloseSelects(){
 }
 function rxPick(key,v){const s=rx.f[key];s.has(v)?s.delete(v):s.add(v);rxRenderSelect(key);}
 
+// Search bar (same layout as Store Pickup List): shortcuts set the period and search right away
+const RX_SHORTCUTS=SPK_SHORTCUTS;
+function rxRenderShortcuts(){document.getElementById('rx-shortcuts').innerHTML=RX_SHORTCUTS.map(([l],i)=>`<button class="${rx.shortcut===i?'on':''}" onclick="rxShortcut(${i})">${l}</button>`).join('');}
+function rxShortcut(i){
+  const [,d,m]=RX_SHORTCUTS[i],to=new Date(),from=new Date();
+  if(m) from.setMonth(from.getMonth()-m); else from.setDate(from.getDate()-d);
+  document.getElementById('rx-f-from').value=spkYmd(from);document.getElementById('rx-f-to').value=spkYmd(to);
+  rx.shortcut=i;rxSearch();
+}
+function rxTogglePop(k){
+  const el=document.getElementById('rx-pop-'+k),open=el.hidden;
+  document.querySelectorAll('#pa-rx .spk-pop').forEach(x=>x.hidden=true);
+  rxCloseSelects();el.hidden=!open;
+}
+function rxBarLabels(){
+  const a=rx.applied,n=['approval','work','cancel'].filter(k=>a[k].size).length;
+  document.getElementById('rx-date-btn').innerHTML=`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M16 3v4M8 3v4M3 10h18"/></svg>${RX_DATE_TYPES.find(d=>d[0]===a.dateType)[1]} · ${a.from||a.to?`${spkMd(a.from)||'…'} – ${spkMd(a.to)||'…'}`:'Any date'}`;
+  document.getElementById('rx-more-btn').innerHTML=`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 6h16M7 12h10M10 18h4"/></svg>More filters${n?`<span class="cnt">${n}</span>`:''}`;
+  rxRenderShortcuts();
+}
 function rxInit(){
   rxCloseSelects();
+  document.addEventListener('mousedown',e=>{if(!e.target.closest('#pa-rx .spk-pop-wrap')) document.querySelectorAll('#pa-rx .spk-pop').forEach(x=>x.hidden=true);});
   csBuild(document.getElementById('rx-ob-carrier'));
   document.addEventListener('mousedown',e=>{if(!e.target.closest('.rx-ms')&&document.querySelector('#pa-rx .rx-ms.open')) rxCloseSelects();});
   rxSearch();
@@ -8738,10 +9558,11 @@ function rxInit(){
 function rxSearch(){
   rx.applied={approval:new Set(rx.f.approval),work:new Set(rx.f.work),cancel:new Set(rx.f.cancel),dateType:rx.f.dateType,
     from:document.getElementById('rx-f-from').value,to:document.getElementById('rx-f-to').value,kw:document.getElementById('rx-f-kw').value.trim().toLowerCase()};
-  rx.page=1;rx.checked.clear();rxRenderList();
+  rx.page=1;rx.checked.clear();
+  document.querySelectorAll('#pa-rx .spk-pop').forEach(x=>x.hidden=true);rxCloseSelects();rxBarLabels();rxRenderList();
 }
 function rxReset(){
-  rx.f={approval:new Set(),work:new Set(),cancel:new Set(),dateType:'ORDER'};
+  rx.f={approval:new Set(),work:new Set(),cancel:new Set(),dateType:'ORDER'};rx.shortcut=null;
   ['rx-f-from','rx-f-to','rx-f-kw'].forEach(id=>document.getElementById(id).value='');
   rxCloseSelects();rxSearch();
 }
@@ -8768,11 +9589,16 @@ function rxFiltered(){
 // Outbound can be registered only for confirmed, not completed/finalized, not cancelled/refunded orders
 function rxCanCheck(d){return d.approval==='Confirm'&&d.workStatus!=='Completed'&&d.workStatus!=='Finalized'&&d.cancelRefund==='-'&&!rx.outbound.has(d.id);}
 function rxEmailOk(d){return d.approval==='Confirm'&&d.workStatus==='Completed'&&d.cancelRefund==='-';}
+function rxSetRecvTab(k){rx.recvTab=k;rx.page=1;rx.checked.clear();rxRenderList();}
 function rxRenderList(){
-  const list=rxFiltered(),pages=Math.max(1,Math.ceil(list.length/rx.size));
+  const base=rxFiltered(),list=rx.recvTab?base.filter(d=>d.recv===rx.recvTab):base,pages=Math.max(1,Math.ceil(list.length/rx.size));
   rx.page=Math.min(Math.max(1,rx.page),pages);
   const start=(rx.page-1)*rx.size,rows=list.slice(start,start+rx.size);
-  document.getElementById('rx-total').textContent=list.length;
+  // Customer Email / Customer Handover: store handover orders only (Ship to Address closes on lab outbound, nothing to do at the store)
+  const showStore=rx.recvTab!=='B2C_DELIVERY';
+  ['rx-th-mail','rx-th-ful'].forEach(id=>document.getElementById(id).hidden=!showStore);
+  document.getElementById('rx-recv-tabs').innerHTML=[['','All'],['STORE_PICKUP','Ship to Store'],['B2C_DELIVERY','Ship to Address']]
+    .map(([k,l])=>`<button class="${rx.recvTab===k?'on':''}" onclick="rxSetRecvTab('${k}')">${l}<span class="cnt">${k?base.filter(d=>d.recv===k).length:base.length}</span></button>`).join('');
   document.getElementById('rx-rows').innerHTML=rows.map(d=>{
     const cr=d.cancelRefund!=='-',can=rxCanCheck(d),mail=rxEmailOk(d);
     return `<tr class="${cr?'dim':''}" onclick="location.hash='#/pos/rx-operation-list/${d.id}'">
@@ -8783,9 +9609,11 @@ function rxRenderList(){
       <td><span class="rx-badge ${cr?(RX_CANCEL_CLS[d.cancelRefund]||'gr'):'none'}">${d.cancelRefund}</span></td>
       <td>${d.id}</td><td>${d.invoiceNo}</td>
       <td class="l">${d.products.map(p=>`<div>${p.code} / ${p.name} / ${p.barcode}</div>`).join('')}</td>
-      <td onclick="event.stopPropagation()"><button class="rx-mail ${mail?'on':'off'}" ${mail?`onclick="showToast('Customer Email','Email sent to customer.')"`:''}>${RX_MAIL}</button></td>
+      ${showStore?(d.recv==='STORE_PICKUP'?`<td onclick="event.stopPropagation()"><button class="rx-mail ${mail?'on':'off'}" ${mail?`onclick="showToast('Customer Email','Email sent to customer.')"`:''}>${RX_MAIL}</button></td>
+      <td onclick="event.stopPropagation()">${d.workStatus==='Finalized'?'<span class="rx-ful-done">Fulfilled</span>':`<button class="rx-btn rx-ful" ${rxCanFulfill(d)?`onclick="rxOpenFulfill('${d.id}')"`:'disabled'}>Fulfill</button>`}</td>`
+        :'<td>-</td><td>-</td>'):''}
     </tr>`;
-  }).join('')||'<tr><td colspan="10" style="padding:40px;color:#999;cursor:default;">No data</td></tr>';
+  }).join('')||`<tr><td colspan="${showStore?11:9}" style="padding:40px;color:#999;cursor:default;">No data</td></tr>`;
   const checkable=rows.filter(rxCanCheck);
   document.getElementById('rx-chk-all').checked=checkable.length>0&&checkable.every(d=>rx.checked.has(d.id));
   document.getElementById('rx-ob-btn').disabled=!rx.checked.size;
@@ -8793,9 +9621,25 @@ function rxRenderList(){
   document.getElementById('rx-prev').disabled=rx.page===1;
   document.getElementById('rx-next').disabled=rx.page===pages;
 }
+// Customer Handover (Ship to Store): work Completed (back at the store) -> Fulfill = handed over to the customer, final sales -> Finalized
+function rxCanFulfill(d){return d.recv==='STORE_PICKUP'&&d.approval==='Confirm'&&d.workStatus==='Completed'&&d.cancelRefund==='-';}
+function rxOpenFulfill(id){
+  const d=RX_ORDERS.find(o=>o.id===id);rx.fulfill=id;
+  document.getElementById('rx-ful-body').innerHTML=`<div class="rx-ful-row"><span>Order No.</span><b>${d.id}</b></div>
+    <div class="rx-ful-row"><span>Invoice No.</span><b>${d.invoiceNo}</b></div>
+    <div class="rx-ful-row"><span>Product</span><b>${d.products.map(p=>`${p.code} / ${p.name}`).join('<br>')}</b></div>
+    <div class="rx-ful-note">Hand the order over to the customer and fulfill it. The order is finalized as a sale and the status changes to <b>Finalized</b>.</div>`;
+  document.getElementById('rx-ful-modal').classList.add('show');
+}
+function rxCloseFulfill(){document.getElementById('rx-ful-modal').classList.remove('show');}
+function rxConfirmFulfill(){
+  const d=RX_ORDERS.find(o=>o.id===rx.fulfill);
+  d.workStatus='Finalized';rxCloseFulfill();rxRenderList();
+  showToast('Customer Handover','Order '+d.id+' fulfilled. Final sales created.');
+}
 function rxCheck(id,on){on?rx.checked.add(id):rx.checked.delete(id);rxRenderList();}
 function rxCheckAll(on){
-  const list=rxFiltered(),start=(rx.page-1)*rx.size;
+  const list=rxFiltered().filter(d=>!rx.recvTab||d.recv===rx.recvTab),start=(rx.page-1)*rx.size;
   rx.checked.clear();
   if(on) list.slice(start,start+rx.size).filter(rxCanCheck).forEach(d=>rx.checked.add(d.id));
   rxRenderList();
@@ -13784,9 +14628,7 @@ function rxwGenData(){
     ['DELIVERY','Customer requested signature on delivery.'],['PRESCRIPTION','Prescription image is a bit blurry, values confirmed by phone.']];
   // ---- plan ----
   // RX_ORDERS (Front POS > Rx Operation, US1007) approved orders. [receivingMethod]
-  const POS_RECV={SLUS1007260508161127VESWH:'STORE_PICKUP',SLUS100726050811264DNNNU:'B2C_DELIVERY',SLUS1007260507144204O85MX:'STORE_PICKUP',SLUS10072605071335063P6PG:'B2C_DELIVERY',
-    SLUS10072605081520ABCDE:'STORE_PICKUP',SLUS10072605081633FGHIJ:'B2C_DELIVERY',SLUS10072605081745KLMNO:'B2C_DELIVERY',SLUS10072605081858PQRST:'STORE_PICKUP',
-    SLUS10072605081911UVWXY:'STORE_PICKUP',SLUS10072605082024ZABCD:'B2C_DELIVERY',SLUS10072605082135EMAILA:'STORE_PICKUP',SLUS10072605082248EMAILB:'STORE_PICKUP',SLUS10072605082351EMAILC:'STORE_PICKUP'};
+  const POS_RECV=RX_POS_RECV;
   const WS={'Pending':'PENDING','Inbound Inspection':'INBOUND_INSPECTION','In Progress':'IN_PROGRESS','Re Do':'RE_DO','Outbound Inspection':'OUTBOUND_INSPECTION','Completed':'COMPLETED','Finalized':'FINALIZED'};
   const plan=[];
   try{

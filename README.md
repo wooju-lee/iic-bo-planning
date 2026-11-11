@@ -115,7 +115,7 @@ BO 신규/변경 기능의 기획 검토용 UI 프로토타입입니다. 여러 
 - **헤더 / 탭**: 계정의 POS 스토어 (`[US1007] GM_CostaMesa_MALL_SCP`) + POS 메뉴 탭 5종 (Front POS Main 외 Coming Soon)
 - **제품 (좌측)**: Product Barcode 자동완성 / 바코드 Enter 추가, 수량 +/−, 삭제, 재고 초과 행 경고. 하단 요약 (품목 수·수량, Customer Price, Discount Price(할인 금액), Total)
 - **패키지 자동 추가**: 제품 추가 시 매핑된 패키지가 하위 행으로 세트 추가 (가격 0, 수량은 제품 수량을 따라감, 제품 삭제 시 함께 삭제, 바코드 없음, 집계·재고 제외)
-- **고객 (우측)**: Customer Member Search (Email / Phone, QR) 또는 Non-Member (선택 시 멤버십 필드 비활성화). 멤버 선택 시 Customer Information 자동 입력 (Country / Continent / Customer Type / Gender, Usage Type은 수기)
+- **고객 (우측)**: Customer Member Search (Email / Phone, QR) 또는 Non-Member (선택 시 멤버십 필드 비활성화). 멤버 선택 시 Customer Information 자동 입력 (Country / Continent / Customer Type / Gender, Usage Type은 수기). US · CA 스토어는 Customer Information 영역 미노출, AU는 노출 (`POS_HIDE_CUSTOMER_INFO`)
 - **Invoice No. 모드 (Lookup / Register)**: 국가별 설정(Store master)에 따라 필드 옆 토글로 전환. 허용 모드가 하나뿐인 국가는 토글 대신 `Lookup only` / `Register only` 고정 배지로 표시
   - 국가 설정: US / CA = Lookup 기본 (Register는 거의 사용 안 함), AU = Lookup·Register 모두 사용 (기본 Register, **기본값 확인 필요**)
   - **Lookup (파란색)**: 영수증의 Invoice No.를 스캔하면 과거 판매 건을 읽기 전용으로 표시하고 AC Card RE Print만 가능. Close / All Clear로 종료. 다른 스토어의 판매 건이나 없는 번호는 에러로 표시. 카트에 제품이 있으면 Lookup은 비활성화되고 Invoice No.는 Confirm 시 자동 생성
